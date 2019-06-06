@@ -54,12 +54,12 @@
 
 	<properties>
 		<project.build.encoding>UTF-8</project.build.encoding>
-		<project.java.version>1.8</project.java.version>
+		<project.java.version>11</project.java.version>
 		<buession.version>1.0.0</buession.version>
 		<buession.springboot.version>1.0.0</buession.springboot.version>
 		<buession.springcloud.version>1.0.0</buession.springcloud.version>
 		<buession.security.version>1.0.0</buession.security.version>
-		<cas.version>6.0.3</cas.version>
+		<cas.version>6.0.4</cas.version>
 	</properties>
 
 	<dependencyManagement>
@@ -80,7 +80,7 @@
 				<artifactId>buession-springboot-web</artifactId>
 				<version>${buession.springboot.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.buession.springcloud</groupId>
 				<artifactId>buession-springcloud-common</artifactId>
@@ -125,6 +125,11 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+			<dependency>
+				<groupId>com.buession.security</groupId>
+				<artifactId>buession-security-spring</artifactId>
+				<version>${buession.security.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.apereo.cas</groupId>
@@ -144,11 +149,27 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.springframework.webflow</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>dom4j</groupId>
+						<artifactId>dom4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-console</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -175,11 +196,27 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.springframework.webflow</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>dom4j</groupId>
+						<artifactId>dom4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-console</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -206,11 +243,27 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.springframework.webflow</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>dom4j</groupId>
+						<artifactId>dom4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-console</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -237,11 +290,27 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.springframework.webflow</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>dom4j</groupId>
+						<artifactId>dom4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-console</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -268,11 +337,27 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.springframework.webflow</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>dom4j</groupId>
+						<artifactId>dom4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-console</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -299,11 +384,27 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.springframework.webflow</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>dom4j</groupId>
+						<artifactId>dom4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-console</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -330,11 +431,27 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.springframework.webflow</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>dom4j</groupId>
+						<artifactId>dom4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-console</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -361,6 +478,18 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.springframework.webflow</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>dom4j</groupId>
+						<artifactId>dom4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-console</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -369,10 +498,25 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jms</artifactId>
+				<version>${springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-messaging</artifactId>
+				<version>${springframework.version}</version>
 			</dependency>
 
 			<!-- log start -->
