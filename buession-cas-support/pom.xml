@@ -86,6 +86,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>dom4j</groupId>
 					<artifactId>dom4j</artifactId>
 				</exclusion>
@@ -131,6 +135,10 @@
 				<exclusion>
 					<groupId>org.springframework.webflow</groupId>
 					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>dom4j</groupId>
@@ -184,6 +192,14 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>dom4j</groupId>
+					<artifactId>dom4j</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.codehaus.groovy</groupId>
 					<artifactId>groovy-console</artifactId>
 				</exclusion>
@@ -229,6 +245,10 @@
 				<exclusion>
 					<groupId>org.springframework.webflow</groupId>
 					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>dom4j</groupId>
@@ -278,6 +298,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>dom4j</groupId>
 					<artifactId>dom4j</artifactId>
 				</exclusion>
@@ -323,6 +347,10 @@
 				<exclusion>
 					<groupId>org.springframework.webflow</groupId>
 					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>dom4j</groupId>
@@ -372,6 +400,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>dom4j</groupId>
 					<artifactId>dom4j</artifactId>
 				</exclusion>
@@ -417,6 +449,10 @@
 				<exclusion>
 					<groupId>org.springframework.webflow</groupId>
 					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>dom4j</groupId>
