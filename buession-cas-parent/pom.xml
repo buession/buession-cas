@@ -173,10 +173,6 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -221,10 +217,6 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -275,10 +267,6 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -323,10 +311,6 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -377,10 +361,6 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -425,10 +405,6 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -479,10 +455,6 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -527,10 +499,6 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.hibernate</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
