@@ -74,17 +74,35 @@
 				<groupId>com.buession.springboot</groupId>
 				<artifactId>buession-springboot-boot</artifactId>
 				<version>${buession.springboot.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j-impl</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>com.buession.springboot</groupId>
 				<artifactId>buession-springboot-web</artifactId>
 				<version>${buession.springboot.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j-impl</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>
 				<groupId>com.buession.springcloud</groupId>
 				<artifactId>buession-springcloud-common</artifactId>
 				<version>${buession.springcloud.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j-impl</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>
