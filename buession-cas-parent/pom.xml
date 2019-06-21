@@ -74,35 +74,17 @@
 				<groupId>com.buession.springboot</groupId>
 				<artifactId>buession-springboot-boot</artifactId>
 				<version>${buession.springboot.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j-impl</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>com.buession.springboot</groupId>
 				<artifactId>buession-springboot-web</artifactId>
 				<version>${buession.springboot.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j-impl</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<dependency>
 				<groupId>com.buession.springcloud</groupId>
 				<artifactId>buession-springcloud-common</artifactId>
 				<version>${buession.springcloud.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j-impl</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<dependency>
@@ -159,6 +141,14 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>javax.el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.glassfish.web</groupId>
+						<artifactId>el-impl</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -169,10 +159,6 @@
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.web</groupId>
-						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>dom4j</groupId>
@@ -189,6 +175,10 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -206,6 +196,14 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>javax.el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.glassfish.web</groupId>
+						<artifactId>el-impl</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -216,10 +214,6 @@
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.web</groupId>
-						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>dom4j</groupId>
@@ -236,6 +230,10 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -253,6 +251,14 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>javax.el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.glassfish.web</groupId>
+						<artifactId>el-impl</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -263,10 +269,6 @@
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.web</groupId>
-						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>dom4j</groupId>
@@ -283,6 +285,10 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -300,6 +306,14 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>javax.el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.glassfish.web</groupId>
+						<artifactId>el-impl</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -310,10 +324,6 @@
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.web</groupId>
-						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>dom4j</groupId>
@@ -330,6 +340,10 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -347,6 +361,14 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>javax.el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.glassfish.web</groupId>
+						<artifactId>el-impl</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -357,10 +379,6 @@
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.web</groupId>
-						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>dom4j</groupId>
@@ -377,6 +395,10 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -394,6 +416,14 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>javax.el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.glassfish.web</groupId>
+						<artifactId>el-impl</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -404,10 +434,6 @@
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.web</groupId>
-						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>dom4j</groupId>
@@ -424,6 +450,10 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -441,6 +471,14 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>javax.el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.glassfish.web</groupId>
+						<artifactId>el-impl</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -451,10 +489,6 @@
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.web</groupId>
-						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>dom4j</groupId>
@@ -471,6 +505,10 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -488,6 +526,14 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>javax.el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.glassfish.web</groupId>
+						<artifactId>el-impl</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -498,10 +544,6 @@
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.web</groupId>
-						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>dom4j</groupId>
@@ -518,6 +560,10 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
