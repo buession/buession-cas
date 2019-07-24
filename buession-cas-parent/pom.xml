@@ -7,13 +7,13 @@
 		<groupId>com.buession</groupId>
 		<artifactId>parent</artifactId>
 		<relativePath/>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 	</parent>
 	<groupId>com.buession.cas</groupId>
 	<artifactId>buession-cas-parent</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
 	<description>Buession Framework CAS Parent</description>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>pom</packaging>
 
 	<organization>
@@ -53,12 +53,6 @@
 	</modules>
 
 	<properties>
-		<project.build.encoding>UTF-8</project.build.encoding>
-		<project.java.version>11</project.java.version>
-		<buession.version>1.0.0</buession.version>
-		<buession.springboot.version>1.0.0</buession.springboot.version>
-		<buession.springcloud.version>1.0.0</buession.springcloud.version>
-		<buession.security.version>1.0.0</buession.security.version>
 		<cas.version>6.0.4</cas.version>
 	</properties>
 
