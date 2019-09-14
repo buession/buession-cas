@@ -167,10 +167,6 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.hibernate</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
@@ -219,10 +215,6 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.hibernate</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -277,10 +269,6 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.hibernate</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
@@ -329,10 +317,6 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.hibernate</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -387,10 +371,6 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.hibernate</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
@@ -439,10 +419,6 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.hibernate</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
@@ -497,10 +473,6 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.hibernate</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
@@ -552,10 +524,6 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.hibernate</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
@@ -564,24 +532,6 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-jms</artifactId>
-				<version>${springframework.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-messaging</artifactId>
-				<version>${springframework.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.12</version>
-				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
