@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>1.0.1</version>
+		<version>1.0.2</version>
 	</parent>
 	<artifactId>buession-cas-webflow</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
