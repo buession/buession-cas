@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>1.0.2</version>
+		<version>1.1.0</version>
 	</parent>
 	<artifactId>buession-cas-support</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
@@ -110,6 +110,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -185,6 +189,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -258,6 +266,10 @@
 				<exclusion>
 					<groupId>org.glassfish.main.javaee-api</groupId>
 					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -339,6 +351,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -412,6 +428,10 @@
 				<exclusion>
 					<groupId>org.glassfish.main.javaee-api</groupId>
 					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -489,6 +509,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -562,6 +586,10 @@
 				<exclusion>
 					<groupId>org.glassfish.main.javaee-api</groupId>
 					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -639,6 +667,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -712,6 +744,10 @@
 				<exclusion>
 					<groupId>org.glassfish.main.javaee-api</groupId>
 					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+					<artifactId>el-impl</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
