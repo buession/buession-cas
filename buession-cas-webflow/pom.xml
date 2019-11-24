@@ -82,12 +82,40 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>javax.el</groupId>
-					<artifactId>javax.el-api</artifactId>
+					<groupId>javax.activation</groupId>
+					<artifactId>javax.activation-api</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.glassfish.web</groupId>
-					<artifactId>el-impl</artifactId>
+					<groupId>javax.el</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.persistence</groupId>
+					<artifactId>javax.persistence-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.validation</groupId>
+					<artifactId>validation-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.xml.bind</groupId>
+					<artifactId>jaxb-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.xml.soap</groupId>
+					<artifactId>javax.xml.soap-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.xml.ws</groupId>
+					<artifactId>jaxws-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.main.javaee-api</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -98,24 +126,20 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>dom4j</groupId>
-					<artifactId>dom4j</artifactId>
+					<groupId>org.pac4j</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.codehaus.groovy</groupId>
-					<artifactId>groovy-console</artifactId>
+					<artifactId>groovy-cli-picocli</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.pac4j</groupId>
+					<groupId>org.jboss.spec.javax.transaction</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>log4j-slf4j18-impl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jboss.spec.javax.transaction</groupId>
-					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -129,12 +153,40 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>javax.el</groupId>
-					<artifactId>javax.el-api</artifactId>
+					<groupId>javax.activation</groupId>
+					<artifactId>javax.activation-api</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.glassfish.web</groupId>
-					<artifactId>el-impl</artifactId>
+					<groupId>javax.el</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.persistence</groupId>
+					<artifactId>javax.persistence-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.validation</groupId>
+					<artifactId>validation-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.xml.bind</groupId>
+					<artifactId>jaxb-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.xml.soap</groupId>
+					<artifactId>javax.xml.soap-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.xml.ws</groupId>
+					<artifactId>jaxws-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.main.javaee-api</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -145,24 +197,20 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>dom4j</groupId>
-					<artifactId>dom4j</artifactId>
+					<groupId>org.pac4j</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.codehaus.groovy</groupId>
-					<artifactId>groovy-console</artifactId>
+					<artifactId>groovy-cli-picocli</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.pac4j</groupId>
+					<groupId>org.jboss.spec.javax.transaction</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>log4j-slf4j18-impl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jboss.spec.javax.transaction</groupId>
-					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -177,7 +225,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>log4j</groupId>
