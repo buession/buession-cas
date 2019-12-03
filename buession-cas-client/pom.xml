@@ -46,6 +46,7 @@
 			<artifactId>cas-client-core</artifactId>
 		</dependency>
 
+		<!--
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk15on</artifactId>
@@ -54,6 +55,7 @@
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpkix-jdk15on</artifactId>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>org.slf4j</groupId>

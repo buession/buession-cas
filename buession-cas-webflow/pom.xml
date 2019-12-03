@@ -87,7 +87,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>javax.el</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.persistence</groupId>
@@ -132,10 +132,6 @@
 				<exclusion>
 					<groupId>org.pac4j</groupId>
 					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.groovy</groupId>
-					<artifactId>groovy-cli-picocli</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -162,7 +158,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>javax.el</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.persistence</groupId>
@@ -209,35 +205,12 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.codehaus.groovy</groupId>
-					<artifactId>groovy-cli-picocli</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.jboss.spec.javax.transaction</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>log4j-slf4j18-impl</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apereo</groupId>
-			<artifactId>spring-webflow-client-repo</artifactId>
-			<version>1.0.3</version>
-			<exclusions>
-				<exclusion>
-					<groupId>ch.qos.logback</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -276,6 +249,15 @@
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
 		</dependency>
 
 		<dependency>

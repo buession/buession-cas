@@ -67,7 +67,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>javax.el</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.persistence</groupId>
@@ -116,10 +116,6 @@
 				<exclusion>
 					<groupId>org.pac4j</groupId>
 					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.groovy</groupId>
-					<artifactId>groovy-cli-picocli</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -146,11 +142,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>javax.el</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.inject</groupId>
-					<artifactId>javax.inject</artifactId>
+					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.persistence</groupId>
@@ -199,10 +191,6 @@
 				<exclusion>
 					<groupId>org.pac4j</groupId>
 					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.groovy</groupId>
-					<artifactId>groovy-cli-picocli</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -245,6 +233,15 @@
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
 		</dependency>
 
 		<dependency>

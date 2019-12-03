@@ -53,7 +53,7 @@
 	</modules>
 
 	<properties>
-		<cas.version>6.0.6</cas.version>
+		<cas.version>6.1.2</cas.version>
 	</properties>
 
 	<dependencyManagement>
@@ -140,7 +140,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>javax.el-api</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>javax.persistence</groupId>
@@ -189,10 +189,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.codehaus.groovy</groupId>
-						<artifactId>groovy-cli-picocli</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -219,7 +215,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>javax.el-api</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>javax.persistence</groupId>
@@ -268,10 +264,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.codehaus.groovy</groupId>
-						<artifactId>groovy-cli-picocli</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -298,7 +290,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>javax.el-api</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>javax.persistence</groupId>
@@ -347,10 +339,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.codehaus.groovy</groupId>
-						<artifactId>groovy-cli-picocli</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -377,7 +365,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>javax.el-api</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>javax.persistence</groupId>
@@ -426,10 +414,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.codehaus.groovy</groupId>
-						<artifactId>groovy-cli-picocli</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -456,7 +440,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>javax.el-api</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>javax.persistence</groupId>
@@ -505,10 +489,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.codehaus.groovy</groupId>
-						<artifactId>groovy-cli-picocli</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -535,7 +515,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>javax.el-api</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>javax.persistence</groupId>
@@ -584,10 +564,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.codehaus.groovy</groupId>
-						<artifactId>groovy-cli-picocli</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -614,7 +590,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>javax.el-api</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>javax.persistence</groupId>
@@ -663,10 +639,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.codehaus.groovy</groupId>
-						<artifactId>groovy-cli-picocli</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -693,7 +665,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>javax.el-api</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>javax.persistence</groupId>
@@ -742,10 +714,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.codehaus.groovy</groupId>
-						<artifactId>groovy-cli-picocli</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
