@@ -143,6 +143,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>geronimo-spec</groupId>
+					<artifactId>geronimo-spec-jta</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.jboss.spec.javax.transaction</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -218,6 +222,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>geronimo-spec</groupId>
+					<artifactId>geronimo-spec-jta</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.jboss.spec.javax.transaction</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -291,6 +299,10 @@
 				<exclusion>
 					<groupId>org.pac4j</groupId>
 					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>geronimo-spec</groupId>
+					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -386,6 +398,12 @@
 		<dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.transaction</artifactId>
+			<version>3.1.1</version>
 		</dependency>
 
 		<dependency>

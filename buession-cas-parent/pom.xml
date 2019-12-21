@@ -191,6 +191,10 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>geronimo-spec</groupId>
+						<artifactId>geronimo-spec-jta</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -264,6 +268,10 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>geronimo-spec</groupId>
+						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -341,6 +349,10 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>geronimo-spec</groupId>
+						<artifactId>geronimo-spec-jta</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -414,6 +426,10 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>geronimo-spec</groupId>
+						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -491,6 +507,10 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>geronimo-spec</groupId>
+						<artifactId>geronimo-spec-jta</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -564,6 +584,10 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>geronimo-spec</groupId>
+						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -641,6 +665,10 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>geronimo-spec</groupId>
+						<artifactId>geronimo-spec-jta</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -714,6 +742,10 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>geronimo-spec</groupId>
+						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.jboss.spec.javax.transaction</groupId>
