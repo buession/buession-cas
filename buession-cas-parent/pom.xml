@@ -68,61 +68,35 @@
 				<groupId>com.buession.springboot</groupId>
 				<artifactId>buession-springboot-boot</artifactId>
 				<version>${buession.springboot.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.github.lalyos</groupId>
+						<artifactId>jfiglet</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>com.buession.springboot</groupId>
 				<artifactId>buession-springboot-web</artifactId>
 				<version>${buession.springboot.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.github.lalyos</groupId>
+						<artifactId>jfiglet</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>
 				<groupId>com.buession.springcloud</groupId>
 				<artifactId>buession-springcloud-common</artifactId>
 				<version>${buession.springcloud.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.buession.security</groupId>
-				<artifactId>buession-security-shiro</artifactId>
-				<version>${buession.security.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>org.apache.shiro</groupId>
-						<artifactId>shiro-aspectj</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.shiro</groupId>
-						<artifactId>shiro-spring</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.shiro</groupId>
-						<artifactId>shiro-web</artifactId>
+						<groupId>com.github.lalyos</groupId>
+						<artifactId>jfiglet</artifactId>
 					</exclusion>
 				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>com.buession.security</groupId>
-				<artifactId>buession-security-pac4j</artifactId>
-				<version>${buession.security.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.apache.shiro</groupId>
-						<artifactId>shiro-aspectj</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.shiro</groupId>
-						<artifactId>shiro-spring</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.shiro</groupId>
-						<artifactId>shiro-web</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>com.buession.security</groupId>
-				<artifactId>buession-security-spring</artifactId>
-				<version>${buession.security.version}</version>
 			</dependency>
 
 			<dependency>
@@ -188,7 +162,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-webmvc-pac4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -267,7 +241,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-webmvc-pac4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -346,7 +320,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-webmvc-pac4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -425,7 +399,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-webmvc-pac4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -504,7 +478,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-webmvc-pac4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -583,7 +557,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-webmvc-pac4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -662,7 +636,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-webmvc-pac4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -741,7 +715,7 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-webmvc-pac4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>

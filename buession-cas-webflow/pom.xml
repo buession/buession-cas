@@ -60,11 +60,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.buession.security</groupId>
-			<artifactId>buession-security-spring</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-web</artifactId>
 		</dependency>
@@ -131,7 +126,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
@@ -206,7 +201,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>

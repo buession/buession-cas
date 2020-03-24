@@ -48,15 +48,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.buession.security</groupId>
-			<artifactId>buession-security-shiro</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.buession.security</groupId>
-			<artifactId>buession-security-spring</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-authentication</artifactId>
 		</dependency>
@@ -127,7 +118,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
@@ -206,7 +197,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
@@ -284,12 +275,8 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.apache.shiro</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
@@ -368,7 +355,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
@@ -447,7 +434,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
@@ -526,7 +513,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
@@ -605,7 +592,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
@@ -684,7 +671,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
@@ -763,7 +750,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
