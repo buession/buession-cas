@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>1.1.0</version>
+		<version>1.1.2</version>
 	</parent>
 	<artifactId>buession-cas-core</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
@@ -78,10 +78,6 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>javax.activation</groupId>
-					<artifactId>javax.activation-api</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>javax.el</groupId>
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
@@ -138,8 +134,8 @@
 					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.jboss.spec.javax.transaction</groupId>
-					<artifactId>*</artifactId>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
@@ -157,10 +153,6 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>javax.activation</groupId>
-					<artifactId>javax.activation-api</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>javax.el</groupId>
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
@@ -217,8 +209,8 @@
 					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.jboss.spec.javax.transaction</groupId>
-					<artifactId>*</artifactId>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
@@ -236,10 +228,6 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>javax.activation</groupId>
-					<artifactId>javax.activation-api</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>javax.el</groupId>
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
@@ -296,8 +284,8 @@
 					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.jboss.spec.javax.transaction</groupId>
-					<artifactId>*</artifactId>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
@@ -392,9 +380,18 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.transaction</artifactId>
-			<version>3.1.1</version>
+			<version>3.2-b06</version>
 		</dependency>
 
 		<dependency>
@@ -447,7 +444,7 @@
 		<dependency>
 			<groupId>com.github.javaparser</groupId>
 			<artifactId>javaparser-core</artifactId>
-			<version>3.15.6</version>
+			<version>3.15.17</version>
 		</dependency>
 
 		<dependency>

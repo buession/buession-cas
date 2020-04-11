@@ -7,13 +7,13 @@
 		<groupId>com.buession</groupId>
 		<artifactId>parent</artifactId>
 		<relativePath/>
-		<version>1.1.0</version>
+		<version>1.1.2</version>
 	</parent>
 	<groupId>com.buession.cas</groupId>
 	<artifactId>buession-cas-parent</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
 	<description>Buession Framework CAS Parent</description>
-	<version>1.1.0</version>
+	<version>1.1.2</version>
 	<packaging>pom</packaging>
 
 	<organization>
@@ -53,7 +53,7 @@
 	</modules>
 
 	<properties>
-		<cas.version>6.1.2</cas.version>
+		<cas.version>6.1.5</cas.version>
 	</properties>
 
 	<dependencyManagement>
@@ -109,10 +109,6 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>javax.activation</groupId>
-						<artifactId>javax.activation-api</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -169,8 +165,8 @@
 						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.jboss.spec.javax.transaction</groupId>
-						<artifactId>*</artifactId>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-entitymanager</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -188,10 +184,6 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>javax.activation</groupId>
-						<artifactId>javax.activation-api</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -248,8 +240,8 @@
 						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.jboss.spec.javax.transaction</groupId>
-						<artifactId>*</artifactId>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-entitymanager</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -267,10 +259,6 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>javax.activation</groupId>
-						<artifactId>javax.activation-api</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -327,8 +315,8 @@
 						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.jboss.spec.javax.transaction</groupId>
-						<artifactId>*</artifactId>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-entitymanager</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -346,10 +334,6 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>javax.activation</groupId>
-						<artifactId>javax.activation-api</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -406,8 +390,8 @@
 						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.jboss.spec.javax.transaction</groupId>
-						<artifactId>*</artifactId>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-entitymanager</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -425,10 +409,6 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>javax.activation</groupId>
-						<artifactId>javax.activation-api</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -485,8 +465,8 @@
 						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.jboss.spec.javax.transaction</groupId>
-						<artifactId>*</artifactId>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-entitymanager</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -504,10 +484,6 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>javax.activation</groupId>
-						<artifactId>javax.activation-api</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -564,8 +540,8 @@
 						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.jboss.spec.javax.transaction</groupId>
-						<artifactId>*</artifactId>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-entitymanager</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -583,10 +559,6 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>javax.activation</groupId>
-						<artifactId>javax.activation-api</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -643,8 +615,8 @@
 						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.jboss.spec.javax.transaction</groupId>
-						<artifactId>*</artifactId>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-entitymanager</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -662,10 +634,6 @@
 						<artifactId>aopalliance</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>javax.activation</groupId>
-						<artifactId>javax.activation-api</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -722,8 +690,8 @@
 						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.jboss.spec.javax.transaction</groupId>
-						<artifactId>*</artifactId>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-entitymanager</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -742,6 +710,24 @@
 
 	<build>
 		<finalName>buession-cas-parent</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
 
 	<distributionManagement>

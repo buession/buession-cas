@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>1.1.0</version>
+		<version>1.1.2</version>
 	</parent>
 	<artifactId>buession-cas-client</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
@@ -45,17 +45,6 @@
 			<groupId>org.jasig.cas.client</groupId>
 			<artifactId>cas-client-core</artifactId>
 		</dependency>
-
-		<!--
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk15on</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcpkix-jdk15on</artifactId>
-		</dependency>
-		-->
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
