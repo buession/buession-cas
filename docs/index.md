@@ -1,26 +1,25 @@
-# Buession Cas
+# 简介
 
-对 Apereo CAS 的二次封装和解决各依赖。
+对 Apereo CAS 的二次封装和解决各依赖。[更多](https://cas.buession.com/introduction)
 
 ## 环境要求
 
-- JDK 11+
+- JDK 11+ [更多](https://cas.buession.com/requirements)
 
-## Introduction
+## 安装及使用
 
-- git clone https://github.com/buession/buession-cas
-- cd buession-cas/buession-cas-parent && mvn install
+```bash
+git clone https://github.com/buession/buession-cas
+cd buession-cas/buession-cas-parent && mvn install
+```
 
-## Maven
+[更多安装及使用方式](https://cas.buession.com/installation)
 
-- [https://search.maven.org/search?q=g:com.buession](https://search.maven.org/search?q=g:com.buession)
-- [https://mvnrepository.com/search?q=com.buession](https://mvnrepository.com/search?q=com.buession)
-
-## Documentation
+## 文档
 ---
 
-- Wiki [https://github.com/buession/buessionframework/wiki](https://github.com/buession/buessionframework/wiki)
-- API Reference [https://www.buession.com/doc/](https://www.buession.com/doc/)
+- Wiki [https://github.com/buession/buession-cas/wiki](https://github.com/buession/buession-cas/wiki)
+- API Reference [https://cas.buession.com/doc/](https://cas.buession.com/doc/)
 
 ## License
 
