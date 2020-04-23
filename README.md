@@ -19,14 +19,15 @@
 
 ## Maven
 
-- https://search.maven.org/search?q=g:com.buession.cas
-- https://mvnrepository.com/search?q=com.buession.cas
+- [https://search.maven.org/search?q=g:com.buession.cas](https://search.maven.org/search?q=g:com.buession.cas)
+- [https://mvnrepository.com/search?q=com.buession.cas](https://mvnrepository.com/search?q=com.buession.cas)
 
 ## Documentation
 ---
 
-- 中文 https://github.com/buession/buession-cas/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98
-- English https://github.com/buession/buession-cas/wiki/FAQ
+- 参考文档 [https://cas.buession.com/](https://cas.buession.com/)
+- Wiki [https://github.com/buession/buession-cas/wiki](https://github.com/buession/buession-cas/wiki)
+- API Reference [https://cas.buession.com/doc/](https://cas.buession.com/doc/)
 
 ## License
 
