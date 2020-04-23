@@ -23,7 +23,6 @@
 - [https://mvnrepository.com/search?q=com.buession.cas](https://mvnrepository.com/search?q=com.buession.cas)
 
 ## Documentation
----
 
 - 参考文档 [https://cas.buession.com/](https://cas.buession.com/)
 - Wiki [https://github.com/buession/buession-cas/wiki](https://github.com/buession/buession-cas/wiki)
