@@ -2,8 +2,8 @@
 
 Maven 中央仓库搜索
 
-- [https://search.maven.org/search?q=g:com.buession.cas](https://search.maven.org/search?q=g:com.buession.cas)
-- [https://mvnrepository.com/search?q=com.buession.cas](https://mvnrepository.com/search?q=com.buession.cas)
+- [https://search.maven.org/search?q=g:com.buession.cas](https://search.maven.org/search?q=g:com.buession.cas){:target="_blank"}
+- [https://mvnrepository.com/search?q=com.buession.cas](https://mvnrepository.com/search?q=com.buession.cas){:target="_blank"}
 
 **手动编译**
 
