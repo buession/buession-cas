@@ -58,6 +58,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.buession.cas</groupId>
+			<artifactId>buession-cas-view</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
 			<artifactId>buession-cas-webflow</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -84,10 +89,6 @@
 				<exclusion>
 					<groupId>aopalliance</groupId>
 					<artifactId>aopalliance</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.el</groupId>
-					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.persistence</groupId>
@@ -161,10 +162,6 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>javax.el</groupId>
-					<artifactId>javax.el-api</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -236,10 +233,6 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>javax.el</groupId>
-					<artifactId>javax.el-api</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -309,10 +302,6 @@
 				<exclusion>
 					<groupId>aopalliance</groupId>
 					<artifactId>aopalliance</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.el</groupId>
-					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.persistence</groupId>

@@ -57,10 +57,6 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>javax.el</groupId>
-					<artifactId>javax.el-api</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -132,10 +128,6 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>javax.el</groupId>
-					<artifactId>javax.el-api</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -190,6 +182,10 @@
 				<exclusion>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.squareup.retrofit2</groupId>
+					<artifactId>retrofit</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<name>Buession CAS Webflow</name>
+	<name>Buession CAS View</name>
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.buession.cas</groupId>
@@ -9,9 +9,9 @@
 		<relativePath>../buession-cas-parent</relativePath>
 		<version>1.2.0</version>
 	</parent>
-	<artifactId>buession-cas-webflow</artifactId>
+	<artifactId>buession-cas-view</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
-	<description>Buession Framework Webflow For CAS</description>
+	<description>Buession Framework View For CAS</description>
 	<packaging>jar</packaging>
 
 	<organization>
@@ -48,28 +48,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.buession</groupId>
-			<artifactId>buession-web</artifactId>
-			<version>${buession.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-webflux</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apereo.cas</groupId>
-			<artifactId>cas-server-core-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apereo.cas</groupId>
-			<artifactId>cas-server-core-web-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apereo.cas</groupId>
-			<artifactId>cas-server-core-webflow</artifactId>
+			<artifactId>cas-server-support-thymeleaf</artifactId>
 			<version>${cas.version}</version>
 			<exclusions>
 				<exclusion>
@@ -117,70 +97,7 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.pac4j</groupId>
-					<artifactId>spring-webmvc-pac4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-entitymanager</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.logging.log4j</groupId>
-					<artifactId>log4j-slf4j18-impl</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apereo.cas</groupId>
-			<artifactId>cas-server-support-actions</artifactId>
-			<version>${cas.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>aopalliance</groupId>
-					<artifactId>aopalliance</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.persistence</groupId>
-					<artifactId>javax.persistence-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>javax.servlet-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.validation</groupId>
-					<artifactId>validation-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.xml.bind</groupId>
-					<artifactId>jaxb-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.xml.soap</groupId>
-					<artifactId>javax.xml.soap-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.xml.ws</groupId>
-					<artifactId>jaxws-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.glassfish.main.javaee-api</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.glassfish.web</groupId>
-					<artifactId>el-impl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.cloud</groupId>
+					<groupId>org.springframework.webflow</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
@@ -200,74 +117,6 @@
 					<artifactId>log4j-slf4j18-impl</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml</groupId>
-			<artifactId>classmate</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>jsr305</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk15on</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcpkix-jdk15on</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.jaxrs</groupId>
-			<artifactId>jackson-jaxrs-base</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.jaxrs</groupId>
-			<artifactId>jackson-jaxrs-json-provider</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-jaxb-annotations</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-parameter-names</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
 
 		<dependency>
@@ -307,15 +156,15 @@
 	</dependencies>
 
 	<build>
-		<finalName>buession-cas-webflow</finalName>
+		<finalName>buession-cas-view</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
+				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
