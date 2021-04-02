@@ -113,6 +113,10 @@
 					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.webjars.npm</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>log4j-slf4j18-impl</artifactId>
 				</exclusion>

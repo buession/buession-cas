@@ -48,6 +48,23 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.buession.springboot</groupId>
+			<artifactId>buession-springboot-captcha</artifactId>
+			<version>${buession.springboot.version}</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.buession.springboot</groupId>
+					<artifactId>buession-springboot-httpclient</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.buession.security</groupId>
+					<artifactId>buession-security-geetest</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-authentication</artifactId>
 		</dependency>
@@ -648,6 +665,10 @@
 				<exclusion>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.webjars.npm</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
