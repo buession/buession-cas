@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>1.2.0</version>
+		<version>1.2.1</version>
 	</parent>
 	<artifactId>buession-cas-core</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
@@ -130,10 +130,6 @@
 					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
@@ -205,10 +201,6 @@
 					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
@@ -278,10 +270,6 @@
 				<exclusion>
 					<groupId>org.pac4j</groupId>
 					<artifactId>spring-webmvc-pac4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
@@ -361,8 +349,20 @@
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-cas</artifactId>
 			<version>${springframework.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-rsa</artifactId>
 		</dependency>
 
 		<dependency>
@@ -429,14 +429,6 @@
 			<artifactId>cglib-nodep</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>oscache</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>oro</groupId>
-			<artifactId>oro</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.fasterxml</groupId>
 			<artifactId>classmate</artifactId>
 		</dependency>
@@ -448,6 +440,11 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
 		</dependency>
 
 		<dependency>
@@ -465,7 +462,7 @@
 		<dependency>
 			<groupId>com.github.javaparser</groupId>
 			<artifactId>javaparser-core</artifactId>
-			<version>3.15.18</version>
+			<version>3.20.2</version>
 		</dependency>
 
 		<dependency>
@@ -492,6 +489,10 @@
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-properties</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
 
@@ -507,6 +508,10 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-kotlin</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
@@ -533,10 +538,6 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-jul</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>

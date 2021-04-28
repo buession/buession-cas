@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>1.2.0</version>
+		<version>1.2.1</version>
 	</parent>
 	<artifactId>buession-cas-web</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
@@ -91,6 +91,10 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.el</groupId>
+					<artifactId>javax.el-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -137,10 +141,6 @@
 				<exclusion>
 					<groupId>org.pac4j</groupId>
 					<artifactId>spring-webmvc-pac4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
@@ -162,6 +162,10 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.el</groupId>
+					<artifactId>javax.el-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -208,10 +212,6 @@
 				<exclusion>
 					<groupId>org.pac4j</groupId>
 					<artifactId>spring-webmvc-pac4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
@@ -233,6 +233,10 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.el</groupId>
+					<artifactId>javax.el-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -279,10 +283,6 @@
 				<exclusion>
 					<groupId>org.pac4j</groupId>
 					<artifactId>spring-webmvc-pac4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
@@ -304,6 +304,10 @@
 					<artifactId>aopalliance</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.el</groupId>
+					<artifactId>javax.el-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -352,10 +356,6 @@
 					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
@@ -373,6 +373,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
 		</dependency>
 
 		<dependency>
@@ -455,10 +460,6 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-jul</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>

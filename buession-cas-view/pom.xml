@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>1.2.0</version>
+		<version>1.2.1</version>
 	</parent>
 	<artifactId>buession-cas-view</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
@@ -55,6 +55,10 @@
 				<exclusion>
 					<groupId>aopalliance</groupId>
 					<artifactId>aopalliance</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.el</groupId>
+					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.persistence</groupId>
@@ -105,8 +109,8 @@
 					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
+					<groupId>org.apereo.service.persondir</groupId>
+					<artifactId>person-directory-impl</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
@@ -143,10 +147,6 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-jul</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
