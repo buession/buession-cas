@@ -7,13 +7,13 @@
 		<groupId>com.buession</groupId>
 		<artifactId>parent</artifactId>
 		<relativePath/>
-		<version>1.2.2</version>
+		<version>1.3.0</version>
 	</parent>
 	<groupId>com.buession.cas</groupId>
 	<artifactId>buession-cas-parent</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
 	<description>Buession Framework CAS Parent</description>
-	<version>1.2.2</version>
+	<version>1.3.0</version>
 	<packaging>pom</packaging>
 
 	<organization>
@@ -66,6 +66,12 @@
 				<groupId>com.buession</groupId>
 				<artifactId>buession-core</artifactId>
 				<version>${project.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>
@@ -74,12 +80,12 @@
 				<version>${buession.springboot.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>com.github.lalyos</groupId>
-						<artifactId>jfiglet</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>log4j-slf4j-impl</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.github.lalyos</groupId>
+						<artifactId>jfiglet</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -88,6 +94,10 @@
 				<artifactId>buession-springboot-web</artifactId>
 				<version>${buession.springboot.version}</version>
 				<exclusions>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j-impl</artifactId>
+					</exclusion>
 					<exclusion>
 						<groupId>com.github.lalyos</groupId>
 						<artifactId>jfiglet</artifactId>
@@ -100,6 +110,10 @@
 				<artifactId>buession-springcloud-common</artifactId>
 				<version>${buession.springcloud.version}</version>
 				<exclusions>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j-impl</artifactId>
+					</exclusion>
 					<exclusion>
 						<groupId>com.github.lalyos</groupId>
 						<artifactId>jfiglet</artifactId>
@@ -153,6 +167,10 @@
 						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -183,6 +201,14 @@
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
 						<artifactId>geronimo-spec-jta</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jcl-over-slf4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jul-to-slf4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -236,6 +262,10 @@
 						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -262,6 +292,14 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>hibernate-entitymanager</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jcl-over-slf4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jul-to-slf4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -315,6 +353,10 @@
 						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -333,6 +375,14 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>hibernate-entitymanager</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jcl-over-slf4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jul-to-slf4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -386,6 +436,10 @@
 						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -412,6 +466,14 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>hibernate-entitymanager</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jcl-over-slf4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jul-to-slf4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -465,6 +527,10 @@
 						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -483,6 +549,14 @@
 					<exclusion>
 						<groupId>org.hibernate</groupId>
 						<artifactId>hibernate-entitymanager</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jcl-over-slf4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jul-to-slf4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -556,6 +630,14 @@
 						<artifactId>hibernate-entitymanager</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jcl-over-slf4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jul-to-slf4j</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
@@ -607,6 +689,10 @@
 						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -637,6 +723,14 @@
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
 						<artifactId>geronimo-spec-jta</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jcl-over-slf4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jul-to-slf4j</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
@@ -690,6 +784,10 @@
 						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -710,6 +808,14 @@
 						<artifactId>hibernate-entitymanager</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jcl-over-slf4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jul-to-slf4j</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.apache.logging.log4j</groupId>
 						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
@@ -719,13 +825,29 @@
 			<dependency>
 				<groupId>org.jasig.cas.client</groupId>
 				<artifactId>cas-client-core</artifactId>
-				<version>3.6.2</version>
+				<version>${cas.client.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
 		<finalName>buession-cas-parent</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>${project.basedir}</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>changelog.txt</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
