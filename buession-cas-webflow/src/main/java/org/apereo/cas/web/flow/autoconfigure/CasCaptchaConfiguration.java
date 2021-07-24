@@ -55,7 +55,7 @@ import org.springframework.webflow.execution.Action;
  * @author Yong.Teng
  * @since 1.2.0
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({CasConfigurationProperties.class, CaptchaProperties.class})
 @ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enable", havingValue = "true")
 public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigurer {
@@ -67,21 +67,26 @@ public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigure
 	private CaptchaProperties captchaProperties;
 
 	@Autowired
-	@Qualifier("loginFlowRegistry")
-	private ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry;
-
-	@Autowired
-	private ObjectProvider<FlowBuilderServices> flowBuilderServices;
-
-	@Autowired
 	private ConfigurableApplicationContext applicationContext;
+
+	private FlowDefinitionRegistry loginFlowDefinitionRegistry;
+
+	private FlowBuilderServices flowBuilderServices;
+
+	private CasCaptchaWebflowConfigurer casCaptchaWebflowConfigurer;
+
+	public CasCaptchaConfiguration(@Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry, ObjectProvider<FlowBuilderServices> flowBuilderServices, ObjectProvider<CasCaptchaWebflowConfigurer> casCaptchaWebflowConfigurer){
+		this.loginFlowDefinitionRegistry = loginFlowDefinitionRegistry.getIfAvailable();
+		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
+		this.casCaptchaWebflowConfigurer = casCaptchaWebflowConfigurer.getIfAvailable();
+	}
 
 	@Bean
 	@ConditionalOnMissingBean(name = {"captchaWebflowConfigurer"})
 	@DependsOn({"defaultWebflowConfigurer"})
 	public CasWebflowConfigurer captchaWebflowConfigurer(){
-		return new CasCaptchaWebflowConfigurer(flowBuilderServices.getObject(),
-				loginFlowDefinitionRegistry.getObject(), applicationContext, casProperties);
+		return new CasCaptchaWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext,
+				casProperties);
 	}
 
 	@Bean
@@ -106,7 +111,7 @@ public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigure
 
 	@Override
 	public void configureWebflowExecutionPlan(final CasWebflowExecutionPlan plan){
-		plan.registerWebflowConfigurer(captchaWebflowConfigurer());
+		plan.registerWebflowConfigurer(casCaptchaWebflowConfigurer);
 	}
 
 }
