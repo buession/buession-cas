@@ -37,7 +37,6 @@ import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
 import org.apereo.cas.web.flow.action.InitializeCaptchaAction;
 import org.apereo.cas.web.flow.action.ValidateCaptchaAction;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -60,13 +59,10 @@ import org.springframework.webflow.execution.Action;
 @ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enable", havingValue = "true")
 public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigurer {
 
-	@Autowired
 	private CasConfigurationProperties casProperties;
 
-	@Autowired
 	private CaptchaProperties captchaProperties;
 
-	@Autowired
 	private ConfigurableApplicationContext applicationContext;
 
 	private FlowDefinitionRegistry loginFlowDefinitionRegistry;
@@ -75,7 +71,10 @@ public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigure
 
 	private CasCaptchaWebflowConfigurer casCaptchaWebflowConfigurer;
 
-	public CasCaptchaConfiguration(@Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry, ObjectProvider<FlowBuilderServices> flowBuilderServices, ObjectProvider<CasCaptchaWebflowConfigurer> casCaptchaWebflowConfigurer){
+	public CasCaptchaConfiguration(CasConfigurationProperties casProperties, CaptchaProperties captchaProperties, ObjectProvider<ConfigurableApplicationContext> applicationContext, @Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry, ObjectProvider<FlowBuilderServices> flowBuilderServices, ObjectProvider<CasCaptchaWebflowConfigurer> casCaptchaWebflowConfigurer){
+		this.casProperties = casProperties;
+		this.captchaProperties = captchaProperties;
+		this.applicationContext = applicationContext.getIfAvailable();
 		this.loginFlowDefinitionRegistry = loginFlowDefinitionRegistry.getIfAvailable();
 		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
 		this.casCaptchaWebflowConfigurer = casCaptchaWebflowConfigurer.getIfAvailable();
@@ -85,8 +84,7 @@ public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigure
 	@ConditionalOnMissingBean(name = {"captchaWebflowConfigurer"})
 	@DependsOn({"defaultWebflowConfigurer"})
 	public CasWebflowConfigurer captchaWebflowConfigurer(){
-		return new CasCaptchaWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext,
-				casProperties);
+		return new CasCaptchaWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext, casProperties);
 	}
 
 	@Bean
