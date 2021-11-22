@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>1.3.1</version>
+		<version>1.3.2</version>
 	</parent>
 	<artifactId>buession-cas-client</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
@@ -40,6 +40,12 @@
 		<url>https://github.com/buession/buession-cas</url>
 	</scm>
 
+	<properties>
+		<project.java.version>1.8</project.java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.jasig.cas.client</groupId>
@@ -58,6 +64,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>${project.build.encoding}</encoding>
+					<source>${project.java.version}</source>
+					<target>${project.java.version}</target>
+					<compilerArgument>-Xlint:unchecked</compilerArgument>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
