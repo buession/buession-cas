@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>1.3.2</version>
+		<version>1.3.3</version>
 	</parent>
 	<artifactId>buession-cas-view</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
@@ -93,6 +93,10 @@
 					<artifactId>el-impl</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>geronimo-spec</groupId>
+					<artifactId>geronimo-spec-jta</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -111,10 +115,6 @@
 				<exclusion>
 					<groupId>org.apereo.service.persondir</groupId>
 					<artifactId>person-directory-impl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.webjars.npm</groupId>
