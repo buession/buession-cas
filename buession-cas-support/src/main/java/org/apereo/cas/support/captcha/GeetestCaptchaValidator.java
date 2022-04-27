@@ -19,31 +19,12 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2021 Buession.com Inc.														       |
+ * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */
-package org.apereo.cas.support.captcha;
-
-import com.buession.core.utils.Assert;
-import com.buession.lang.Status;
-import com.buession.security.captcha.handler.Handler;
-
-/**
+ */package org.apereo.cas.support.captcha;/**
+ * 
+ *
  * @author Yong.Teng
- * @since 1.2.0
- */
-public abstract class AbstractCaptchaValidator implements CaptchaValidator{
-
-	private Handler handler;
-
-	public AbstractCaptchaValidator(Handler handler){
-		Assert.isNull(handler, "Captcha handler cloud not be null.");
-		this.handler = handler;
-	}
-
-	@Override
-	public Status validate(String code, String userAgent){
-		return handler.validate(code);
-	}
-
+ * @since 2.0.0
+ */public class GeetestCaptchaValidator {
 }
