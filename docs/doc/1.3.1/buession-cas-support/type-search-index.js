@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"AbstractCaptchaValidator","h":"","u":""},{"l":"CaptchaConstants","h":"","u":""},{"l":"CaptchaProperties","h":"","u":""},{"l":"CaptchaValidator","h":"","u":""},{"l":"DefaultCaptchaValidator","h":"","u":""},{"l":"所有类","h":"","u":"allclasses-index.html"}]
