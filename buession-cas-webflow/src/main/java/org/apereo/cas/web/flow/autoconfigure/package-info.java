@@ -22,4 +22,4 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.web.flow.action;
+package org.apereo.cas.web.flow.autoconfigure;

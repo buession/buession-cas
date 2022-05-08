@@ -22,4 +22,26 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.web.flow.action;
+package org.apereo.cas.support.captcha;
+
+/**
+ * @author Yong.Teng
+ * @since 1.2.0
+ */
+public class CaptchaConstants {
+
+	public final static String CAPTCHA_PARAMETER_NAME = "captcha";
+
+	public final static String ENABLE_CAPTCHA = "enableCaptcha";
+
+	public final static String STATE_ID_VALIDATE_CAPTCHA = "validateCaptcha";
+
+	public final static String CAPTCHA_REQUIRED_EVENT = "captchaRequired";
+
+	public final static String CAPTCHA_REQUIRED_MESSAGE_CODE = "captcha.required";
+
+	private CaptchaConstants(){
+
+	}
+
+}
