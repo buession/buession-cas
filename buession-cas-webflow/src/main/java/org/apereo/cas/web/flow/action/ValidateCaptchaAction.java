@@ -19,18 +19,18 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2021 Buession.com Inc.														       |
+ * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.web.flow.action;
 
 import com.buession.core.utils.Assert;
-import com.buession.core.validator.Validate;
 import com.buession.lang.Status;
+import com.buession.security.captcha.core.CaptchaException;
+import com.buession.security.captcha.core.RequiredParameterCaptchaException;
 import org.apereo.cas.support.captcha.CaptchaConstants;
-import org.apereo.cas.support.captcha.CaptchaValidator;
+import org.apereo.cas.support.captcha.validator.CaptchaValidator;
 import org.apereo.cas.support.captcha.autoconfigure.CaptchaProperties;
-import org.apereo.cas.util.HttpRequestUtils;
 import org.apereo.cas.web.flow.CasWebflowConstants;
 import org.apereo.cas.web.support.WebUtils;
 import org.slf4j.Logger;
@@ -63,19 +63,16 @@ public class ValidateCaptchaAction extends AbstractAction {
 
 	@Override
 	protected Event doExecute(final RequestContext requestContext){
-		if(captchaProperties.isEnable() == false ||
+		if(captchaProperties.isEnabled() == false ||
 				Boolean.FALSE.equals(requestContext.getFlowScope().get(CaptchaConstants.ENABLE_CAPTCHA))){
 			logger.info("Captcha is not enable.");
 			return null;
 		}
 
 		HttpServletRequest request = WebUtils.getHttpServletRequestFromExternalWebflowContext(requestContext);
-		String code = request.getParameter(CaptchaConstants.CAPTCHA_PARAMETER_NAME);
 
-		if(Validate.hasText(code)){
-			String userAgent = HttpRequestUtils.getHttpServletRequestUserAgent(request);
-
-			if(captchaValidator.validate(code, userAgent) == Status.SUCCESS){
+		try{
+			if(captchaValidator.validate(request) == Status.SUCCESS){
 				logger.debug("Captcha has successfully validated the request");
 				return null;
 			}else{
@@ -83,10 +80,23 @@ public class ValidateCaptchaAction extends AbstractAction {
 				return getError(requestContext, CasWebflowConstants.TRANSITION_ID_CAPTCHA_ERROR,
 						CasWebflowConstants.TRANSITION_ID_CAPTCHA_ERROR);
 			}
-		}else{
-			logger.warn("Captcha parameter is null or empty.");
-			return getError(requestContext, CaptchaConstants.CAPTCHA_REQUIRED_EVENT,
-					CaptchaConstants.CAPTCHA_REQUIRED_MESSAGE_CODE);
+		}catch(CaptchaException e){
+			if(e instanceof RequiredParameterCaptchaException){
+				if(logger.isWarnEnabled()){
+					logger.warn("Captcha parameter: {} is null or empty.",
+							((RequiredParameterCaptchaException) e).getParameter());
+				}
+
+				return getError(requestContext, CaptchaConstants.CAPTCHA_REQUIRED_EVENT,
+						CaptchaConstants.CAPTCHA_REQUIRED_MESSAGE_CODE);
+			}else{
+				if(logger.isWarnEnabled()){
+					logger.warn("Captcha validate failed: {}", e.getMessage());
+				}
+
+				return getError(requestContext, CasWebflowConstants.TRANSITION_ID_CAPTCHA_ERROR,
+						CasWebflowConstants.TRANSITION_ID_CAPTCHA_ERROR);
+			}
 		}
 	}
 

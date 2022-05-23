@@ -22,18 +22,33 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.support.captcha;
+package org.apereo.cas.support.captcha.validator;
 
 import com.buession.lang.Status;
+import com.buession.security.captcha.core.CaptchaException;
+import com.buession.security.captcha.netease.NetEaseCaptchaClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 网易验证码验证
+ *
  * @author Yong.Teng
  * @since 2.0.0
  */
-public class GeetestCaptchaValidator implements CaptchaValidator {
+public class NetEaseCaptchaValidator extends AbstractCaptchaValidator<NetEaseCaptchaClient> {
+
+	private final static Logger logger = LoggerFactory.getLogger(NetEaseCaptchaValidator.class);
+
+	public NetEaseCaptchaValidator(final NetEaseCaptchaClient netEaseCaptchaClient){
+		super("Netease", netEaseCaptchaClient);
+	}
 
 	@Override
-	public Status validate(String code, String userAgent){
-		return null;
+	public Status validate(final HttpServletRequest request) throws CaptchaException{
+		return captchaClient.validate(null);
 	}
+
 }

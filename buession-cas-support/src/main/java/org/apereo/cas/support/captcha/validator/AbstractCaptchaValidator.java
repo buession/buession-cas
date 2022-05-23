@@ -19,19 +19,45 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2021 Buession.com Inc.														       |
+ * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.support.captcha;
+package org.apereo.cas.support.captcha.validator;
 
-import com.buession.lang.Status;
+import com.buession.core.utils.Assert;
+import com.buession.security.captcha.CaptchaClient;
+import org.apereo.cas.support.captcha.validator.CaptchaValidator;
 
 /**
+ * 行为验证码验证抽象类
+ *
+ * @param <C>
+ * 		验证码客户端
+ *
  * @author Yong.Teng
- * @since 1.2.0
+ * @since 2.0.0
  */
-public interface CaptchaValidator {
+public abstract class AbstractCaptchaValidator<C extends CaptchaClient> implements CaptchaValidator {
 
-	Status validate(final String code, final String userAgent);
+	protected String name;
+
+	/**
+	 * 验证码客户端
+	 */
+	protected final C captchaClient;
+
+	/**
+	 * 构造函数
+	 *
+	 * @param name
+	 * 		验证码名称
+	 * @param captchaClient
+	 * 		验证码客户端实例
+	 */
+	public AbstractCaptchaValidator(final String name, final C captchaClient){
+		Assert.isNull(captchaClient, name + " captcha client cloud not be null.");
+		this.name = name;
+		this.captchaClient = captchaClient;
+	}
 
 }

@@ -56,42 +56,62 @@ public class InitializeCaptchaAction extends AbstractAction {
 	}
 
 	private void configureWebflowParameters(final RequestContext requestContext){
-		boolean enable = captchaProperties.isEnable();
+		boolean enabled = captchaProperties.isEnabled();
 
-		if(enable){
+		if(enabled){
 			if(captchaProperties.getMaxPasswordFailure() > 0){
 				HttpServletRequest request = WebUtils.getHttpServletRequestFromExternalWebflowContext(requestContext);
 				HttpSession session = request.getSession();
 
-				enable = false;
+				enabled = false;
 
 				if(session != null){
 					Object value = session.getAttribute(Constants.PASSWORD_FAILURE_TIMES_SESSION_KEY);
 
 					if(value != null){
 						if(value instanceof Short || value instanceof Integer || value instanceof Long){
-							enable = (Integer) value > captchaProperties.getMaxPasswordFailure();
+							enabled = (Integer) value > captchaProperties.getMaxPasswordFailure();
 						}
 					}
 				}
 			}
 		}
 
-		if(enable){
+		if(enabled){
 			applyVariables(requestContext);
 		}
 
-		requestContext.getFlowScope().put(CaptchaConstants.ENABLE_CAPTCHA, enable);
+		requestContext.getFlowScope().put(CaptchaConstants.ENABLE_CAPTCHA, enabled);
 	}
 
 	private void applyVariables(final RequestContext requestContext){
 		MutableAttributeMap<Object> flowScope = requestContext.getFlowScope();
-		CaptchaProperties.Geetest geetest = captchaProperties.getGeetest();
 
+		flowScope.put(CaptchaConstants.CAPTCHA_JAVASCRIPT, captchaProperties.getJavascript());
+
+		CaptchaProperties.Aliyun aliyun = captchaProperties.getAliyun();
+		if(aliyun != null){
+			flowScope.put(CaptchaConstants.CAPTCHA_APP_ID, aliyun.getAccessKeyId());
+			return;
+		}
+
+		CaptchaProperties.Geetest geetest = captchaProperties.getGeetest();
 		if(geetest != null){
-			flowScope.put("captchaAccessKeyId", geetest.getGeetestId());
-			flowScope.put("captchaVersion", geetest.getVersion());
-			flowScope.put("captchaJavaScriptUrl", geetest.getJavascript());
+			flowScope.put(CaptchaConstants.CAPTCHA_APP_ID, geetest.getAppId());
+			flowScope.put(CaptchaConstants.CAPTCHA_VERSION, geetest.getVersion());
+			return;
+		}
+
+		CaptchaProperties.Netease netease = captchaProperties.getNetease();
+		if(netease != null){
+			flowScope.put(CaptchaConstants.CAPTCHA_APP_ID, netease.getAppId());
+			return;
+		}
+
+		CaptchaProperties.Tencent tencent = captchaProperties.getTencent();
+		if(tencent != null){
+			flowScope.put(CaptchaConstants.CAPTCHA_APP_ID, tencent.getAppId());
+			return;
 		}
 	}
 

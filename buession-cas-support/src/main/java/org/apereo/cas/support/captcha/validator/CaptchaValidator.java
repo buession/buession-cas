@@ -22,30 +22,32 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.support.captcha;
+package org.apereo.cas.support.captcha.validator;
+
+import com.buession.lang.Status;
+import com.buession.security.captcha.core.CaptchaException;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 验证码验证
+ *
  * @author Yong.Teng
  * @since 1.2.0
  */
-public class CaptchaConstants {
+public interface CaptchaValidator {
 
-	public final static String ENABLE_CAPTCHA = "enableCaptcha";
-
-	public final static String CAPTCHA_APP_ID = "captchaAppId";
-
-	public final static String CAPTCHA_VERSION = "captchaVersion";
-
-	public final static String CAPTCHA_JAVASCRIPT = "captchaJavaScriptUrl";
-
-	public final static String STATE_ID_VALIDATE_CAPTCHA = "validateCaptcha";
-
-	public final static String CAPTCHA_REQUIRED_EVENT = "captchaRequired";
-
-	public final static String CAPTCHA_REQUIRED_MESSAGE_CODE = "captcha.required";
-
-	private CaptchaConstants(){
-
-	}
+	/**
+	 * 验证码验证
+	 *
+	 * @param request
+	 *        {@link HttpServletRequest}
+	 *
+	 * @return 验证成功，返回 Status.SUCCESS；否则，返回 Status.FAILURE
+	 *
+	 * @throws CaptchaException
+	 * 		验证异常
+	 */
+	Status validate(final HttpServletRequest request) throws CaptchaException;
 
 }

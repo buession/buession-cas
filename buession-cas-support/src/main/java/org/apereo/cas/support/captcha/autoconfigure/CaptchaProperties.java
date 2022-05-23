@@ -39,7 +39,7 @@ public class CaptchaProperties {
 	/**
 	 * 是否启用验证码
 	 */
-	private boolean enable;
+	private boolean enabled;
 
 	/**
 	 * 密码错误多少次后启用验证码，0 为始终启用
@@ -47,27 +47,47 @@ public class CaptchaProperties {
 	private int maxPasswordFailure;
 
 	/**
-	 * 极验行为验证配置
+	 * 前端 JavaScript 库地址
+	 */
+	private String javascript;
+
+	/**
+	 * 阿里云行为验证码配置
+	 */
+	private Aliyun aliyun;
+
+	/**
+	 * 极验行为验证码配置
 	 */
 	private Geetest geetest;
+
+	/**
+	 * 网易行为验证码配置
+	 */
+	private Netease netease;
+
+	/**
+	 * 腾讯行为验证码配置
+	 */
+	private Tencent tencent;
 
 	/**
 	 * 返回是否启用验证码
 	 *
 	 * @return 是否启用验证码
 	 */
-	public boolean isEnable(){
-		return enable;
+	public boolean isEnabled(){
+		return enabled;
 	}
 
 	/**
 	 * 设置是否启用验证码
 	 *
-	 * @param enable
+	 * @param enabled
 	 * 		是否启用验证码
 	 */
-	public void setEnable(boolean enable){
-		this.enable = enable;
+	public void setEnabled(boolean enabled){
+		this.enabled = enabled;
 	}
 
 	/**
@@ -90,26 +110,184 @@ public class CaptchaProperties {
 	}
 
 	/**
-	 * 返回极验行为验证配置
+	 * 返回前端 JavaScript 库地址
 	 *
-	 * @return 极验行为验证配置
+	 * @return 前端 JavaScript 库地址
+	 */
+	public String getJavascript(){
+		return javascript;
+	}
+
+	/**
+	 * 设置前端 JavaScript 库地址
+	 *
+	 * @param javascript
+	 * 		前端 JavaScript 库地址
+	 */
+	public void setJavascript(String javascript){
+		this.javascript = javascript;
+	}
+
+	/**
+	 * 返回阿里云行为验证码配置
+	 *
+	 * @return 阿里云行为验证码配置
+	 */
+	public Aliyun getAliyun(){
+		return aliyun;
+	}
+
+	/**
+	 * 设置阿里云行为验证码配置
+	 *
+	 * @param aliyun
+	 * 		阿里云行为验证码配置
+	 */
+	public void setAliyun(Aliyun aliyun){
+		this.aliyun = aliyun;
+	}
+
+	/**
+	 * 返回极验行为验证码配置
+	 *
+	 * @return 极验行为验证码配置
 	 */
 	public Geetest getGeetest(){
 		return geetest;
 	}
 
 	/**
-	 * 设置极验行为验证配置
+	 * 设置极验行为验证码配置
 	 *
 	 * @param geetest
-	 * 		极验行为验证配置
+	 * 		极验行为验证码配置
 	 */
 	public void setGeetest(Geetest geetest){
 		this.geetest = geetest;
 	}
 
 	/**
-	 * 极验验证
+	 * 返回网易行为验证码配置
+	 *
+	 * @return 网易行为验证码配置
+	 */
+	public Netease getNetease(){
+		return netease;
+	}
+
+	/**
+	 * 设置网易行为验证码配置
+	 *
+	 * @param netease
+	 * 		网易行为验证码配置
+	 */
+	public void setNetease(Netease netease){
+		this.netease = netease;
+	}
+
+	/**
+	 * 返回腾讯行为验证码配置
+	 *
+	 * @return 腾讯行为验证码配置
+	 */
+	public Tencent getTencent(){
+		return tencent;
+	}
+
+	/**
+	 * 设置腾讯行为验证码配置
+	 *
+	 * @param tencent
+	 * 		腾讯行为验证码配置
+	 */
+	public void setTencent(Tencent tencent){
+		this.tencent = tencent;
+	}
+
+	/**
+	 * 阿里云行为验证码配置
+	 *
+	 * @author yong.teng
+	 * @since 2.0.0
+	 */
+	public static class Aliyun {
+
+		/**
+		 * 密钥 ID
+		 */
+		private String accessKeyId;
+
+		/**
+		 * 服务使用的 App Key
+		 */
+		private String accessKeySecret;
+
+		/**
+		 * 区域 ID
+		 */
+		private String regionId;
+
+		/**
+		 * 返回密钥 ID
+		 *
+		 * @return 密钥 ID
+		 */
+		public String getAccessKeyId(){
+			return accessKeyId;
+		}
+
+		/**
+		 * 设置密钥 ID
+		 *
+		 * @param accessKeyId
+		 * 		密钥 ID
+		 */
+		public void setAccessKeyId(String accessKeyId){
+			this.accessKeyId = accessKeyId;
+		}
+
+		/**
+		 * 返回服务使用的 App Key
+		 *
+		 * @return 服务使用的 App Key
+		 */
+		public String getAccessKeySecret(){
+			return accessKeySecret;
+		}
+
+		/**
+		 * 设置服务使用的 App Key
+		 *
+		 * @param accessKeySecret
+		 * 		服务使用的 App Key
+		 */
+		public void setAccessKeySecret(String accessKeySecret){
+			this.accessKeySecret = accessKeySecret;
+		}
+
+		/**
+		 * 返回区域 ID
+		 *
+		 * @return 区域 ID
+		 */
+		public String getRegionId(){
+			return regionId;
+		}
+
+		/**
+		 * 设置区域 ID
+		 *
+		 * @param regionId
+		 * 		区域 ID
+		 */
+		public void setRegionId(String regionId){
+			this.regionId = regionId;
+		}
+
+	}
+
+	/**
+	 * 极验行为验证码配置
 	 *
 	 * @author yong.teng
 	 * @since 2.0.0
@@ -117,14 +295,14 @@ public class CaptchaProperties {
 	public static class Geetest {
 
 		/**
-		 * 公钥
+		 * 应用 ID
 		 */
-		private String geetestId;
+		private String appId;
 
 		/**
-		 * 私钥
+		 * 密钥
 		 */
-		private String geetestKey;
+		private String secretKey;
 
 		/**
 		 * 版本
@@ -132,46 +310,41 @@ public class CaptchaProperties {
 		private String version = "v4";
 
 		/**
-		 * 前端 JavaScript 库地址
-		 */
-		private String javascript;
-
-		/**
-		 * 返回公钥
+		 * 返回应用 ID
 		 *
-		 * @return 公钥
+		 * @return 应用 ID
 		 */
-		public String getGeetestId(){
-			return geetestId;
+		public String getAppId(){
+			return appId;
 		}
 
 		/**
-		 * 设置公钥
+		 * 设置应用 ID
 		 *
-		 * @param geetestId
-		 * 		公钥
+		 * @param appId
+		 * 		应用 ID
 		 */
-		public void setGeetestId(String geetestId){
-			this.geetestId = geetestId;
+		public void setAppId(String appId){
+			this.appId = appId;
 		}
 
 		/**
-		 * 返回私钥
+		 * 返回密钥
 		 *
-		 * @return 私钥
+		 * @return 密钥
 		 */
-		public String getGeetestKey(){
-			return geetestKey;
+		public String getSecretKey(){
+			return secretKey;
 		}
 
 		/**
-		 * 设置私钥
+		 * 设置密钥
 		 *
-		 * @param geetestKey
-		 * 		私钥
+		 * @param secretKey
+		 * 		密钥
 		 */
-		public void setGeetestKey(String geetestKey){
-			this.geetestKey = geetestKey;
+		public void setSecretKey(String secretKey){
+			this.secretKey = secretKey;
 		}
 
 		/**
@@ -193,23 +366,120 @@ public class CaptchaProperties {
 			this.version = version;
 		}
 
+	}
+
+	/**
+	 * 网易行为验证码配置
+	 *
+	 * @author yong.teng
+	 * @since 2.0.0
+	 */
+	public static class Netease {
+
 		/**
-		 * 返回前端 JavaScript 库地址
-		 *
-		 * @return 前端 JavaScript 库地址
+		 * 应用 ID
 		 */
-		public String getJavascript(){
-			return javascript;
+		private String appId;
+
+		/**
+		 * 密钥
+		 */
+		private String secretKey;
+
+		/**
+		 * 返回应用 ID
+		 *
+		 * @return 应用 ID
+		 */
+		public String getAppId(){
+			return appId;
 		}
 
 		/**
-		 * 设置前端 JavaScript 库地址
+		 * 设置应用 ID
 		 *
-		 * @param javascript
-		 * 		前端 JavaScript 库地址
+		 * @param appId
+		 * 		应用 ID
 		 */
-		public void setJavascript(String javascript){
-			this.javascript = javascript;
+		public void setAppId(String appId){
+			this.appId = appId;
+		}
+
+		/**
+		 * 返回密钥
+		 *
+		 * @return 密钥
+		 */
+		public String getSecretKey(){
+			return secretKey;
+		}
+
+		/**
+		 * 设置密钥
+		 *
+		 * @param secretKey
+		 * 		密钥
+		 */
+		public void setSecretKey(String secretKey){
+			this.secretKey = secretKey;
+		}
+
+	}
+
+	/**
+	 * 腾讯行为验证码配置
+	 *
+	 * @author yong.teng
+	 * @since 2.0.0
+	 */
+	public static class Tencent {
+
+		/**
+		 * 应用 ID
+		 */
+		private String appId;
+
+		/**
+		 * 密钥
+		 */
+		private String secretKey;
+
+		/**
+		 * 返回应用 ID
+		 *
+		 * @return 应用 ID
+		 */
+		public String getAppId(){
+			return appId;
+		}
+
+		/**
+		 * 设置应用 ID
+		 *
+		 * @param appId
+		 * 		应用 ID
+		 */
+		public void setAppId(String appId){
+			this.appId = appId;
+		}
+
+		/**
+		 * 返回密钥
+		 *
+		 * @return 密钥
+		 */
+		public String getSecretKey(){
+			return secretKey;
+		}
+
+		/**
+		 * 设置密钥
+		 *
+		 * @param secretKey
+		 * 		密钥
+		 */
+		public void setSecretKey(String secretKey){
+			this.secretKey = secretKey;
 		}
 
 	}

@@ -22,30 +22,8 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.support.captcha;
-
 /**
  * @author Yong.Teng
- * @since 1.2.0
+ * @since 2.0.0
  */
-public class CaptchaConstants {
-
-	public final static String ENABLE_CAPTCHA = "enableCaptcha";
-
-	public final static String CAPTCHA_APP_ID = "captchaAppId";
-
-	public final static String CAPTCHA_VERSION = "captchaVersion";
-
-	public final static String CAPTCHA_JAVASCRIPT = "captchaJavaScriptUrl";
-
-	public final static String STATE_ID_VALIDATE_CAPTCHA = "validateCaptcha";
-
-	public final static String CAPTCHA_REQUIRED_EVENT = "captchaRequired";
-
-	public final static String CAPTCHA_REQUIRED_MESSAGE_CODE = "captcha.required";
-
-	private CaptchaConstants(){
-
-	}
-
-}
+package org.apereo.cas.support.captcha.validator;

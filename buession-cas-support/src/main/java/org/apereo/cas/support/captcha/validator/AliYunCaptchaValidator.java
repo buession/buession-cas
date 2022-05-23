@@ -22,30 +22,33 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.support.captcha;
+package org.apereo.cas.support.captcha.validator;
+
+import com.buession.lang.Status;
+import com.buession.security.captcha.aliyun.AliYunCaptchaClient;
+import com.buession.security.captcha.core.CaptchaException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 阿里云验证码验证
+ *
  * @author Yong.Teng
- * @since 1.2.0
+ * @since 2.0.0
  */
-public class CaptchaConstants {
+public class AliYunCaptchaValidator extends AbstractCaptchaValidator<AliYunCaptchaClient> {
 
-	public final static String ENABLE_CAPTCHA = "enableCaptcha";
+	private final static Logger logger = LoggerFactory.getLogger(AliYunCaptchaValidator.class);
 
-	public final static String CAPTCHA_APP_ID = "captchaAppId";
+	public AliYunCaptchaValidator(final AliYunCaptchaClient aliYunCaptchaClient){
+		super("Aliyun", aliYunCaptchaClient);
+	}
 
-	public final static String CAPTCHA_VERSION = "captchaVersion";
-
-	public final static String CAPTCHA_JAVASCRIPT = "captchaJavaScriptUrl";
-
-	public final static String STATE_ID_VALIDATE_CAPTCHA = "validateCaptcha";
-
-	public final static String CAPTCHA_REQUIRED_EVENT = "captchaRequired";
-
-	public final static String CAPTCHA_REQUIRED_MESSAGE_CODE = "captcha.required";
-
-	private CaptchaConstants(){
-
+	@Override
+	public Status validate(final HttpServletRequest request) throws CaptchaException{
+		return captchaClient.validate(null);
 	}
 
 }

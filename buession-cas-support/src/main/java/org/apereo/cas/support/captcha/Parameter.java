@@ -26,25 +26,49 @@ package org.apereo.cas.support.captcha;
 
 /**
  * @author Yong.Teng
- * @since 1.2.0
+ * @since 2.0.0
  */
-public class CaptchaConstants {
+public interface Parameter {
 
-	public final static String ENABLE_CAPTCHA = "enableCaptcha";
+	interface AliYun {
 
-	public final static String CAPTCHA_APP_ID = "captchaAppId";
+	}
 
-	public final static String CAPTCHA_VERSION = "captchaVersion";
+	interface Geetest {
 
-	public final static String CAPTCHA_JAVASCRIPT = "captchaJavaScriptUrl";
+		interface V3 {
 
-	public final static String STATE_ID_VALIDATE_CAPTCHA = "validateCaptcha";
+			String CHALLENGE = "geetest_challenge";
 
-	public final static String CAPTCHA_REQUIRED_EVENT = "captchaRequired";
+			String SECCODE = "geetest_seccode";
 
-	public final static String CAPTCHA_REQUIRED_MESSAGE_CODE = "captcha.required";
+			String VALIDATE = "geetest_validate";
 
-	private CaptchaConstants(){
+			String USER_ID = "user_id";
+
+			String CLIENT_TYPE = "client_type";
+
+		}
+
+		interface V4 {
+
+			String LOT_NUMBER = "lot_number";
+
+			String CAPTCHA_OUTPUT = "captcha_output";
+
+			String PASS_TOKEN = "pass_token";
+
+			String GEN_TIME = "gen_time";
+
+		}
+
+	}
+
+	interface NetEase {
+
+	}
+
+	interface Tencent {
 
 	}
 
