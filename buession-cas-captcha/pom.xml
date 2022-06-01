@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<name>Buession CAS Session</name>
+	<name>Buession CAS Captcha</name>
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.buession.cas</groupId>
@@ -9,9 +9,9 @@
 		<relativePath>../buession-cas-parent</relativePath>
 		<version>2.0.0</version>
 	</parent>
-	<artifactId>buession-cas-session</artifactId>
+	<artifactId>buession-cas-captcha</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
-	<description>Buession Framework Session For CAS</description>
+	<description>Buession Framework Captcha For CAS</description>
 	<packaging>jar</packaging>
 
 	<organization>
@@ -46,7 +46,25 @@
 			<artifactId>buession-cas-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>buession-cas-webflow</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
+		<dependency>
+			<groupId>com.buession.security</groupId>
+			<artifactId>buession-security-captcha</artifactId>
+			<version>${buession.security.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.buession.springboot</groupId>
+			<artifactId>buession-springboot-httpclient</artifactId>
+			<version>${buession.springboot.version}</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.buession.springboot</groupId>
 			<artifactId>buession-springboot-boot</artifactId>
@@ -57,44 +75,21 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apereo.cas</groupId>
-			<artifactId>cas-server-core-configuration</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apereo.cas</groupId>
-			<artifactId>cas-server-core-web</artifactId>
+			<groupId>com.buession.springcloud</groupId>
+			<artifactId>buession-springcloud-common</artifactId>
+			<version>${buession.springcloud.version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-oxm</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-jcl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-jul</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-web</artifactId>
 		</dependency>
 
 		<dependency>
@@ -104,7 +99,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>buession-cas-session</finalName>
+		<finalName>buession-cas-captcha</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

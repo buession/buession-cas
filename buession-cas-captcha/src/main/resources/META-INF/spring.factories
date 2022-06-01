@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  org.apereo.cas.captcha.autoconfigure.CaptchaConfiguration,    \
+  org.apereo.cas.captcha.web.flow.autoconfigure.CasCaptchaConfiguration

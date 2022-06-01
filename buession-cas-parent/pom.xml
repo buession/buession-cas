@@ -44,9 +44,14 @@
 
 	<modules>
 		<module>../buession-cas-core</module>
+		<module>../buession-cas-audit</module>
+		<module>../buession-cas-captcha</module>
 		<module>../buession-cas-client</module>
 		<module>../buession-cas-session</module>
+		<module>../buession-cas-service</module>
 		<module>../buession-cas-support</module>
+		<module>../buession-cas-ticket</module>
+		<module>../buession-cas-throttle</module>
 		<module>../buession-cas-metrics</module>
 		<module>../buession-cas-view</module>
 		<module>../buession-cas-web</module>
@@ -80,10 +85,6 @@
 				<version>${buession.springboot.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j-impl</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>com.github.lalyos</groupId>
 						<artifactId>jfiglet</artifactId>
 					</exclusion>
@@ -95,8 +96,8 @@
 				<version>${buession.springboot.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j-impl</artifactId>
+						<groupId>org.owasp.antisamy</groupId>
+						<artifactId>antisamy</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>com.github.lalyos</groupId>
@@ -111,8 +112,8 @@
 				<version>${buession.springcloud.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j-impl</artifactId>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>spring-security-crypto</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>com.github.lalyos</groupId>
@@ -127,10 +128,6 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -176,11 +173,19 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-boot-actuator</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-validation</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.cloud</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>spring-security-cas</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
@@ -189,18 +194,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jcl-over-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jul-to-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -210,10 +203,6 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -259,11 +248,19 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-boot-actuator</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-validation</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.cloud</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>spring-security-cas</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
@@ -272,18 +269,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jcl-over-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jul-to-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -293,10 +278,6 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -342,11 +323,19 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-boot-actuator</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-validation</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.cloud</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>spring-security-cas</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
@@ -355,18 +344,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jcl-over-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jul-to-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -376,10 +353,6 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -425,11 +398,19 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-boot-actuator</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-validation</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.cloud</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>spring-security-cas</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
@@ -438,18 +419,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jcl-over-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jul-to-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -459,10 +428,6 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -508,11 +473,19 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-boot-actuator</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-validation</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.cloud</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>spring-security-cas</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
@@ -521,18 +494,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jcl-over-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jul-to-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -542,10 +503,6 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -587,11 +544,19 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-boot-actuator</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-validation</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.cloud</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>spring-security-cas</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
@@ -600,18 +565,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jcl-over-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jul-to-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -621,10 +574,6 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -670,11 +619,19 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-boot-actuator</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-validation</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.cloud</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>spring-security-cas</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
@@ -683,18 +640,6 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jcl-over-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jul-to-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j18-impl</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -704,10 +649,6 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -753,11 +694,19 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
+						<artifactId>spring-boot-actuator</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-validation</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.cloud</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>spring-security-cas</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.webflow</groupId>
@@ -767,25 +716,25 @@
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jcl-over-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>jul-to-slf4j</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j18-impl</artifactId>
-					</exclusion>
 				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-properties-migrator</artifactId>
+				<version>${springframework.boot.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jasig.cas.client</groupId>
 				<artifactId>cas-client-core</artifactId>
 				<version>${cas.client.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.xml.bind</groupId>
+						<artifactId>jaxb-api</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
