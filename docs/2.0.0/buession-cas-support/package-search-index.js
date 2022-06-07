@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"org.apereo.cas.support.captcha","h":"","u":""},{"l":"org.apereo.cas.support.captcha.autoconfigure","h":"","u":""},{"l":"org.apereo.cas.support.captcha.validator","h":"","u":""},{"l":"所有程序包","h":"","u":"allpackages-index.html"}]
