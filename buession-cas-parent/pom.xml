@@ -26,6 +26,10 @@
 			<id>yong.teng</id>
 			<name>yong.teng</name>
 			<email>webmaster@buession.com</email>
+			<roles>
+				<role>Project Manager</role>
+				<role>Developer</role>
+			</roles>
 		</developer>
 	</developers>
 
@@ -33,6 +37,8 @@
 		<license>
 			<name>The Apache License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
 
@@ -128,6 +134,10 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
+						<groupId>aopalliance</groupId>
+						<artifactId>aopalliance</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -166,6 +176,10 @@
 					<exclusion>
 						<groupId>commons-logging</groupId>
 						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -203,6 +217,10 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
+						<groupId>aopalliance</groupId>
+						<artifactId>aopalliance</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -241,6 +259,10 @@
 					<exclusion>
 						<groupId>commons-logging</groupId>
 						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -278,6 +300,10 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
+						<groupId>aopalliance</groupId>
+						<artifactId>aopalliance</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -316,6 +342,10 @@
 					<exclusion>
 						<groupId>commons-logging</groupId>
 						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -353,6 +383,10 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
+						<groupId>aopalliance</groupId>
+						<artifactId>aopalliance</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -391,6 +425,10 @@
 					<exclusion>
 						<groupId>commons-logging</groupId>
 						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -428,6 +466,10 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
+						<groupId>aopalliance</groupId>
+						<artifactId>aopalliance</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -468,6 +510,10 @@
 						<artifactId>commons-logging</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>geronimo-spec</groupId>
 						<artifactId>geronimo-spec-jta</artifactId>
 					</exclusion>
@@ -502,6 +548,10 @@
 				<artifactId>cas-server-core-services</artifactId>
 				<version>${cas.version}</version>
 				<exclusions>
+					<exclusion>
+						<groupId>aopalliance</groupId>
+						<artifactId>aopalliance</artifactId>
+					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
@@ -574,6 +624,10 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
+						<groupId>aopalliance</groupId>
+						<artifactId>aopalliance</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -612,6 +666,10 @@
 					<exclusion>
 						<groupId>commons-logging</groupId>
 						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>
@@ -649,6 +707,10 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
+						<groupId>aopalliance</groupId>
+						<artifactId>aopalliance</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>javax.el</groupId>
 						<artifactId>javax.el-api</artifactId>
 					</exclusion>
@@ -687,6 +749,10 @@
 					<exclusion>
 						<groupId>commons-logging</groupId>
 						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>geronimo-spec</groupId>

@@ -19,17 +19,51 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2021 Buession.com Inc.														       |
+ * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.core;
+package org.apereo.cas.captcha.web.support;
+
+import org.springframework.lang.Nullable;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 密码错误拦截器
+ *
  * @author Yong.Teng
- * @since 1.0.0
+ * @since 2.0.0
  */
-public class Constants {
+public interface PasswordFailureInterceptorAdapter extends AsyncHandlerInterceptor {
 
-	public final static String PASSWORD_FAILURE_TIMES_SESSION_KEY = "password_failure_times";
+	@Override
+	default boolean preHandle(final HttpServletRequest request,
+							  final HttpServletResponse response,
+							  final Object handler) throws Exception{
+		return true;
+	}
+
+	@Override
+	default void postHandle(final HttpServletRequest request,
+							final HttpServletResponse response,
+							final Object handler,
+							@Nullable final ModelAndView modelAndView) throws Exception{
+	}
+
+	@Override
+	default void afterCompletion(final HttpServletRequest request,
+								 final HttpServletResponse response,
+								 final Object handler,
+								 @Nullable final Exception e) throws Exception{
+	}
+
+	@Override
+	default void afterConcurrentHandlingStarted(final HttpServletRequest request,
+												final HttpServletResponse response,
+												final Object handler) throws Exception{
+	}
 
 }

@@ -43,6 +43,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -80,6 +81,7 @@ public class CaptchaConfiguration {
 			super(properties, httpClient);
 		}
 
+		@RefreshScope
 		@Bean
 		public AliYunCaptchaClient aliYunCaptchaClient(){
 			final CaptchaProperties.Aliyun config = properties.getAliyun();
@@ -93,8 +95,9 @@ public class CaptchaConfiguration {
 			return client;
 		}
 
+		@RefreshScope
 		@Bean
-		public AliYunCaptchaValidator aliYunCaptchaValidator(AliYunCaptchaClient aliYunCaptchaClient){
+		public ServletAliYunCaptchaValidator aliYunCaptchaValidator(AliYunCaptchaClient aliYunCaptchaClient){
 			return new ServletAliYunCaptchaValidator(aliYunCaptchaClient, properties.getAliyun().getParameter());
 		}
 
@@ -110,6 +113,7 @@ public class CaptchaConfiguration {
 			super(properties, httpClient);
 		}
 
+		@RefreshScope
 		@Bean
 		public GeetestCaptchaClient geetestCaptchaClient(){
 			final CaptchaProperties.Geetest config = properties.getGeetest();
@@ -121,8 +125,9 @@ public class CaptchaConfiguration {
 			return client;
 		}
 
+		@RefreshScope
 		@Bean
-		public GeetestCaptchaValidator geetestCaptchaValidator(GeetestCaptchaClient geetestCaptchaClient){
+		public ServletGeetestCaptchaValidator geetestCaptchaValidator(GeetestCaptchaClient geetestCaptchaClient){
 			if("v3".equalsIgnoreCase(geetestCaptchaClient.getVersion())){
 				return new ServletGeetestCaptchaValidator(geetestCaptchaClient, properties.getGeetest().getV3()
 						.getParameter());
@@ -144,6 +149,7 @@ public class CaptchaConfiguration {
 			super(properties, httpClient);
 		}
 
+		@RefreshScope
 		@Bean
 		public NetEaseCaptchaClient netEaseCaptchaClient(){
 			final CaptchaProperties.Netease config = properties.getNetease();
@@ -155,6 +161,7 @@ public class CaptchaConfiguration {
 			return client;
 		}
 
+		@RefreshScope
 		@Bean
 		public NetEaseCaptchaValidator netEaseCaptchaValidator(NetEaseCaptchaClient netEaseCaptchaClient){
 			return new NetEaseCaptchaValidator(netEaseCaptchaClient);
@@ -172,6 +179,7 @@ public class CaptchaConfiguration {
 			super(properties, httpClient);
 		}
 
+		@RefreshScope
 		@Bean
 		public TencentCaptchaClient tencentCaptchaClient(){
 			final CaptchaProperties.Tencent config = properties.getTencent();
@@ -183,8 +191,9 @@ public class CaptchaConfiguration {
 			return client;
 		}
 
+		@RefreshScope
 		@Bean
-		public TencentCaptchaValidator tencentCaptchaValidator(TencentCaptchaClient tencentCaptchaClient){
+		public ServletTencentCaptchaValidator tencentCaptchaValidator(TencentCaptchaClient tencentCaptchaClient){
 			return new ServletTencentCaptchaValidator(tencentCaptchaClient, properties.getTencent().getParameter());
 		}
 

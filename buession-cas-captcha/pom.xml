@@ -24,6 +24,10 @@
 			<id>yong.teng</id>
 			<name>yong.teng</name>
 			<email>webmaster@buession.com</email>
+			<roles>
+				<role>Project Manager</role>
+				<role>Developer</role>
+			</roles>
 		</developer>
 	</developers>
 
@@ -31,6 +35,8 @@
 		<license>
 			<name>The Apache License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
 
@@ -64,14 +70,40 @@
 			<artifactId>buession-springboot-httpclient</artifactId>
 			<version>${buession.springboot.version}</version>
 			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.buession.springboot</groupId>
 			<artifactId>buession-springboot-boot</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.buession.springboot</groupId>
 			<artifactId>buession-springboot-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

@@ -26,16 +26,11 @@ package org.apereo.cas.captcha.web.flow.action;
 
 import com.buession.security.captcha.core.Manufacturer;
 import org.apereo.cas.captcha.CaptchaConstants;
-import org.apereo.cas.core.Constants;
 import org.apereo.cas.captcha.autoconfigure.CaptchaProperties;
-import org.apereo.cas.web.support.WebUtils;
 import org.springframework.webflow.action.AbstractAction;
 import org.springframework.webflow.core.collection.MutableAttributeMap;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author Yong.Teng
@@ -58,25 +53,6 @@ public class InitializeCaptchaAction extends AbstractAction {
 
 	private void configureWebflowParameters(final RequestContext requestContext){
 		boolean enabled = captchaProperties.isEnabled();
-
-		if(enabled){
-			if(captchaProperties.getMaxPasswordFailure() > 0){
-				HttpServletRequest request = WebUtils.getHttpServletRequestFromExternalWebflowContext(requestContext);
-				HttpSession session = request.getSession();
-
-				enabled = false;
-
-				if(session != null){
-					Object value = session.getAttribute(Constants.PASSWORD_FAILURE_TIMES_SESSION_KEY);
-
-					if(value != null){
-						if(value instanceof Short || value instanceof Integer || value instanceof Long){
-							enabled = (Integer) value > captchaProperties.getMaxPasswordFailure();
-						}
-					}
-				}
-			}
-		}
 
 		if(enabled){
 			applyVariables(requestContext);

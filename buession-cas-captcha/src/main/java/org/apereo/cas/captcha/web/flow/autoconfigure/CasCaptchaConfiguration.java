@@ -60,7 +60,7 @@ import org.springframework.webflow.execution.Action;
  */
 @Configuration
 @EnableConfigurationProperties({CasConfigurationProperties.class, CaptchaProperties.class})
-@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enable", havingValue = "true")
+@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enabled", havingValue = "true")
 @Import({CasWebflowContextConfiguration.class, CaptchaConfiguration.class})
 @AutoConfigureAfter({CasWebflowContextConfiguration.class})
 public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigurer {

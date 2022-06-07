@@ -48,11 +48,6 @@ public class CaptchaProperties {
 	private boolean enabled;
 
 	/**
-	 * 密码错误多少次后启用验证码，0 为始终启用
-	 */
-	private int maxPasswordFailure;
-
-	/**
 	 * 前端 JavaScript 库地址
 	 */
 	private String javascript;
@@ -94,25 +89,6 @@ public class CaptchaProperties {
 	 */
 	public void setEnabled(boolean enabled){
 		this.enabled = enabled;
-	}
-
-	/**
-	 * 返回密码错误多少次后启用验证码，0 为始终启用
-	 *
-	 * @return 密码错误多少次后启用验证码
-	 */
-	public int getMaxPasswordFailure(){
-		return maxPasswordFailure;
-	}
-
-	/**
-	 * 设置密码错误多少次后启用验证码，0 为始终启用
-	 *
-	 * @param maxPasswordFailure
-	 * 		密码错误多少次后启用验证码，0 为始终启用
-	 */
-	public void setMaxPasswordFailure(int maxPasswordFailure){
-		this.maxPasswordFailure = maxPasswordFailure;
 	}
 
 	/**
@@ -642,7 +618,7 @@ public class CaptchaProperties {
 		public void setParameter(TencentParameter parameter){
 			this.parameter = parameter;
 		}
-		
+
 	}
 
 }
