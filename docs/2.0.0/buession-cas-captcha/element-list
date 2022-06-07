@@ -1,0 +1,7 @@
+org.apereo.cas.captcha
+org.apereo.cas.captcha.autoconfigure
+org.apereo.cas.captcha.web
+org.apereo.cas.captcha.web.flow
+org.apereo.cas.captcha.web.flow.action
+org.apereo.cas.captcha.web.flow.autoconfigure
+org.apereo.cas.captcha.web.support

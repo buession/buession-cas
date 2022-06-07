@@ -1,0 +1,3 @@
+org.apereo.cas.support.captcha
+org.apereo.cas.support.captcha.autoconfigure
+org.apereo.cas.support.captcha.validator
