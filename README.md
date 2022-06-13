@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![Java support](https://img.shields.io/badge/Java-11+-green?logo=java&logoColor=white)](https://openjdk.java.net/)
 
-<img src="docs/images/logo.png" alt="Buession Framework" title="Buession Framework" width="280px" />
+<img src="docs/images/logo.png" alt="Buession Cas" title="Buession Cas" width="280px" />
 
 ## Requirements
 
@@ -33,4 +33,4 @@
 
 ## License
 
-The Buession Framework is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
+The Buession Cas is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
