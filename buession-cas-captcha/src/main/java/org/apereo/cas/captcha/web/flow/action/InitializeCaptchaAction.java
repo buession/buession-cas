@@ -64,12 +64,12 @@ public class InitializeCaptchaAction extends AbstractAction {
 	private void applyVariables(final RequestContext requestContext){
 		MutableAttributeMap<Object> flowScope = requestContext.getFlowScope();
 
-		flowScope.put(CaptchaConstants.CAPTCHA_JAVASCRIPT, captchaProperties.getJavascript());
+		flowScope.put(CaptchaConstants.CAPTCHA_JAVASCRIPTS, captchaProperties.getJavascript());
 
 		CaptchaProperties.Aliyun aliyun = captchaProperties.getAliyun();
 		if(aliyun != null){
-			flowScope.put(CaptchaConstants.CAPTCHA_APP_ID, aliyun.getAccessKeyId());
-			flowScope.put(CaptchaConstants.CAPTCHA_MANUFACTURER, Manufacturer.ALIYUN);
+			flowScope.put(CaptchaConstants.CAPTCHA_APP_ID, aliyun.getAppKey());
+			flowScope.put(CaptchaConstants.CAPTCHA_MANUFACTURER, Manufacturer.ALIYUN.name());
 			return;
 		}
 
@@ -77,21 +77,14 @@ public class InitializeCaptchaAction extends AbstractAction {
 		if(geetest != null){
 			flowScope.put(CaptchaConstants.CAPTCHA_APP_ID, geetest.getAppId());
 			flowScope.put(CaptchaConstants.CAPTCHA_VERSION, geetest.getVersion());
-			flowScope.put(CaptchaConstants.CAPTCHA_MANUFACTURER, Manufacturer.GEETEST);
-			return;
-		}
-
-		CaptchaProperties.Netease netease = captchaProperties.getNetease();
-		if(netease != null){
-			flowScope.put(CaptchaConstants.CAPTCHA_APP_ID, netease.getAppId());
-			flowScope.put(CaptchaConstants.CAPTCHA_MANUFACTURER, Manufacturer.NETEASE);
+			flowScope.put(CaptchaConstants.CAPTCHA_MANUFACTURER, Manufacturer.GEETEST.name());
 			return;
 		}
 
 		CaptchaProperties.Tencent tencent = captchaProperties.getTencent();
 		if(tencent != null){
 			flowScope.put(CaptchaConstants.CAPTCHA_APP_ID, tencent.getAppId());
-			flowScope.put(CaptchaConstants.CAPTCHA_MANUFACTURER, Manufacturer.TENCENT);
+			flowScope.put(CaptchaConstants.CAPTCHA_MANUFACTURER, Manufacturer.TENCENT.name());
 			return;
 		}
 	}

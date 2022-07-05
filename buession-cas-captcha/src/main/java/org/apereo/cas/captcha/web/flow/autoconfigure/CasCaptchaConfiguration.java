@@ -58,7 +58,7 @@ import org.springframework.webflow.execution.Action;
  * @author Yong.Teng
  * @since 1.2.0
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({CasConfigurationProperties.class, CaptchaProperties.class})
 @ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enabled", havingValue = "true")
 @Import({CasWebflowContextConfiguration.class, CaptchaConfiguration.class})
@@ -88,17 +88,17 @@ public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigure
 		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
 	}
 
-	@RefreshScope
 	@Bean(name = "captchaWebflowConfigurer")
 	@ConditionalOnMissingBean(name = {"captchaWebflowConfigurer"})
+	@RefreshScope
 	public CasWebflowConfigurer captchaWebflowConfigurer(){
 		return new CasCaptchaWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext,
 				casProperties);
 	}
 
-	@RefreshScope
 	@Bean
 	@ConditionalOnMissingBean(name = {CasWebflowConstants.ACTION_ID_INIT_CAPTCHA})
+	@RefreshScope
 	public Action initializeCaptchaAction(
 			@Qualifier("defaultWebflowConfigurer") CasWebflowConfigurer loginWebflowConfigurer){
 		InitializeCaptchaAction action = new InitializeCaptchaAction(captchaProperties);
@@ -110,9 +110,9 @@ public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigure
 		return action;
 	}
 
-	@RefreshScope
 	@Bean
 	@ConditionalOnMissingBean(name = {CasWebflowConstants.ACTION_ID_VALIDATE_CAPTCHA})
+	@RefreshScope
 	public Action validateCaptchaAction(
 			@Qualifier("defaultWebflowConfigurer") CasWebflowConfigurer loginWebflowConfigurer,
 			ServletCaptchaValidator captchaValidator){

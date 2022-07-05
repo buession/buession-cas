@@ -38,7 +38,7 @@ public class CaptchaConstants {
 
 	public final static String CAPTCHA_VERSION = "captchaVersion";
 
-	public final static String CAPTCHA_JAVASCRIPT = "captchaJavaScriptUrl";
+	public final static String CAPTCHA_JAVASCRIPTS = "captchaJavaScriptUrls";
 
 	public final static String STATE_ID_VALIDATE_CAPTCHA = "validateCaptcha";
 

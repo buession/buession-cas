@@ -25,7 +25,6 @@
 package org.apereo.cas.captcha.autoconfigure;
 
 import com.buession.security.captcha.aliyun.AliyunParameter;
-import com.buession.security.captcha.geetest.GeetestParameter;
 import com.buession.security.captcha.geetest.api.v3.GeetestV3Parameter;
 import com.buession.security.captcha.geetest.api.v4.GeetestV4Parameter;
 import com.buession.security.captcha.tencent.TencentParameter;
@@ -50,7 +49,7 @@ public class CaptchaProperties {
 	/**
 	 * 前端 JavaScript 库地址
 	 */
-	private String javascript;
+	private String[] javascript;
 
 	/**
 	 * 阿里云行为验证码配置
@@ -61,11 +60,6 @@ public class CaptchaProperties {
 	 * 极验行为验证码配置
 	 */
 	private Geetest geetest;
-
-	/**
-	 * 网易行为验证码配置
-	 */
-	private Netease netease;
 
 	/**
 	 * 腾讯行为验证码配置
@@ -96,7 +90,7 @@ public class CaptchaProperties {
 	 *
 	 * @return 前端 JavaScript 库地址
 	 */
-	public String getJavascript(){
+	public String[] getJavascript(){
 		return javascript;
 	}
 
@@ -106,7 +100,7 @@ public class CaptchaProperties {
 	 * @param javascript
 	 * 		前端 JavaScript 库地址
 	 */
-	public void setJavascript(String javascript){
+	public void setJavascript(String[] javascript){
 		this.javascript = javascript;
 	}
 
@@ -149,25 +143,6 @@ public class CaptchaProperties {
 	}
 
 	/**
-	 * 返回网易行为验证码配置
-	 *
-	 * @return 网易行为验证码配置
-	 */
-	public Netease getNetease(){
-		return netease;
-	}
-
-	/**
-	 * 设置网易行为验证码配置
-	 *
-	 * @param netease
-	 * 		网易行为验证码配置
-	 */
-	public void setNetease(Netease netease){
-		this.netease = netease;
-	}
-
-	/**
 	 * 返回腾讯行为验证码配置
 	 *
 	 * @return 腾讯行为验证码配置
@@ -195,14 +170,19 @@ public class CaptchaProperties {
 	public static class Aliyun {
 
 		/**
-		 * 密钥 ID
+		 * AccessKey ID
 		 */
 		private String accessKeyId;
 
 		/**
-		 * 服务使用的 App Key
+		 * AccessKey Secret
 		 */
 		private String accessKeySecret;
+
+		/**
+		 * 服务使用的 App Key
+		 */
+		private String appKey;
 
 		/**
 		 * 区域 ID
@@ -216,22 +196,41 @@ public class CaptchaProperties {
 		private AliyunParameter parameter = new AliyunParameter();
 
 		/**
-		 * 返回密钥 ID
+		 * 返回 AccessKey ID
 		 *
-		 * @return 密钥 ID
+		 * @return AccessKey ID
 		 */
 		public String getAccessKeyId(){
 			return accessKeyId;
 		}
 
 		/**
-		 * 设置密钥 ID
+		 * 设置 AccessKey ID
 		 *
 		 * @param accessKeyId
-		 * 		密钥 ID
+		 * 		AccessKey ID
 		 */
 		public void setAccessKeyId(String accessKeyId){
 			this.accessKeyId = accessKeyId;
+		}
+
+		/**
+		 * 返回 AccessKey Secret
+		 *
+		 * @return AccessKey Secret
+		 */
+		public String getAccessKeySecret(){
+			return accessKeySecret;
+		}
+
+		/**
+		 * 设置 AccessKey Secret
+		 *
+		 * @param accessKeySecret
+		 * 		AccessKey Secret
+		 */
+		public void setAccessKeySecret(String accessKeySecret){
+			this.accessKeySecret = accessKeySecret;
 		}
 
 		/**
@@ -239,18 +238,18 @@ public class CaptchaProperties {
 		 *
 		 * @return 服务使用的 App Key
 		 */
-		public String getAccessKeySecret(){
-			return accessKeySecret;
+		public String getAppKey(){
+			return appKey;
 		}
 
 		/**
 		 * 设置服务使用的 App Key
 		 *
-		 * @param accessKeySecret
+		 * @param appKey
 		 * 		服务使用的 App Key
 		 */
-		public void setAccessKeySecret(String accessKeySecret){
-			this.accessKeySecret = accessKeySecret;
+		public void setAppKey(String appKey){
+			this.appKey = appKey;
 		}
 
 		/**
@@ -477,64 +476,6 @@ public class CaptchaProperties {
 				this.parameter = parameter;
 			}
 
-		}
-
-	}
-
-	/**
-	 * 网易行为验证码配置
-	 *
-	 * @author yong.teng
-	 * @since 2.0.0
-	 */
-	public static class Netease {
-
-		/**
-		 * 应用 ID
-		 */
-		private String appId;
-
-		/**
-		 * 密钥
-		 */
-		private String secretKey;
-
-		/**
-		 * 返回应用 ID
-		 *
-		 * @return 应用 ID
-		 */
-		public String getAppId(){
-			return appId;
-		}
-
-		/**
-		 * 设置应用 ID
-		 *
-		 * @param appId
-		 * 		应用 ID
-		 */
-		public void setAppId(String appId){
-			this.appId = appId;
-		}
-
-		/**
-		 * 返回密钥
-		 *
-		 * @return 密钥
-		 */
-		public String getSecretKey(){
-			return secretKey;
-		}
-
-		/**
-		 * 设置密钥
-		 *
-		 * @param secretKey
-		 * 		密钥
-		 */
-		public void setSecretKey(String secretKey){
-			this.secretKey = secretKey;
 		}
 
 	}

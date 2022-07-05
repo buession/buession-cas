@@ -13,8 +13,8 @@
 ### ⭐ 新特性
 
 - **buession-cas-audit：** 新增集成 CAS Audit 模块
-- **buession-cas-captcha：** 新增支持极验、阿里云、腾讯云、网易行为验证
+- **buession-cas-captcha：** 新增支持极验、阿里云、腾讯云行为验证
 - **buession-cas-service** 新增集成 CAS Service Registry 模块
 - **buession-cas-throttle：** 新增集成 CAS Throttle 模块
 - **buession-cas-ticket：** 集成 CAS Ticket Registry 模块
-- **buession-cas-webflow：** 新增支持极验、阿里云、腾讯云、网易行为验证
+- **buession-cas-webflow：** 新增支持极验、阿里云、腾讯云行为验证
