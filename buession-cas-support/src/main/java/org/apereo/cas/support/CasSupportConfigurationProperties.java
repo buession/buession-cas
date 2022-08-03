@@ -21,10 +21,43 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.support;/**
- * 
- *
+ */
+package org.apereo.cas.support;
+
+import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+/**
  * @author Yong.Teng
  * @since 2.0.3
- */public class CasSupportConfigurationProperties {
+ */
+@ConfigurationProperties(prefix = CasSupportConfigurationProperties.PREFIX)
+public class CasSupportConfigurationProperties {
+
+	public final static String PREFIX = CasConfigurationProperties.PREFIX + ".support";
+
+	/**
+	 * 真实客户端 IP 头名称
+	 */
+	private String clientRealIpHeaderName;
+
+	/**
+	 * 返回真实客户端 IP 头名称
+	 *
+	 * @return 真实客户端 IP 头名称
+	 */
+	public String getClientRealIpHeaderName(){
+		return clientRealIpHeaderName;
+	}
+
+	/**
+	 * 设置真实客户端 IP 头名称
+	 *
+	 * @param clientRealIpHeaderName
+	 * 		真实客户端 IP 头名称
+	 */
+	public void setClientRealIpHeaderName(String clientRealIpHeaderName){
+		this.clientRealIpHeaderName = clientRealIpHeaderName;
+	}
+
 }

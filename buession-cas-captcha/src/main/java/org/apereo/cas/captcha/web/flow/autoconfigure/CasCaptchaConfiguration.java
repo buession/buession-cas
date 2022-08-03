@@ -31,7 +31,6 @@ import org.apereo.cas.captcha.autoconfigure.CaptchaProperties;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.web.flow.CasWebflowConfigurer;
 import org.apereo.cas.web.flow.CasWebflowConstants;
-import org.apereo.cas.web.flow.CasWebflowExecutionPlan;
 import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
 import org.apereo.cas.captcha.web.flow.action.InitializeCaptchaAction;
 import org.apereo.cas.captcha.web.flow.action.ValidateCaptchaAction;
@@ -63,7 +62,7 @@ import org.springframework.webflow.execution.Action;
 @ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enabled", havingValue = "true")
 @Import({CasWebflowContextConfiguration.class, CaptchaConfiguration.class})
 @AutoConfigureAfter({CasWebflowContextConfiguration.class})
-public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigurer {
+public class CasCaptchaConfiguration {
 
 	private final CasConfigurationProperties casProperties;
 
@@ -102,9 +101,9 @@ public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigure
 	public Action initializeCaptchaAction(
 			@Qualifier("defaultWebflowConfigurer") CasWebflowConfigurer loginWebflowConfigurer){
 		InitializeCaptchaAction action = new InitializeCaptchaAction(captchaProperties);
-		Flow loginFlow = loginWebflowConfigurer.getLoginFlow();
+		/*Flow loginFlow = loginWebflowConfigurer.getLoginFlow();
 
-		loginFlow.getStartActionList().add(action);
+		loginFlow.getStartActionList().add(action);*/
 		logger.debug("Initialized InitializeCaptchaAction");
 
 		return action;
@@ -117,18 +116,20 @@ public class CasCaptchaConfiguration implements CasWebflowExecutionPlanConfigure
 			@Qualifier("defaultWebflowConfigurer") CasWebflowConfigurer loginWebflowConfigurer,
 			ServletCaptchaValidator captchaValidator){
 		ValidateCaptchaAction action = new ValidateCaptchaAction(captchaProperties, captchaValidator);
-		Flow loginFlow = loginWebflowConfigurer.getLoginFlow();
+		/*Flow loginFlow = loginWebflowConfigurer.getLoginFlow();
 
-		loginFlow.getEndActionList().add(action);
+		loginFlow.getEndActionList().add(action);*/
 
 		logger.debug("Initialized ValidateCaptchaAction");
 
 		return action;
 	}
 
-	@Override
-	public void configureWebflowExecutionPlan(final CasWebflowExecutionPlan plan){
-		plan.registerWebflowConfigurer(captchaWebflowConfigurer());
+	@Bean
+	@ConditionalOnMissingBean(name = "captchaCasWebflowExecutionPlanConfigurer")
+	public CasWebflowExecutionPlanConfigurer captchaCasWebflowExecutionPlanConfigurer(
+			@Qualifier("captchaWebflowConfigurer") final CasWebflowConfigurer captchaWebflowConfigurer){
+		return plan->plan.registerWebflowConfigurer(captchaWebflowConfigurer);
 	}
 
 }

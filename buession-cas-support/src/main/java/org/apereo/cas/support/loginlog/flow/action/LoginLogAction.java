@@ -21,10 +21,70 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.support.loginlog.flow.action;/**
- * 
+ */
+package org.apereo.cas.support.loginlog.flow.action;
+
+import com.buession.core.validator.Validate;
+import com.buession.web.servlet.http.request.RequestUtils;
+import org.apereo.cas.support.loginlog.manager.LoginLogManager;
+import org.apereo.cas.web.support.WebUtils;
+import org.springframework.webflow.action.AbstractAction;
+import org.springframework.webflow.execution.Action;
+import org.springframework.webflow.execution.Event;
+import org.springframework.webflow.execution.RequestContext;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+
+/**
+ * 登录日志 {@link Action}
  *
  * @author Yong.Teng
  * @since 2.0.3
- */public class LoginLogAction {
+ */
+public class LoginLogAction extends AbstractAction {
+
+	/**
+	 * Action 名称
+	 */
+	public final static String NAME = "loginLog";
+
+	/**
+	 * 登录日志管理器
+	 */
+	private final LoginLogManager loginLogManager;
+
+	/**
+	 * 真实 IP 头名称
+	 */
+	private final String clientIpHeaderName;
+
+	/**
+	 * 构造函数
+	 *
+	 * @param loginLogManager
+	 * 		登录日志管理器
+	 * @param clientIpHeaderName
+	 * 		真实 IP 头名称
+	 */
+	public LoginLogAction(final LoginLogManager loginLogManager, final String clientIpHeaderName){
+		super();
+		this.loginLogManager = loginLogManager;
+		this.clientIpHeaderName = clientIpHeaderName;
+	}
+
+	@Override
+	protected Event doExecute(final RequestContext requestContext){
+		HttpServletRequest request = WebUtils.getHttpServletRequestFromExternalWebflowContext(requestContext);
+		String clientIp = Validate.hasText(clientIpHeaderName) ? request.getHeader(clientIpHeaderName) : null;
+
+		if(Validate.isBlank(clientIp)){
+			clientIp = RequestUtils.getClientIp(request);
+		}
+
+		loginLogManager.execute("adimin", new Date(), clientIp);
+
+		return success();
+	}
+
 }

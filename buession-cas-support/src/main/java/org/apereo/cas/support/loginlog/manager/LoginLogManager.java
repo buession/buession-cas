@@ -21,10 +21,31 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.support.loginlog.manager;/**
- * 
+ */
+package org.apereo.cas.support.loginlog.manager;
+
+import org.springframework.beans.factory.DisposableBean;
+
+import java.util.Date;
+
+/**
+ * 登录日志管理器接口
  *
  * @author Yong.Teng
  * @since 2.0.3
- */public interface LoginLogManager {
+ */
+public interface LoginLogManager extends DisposableBean {
+
+	/**
+	 * 登录日志执行操作
+	 *
+	 * @param id
+	 * 		用户 ID
+	 * @param dateTime
+	 * 		当前时间
+	 * @param clientIp
+	 * 		客户端 IP
+	 */
+	void execute(final String id, final Date dateTime, final String clientIp);
+
 }

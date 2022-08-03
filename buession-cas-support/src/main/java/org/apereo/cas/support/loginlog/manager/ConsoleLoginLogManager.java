@@ -22,12 +22,21 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package com.liangvi.login.support.core;
+package org.apereo.cas.support.loginlog.manager;
+
+import java.util.Date;
 
 /**
+ * 控制台登录日志管理器
+ *
  * @author Yong.Teng
  * @since 2.0.3
  */
-public class ConsoleLoginLogManager {
+public class ConsoleLoginLogManager extends AbstractLoginLogManager {
+
+	@Override
+	public void execute(final String id, final Date dateTime, final String clientIp){
+		System.out.printf("%s login success at: %s(IP: %s).", id, dateTime, clientIp);
+	}
 
 }

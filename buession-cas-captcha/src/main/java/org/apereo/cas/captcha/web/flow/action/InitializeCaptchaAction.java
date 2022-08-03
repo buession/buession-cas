@@ -27,6 +27,7 @@ package org.apereo.cas.captcha.web.flow.action;
 import com.buession.security.captcha.core.Manufacturer;
 import org.apereo.cas.captcha.CaptchaConstants;
 import org.apereo.cas.captcha.autoconfigure.CaptchaProperties;
+import org.apereo.cas.web.flow.CasWebflowConstants;
 import org.springframework.webflow.action.AbstractAction;
 import org.springframework.webflow.core.collection.MutableAttributeMap;
 import org.springframework.webflow.execution.Event;
@@ -37,6 +38,13 @@ import org.springframework.webflow.execution.RequestContext;
  * @since 1.2.0
  */
 public class InitializeCaptchaAction extends AbstractAction {
+
+	/**
+	 * Action 名称
+	 *
+	 * @since 2.0.3
+	 */
+	public final static String NAME = CasWebflowConstants.ACTION_ID_INIT_CAPTCHA;
 
 	private final CaptchaProperties captchaProperties;
 
@@ -52,13 +60,8 @@ public class InitializeCaptchaAction extends AbstractAction {
 	}
 
 	private void configureWebflowParameters(final RequestContext requestContext){
-		boolean enabled = captchaProperties.isEnabled();
-
-		if(enabled){
-			applyVariables(requestContext);
-		}
-
-		requestContext.getFlowScope().put(CaptchaConstants.ENABLE_CAPTCHA, enabled);
+		applyVariables(requestContext);
+		requestContext.getFlowScope().put(CaptchaConstants.ENABLE_CAPTCHA, true);
 	}
 
 	private void applyVariables(final RequestContext requestContext){

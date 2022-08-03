@@ -21,10 +21,20 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.support.loginlog.manager;/**
- * 
+ */
+package org.apereo.cas.support.loginlog.manager;
+
+/**
+ * 登录日志管理器抽象类
  *
  * @author Yong.Teng
  * @since 2.0.3
- */public class AbstractLoginLogManager {
+ */
+public abstract class AbstractLoginLogManager implements LoginLogManager {
+
+	@Override
+	public void destroy() throws Exception{
+
+	}
+	
 }

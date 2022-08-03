@@ -51,6 +51,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ValidateCaptchaAction extends AbstractAction {
 
+	/**
+	 * Action 名称
+	 *
+	 * @since 2.0.3
+	 */
+	public final static String NAME = CasWebflowConstants.ACTION_ID_VALIDATE_CAPTCHA;
+
 	private final CaptchaProperties captchaProperties;
 
 	private final ServletCaptchaValidator captchaValidator;
@@ -66,8 +73,7 @@ public class ValidateCaptchaAction extends AbstractAction {
 
 	@Override
 	protected Event doExecute(final RequestContext requestContext){
-		if(captchaProperties.isEnabled() == false ||
-				Boolean.FALSE.equals(requestContext.getFlowScope().get(CaptchaConstants.ENABLE_CAPTCHA))){
+		if(Boolean.FALSE.equals(requestContext.getFlowScope().get(CaptchaConstants.ENABLE_CAPTCHA))){
 			logger.info("Captcha is not enable.");
 			return null;
 		}
@@ -119,7 +125,8 @@ public class ValidateCaptchaAction extends AbstractAction {
 		MessageResolver messageResolver =
 				new MessageBuilder().error().code(messageCode).defaultText(defaultText).build();
 		requestContext.getMessageContext().addMessage(messageResolver);
-		return result(eventId);
+
+		return getEventFactorySupport().event(this, eventId);
 	}
 
 }
