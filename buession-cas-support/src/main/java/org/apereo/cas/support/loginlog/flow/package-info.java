@@ -22,14 +22,8 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.captcha.web.support;
-
 /**
- * Session 密码错误拦截器抽象类
- *
  * @author Yong.Teng
- * @since 2.0.0
+ * @since 2.0.3
  */
-public class SessionPasswordFailureInterceptorAdapter extends AbstractPasswordFailureInterceptorAdapter {
-
-}
+package org.apereo.cas.support.loginlog;

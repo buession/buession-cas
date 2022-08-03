@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>2.0.3</version>
+		<version>2.1.0</version>
 	</parent>
 	<artifactId>buession-cas-support</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
@@ -55,6 +55,11 @@
 		<dependency>
 			<groupId>com.buession.cas</groupId>
 			<artifactId>buession-cas-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>buession-cas-webflow</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

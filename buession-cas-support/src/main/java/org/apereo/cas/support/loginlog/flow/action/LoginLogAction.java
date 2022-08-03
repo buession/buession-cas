@@ -21,15 +21,10 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */
-package org.apereo.cas.captcha.web.support;
-
-/**
- * Cookie 密码错误拦截器抽象类
+ */package org.apereo.cas.support.loginlog.flow.action;/**
+ * 
  *
  * @author Yong.Teng
- * @since 2.0.0
- */
-public class CookiePasswordFailureInterceptorAdapter extends AbstractPasswordFailureInterceptorAdapter {
-
+ * @since 2.0.3
+ */public class LoginLogAction {
 }
