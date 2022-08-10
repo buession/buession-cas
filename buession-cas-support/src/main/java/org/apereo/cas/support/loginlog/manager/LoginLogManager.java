@@ -32,7 +32,7 @@ import java.util.Date;
  * 登录日志管理器接口
  *
  * @author Yong.Teng
- * @since 2.0.3
+ * @since 2.1.0
  */
 public interface LoginLogManager extends DisposableBean {
 

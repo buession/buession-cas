@@ -29,35 +29,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author Yong.Teng
- * @since 2.0.3
+ * @since 2.1.0
  */
 @ConfigurationProperties(prefix = CasSupportConfigurationProperties.PREFIX)
 public class CasSupportConfigurationProperties {
 
 	public final static String PREFIX = CasConfigurationProperties.PREFIX + ".support";
-
-	/**
-	 * 真实客户端 IP 头名称
-	 */
-	private String clientRealIpHeaderName;
-
-	/**
-	 * 返回真实客户端 IP 头名称
-	 *
-	 * @return 真实客户端 IP 头名称
-	 */
-	public String getClientRealIpHeaderName(){
-		return clientRealIpHeaderName;
-	}
-
-	/**
-	 * 设置真实客户端 IP 头名称
-	 *
-	 * @param clientRealIpHeaderName
-	 * 		真实客户端 IP 头名称
-	 */
-	public void setClientRealIpHeaderName(String clientRealIpHeaderName){
-		this.clientRealIpHeaderName = clientRealIpHeaderName;
-	}
 
 }

@@ -35,8 +35,6 @@ import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
 import org.apereo.cas.captcha.web.flow.action.InitializeCaptchaAction;
 import org.apereo.cas.captcha.web.flow.action.ValidateCaptchaAction;
 import org.apereo.cas.web.flow.config.CasWebflowContextConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -49,7 +47,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
-import org.springframework.webflow.engine.Flow;
 import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
 import org.springframework.webflow.execution.Action;
 
@@ -74,8 +71,6 @@ public class CasCaptchaConfiguration {
 
 	private final FlowBuilderServices flowBuilderServices;
 
-	private final static Logger logger = LoggerFactory.getLogger(CasCaptchaConfiguration.class);
-
 	public CasCaptchaConfiguration(CasConfigurationProperties casProperties, CaptchaProperties captchaProperties,
 								   ObjectProvider<ConfigurableApplicationContext> applicationContext,
 								   @Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
@@ -88,7 +83,7 @@ public class CasCaptchaConfiguration {
 	}
 
 	@Bean(name = "captchaWebflowConfigurer")
-	@ConditionalOnMissingBean(name = {"captchaWebflowConfigurer"})
+	@ConditionalOnMissingBean(name = "captchaWebflowConfigurer")
 	@RefreshScope
 	public CasWebflowConfigurer captchaWebflowConfigurer(){
 		return new CasCaptchaWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext,
@@ -96,39 +91,23 @@ public class CasCaptchaConfiguration {
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(name = {CasWebflowConstants.ACTION_ID_INIT_CAPTCHA})
+	@ConditionalOnMissingBean(name = CasWebflowConstants.ACTION_ID_INIT_CAPTCHA)
 	@RefreshScope
-	public Action initializeCaptchaAction(
-			@Qualifier("defaultWebflowConfigurer") CasWebflowConfigurer loginWebflowConfigurer){
-		InitializeCaptchaAction action = new InitializeCaptchaAction(captchaProperties);
-		/*Flow loginFlow = loginWebflowConfigurer.getLoginFlow();
-
-		loginFlow.getStartActionList().add(action);*/
-		logger.debug("Initialized InitializeCaptchaAction");
-
-		return action;
+	public Action initializeCaptchaAction(){
+		return new InitializeCaptchaAction(captchaProperties);
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(name = {CasWebflowConstants.ACTION_ID_VALIDATE_CAPTCHA})
+	@ConditionalOnMissingBean(name = CasWebflowConstants.ACTION_ID_VALIDATE_CAPTCHA)
 	@RefreshScope
-	public Action validateCaptchaAction(
-			@Qualifier("defaultWebflowConfigurer") CasWebflowConfigurer loginWebflowConfigurer,
-			ServletCaptchaValidator captchaValidator){
-		ValidateCaptchaAction action = new ValidateCaptchaAction(captchaProperties, captchaValidator);
-		/*Flow loginFlow = loginWebflowConfigurer.getLoginFlow();
-
-		loginFlow.getEndActionList().add(action);*/
-
-		logger.debug("Initialized ValidateCaptchaAction");
-
-		return action;
+	public Action validateCaptchaAction(ServletCaptchaValidator captchaValidator){
+		return new ValidateCaptchaAction(captchaProperties, captchaValidator);
 	}
 
 	@Bean
 	@ConditionalOnMissingBean(name = "captchaCasWebflowExecutionPlanConfigurer")
 	public CasWebflowExecutionPlanConfigurer captchaCasWebflowExecutionPlanConfigurer(
-			@Qualifier("captchaWebflowConfigurer") final CasWebflowConfigurer captchaWebflowConfigurer){
+			@Qualifier("captchaWebflowConfigurer") CasWebflowConfigurer captchaWebflowConfigurer){
 		return plan->plan.registerWebflowConfigurer(captchaWebflowConfigurer);
 	}
 

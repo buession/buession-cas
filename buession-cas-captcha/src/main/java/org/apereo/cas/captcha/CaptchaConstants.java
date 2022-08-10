@@ -40,8 +40,6 @@ public class CaptchaConstants {
 
 	public final static String CAPTCHA_JAVASCRIPTS = "captchaJavaScriptUrls";
 
-	public final static String STATE_ID_VALIDATE_CAPTCHA = "validateCaptcha";
-
 	public final static String CAPTCHA_REQUIRED_EVENT = "captchaRequired";
 
 	public final static String CAPTCHA_REQUIRED_MESSAGE_CODE = "captcha.required";

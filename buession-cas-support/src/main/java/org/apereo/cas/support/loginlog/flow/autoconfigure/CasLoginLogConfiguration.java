@@ -25,6 +25,7 @@
 package org.apereo.cas.support.loginlog.flow.autoconfigure;
 
 import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.apereo.cas.core.CasCoreConfigurationProperties;
 import org.apereo.cas.support.CasSupportConfigurationProperties;
 import org.apereo.cas.support.loginlog.flow.LoginLogWebflowConfigurer;
 import org.apereo.cas.support.loginlog.flow.action.LoginLogAction;
@@ -33,8 +34,6 @@ import org.apereo.cas.support.loginlog.manager.LoginLogManager;
 import org.apereo.cas.web.flow.CasWebflowConfigurer;
 import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
 import org.apereo.cas.web.flow.config.CasWebflowContextConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -46,24 +45,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
-import org.springframework.webflow.engine.Flow;
 import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
 import org.springframework.webflow.execution.Action;
 
 /**
  * @author Yong.Teng
- * @since 2.0.3
+ * @since 2.1.0
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({CasConfigurationProperties.class, CasSupportConfigurationProperties.class})
+@EnableConfigurationProperties({CasConfigurationProperties.class, CasCoreConfigurationProperties.class,
+		CasSupportConfigurationProperties.class})
 @ConditionalOnProperty(prefix = CasSupportConfigurationProperties.PREFIX, name = "login-log.enabled", havingValue = "true")
 @Import({CasWebflowContextConfiguration.class})
 @AutoConfigureAfter({CasWebflowContextConfiguration.class})
 public class CasLoginLogConfiguration {
 
-	private final CasConfigurationProperties casProperties;
+	private CasConfigurationProperties casProperties;
 
-	private final CasSupportConfigurationProperties casSupportConfigurationProperties;
+	private CasCoreConfigurationProperties casCoreConfigurationProperties;
 
 	private final ConfigurableApplicationContext applicationContext;
 
@@ -71,52 +70,42 @@ public class CasLoginLogConfiguration {
 
 	private final FlowBuilderServices flowBuilderServices;
 
-	private final static Logger logger = LoggerFactory.getLogger(CasLoginLogConfiguration.class);
-
 	public CasLoginLogConfiguration(CasConfigurationProperties casProperties,
-									CasSupportConfigurationProperties casSupportConfigurationProperties,
+									CasCoreConfigurationProperties casCoreConfigurationProperties,
 									ObjectProvider<ConfigurableApplicationContext> applicationContext,
 									@Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
 									ObjectProvider<FlowBuilderServices> flowBuilderServices){
 		this.casProperties = casProperties;
-		this.casSupportConfigurationProperties = casSupportConfigurationProperties;
+		this.casCoreConfigurationProperties = casCoreConfigurationProperties;
 		this.applicationContext = applicationContext.getIfAvailable();
 		this.loginFlowDefinitionRegistry = loginFlowDefinitionRegistry.getIfAvailable();
 		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
 	}
 
 	@Bean(name = "loginLogWebflowConfigurer")
-	@ConditionalOnMissingBean(name = {"loginLogWebflowConfigurer"})
+	@ConditionalOnMissingBean(name = "loginLogWebflowConfigurer")
 	public CasWebflowConfigurer loginLogWebflowConfigurer(){
 		return new LoginLogWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext,
 				casProperties);
 	}
 
-	@Bean
-	@ConditionalOnMissingBean(name = {"loginLoginAction"})
-	public Action loginLoginAction(
-			@Qualifier("defaultWebflowConfigurer") CasWebflowConfigurer loginWebflowConfigurer,
-			ObjectProvider<LoginLogManager> loginLogManager){
-		LoginLogAction action = new LoginLogAction(loginLogManager.getIfAvailable(),
-				casSupportConfigurationProperties.getClientRealIpHeaderName());
-		Flow loginFlow = loginWebflowConfigurer.getLoginFlow();
-
-		loginFlow.getEndActionList().add(action);
-		logger.debug("Initialized LoginLoginAction");
-
-		return action;
-	}
-
 	@Bean(name = "loginLogManager")
-	@ConditionalOnMissingBean(name = {"loginLogManager"})
+	@ConditionalOnMissingBean(name = "loginLogManager")
 	public LoginLogManager loginLogManager(){
 		return new ConsoleLoginLogManager();
 	}
 
 	@Bean
+	@ConditionalOnMissingBean(name = LoginLogAction.NAME)
+	public Action loginLogAction(ObjectProvider<LoginLogManager> loginLogManager){
+		return new LoginLogAction(loginLogManager.getIfAvailable(),
+				casCoreConfigurationProperties.getClientRealIpHeaderName());
+	}
+
+	@Bean
 	@ConditionalOnMissingBean(name = "loginLogCasWebflowExecutionPlanConfigurer")
 	public CasWebflowExecutionPlanConfigurer loginLogCasWebflowExecutionPlanConfigurer(
-			@Qualifier("loginLogWebflowConfigurer") final CasWebflowConfigurer loginLogWebflowConfigurer){
+			@Qualifier("loginLogWebflowConfigurer") CasWebflowConfigurer loginLogWebflowConfigurer){
 		return plan->plan.registerWebflowConfigurer(loginLogWebflowConfigurer);
 	}
 

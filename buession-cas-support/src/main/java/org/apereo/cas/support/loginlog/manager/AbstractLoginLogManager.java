@@ -28,7 +28,7 @@ package org.apereo.cas.support.loginlog.manager;
  * 登录日志管理器抽象类
  *
  * @author Yong.Teng
- * @since 2.0.3
+ * @since 2.1.0
  */
 public abstract class AbstractLoginLogManager implements LoginLogManager {
 
@@ -36,5 +36,5 @@ public abstract class AbstractLoginLogManager implements LoginLogManager {
 	public void destroy() throws Exception{
 
 	}
-	
+
 }

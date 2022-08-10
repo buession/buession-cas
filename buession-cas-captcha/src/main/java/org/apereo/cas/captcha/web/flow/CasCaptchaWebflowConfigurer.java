@@ -72,7 +72,6 @@ public class CasCaptchaWebflowConfigurer extends AbstractCasWebflowConfigurer {
 
 	private void createValidateCaptchaAction(final Flow flow){
 		ActionState state = getState(flow, CasWebflowConstants.STATE_ID_REAL_SUBMIT, ActionState.class);
-
 		ActionList actionList = state.getActionList();
 		List<Action> currentActions = new ArrayList<>(actionList.size());
 
@@ -81,6 +80,7 @@ public class CasCaptchaWebflowConfigurer extends AbstractCasWebflowConfigurer {
 
 		actionList.add(createEvaluateAction(ValidateCaptchaAction.NAME));
 		currentActions.forEach(actionList::add);
+
 		state.getTransitionSet().add(createTransition(CaptchaConstants.CAPTCHA_REQUIRED_EVENT,
 				CasWebflowConstants.STATE_ID_INIT_LOGIN_FORM));
 		state.getTransitionSet().add(createTransition(CasWebflowConstants.TRANSITION_ID_CAPTCHA_ERROR,

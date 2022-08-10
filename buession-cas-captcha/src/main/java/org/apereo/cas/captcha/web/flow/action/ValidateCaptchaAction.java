@@ -54,7 +54,7 @@ public class ValidateCaptchaAction extends AbstractAction {
 	/**
 	 * Action 名称
 	 *
-	 * @since 2.0.3
+	 * @since 2.1.0
 	 */
 	public final static String NAME = CasWebflowConstants.ACTION_ID_VALIDATE_CAPTCHA;
 

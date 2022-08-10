@@ -40,14 +40,14 @@ import java.util.Date;
  * 登录日志 {@link Action}
  *
  * @author Yong.Teng
- * @since 2.0.3
+ * @since 2.1.0
  */
 public class LoginLogAction extends AbstractAction {
 
 	/**
 	 * Action 名称
 	 */
-	public final static String NAME = "loginLog";
+	public final static String NAME = "loginLogAction";
 
 	/**
 	 * 登录日志管理器
@@ -82,7 +82,7 @@ public class LoginLogAction extends AbstractAction {
 			clientIp = RequestUtils.getClientIp(request);
 		}
 
-		loginLogManager.execute("adimin", new Date(), clientIp);
+		loginLogManager.execute(requestContext.getRequestParameters().get("username"), new Date(), clientIp);
 
 		return success();
 	}

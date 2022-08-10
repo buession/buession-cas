@@ -30,7 +30,7 @@ import java.util.Date;
  * 控制台登录日志管理器
  *
  * @author Yong.Teng
- * @since 2.0.3
+ * @since 2.1.0
  */
 public class ConsoleLoginLogManager extends AbstractLoginLogManager {
 

@@ -31,20 +31,15 @@ import org.apereo.cas.web.flow.CasWebflowConstants;
 import org.apereo.cas.web.flow.configurer.AbstractCasWebflowConfigurer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
-import org.springframework.webflow.engine.ActionList;
 import org.springframework.webflow.engine.ActionState;
 import org.springframework.webflow.engine.Flow;
 import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
-import org.springframework.webflow.execution.Action;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This is a login log {@link CasWebflowConfigurer}.
  *
  * @author Yong.Teng
- * @since 2.0.3
+ * @since 2.1.0
  */
 public class LoginLogWebflowConfigurer extends AbstractCasWebflowConfigurer {
 
@@ -59,20 +54,14 @@ public class LoginLogWebflowConfigurer extends AbstractCasWebflowConfigurer {
 	protected void doInitialize(){
 		Flow flow = getLoginFlow();
 		if(flow != null){
-			createLoginLoginAction(flow);
+			createLoginLogAction(flow);
 		}
 	}
 
-	private void createLoginLoginAction(final Flow flow){
-		ActionState state = getState(flow, CasWebflowConstants.STATE_ID_REAL_SUBMIT, ActionState.class);
-		ActionList actionList = state.getActionList();
-		List<Action> currentActions = new ArrayList<>(actionList.size());
-
-		actionList.forEach(currentActions::add);
-		currentActions.forEach(actionList::remove);
-
-		actionList.add(createEvaluateAction(LoginLogAction.NAME));
-		currentActions.forEach(actionList::add);
+	private void createLoginLogAction(final Flow flow){
+		ActionState state = getState(flow, CasWebflowConstants.STATE_ID_CREATE_TICKET_GRANTING_TICKET,
+				ActionState.class);
+		state.getExitActionList().add(createEvaluateAction(LoginLogAction.NAME));
 	}
 
 }
