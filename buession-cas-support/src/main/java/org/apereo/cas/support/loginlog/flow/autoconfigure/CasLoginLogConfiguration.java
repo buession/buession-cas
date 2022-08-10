@@ -22,18 +22,17 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.captcha.web.flow.autoconfigure;
+package org.apereo.cas.support.loginlog.flow.autoconfigure;
 
-import com.buession.security.captcha.validator.servlet.ServletCaptchaValidator;
-import org.apereo.cas.captcha.web.flow.CasCaptchaWebflowConfigurer;
-import org.apereo.cas.captcha.autoconfigure.CaptchaConfiguration;
-import org.apereo.cas.captcha.autoconfigure.CaptchaProperties;
 import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.apereo.cas.core.CasCoreConfigurationProperties;
+import org.apereo.cas.support.CasSupportConfigurationProperties;
+import org.apereo.cas.support.loginlog.flow.LoginLogWebflowConfigurer;
+import org.apereo.cas.support.loginlog.flow.action.LoginLogAction;
+import org.apereo.cas.support.loginlog.manager.ConsoleLoginLogManager;
+import org.apereo.cas.support.loginlog.manager.LoginLogManager;
 import org.apereo.cas.web.flow.CasWebflowConfigurer;
-import org.apereo.cas.web.flow.CasWebflowConstants;
 import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
-import org.apereo.cas.captcha.web.flow.action.InitializeCaptchaAction;
-import org.apereo.cas.captcha.web.flow.action.ValidateCaptchaAction;
 import org.apereo.cas.web.flow.config.CasWebflowContextConfiguration;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,7 +40,6 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,18 +50,19 @@ import org.springframework.webflow.execution.Action;
 
 /**
  * @author Yong.Teng
- * @since 1.2.0
+ * @since 2.1.0
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({CasConfigurationProperties.class, CaptchaProperties.class})
-@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enabled", havingValue = "true")
-@Import({CasWebflowContextConfiguration.class, CaptchaConfiguration.class})
+@EnableConfigurationProperties({CasConfigurationProperties.class, CasCoreConfigurationProperties.class,
+		CasSupportConfigurationProperties.class})
+@ConditionalOnProperty(prefix = CasSupportConfigurationProperties.PREFIX, name = "login-log.enabled", havingValue = "true")
+@Import({CasWebflowContextConfiguration.class})
 @AutoConfigureAfter({CasWebflowContextConfiguration.class})
-public class CasCaptchaConfiguration {
+public class CasLoginLogConfiguration {
 
-	private final CasConfigurationProperties casProperties;
+	private CasConfigurationProperties casProperties;
 
-	private final CaptchaProperties captchaProperties;
+	private CasCoreConfigurationProperties casCoreConfigurationProperties;
 
 	private final ConfigurableApplicationContext applicationContext;
 
@@ -71,44 +70,43 @@ public class CasCaptchaConfiguration {
 
 	private final FlowBuilderServices flowBuilderServices;
 
-	public CasCaptchaConfiguration(CasConfigurationProperties casProperties, CaptchaProperties captchaProperties,
-								   ObjectProvider<ConfigurableApplicationContext> applicationContext,
-								   @Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
-								   ObjectProvider<FlowBuilderServices> flowBuilderServices){
+	public CasLoginLogConfiguration(CasConfigurationProperties casProperties,
+									CasCoreConfigurationProperties casCoreConfigurationProperties,
+									ObjectProvider<ConfigurableApplicationContext> applicationContext,
+									@Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
+									ObjectProvider<FlowBuilderServices> flowBuilderServices){
 		this.casProperties = casProperties;
-		this.captchaProperties = captchaProperties;
+		this.casCoreConfigurationProperties = casCoreConfigurationProperties;
 		this.applicationContext = applicationContext.getIfAvailable();
 		this.loginFlowDefinitionRegistry = loginFlowDefinitionRegistry.getIfAvailable();
 		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
 	}
 
-	@Bean(name = "captchaWebflowConfigurer")
-	@ConditionalOnMissingBean(name = "captchaWebflowConfigurer")
-	@RefreshScope
-	public CasWebflowConfigurer captchaWebflowConfigurer(){
-		return new CasCaptchaWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext,
+	@Bean(name = "loginLogWebflowConfigurer")
+	@ConditionalOnMissingBean(name = "loginLogWebflowConfigurer")
+	public CasWebflowConfigurer loginLogWebflowConfigurer(){
+		return new LoginLogWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext,
 				casProperties);
 	}
 
-	@Bean
-	@ConditionalOnMissingBean(name = CasWebflowConstants.ACTION_ID_INIT_CAPTCHA)
-	@RefreshScope
-	public Action initializeCaptchaAction(){
-		return new InitializeCaptchaAction(captchaProperties);
+	@Bean(name = "loginLogManager")
+	@ConditionalOnMissingBean(name = "loginLogManager")
+	public LoginLogManager loginLogManager(){
+		return new ConsoleLoginLogManager();
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(name = CasWebflowConstants.ACTION_ID_VALIDATE_CAPTCHA)
-	@RefreshScope
-	public Action validateCaptchaAction(ServletCaptchaValidator captchaValidator){
-		return new ValidateCaptchaAction(captchaProperties, captchaValidator);
+	@ConditionalOnMissingBean(name = LoginLogAction.NAME)
+	public Action loginLogAction(ObjectProvider<LoginLogManager> loginLogManager){
+		return new LoginLogAction(loginLogManager.getIfAvailable(),
+				casCoreConfigurationProperties.getClientRealIpHeaderName());
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(name = "captchaCasWebflowExecutionPlanConfigurer")
-	public CasWebflowExecutionPlanConfigurer captchaCasWebflowExecutionPlanConfigurer(
-			@Qualifier("captchaWebflowConfigurer") CasWebflowConfigurer captchaWebflowConfigurer){
-		return plan->plan.registerWebflowConfigurer(captchaWebflowConfigurer);
+	@ConditionalOnMissingBean(name = "loginLogCasWebflowExecutionPlanConfigurer")
+	public CasWebflowExecutionPlanConfigurer loginLogCasWebflowExecutionPlanConfigurer(
+			@Qualifier("loginLogWebflowConfigurer") CasWebflowConfigurer loginLogWebflowConfigurer){
+		return plan->plan.registerWebflowConfigurer(loginLogWebflowConfigurer);
 	}
 
 }

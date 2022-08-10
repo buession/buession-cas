@@ -22,30 +22,46 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.captcha;
+package org.apereo.cas.support.loginlog.flow;
+
+import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.apereo.cas.support.loginlog.flow.action.LoginLogAction;
+import org.apereo.cas.web.flow.CasWebflowConfigurer;
+import org.apereo.cas.web.flow.CasWebflowConstants;
+import org.apereo.cas.web.flow.configurer.AbstractCasWebflowConfigurer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
+import org.springframework.webflow.engine.ActionState;
+import org.springframework.webflow.engine.Flow;
+import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
 
 /**
+ * This is a login log {@link CasWebflowConfigurer}.
+ *
  * @author Yong.Teng
- * @since 1.2.0
+ * @since 2.1.0
  */
-public class CaptchaConstants {
+public class LoginLogWebflowConfigurer extends AbstractCasWebflowConfigurer {
 
-	public final static String ENABLE_CAPTCHA = "enableCaptcha";
+	public LoginLogWebflowConfigurer(final FlowBuilderServices flowBuilderServices,
+									 final FlowDefinitionRegistry loginFlowDefinitionRegistry,
+									 final ConfigurableApplicationContext applicationContext,
+									 final CasConfigurationProperties casProperties){
+		super(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext, casProperties);
+	}
 
-	public final static String CAPTCHA_MANUFACTURER = "captchaManufacturer";
+	@Override
+	protected void doInitialize(){
+		Flow flow = getLoginFlow();
+		if(flow != null){
+			createLoginLogAction(flow);
+		}
+	}
 
-	public final static String CAPTCHA_APP_ID = "captchaAppId";
-
-	public final static String CAPTCHA_VERSION = "captchaVersion";
-
-	public final static String CAPTCHA_JAVASCRIPTS = "captchaJavaScriptUrls";
-
-	public final static String CAPTCHA_REQUIRED_EVENT = "captchaRequired";
-
-	public final static String CAPTCHA_REQUIRED_MESSAGE_CODE = "captcha.required";
-
-	private CaptchaConstants(){
-
+	private void createLoginLogAction(final Flow flow){
+		ActionState state = getState(flow, CasWebflowConstants.STATE_ID_CREATE_TICKET_GRANTING_TICKET,
+				ActionState.class);
+		state.getExitActionList().add(createEvaluateAction(LoginLogAction.NAME));
 	}
 
 }

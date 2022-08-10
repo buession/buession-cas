@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>2.0.2</version>
+		<version>2.1.0</version>
 	</parent>
 	<artifactId>buession-cas-support</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
@@ -46,10 +46,20 @@
 		<url>https://github.com/buession/buession-cas</url>
 	</scm>
 
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/buession/buession-cas/issues</url>
+	</issueManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.buession.cas</groupId>
 			<artifactId>buession-cas-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>buession-cas-webflow</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -129,11 +139,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-actuator</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-validation</artifactId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.cloud</groupId>
@@ -212,11 +218,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-actuator</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-validation</artifactId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.cloud</groupId>
@@ -295,11 +297,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-actuator</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-validation</artifactId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.cloud</groupId>
@@ -382,11 +380,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-actuator</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-validation</artifactId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.cloud</groupId>
@@ -465,11 +459,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-actuator</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-validation</artifactId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.cloud</groupId>

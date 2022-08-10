@@ -22,48 +22,8 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.captcha.web.support;
-
-import org.springframework.lang.Nullable;
-import org.springframework.web.servlet.AsyncHandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
- * 密码错误拦截器
- *
  * @author Yong.Teng
- * @since 2.0.0
+ * @since 2.1.0
  */
-public interface PasswordFailureInterceptorAdapter extends AsyncHandlerInterceptor {
-
-	@Override
-	default boolean preHandle(final HttpServletRequest request,
-							  final HttpServletResponse response,
-							  final Object handler) throws Exception{
-		return true;
-	}
-
-	@Override
-	default void postHandle(final HttpServletRequest request,
-							final HttpServletResponse response,
-							final Object handler,
-							@Nullable final ModelAndView modelAndView) throws Exception{
-	}
-
-	@Override
-	default void afterCompletion(final HttpServletRequest request,
-								 final HttpServletResponse response,
-								 final Object handler,
-								 @Nullable final Exception e) throws Exception{
-	}
-
-	@Override
-	default void afterConcurrentHandlingStarted(final HttpServletRequest request,
-												final HttpServletResponse response,
-												final Object handler) throws Exception{
-	}
-
-}
+package org.apereo.cas.support.loginlog;

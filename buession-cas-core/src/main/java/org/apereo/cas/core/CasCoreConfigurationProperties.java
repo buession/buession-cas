@@ -22,30 +22,40 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.captcha;
+package org.apereo.cas.core;
+
+import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author Yong.Teng
- * @since 1.2.0
+ * @since 2.1.0
  */
-public class CaptchaConstants {
+@ConfigurationProperties(prefix = CasConfigurationProperties.PREFIX)
+public class CasCoreConfigurationProperties {
 
-	public final static String ENABLE_CAPTCHA = "enableCaptcha";
+	/**
+	 * 真实客户端 IP 头名称
+	 */
+	private String clientRealIpHeaderName;
 
-	public final static String CAPTCHA_MANUFACTURER = "captchaManufacturer";
+	/**
+	 * 返回真实客户端 IP 头名称
+	 *
+	 * @return 真实客户端 IP 头名称
+	 */
+	public String getClientRealIpHeaderName(){
+		return clientRealIpHeaderName;
+	}
 
-	public final static String CAPTCHA_APP_ID = "captchaAppId";
-
-	public final static String CAPTCHA_VERSION = "captchaVersion";
-
-	public final static String CAPTCHA_JAVASCRIPTS = "captchaJavaScriptUrls";
-
-	public final static String CAPTCHA_REQUIRED_EVENT = "captchaRequired";
-
-	public final static String CAPTCHA_REQUIRED_MESSAGE_CODE = "captcha.required";
-
-	private CaptchaConstants(){
-
+	/**
+	 * 设置真实客户端 IP 头名称
+	 *
+	 * @param clientRealIpHeaderName
+	 * 		真实客户端 IP 头名称
+	 */
+	public void setClientRealIpHeaderName(String clientRealIpHeaderName){
+		this.clientRealIpHeaderName = clientRealIpHeaderName;
 	}
 
 }

@@ -25,7 +25,10 @@
 package org.apereo.cas.captcha.web.flow;
 
 import org.apereo.cas.captcha.CaptchaConstants;
+import org.apereo.cas.captcha.web.flow.action.InitializeCaptchaAction;
+import org.apereo.cas.captcha.web.flow.action.ValidateCaptchaAction;
 import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.apereo.cas.web.flow.CasWebflowConfigurer;
 import org.apereo.cas.web.flow.CasWebflowConstants;
 import org.apereo.cas.web.flow.configurer.AbstractCasWebflowConfigurer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -40,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This is a captcha {@link CasWebflowConfigurer}.
+ *
  * @author Yong.Teng
  * @since 1.2.0
  */
@@ -62,7 +67,7 @@ public class CasCaptchaWebflowConfigurer extends AbstractCasWebflowConfigurer {
 	}
 
 	private void createInitialCaptchaAction(final Flow flow){
-		flow.getStartActionList().add(createEvaluateAction(CasWebflowConstants.ACTION_ID_INIT_CAPTCHA));
+		flow.getStartActionList().add(createEvaluateAction(InitializeCaptchaAction.NAME));
 	}
 
 	private void createValidateCaptchaAction(final Flow flow){
@@ -73,8 +78,9 @@ public class CasCaptchaWebflowConfigurer extends AbstractCasWebflowConfigurer {
 		actionList.forEach(currentActions::add);
 		currentActions.forEach(actionList::remove);
 
-		actionList.add(createEvaluateAction(CasWebflowConstants.ACTION_ID_VALIDATE_CAPTCHA));
+		actionList.add(createEvaluateAction(ValidateCaptchaAction.NAME));
 		currentActions.forEach(actionList::add);
+
 		state.getTransitionSet().add(createTransition(CaptchaConstants.CAPTCHA_REQUIRED_EVENT,
 				CasWebflowConstants.STATE_ID_INIT_LOGIN_FORM));
 		state.getTransitionSet().add(createTransition(CasWebflowConstants.TRANSITION_ID_CAPTCHA_ERROR,

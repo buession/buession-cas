@@ -34,7 +34,7 @@
 
 - 参考文档 [https://cas.buession.com/](https://cas.buession.com/)
 - Wiki [https://github.com/buession/buession-cas/wiki](https://github.com/buession/buession-cas/wiki)
-- API Reference [https://cas.buession.com/doc/](https://cas.buession.com/doc/)
+- API Reference [https://cas.buession.com/manual/](https://cas.buession.com/manual/)
 
 ## License
 

@@ -22,70 +22,21 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.captcha;
+package org.apereo.cas.support.loginlog.manager;
+
+import java.util.Date;
 
 /**
+ * 控制台登录日志管理器
+ *
  * @author Yong.Teng
- * @since 2.0.0
+ * @since 2.1.0
  */
-public interface Parameter {
+public class ConsoleLoginLogManager extends AbstractLoginLogManager {
 
-	interface AliYun {
-
-	}
-
-	interface Geetest {
-
-		interface V3 {
-
-			String CHALLENGE = "geetest_challenge";
-
-			String SECCODE = "geetest_seccode";
-
-			String VALIDATE = "geetest_validate";
-
-			String USER_ID = "user_id";
-
-			String CLIENT_TYPE = "client_type";
-
-		}
-
-		interface V4 {
-
-			String LOT_NUMBER = "lot_number";
-
-			String CAPTCHA_OUTPUT = "captcha_output";
-
-			String PASS_TOKEN = "pass_token";
-
-			String GEN_TIME = "gen_time";
-
-		}
-
-	}
-
-	interface NetEase {
-
-	}
-
-	interface Tencent {
-
-		String RAND_STR = "Randstr";
-
-		String TICKET = "Ticket";
-
-		String CAPTCHA_TYPE = "CaptchaType";
-
-		String BUSINESS_ID = "BusinessId";
-
-		String SCENE_ID = "SceneId";
-
-		String MAC_ADDRESS = "MacAddress";
-
-		String IMEI = "Imei";
-
-		String NEED_GET_CAPTCHA_TIME = "NeedGetCaptchaTime";
-
+	@Override
+	public void execute(final String id, final Date dateTime, final String clientIp){
+		System.out.printf("%s login success at: %s(IP: %s).", id, dateTime, clientIp);
 	}
 
 }

@@ -22,14 +22,18 @@
  * | Copyright @ 2013-2022 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.captcha.web.support;
+package org.apereo.cas.support;
+
+import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Cookie 密码错误拦截器抽象类
- *
  * @author Yong.Teng
- * @since 2.0.0
+ * @since 2.1.0
  */
-public class CookiePasswordFailureInterceptorAdapter extends AbstractPasswordFailureInterceptorAdapter {
+@ConfigurationProperties(prefix = CasSupportConfigurationProperties.PREFIX)
+public class CasSupportConfigurationProperties {
+
+	public final static String PREFIX = CasConfigurationProperties.PREFIX + ".support";
 
 }

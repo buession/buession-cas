@@ -42,11 +42,6 @@ public class CaptchaProperties {
 	public final static String PREFIX = CasConfigurationProperties.PREFIX + ".captcha";
 
 	/**
-	 * 是否启用验证码
-	 */
-	private boolean enabled;
-
-	/**
 	 * 前端 JavaScript 库地址
 	 */
 	private String[] javascript;
@@ -65,25 +60,6 @@ public class CaptchaProperties {
 	 * 腾讯行为验证码配置
 	 */
 	private Tencent tencent;
-
-	/**
-	 * 返回是否启用验证码
-	 *
-	 * @return 是否启用验证码
-	 */
-	public boolean isEnabled(){
-		return enabled;
-	}
-
-	/**
-	 * 设置是否启用验证码
-	 *
-	 * @param enabled
-	 * 		是否启用验证码
-	 */
-	public void setEnabled(boolean enabled){
-		this.enabled = enabled;
-	}
 
 	/**
 	 * 返回前端 JavaScript 库地址
