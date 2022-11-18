@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>2.1.2</version>
+		<version>2.2.0</version>
 	</parent>
 	<artifactId>buession-cas-view</artifactId>
 	<url>https://github.com/buession/buession-cas</url>
