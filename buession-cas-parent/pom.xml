@@ -658,6 +658,10 @@
 						<artifactId>jaxws-api</artifactId>
 					</exclusion>
 					<exclusion>
+						<groupId>jakarta.activation</groupId>
+						<artifactId>jakarta.activation-api</artifactId>
+					</exclusion>
+					<exclusion>
 						<groupId>org.glassfish.main.javaee-api</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
@@ -775,6 +779,18 @@
 					<exclusion>
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.module</groupId>
+				<artifactId>jackson-module-jaxb-annotations</artifactId>
+				<version>${fasterxml.jackson.module.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>jakarta.activation</groupId>
+						<artifactId>jakarta.activation-api</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
