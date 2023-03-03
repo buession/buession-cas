@@ -21,10 +21,10 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services.client;/**
+ */package org.apereo.cas.services;/**
  * 
  *
  * @author Yong.Teng
- * @since 2.2.0
- */public interface ServiceRegistryClient {
+ * @since 
+ */public class DefaultRegisteredServiceExpirationPolicy {
 }

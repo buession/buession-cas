@@ -31,10 +31,13 @@ import com.buession.core.utils.Assert;
 import com.buession.httpclient.HttpClient;
 import com.buession.httpclient.core.Response;
 import com.buession.httpclient.exception.RequestException;
+import org.apereo.cas.services.RegexRegisteredService;
+import org.apereo.cas.services.RegisteredService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -124,9 +127,11 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 			Response response = httpClient.get(baseUrl + "/registeredServices");
 
 			if(response.isSuccessful()){
-				return serializer.deserialize(response.getBody(), new TypeReference<List<RegisteredService>>() {
+				final List<RegexRegisteredService> registeredServices = serializer.deserialize(response.getBody(),
+						new TypeReference<List<RegexRegisteredService>>() {
 
-				});
+						});
+				return new ArrayList<>(registeredServices);
 			}else{
 				if(logger.isErrorEnabled()){
 					logger.error("Request registered services list error: HTTP Code is: {}", response.getStatusCode());

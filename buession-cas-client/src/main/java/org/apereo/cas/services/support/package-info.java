@@ -22,14 +22,8 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client;
-
-import java.io.Serializable;
-
 /**
  * @author Yong.Teng
  * @since 2.2.0
  */
-public interface Entity extends Serializable {
-
-}
+package org.apereo.cas.authentication.principal;

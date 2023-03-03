@@ -21,10 +21,9 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services.client;/**
- * 
- *
+ */
+/**
  * @author Yong.Teng
  * @since 2.2.0
- */public class ServiceTest {
-}
+ */
+package org.apereo.cas.authentication.principal;
