@@ -22,7 +22,7 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
 /**
  * @author Yong.Teng

@@ -22,7 +22,7 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas;
+package org.apereo.cas.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -35,6 +35,7 @@ import java.util.StringJoiner;
  * @since 2.2.0
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public interface Entity extends Serializable {
 
 	class StringBuilder {

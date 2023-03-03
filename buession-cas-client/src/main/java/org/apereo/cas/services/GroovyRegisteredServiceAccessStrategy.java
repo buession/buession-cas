@@ -21,10 +21,59 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link GroovyRegisteredServiceAccessStrategy}.
  *
  * @author Yong.Teng
- * @since 
- */public class GroovyRegisteredServiceAccessStrategy {
+ * @since 2.2.0
+ */
+public class GroovyRegisteredServiceAccessStrategy implements AccessStrategy {
+
+	private final static long serialVersionUID = -558826730705386557L;
+
+	private String groovyScript;
+
+	/**
+	 * The sorting/execution order of this strategy.
+	 */
+	private int order;
+
+	public String getGroovyScript(){
+		return groovyScript;
+	}
+
+	public void setGroovyScript(String groovyScript){
+		this.groovyScript = groovyScript;
+	}
+
+	/**
+	 * Return the sorting/execution order of this strategy.
+	 *
+	 * @return The sorting/execution order of this strategy.
+	 */
+	public int getOrder(){
+		return order;
+	}
+
+	/**
+	 * Sets the sorting/execution order of this strategy.
+	 *
+	 * @param order
+	 * 		The sorting/execution order of this strategy.
+	 */
+	public void setOrder(int order){
+		this.order = order;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.add("groovyScript", groovyScript)
+				.add("order", order)
+				.asString();
+	}
+
 }

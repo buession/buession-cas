@@ -22,12 +22,9 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.apereo.cas.services.Entity;
-import org.apereo.cas.services.utils.ToStringBuilder;
+import org.apereo.cas.entity.Entity;
 
 /**
  * This is {@link ServiceTicketExpirationPolicy}. This contract allows applications registered with CAS to define
@@ -36,79 +33,6 @@ import org.apereo.cas.services.utils.ToStringBuilder;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public abstract class ServiceTicketExpirationPolicy implements Entity {
-
-	private final static long serialVersionUID = 8475522497381185311L;
-
-	/**
-	 * This is {@link DefaultRegisteredServiceServiceTicketExpirationPolicy}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class DefaultRegisteredServiceServiceTicketExpirationPolicy
-			extends ServiceTicketExpirationPolicy {
-
-		private final static long serialVersionUID = 753310162992981920L;
-
-		/**
-		 * The number of uses.
-		 */
-		private long numberOfUses;
-
-		/**
-		 * The time to live of this ticket.
-		 */
-		private String timeToLive;
-
-		/**
-		 * Return number of times this ticket can be used.
-		 *
-		 * @return The number of uses.
-		 */
-		public long getNumberOfUses(){
-			return numberOfUses;
-		}
-
-		/**
-		 * Sets number of times this ticket can be used.
-		 *
-		 * @param numberOfUses
-		 * 		The number of uses.
-		 */
-		public void setNumberOfUses(long numberOfUses){
-			this.numberOfUses = numberOfUses;
-		}
-
-		/**
-		 * Get the TTL of this ticket, in seconds.
-		 *
-		 * @return The time to live of this ticket.
-		 */
-		public String getTimeToLive(){
-			return timeToLive;
-		}
-
-		/**
-		 * Sets the TTL of this ticket, in seconds.
-		 *
-		 * @param timeToLive
-		 * 		The time to live of this ticket.
-		 */
-		public void setTimeToLive(String timeToLive){
-			this.timeToLive = timeToLive;
-		}
-
-		@Override
-		public String toString(){
-			return StringBuilder.getInstance(this)
-					.add("numberOfUses", numberOfUses)
-					.add("timeToLive", timeToLive)
-					.asString();
-		}
-
-	}
+public interface ServiceTicketExpirationPolicy extends Entity {
 
 }

@@ -21,10 +21,33 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link GroovyRegisteredServiceAuthenticationPolicyCriteria}.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class GroovyRegisteredServiceAuthenticationPolicyCriteria {
+ */
+public class GroovyRegisteredServiceAuthenticationPolicyCriteria implements AuthenticationPolicyCriteria {
+
+	private final static long serialVersionUID = 7941282852364954804L;
+
+	private String script;
+
+	public String getScript(){
+		return script;
+	}
+
+	public void setScript(String script){
+		this.script = script;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.of("script", script);
+	}
+
 }

@@ -22,7 +22,9 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services;
+package org.apereo.cas.services.consent;
+
+import org.apereo.cas.services.ConsentPolicy;
 
 import java.util.List;
 

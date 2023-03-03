@@ -21,10 +21,36 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.client.exception;/**
- * 
- *
+ */
+package org.apereo.cas.client.exception;
+
+/**
  * @author Yong.Teng
  * @since 2.2.0
- */public class ServiceRegistryClientException {
+ */
+public class ServiceRegistryClientException extends Exception {
+
+	private final static long serialVersionUID = 7274283430160131777L;
+
+	public ServiceRegistryClientException(){
+		super();
+	}
+
+	public ServiceRegistryClientException(String message){
+		super(message);
+	}
+
+	public ServiceRegistryClientException(String message, Throwable cause){
+		super(message, cause);
+	}
+
+	public ServiceRegistryClientException(Throwable cause){
+		super(cause);
+	}
+
+	public ServiceRegistryClientException(String message, Throwable cause, boolean enableSuppression,
+										  boolean writableStackTrace){
+		super(message, cause, enableSuppression, writableStackTrace);
+	}
+
 }

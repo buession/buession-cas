@@ -22,12 +22,9 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.apereo.cas.services.Entity;
-import org.apereo.cas.services.utils.ToStringBuilder;
+import org.apereo.cas.entity.Entity;
 
 /**
  * The interface Registered service contact.
@@ -35,72 +32,6 @@ import org.apereo.cas.services.utils.ToStringBuilder;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public abstract class Contact implements Entity {
-
-	private final static long serialVersionUID = 3121963465275416841L;
-
-	/**
-	 * This is {@link DefaultRegisteredServiceContact}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public final static class DefaultRegisteredServiceContact extends Contact {
-
-		private final static long serialVersionUID = -610316710321806830L;
-
-		private String name;
-
-		private String email;
-
-		private String phone;
-
-		private String department;
-
-		public String getName(){
-			return name;
-		}
-
-		public void setName(String name){
-			this.name = name;
-		}
-
-		public String getEmail(){
-			return email;
-		}
-
-		public void setEmail(String email){
-			this.email = email;
-		}
-
-		public String getPhone(){
-			return phone;
-		}
-
-		public void setPhone(String phone){
-			this.phone = phone;
-		}
-
-		public String getDepartment(){
-			return department;
-		}
-
-		public void setDepartment(String department){
-			this.department = department;
-		}
-
-		@Override
-		public String toString(){
-			return ToStringBuilder.BaseEntityToStringBuilder.getInstance(this)
-					.add("name", name)
-					.add("email", email)
-					.add("phone", phone)
-					.add("department", department)
-					.asString();
-		}
-
-	}
+public interface Contact extends Entity {
 
 }

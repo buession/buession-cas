@@ -22,12 +22,9 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.apereo.cas.services.Entity;
-import org.apereo.cas.services.utils.ToStringBuilder;
+import org.apereo.cas.entity.Entity;
 
 /**
  * This is {@link ProxyGrantingTicketExpirationPolicy}. This contract allows applications registered
@@ -37,51 +34,6 @@ import org.apereo.cas.services.utils.ToStringBuilder;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public abstract class ProxyGrantingTicketExpirationPolicy implements Entity {
-
-	private final static long serialVersionUID = 1770081580565130616L;
-
-	/**
-	 * This is {@link DefaultRegisteredServiceProxyGrantingTicketExpirationPolicy}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class DefaultRegisteredServiceProxyGrantingTicketExpirationPolicy
-			extends ProxyGrantingTicketExpirationPolicy {
-
-		/**
-		 * The time to live of this ticket.
-		 */
-		private long maxTimeToLiveInSeconds;
-
-		/**
-		 * Return the TTL of this ticket, in seconds.
-		 *
-		 * @return The time to live of this ticket.
-		 */
-		public long getMaxTimeToLiveInSeconds(){
-			return maxTimeToLiveInSeconds;
-		}
-
-		/**
-		 * Set the TTL of this ticket, in seconds.
-		 *
-		 * @param maxTimeToLiveInSeconds
-		 * 		The time to live of this ticket.
-		 */
-		public void setMaxTimeToLiveInSeconds(long maxTimeToLiveInSeconds){
-			this.maxTimeToLiveInSeconds = maxTimeToLiveInSeconds;
-		}
-
-		@Override
-		public String toString(){
-			return StringBuilder.getInstance(this)
-					.of("maxTimeToLiveInSeconds", maxTimeToLiveInSeconds);
-		}
-
-	}
+public interface ProxyGrantingTicketExpirationPolicy extends Entity {
 
 }

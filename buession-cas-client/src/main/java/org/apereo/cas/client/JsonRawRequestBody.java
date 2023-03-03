@@ -21,10 +21,29 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.client;/**
- * 
- *
+ */
+package org.apereo.cas.client;
+
+import com.buession.httpclient.core.ContentType;
+import com.buession.httpclient.core.TextRawRequestBody;
+
+/**
  * @author Yong.Teng
  * @since 2.2.0
- */public class JsonRawRequestBody {
+ */
+public class JsonRawRequestBody extends TextRawRequestBody {
+
+	/**
+	 * 构造函数
+	 *
+	 * @param content
+	 * 		请求体
+	 * @param contentLength
+	 * 		请求体大小
+	 */
+	public JsonRawRequestBody(String content, long contentLength){
+		super(content, contentLength);
+		setContentType(ContentType.APPLICATION_JSON);
+	}
+
 }

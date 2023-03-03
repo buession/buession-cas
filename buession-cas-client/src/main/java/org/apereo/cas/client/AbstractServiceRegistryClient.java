@@ -22,15 +22,22 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client;
+package org.apereo.cas.client;
 
-import com.buession.core.serializer.JsonSerializer;
-import com.buession.core.serializer.SerializerException;
-import com.buession.core.serializer.type.TypeReference;
+import com.buession.core.builder.ListBuilder;
 import com.buession.core.utils.Assert;
 import com.buession.httpclient.HttpClient;
+import com.buession.httpclient.core.ContentType;
+import com.buession.httpclient.core.Header;
 import com.buession.httpclient.core.Response;
+import com.buession.httpclient.core.TextRawRequestBody;
 import com.buession.httpclient.exception.RequestException;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apereo.cas.client.exception.ServiceRegistryClientException;
+import org.apereo.cas.client.exception.ServiceRegistryClientHttpException;
 import org.apereo.cas.services.RegexRegisteredService;
 import org.apereo.cas.services.RegisteredService;
 import org.slf4j.Logger;
@@ -56,7 +63,7 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 	/**
 	 * JSON 反序列化实例
 	 */
-	private JsonSerializer serializer;
+	private final ObjectMapper objectMapper;
 
 	/**
 	 * {@link HttpClient} 实例
@@ -70,14 +77,11 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 	 *
 	 * @param baseUrl
 	 * 		基路径
-	 * @param serializer
-	 * 		JSON 反序列化实例
 	 */
-	public AbstractServiceRegistryClient(final String baseUrl, final JsonSerializer serializer){
+	public AbstractServiceRegistryClient(final String baseUrl){
 		Assert.isBlank(baseUrl, "CAS Server base url cloud not be empty or null.");
-		Assert.isNull(serializer, "JsonSerializer cloud not be null.");
 		this.baseUrl = baseUrl;
-		this.serializer = serializer;
+		objectMapper = getObjectMapper();
 	}
 
 	/**
@@ -85,14 +89,11 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 	 *
 	 * @param baseUrl
 	 * 		基路径
-	 * @param serializer
-	 * 		JSON 反序列化实例
 	 * @param httpClient
 	 *        {@link HttpClient} 实例
 	 */
-	public AbstractServiceRegistryClient(final String baseUrl, final JsonSerializer serializer,
-										 final HttpClient httpClient){
-		this(baseUrl, serializer);
+	public AbstractServiceRegistryClient(final String baseUrl, final HttpClient httpClient){
+		this(baseUrl);
 		setHttpClient(httpClient);
 	}
 
@@ -117,47 +118,123 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 	}
 
 	@Override
-	public RegisteredService save(final RegisteredService service){
-		return null;
+	public RegisteredService save(final RegisteredService service) throws ServiceRegistryClientException{
+		try{
+			objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator(),
+					ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+			String str = objectMapper.writeValueAsString(service);
+
+			str = "{\"@class\":\"" + service.getClass().getName() + "\"," + str.substring(1);
+			Response response = httpClient.post(baseUrl + "/importRegisteredServices",
+					new JsonRawRequestBody(str, str.length()));
+
+			if(response.isSuccessful()){
+				return service;
+			}else{
+				if(logger.isErrorEnabled()){
+					logger.error("Request import registered services list error: HTTP Code is: {}",
+							response.getStatusCode());
+				}
+				throw new ServiceRegistryClientHttpException(response.getStatusCode(), response.getStatusText());
+			}
+		}catch(IOException e){
+			if(logger.isErrorEnabled()){
+				logger.error("Request import registered services list error: {}", e.getMessage());
+			}
+			throw new ServiceRegistryClientException(e.getMessage(), e);
+		}catch(RequestException e){
+			logger.error("Request import registered services list error: {}", e.getMessage());
+			throw new ServiceRegistryClientHttpException(0, e.getMessage(), e);
+		}
 	}
 
 	@Override
-	public List<RegisteredService> list(){
+	public List<RegisteredService> list() throws ServiceRegistryClientException{
 		try{
 			Response response = httpClient.get(baseUrl + "/registeredServices");
 
 			if(response.isSuccessful()){
-				final List<RegexRegisteredService> registeredServices = serializer.deserialize(response.getBody(),
+				final List<RegexRegisteredService> services = objectMapper.readValue(response.getBody(),
 						new TypeReference<List<RegexRegisteredService>>() {
 
 						});
-				return new ArrayList<>(registeredServices);
+				return new ArrayList<>(services);
 			}else{
 				if(logger.isErrorEnabled()){
 					logger.error("Request registered services list error: HTTP Code is: {}", response.getStatusCode());
 				}
+				throw new ServiceRegistryClientHttpException(response.getStatusCode(), response.getStatusText());
 			}
 		}catch(IOException e){
 			if(logger.isErrorEnabled()){
 				logger.error("Request registered services list error: {}", e.getMessage());
 			}
+			throw new ServiceRegistryClientException(e.getMessage(), e);
 		}catch(RequestException e){
 			logger.error("Request registered services list error: {}", e.getMessage());
-		}catch(SerializerException e){
-			logger.error("Request registered services list error: {}", e.getMessage());
+			throw new ServiceRegistryClientHttpException(0, e.getMessage(), e);
 		}
-
-		return null;
 	}
 
 	@Override
-	public RegisteredService list(final String id){
-		return null;
+	public RegisteredService get(final int id) throws ServiceRegistryClientException{
+		try{
+			Response response = httpClient.get(baseUrl + "/registeredServices/" + id);
+
+			if(response.isSuccessful()){
+				return objectMapper.readValue(response.getBody(), RegexRegisteredService.class);
+			}else{
+				if(logger.isErrorEnabled()){
+					logger.error("Request registered service detail error: HTTP Code is: {}",
+							response.getStatusCode());
+				}
+				throw new ServiceRegistryClientHttpException(response.getStatusCode(), response.getStatusText());
+			}
+		}catch(IOException e){
+			if(logger.isErrorEnabled()){
+				logger.error("Request registered service detail error: {}", e.getMessage());
+			}
+			throw new ServiceRegistryClientException(e.getMessage(), e);
+		}catch(RequestException e){
+			logger.error("Request registered service detail error: {}", e.getMessage());
+			throw new ServiceRegistryClientHttpException(0, e.getMessage(), e);
+		}
 	}
 
 	@Override
-	public void delete(final String id){
+	public void delete(final int id) throws ServiceRegistryClientException{
+		try{
+			Response response = httpClient.delete(baseUrl + "/registeredServices/" + id,
+					ListBuilder.of(new Header("Content-Type", "application/json")));
 
+			if(response.isSuccessful()){
+				//
+			}else{
+				if(logger.isErrorEnabled()){
+					logger.error("Delete registered service error: HTTP Code is: {}",
+							response.getStatusCode());
+				}
+				throw new ServiceRegistryClientHttpException(response.getStatusCode(), response.getStatusText());
+			}
+		}catch(IOException e){
+			if(logger.isErrorEnabled()){
+				logger.error("Delete registered service error: {}", e.getMessage());
+			}
+			throw new ServiceRegistryClientException(e.getMessage(), e);
+		}catch(RequestException e){
+			logger.error("Delete registered service error: {}", e.getMessage());
+			throw new ServiceRegistryClientHttpException(0, e.getMessage(), e);
+		}
+	}
+
+	protected static ObjectMapper getObjectMapper(){
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator(),
+				ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT, JsonTypeInfo.As.PROPERTY);
+
+		return objectMapper;
 	}
 
 }

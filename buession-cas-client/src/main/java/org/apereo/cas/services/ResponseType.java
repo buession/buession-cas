@@ -22,14 +22,15 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
 /**
+ * An enumeration of different response types.
+ *
  * @author Yong.Teng
  * @since 2.2.0
  */
 public enum ResponseType {
-
 	/**
 	 * The post.
 	 */
@@ -44,5 +45,4 @@ public enum ResponseType {
 	 * Response is provided in form of headers.
 	 */
 	HEADER
-
 }

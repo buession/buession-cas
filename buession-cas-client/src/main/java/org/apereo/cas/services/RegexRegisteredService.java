@@ -22,7 +22,7 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client;
+package org.apereo.cas.services;
 
 /**
  * Mutable registered service that uses Java regular expressions for service matching.
@@ -33,6 +33,8 @@ package org.apereo.cas.services.client;
  * @since 2.2.0
  */
 public class RegexRegisteredService extends AbstractRegisteredService {
+
+	private final static long serialVersionUID = -3772873397258497043L;
 
 	@Override
 	public String toString(){

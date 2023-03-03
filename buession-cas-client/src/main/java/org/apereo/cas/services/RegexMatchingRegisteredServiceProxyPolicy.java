@@ -21,10 +21,33 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * A proxy policy that only allows proxying to pgt urls that match the specified regex pattern.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class RegexMatchingRegisteredServiceProxyPolicy {
+ */
+public class RegexMatchingRegisteredServiceProxyPolicy implements ProxyPolicy {
+
+	private final static long serialVersionUID = 4081626544590297299L;
+
+	private String pattern;
+
+	public String getPattern(){
+		return pattern;
+	}
+
+	public void setPattern(String pattern){
+		this.pattern = pattern;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.of("pattern", pattern);
+	}
+
 }

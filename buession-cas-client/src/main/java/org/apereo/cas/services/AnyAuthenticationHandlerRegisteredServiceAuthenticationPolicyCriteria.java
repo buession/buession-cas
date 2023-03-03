@@ -21,10 +21,36 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import org.apereo.cas.entity.Entity;
+
+/**
+ * This is {@link AnyAuthenticationHandlerRegisteredServiceAuthenticationPolicyCriteria}.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class AnyAuthenticationHandlerRegisteredServiceAuthenticationPolicyCriteria {
+ */
+public class AnyAuthenticationHandlerRegisteredServiceAuthenticationPolicyCriteria implements
+		AuthenticationPolicyCriteria {
+
+	private final static long serialVersionUID = 8092498885827119544L;
+
+	private boolean tryAll;
+
+	public boolean isTryAll(){
+		return tryAll;
+	}
+
+	public void setTryAll(boolean tryAll){
+		this.tryAll = tryAll;
+	}
+
+	@Override
+	public String toString(){
+		return Entity.StringBuilder.getInstance(this)
+				.of("tryAll", tryAll);
+	}
+
 }

@@ -21,10 +21,37 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import java.util.StringJoiner;
+
+/**
+ * Return a collection of allowed attributes for the principal based on an external REST endpoint.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class ReturnRestfulAttributeReleasePolicy {
+ */
+public class ReturnRestfulAttributeReleasePolicy extends AttributeReleasePolicy.AbstractAttributeReleasePolicy {
+
+	private final static long serialVersionUID = 612277202929266535L;
+
+	private String endpoint;
+
+	public String getEndpoint(){
+		return endpoint;
+	}
+
+	public void setEndpoint(String endpoint){
+		this.endpoint = endpoint;
+	}
+
+	@Override
+	public String toString(){
+		return new StringJoiner(", ")
+				.add(super.toString())
+				.add("endpoint=" + endpoint)
+				.toString();
+	}
+
 }

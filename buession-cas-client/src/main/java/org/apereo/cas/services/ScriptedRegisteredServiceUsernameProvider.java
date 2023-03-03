@@ -21,10 +21,35 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link ScriptedRegisteredServiceUsernameProvider}.
  *
  * @author Yong.Teng
- * @since 
- */public class ScriptedRegisteredServiceUsernameProvider {
+ * @since 2.2.0
+ */
+@Deprecated
+public class ScriptedRegisteredServiceUsernameProvider extends
+		UsernameAttributeProvider.BaseRegisteredServiceUsernameAttributeProvider {
+
+	private final static long serialVersionUID = -2248157523984671350L;
+
+	private String script;
+
+	public String getScript(){
+		return script;
+	}
+
+	public void setScript(String script){
+		this.script = script;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.of("script", script);
+	}
+
 }

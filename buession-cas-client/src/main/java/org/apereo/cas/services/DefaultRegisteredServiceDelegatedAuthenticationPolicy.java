@@ -21,10 +21,108 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import java.util.Collection;
+
+/**
+ * This is {@link DefaultRegisteredServiceDelegatedAuthenticationPolicy}.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class DefaultRegisteredServiceDelegatedAuthenticationPolicy {
+ */
+public class DefaultRegisteredServiceDelegatedAuthenticationPolicy implements DelegatedAuthenticationPolicy {
+
+	private final static long serialVersionUID = 506773578852197804L;
+
+	/**
+	 * The allowed authn providers.
+	 */
+	private Collection<String> allowedProviders;
+
+	/**
+	 * If no providers are defined, indicates whether or not access strategy should
+	 * authorize the request.
+	 */
+	private boolean permitUndefined = true;
+
+	/**
+	 * Indicate whether authentication should be exclusively limited to allowed providers,
+	 * disabling other forms of authentication such as username/password, etc.
+	 */
+	private boolean exclusive;
+
+	/**
+	 * Indicate the collection of allowed authentication providers
+	 * that this service may choose to delegate.
+	 *
+	 * @return The allowed authn providers.
+	 */
+	public Collection<String> getAllowedProviders(){
+		return allowedProviders;
+	}
+
+	/**
+	 * Sets indicate the collection of allowed authentication providers
+	 * that this service may choose to delegate.
+	 *
+	 * @param allowedProviders
+	 * 		The allowed authn providers.
+	 */
+	public void setAllowedProviders(Collection<String> allowedProviders){
+		this.allowedProviders = allowedProviders;
+	}
+
+	/**
+	 * If no providers are defined, indicates whether or not access strategy should
+	 * authorize the request.
+	 *
+	 * @return true/false
+	 */
+	public boolean isPermitUndefined(){
+		return permitUndefined;
+	}
+
+	/**
+	 * If no providers are defined, indicates whether or not access strategy should
+	 * authorize the request.
+	 *
+	 * @param permitUndefined
+	 * 		true/false
+	 */
+	public void setPermitUndefined(boolean permitUndefined){
+		this.permitUndefined = permitUndefined;
+	}
+
+	/**
+	 * Return indicate whether authentication should be exclusively limited to allowed providers,
+	 * disabling other forms of authentication such as username/password, etc.
+	 *
+	 * @return true/false
+	 */
+	public boolean isExclusive(){
+		return exclusive;
+	}
+
+	/**
+	 * Sets indicate whether authentication should be exclusively limited to allowed providers,
+	 * disabling other forms of authentication such as username/password, etc.
+	 *
+	 * @param exclusive
+	 * 		true/false
+	 */
+	public void setExclusive(boolean exclusive){
+		this.exclusive = exclusive;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.add("allowedProviders", allowedProviders)
+				.add("permitUndefined", permitUndefined)
+				.add("exclusive", exclusive)
+				.asString();
+	}
+
 }

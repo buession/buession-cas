@@ -21,10 +21,17 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import org.apereo.cas.entity.Entity;
+
+/**
+ * Generates a unique consistent Id based on the principal.
  *
  * @author Yong.Teng
- * @since 
- */public interface PersistentIdGenerator {
+ * @since 2.2.0
+ */
+public interface PersistentIdGenerator extends Entity {
+
 }

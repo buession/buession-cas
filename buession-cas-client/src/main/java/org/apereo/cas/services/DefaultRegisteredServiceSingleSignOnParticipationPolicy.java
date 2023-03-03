@@ -21,10 +21,51 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link DefaultRegisteredServiceSingleSignOnParticipationPolicy}.
  *
  * @author Yong.Teng
- * @since 
- */public class DefaultRegisteredServiceSingleSignOnParticipationPolicy {
+ * @since 2.2.0
+ */
+public class DefaultRegisteredServiceSingleSignOnParticipationPolicy implements SingleSignOnParticipationPolicy {
+
+	private final static long serialVersionUID = 8434938077322638136L;
+
+	/**
+	 * That indicates whether to create SSO session on re-newed authentication event
+	 * when dealing with this service.
+	 */
+	private TriStateBoolean createCookieOnRenewedAuthentication;
+
+	/**
+	 * Flag that indicates whether to create SSO session on re-newed authentication event
+	 * when dealing with this service.
+	 *
+	 * @return true/false
+	 */
+	public TriStateBoolean getCreateCookieOnRenewedAuthentication(){
+		return createCookieOnRenewedAuthentication;
+	}
+
+	/**
+	 * Sets that indicates whether to create SSO session on re-newed authentication event
+	 * when dealing with this service.
+	 *
+	 * @param createCookieOnRenewedAuthentication
+	 * 		That indicates whether to create SSO session on re-newed authentication event
+	 * 		when dealing with this service.
+	 */
+	public void setCreateCookieOnRenewedAuthentication(TriStateBoolean createCookieOnRenewedAuthentication){
+		this.createCookieOnRenewedAuthentication = createCookieOnRenewedAuthentication;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.of("createCookieOnRenewedAuthentication", createCookieOnRenewedAuthentication);
+	}
+
 }

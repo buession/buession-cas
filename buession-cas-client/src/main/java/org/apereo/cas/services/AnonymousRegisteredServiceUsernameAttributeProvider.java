@@ -21,10 +21,49 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * Generates a persistent id as username for anonymous service access.
+ * Generated ids are unique per service.
  *
  * @author Yong.Teng
- * @since 
- */public class AnonymousRegisteredServiceUsernameAttributeProvider {
+ * @since 2.2.0
+ */
+public class AnonymousRegisteredServiceUsernameAttributeProvider extends
+		UsernameAttributeProvider.BaseRegisteredServiceUsernameAttributeProvider {
+
+	private final static long serialVersionUID = 5691464891465482625L;
+
+	/**
+	 * The generates a unique consistent Id based on the principal.
+	 */
+	private PersistentIdGenerator persistentIdGenerator;
+
+	/**
+	 * Return the enerates a unique consistent Id based on the principal.
+	 *
+	 * @return The generates a unique consistent Id based on the principal.
+	 */
+	public PersistentIdGenerator getPersistentIdGenerator(){
+		return persistentIdGenerator;
+	}
+
+	/**
+	 * Sets the enerates a unique consistent Id based on the principal.
+	 *
+	 * @param persistentIdGenerator
+	 * 		The generates a unique consistent Id based on the principal.
+	 */
+	public void setPersistentIdGenerator(PersistentIdGenerator persistentIdGenerator){
+		this.persistentIdGenerator = persistentIdGenerator;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.of("persistentIdGenerator", persistentIdGenerator);
+	}
+
 }

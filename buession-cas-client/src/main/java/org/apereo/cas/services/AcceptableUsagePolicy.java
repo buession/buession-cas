@@ -22,12 +22,9 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.apereo.cas.services.Entity;
-import org.apereo.cas.services.utils.ToStringBuilder;
+import org.apereo.cas.entity.Entity;
 
 /**
  * This is {@link AcceptableUsagePolicy}.
@@ -35,103 +32,6 @@ import org.apereo.cas.services.utils.ToStringBuilder;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public abstract class AcceptableUsagePolicy implements Entity {
-
-	private final static long serialVersionUID = 7420920446824012670L;
-
-	/**
-	 * This is {@link DefaultRegisteredServiceAcceptableUsagePolicy}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class DefaultRegisteredServiceAcceptableUsagePolicy extends AcceptableUsagePolicy {
-
-		private final static long serialVersionUID = -5432687188782541137L;
-
-		/**
-		 * Indicate whether policy is enabled.
-		 */
-		private boolean enabled = true;
-
-		/**
-		 * The message code.
-		 */
-		private String messageCode;
-
-		/**
-		 * The policy text verbatim.
-		 */
-		private String text;
-
-		/**
-		 * Indicate whether policy is enabled.
-		 *
-		 * @return true/false
-		 */
-		public boolean isEnabled(){
-			return enabled;
-		}
-
-		/**
-		 * Sets indicate whether policy is enabled.
-		 *
-		 * @param enabled
-		 * 		Indicate whether policy is enabled.
-		 */
-		public void setEnabled(boolean enabled){
-			this.enabled = enabled;
-		}
-
-		/**
-		 * Return message code that links the policy terms and body to a language bundle code.
-		 *
-		 * @return The message code.
-		 */
-		public String getMessageCode(){
-			return messageCode;
-		}
-
-		/**
-		 * Sets message code that links the policy terms and body to a language bundle code.
-		 *
-		 * @param messageCode
-		 * 		The message code.
-		 */
-		public void setMessageCode(String messageCode){
-			this.messageCode = messageCode;
-		}
-
-		/**
-		 * Return the policy text verbatim.
-		 *
-		 * @return The policy text verbatim.
-		 */
-		public String getText(){
-			return text;
-		}
-
-		/**
-		 * Sets the policy text verbatim.
-		 *
-		 * @param text
-		 * 		The policy text verbatim.
-		 */
-		public void setText(String text){
-			this.text = text;
-		}
-
-		@Override
-		public String toString(){
-			return ToStringBuilder.BaseEntityToStringBuilder.getInstance(this)
-					.add("enabled", enabled)
-					.add("messageCode", messageCode)
-					.add("text", text)
-					.asString();
-		}
-
-	}
+public interface AcceptableUsagePolicy extends Entity {
 
 }

@@ -21,10 +21,111 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.authentication.principal;/**
- * 
+ */
+package org.apereo.cas.authentication.principal;
+
+import org.apereo.cas.entity.Entity;
+import org.apereo.cas.services.AttributeMergingStrategy;
+
+import java.util.Set;
+
+/**
+ * Defines operations required for retrieving principal attributes.
+ * Acts as a proxy between the external attribute source and CAS,
+ * executing such as additional processing or caching on the set
+ * of retrieved attributes. Implementations may simply decide to
+ * do nothing on the set of attributes that the principal carries
+ * or they may attempt to refresh them from the source, etc.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class PrincipalAttributesRepository {
+ */
+public interface PrincipalAttributesRepository extends Entity {
+
+	/**
+	 * Parent class for retrieval principals attributes, provides operations
+	 * around caching, merging of attributes.
+	 *
+	 * @author Yong.Teng
+	 * @since 2.2.0
+	 */
+	abstract class AbstractPrincipalAttributesRepository implements PrincipalAttributesRepository {
+
+		private final static long serialVersionUID = -919901110966922094L;
+
+		/**
+		 * The merging strategy that deals with existing principal attributes
+		 * and those that are retrieved from the source. By default, existing attributes
+		 * are ignored and the source is always consulted.
+		 */
+		private AttributeMergingStrategy mergingStrategy = AttributeMergingStrategy.MULTIVALUED;
+
+		/**
+		 * The attribute repository ids.
+		 */
+		private Set<String> attributeRepositoryIds;
+
+		private boolean ignoreResolvedAttributes;
+
+		/**
+		 * Return the merging strategy that deals with existing principal attributes
+		 * and those that are retrieved from the source.
+		 *
+		 * @return The merging strategy that deals with existing principal attributes
+		 * and those that are retrieved from the source.
+		 */
+		public AttributeMergingStrategy getMergingStrategy(){
+			return this.mergingStrategy;
+		}
+
+		/**
+		 * Sets the merging strategy that deals with existing principal attributes
+		 * and those that are retrieved from the source.
+		 *
+		 * @param mergingStrategy
+		 * 		The merging strategy that deals with existing principal attributes and those that are retrieved from the source.
+		 */
+		public void setMergingStrategy(final AttributeMergingStrategy mergingStrategy){
+			this.mergingStrategy = mergingStrategy;
+		}
+
+		/**
+		 * Return attribute repository ids that should be used to fetch attributes.
+		 * An empty collection indicates that all sources available and defined should be used.
+		 *
+		 * @return The attribute repository ids.
+		 */
+		public Set<String> getAttributeRepositoryIds(){
+			return this.attributeRepositoryIds;
+		}
+
+		/**
+		 * Sets attribute repository ids that should be used to fetch attributes.
+		 *
+		 * @param attributeRepositoryIds
+		 * 		The attribute repository ids.
+		 */
+		public void setAttributeRepositoryIds(final Set<String> attributeRepositoryIds){
+			this.attributeRepositoryIds = attributeRepositoryIds;
+		}
+
+		public boolean isIgnoreResolvedAttributes(){
+			return this.ignoreResolvedAttributes;
+		}
+
+		public void setIgnoreResolvedAttributes(final boolean ignoreResolvedAttributes){
+			this.ignoreResolvedAttributes = ignoreResolvedAttributes;
+		}
+
+		@Override
+		public String toString(){
+			return StringBuilder.getInstance(this)
+					.add("mergingStrategy", mergingStrategy)
+					.add("attributeRepositoryIds", attributeRepositoryIds)
+					.add("ignoreResolvedAttributes", ignoreResolvedAttributes)
+					.asString();
+		}
+
+	}
+
 }

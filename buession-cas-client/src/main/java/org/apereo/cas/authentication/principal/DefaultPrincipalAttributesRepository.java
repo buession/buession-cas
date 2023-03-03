@@ -21,10 +21,24 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.authentication.principal;/**
- * 
+ */
+package org.apereo.cas.authentication.principal;
+
+/**
+ * Default implementation of {@link PrincipalAttributesRepository}
+ * that just returns the attributes as it receives them.
  *
  * @author Yong.Teng
- * @since 
- */public class DefaultPrincipalAttributesRepository {
+ * @since 2.2.0
+ */
+public class DefaultPrincipalAttributesRepository extends
+		PrincipalAttributesRepository.AbstractPrincipalAttributesRepository {
+
+	private final static long serialVersionUID = 2946822355047319380L;
+
+	@Override
+	public String toString(){
+		return super.toString();
+	}
+
 }

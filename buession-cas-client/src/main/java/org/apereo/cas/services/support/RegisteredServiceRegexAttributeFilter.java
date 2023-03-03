@@ -21,10 +21,45 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services.support;/**
- * 
- *
+ */
+package org.apereo.cas.services.support;
+
+import org.apereo.cas.services.AttributeFilter;
+
+/**
  * @author Yong.Teng
  * @since 2.2.0
- */public class RegisteredServiceRegexAttributeFilter {
+ */
+public class RegisteredServiceRegexAttributeFilter implements AttributeFilter {
+
+	private final static long serialVersionUID = 7300658618890059043L;
+
+	private String pattern;
+
+	private int order;
+
+	public String getPattern(){
+		return pattern;
+	}
+
+	public void setPattern(String pattern){
+		this.pattern = pattern;
+	}
+
+	public int getOrder(){
+		return order;
+	}
+
+	public void setOrder(int order){
+		this.order = order;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.add("pattern", pattern)
+				.add("order", order)
+				.asString();
+	}
+
 }

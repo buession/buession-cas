@@ -22,12 +22,9 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.apereo.cas.services.Entity;
-import org.apereo.cas.services.utils.ToStringBuilder;
+import org.apereo.cas.entity.Entity;
 
 /**
  * Represents a strategy on how a registered service could be matched against
@@ -36,73 +33,6 @@ import org.apereo.cas.services.utils.ToStringBuilder;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public abstract class MatchingStrategy implements Entity {
-
-	private final static long serialVersionUID = 5487847944611025130L;
-
-	/**
-	 * This is {@link FullRegexRegisteredServiceMatchingStrategy}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public final static class FullRegexRegisteredServiceMatchingStrategy extends MatchingStrategy {
-
-		private final static long serialVersionUID = -5475249649783863764L;
-
-		@Override
-		public String toString(){
-			return super.toString();
-		}
-
-	}
-
-	/**
-	 * This is {@link PartialRegexRegisteredServiceMatchingStrategy}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public final static class PartialRegexRegisteredServiceMatchingStrategy extends MatchingStrategy {
-
-		private final static long serialVersionUID = -7128281837981882105L;
-
-		@Override
-		public String toString(){
-			return super.toString();
-		}
-
-	}
-
-	/**
-	 * This is {@link LiteralRegisteredServiceMatchingStrategy}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public final static class LiteralRegisteredServiceMatchingStrategy extends MatchingStrategy {
-
-		private final static long serialVersionUID = 5749700415198045976L;
-
-		private boolean caseInsensitive;
-
-		public boolean isCaseInsensitive(){
-			return caseInsensitive;
-		}
-
-		public void setCaseInsensitive(boolean caseInsensitive){
-			this.caseInsensitive = caseInsensitive;
-		}
-
-		@Override
-		public String toString(){
-			return ToStringBuilder.BaseEntityToStringBuilder.getInstance(this)
-					.add("caseInsensitive", caseInsensitive)
-					.asString();
-		}
-
-	}
+public interface MatchingStrategy extends Entity {
 
 }

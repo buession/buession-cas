@@ -21,10 +21,75 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import org.apereo.cas.entity.Entity;
+
+/**
+ * This is {@link DefaultRegisteredServiceServiceTicketExpirationPolicy}.
  *
  * @author Yong.Teng
- * @since 
- */public class DefaultRegisteredServiceServiceTicketExpirationPolicy {
+ * @since 2.2.0
+ */
+public class DefaultRegisteredServiceServiceTicketExpirationPolicy implements ServiceTicketExpirationPolicy {
+
+	private final static long serialVersionUID = 753310162992981920L;
+
+	/**
+	 * The number of uses.
+	 */
+	private long numberOfUses;
+
+	/**
+	 * The time to live of this ticket.
+	 */
+	private String timeToLive;
+
+	/**
+	 * Return number of times this ticket can be used.
+	 *
+	 * @return The number of uses.
+	 */
+	public long getNumberOfUses(){
+		return numberOfUses;
+	}
+
+	/**
+	 * Sets number of times this ticket can be used.
+	 *
+	 * @param numberOfUses
+	 * 		The number of uses.
+	 */
+	public void setNumberOfUses(long numberOfUses){
+		this.numberOfUses = numberOfUses;
+	}
+
+	/**
+	 * Get the TTL of this ticket, in seconds.
+	 *
+	 * @return The time to live of this ticket.
+	 */
+	public String getTimeToLive(){
+		return timeToLive;
+	}
+
+	/**
+	 * Sets the TTL of this ticket, in seconds.
+	 *
+	 * @param timeToLive
+	 * 		The time to live of this ticket.
+	 */
+	public void setTimeToLive(String timeToLive){
+		this.timeToLive = timeToLive;
+	}
+
+	@Override
+	public String toString(){
+		return Entity.StringBuilder.getInstance(this)
+				.add("numberOfUses", numberOfUses)
+				.add("timeToLive", timeToLive)
+				.asString();
+	}
+
 }

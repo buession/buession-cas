@@ -22,14 +22,10 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.apereo.cas.services.Entity;
-import org.apereo.cas.services.utils.ToStringBuilder;
+import org.apereo.cas.entity.Entity;
 
-import java.util.List;
 import java.util.StringJoiner;
 import java.util.concurrent.TimeUnit;
 
@@ -45,57 +41,7 @@ import java.util.concurrent.TimeUnit;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public abstract class SingleSignOnParticipationPolicy implements Entity {
-
-	/**
-	 * This is {@link DefaultRegisteredServiceSingleSignOnParticipationPolicy}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class DefaultRegisteredServiceSingleSignOnParticipationPolicy
-			extends SingleSignOnParticipationPolicy {
-
-		private final static long serialVersionUID = 8434938077322638136L;
-
-		/**
-		 * That indicates whether to create SSO session on re-newed authentication event
-		 * when dealing with this service.
-		 */
-		private TriStateBoolean createCookieOnRenewedAuthentication;
-
-		/**
-		 * Flag that indicates whether to create SSO session on re-newed authentication event
-		 * when dealing with this service.
-		 *
-		 * @return true/false
-		 */
-		public TriStateBoolean getCreateCookieOnRenewedAuthentication(){
-			return createCookieOnRenewedAuthentication;
-		}
-
-		/**
-		 * Sets that indicates whether to create SSO session on re-newed authentication event
-		 * when dealing with this service.
-		 *
-		 * @param createCookieOnRenewedAuthentication
-		 * 		That indicates whether to create SSO session on re-newed authentication event
-		 * 		when dealing with this service.
-		 */
-		public void setCreateCookieOnRenewedAuthentication(
-				TriStateBoolean createCookieOnRenewedAuthentication){
-			this.createCookieOnRenewedAuthentication = createCookieOnRenewedAuthentication;
-		}
-
-		@Override
-		public String toString(){
-			return StringBuilder.getInstance(this)
-					.of("createCookieOnRenewedAuthentication", createCookieOnRenewedAuthentication);
-		}
-
-	}
+public interface SingleSignOnParticipationPolicy extends Entity {
 
 	/**
 	 * This is {@link BaseDateTimeRegisteredServiceSingleSignOnParticipationPolicy}.
@@ -103,9 +49,7 @@ public abstract class SingleSignOnParticipationPolicy implements Entity {
 	 * @author Yong.Teng
 	 * @since 2.2.0
 	 */
-	@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-	@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-	public abstract static class BaseDateTimeRegisteredServiceSingleSignOnParticipationPolicy
+	abstract class BaseDateTimeRegisteredServiceSingleSignOnParticipationPolicy
 			extends DefaultRegisteredServiceSingleSignOnParticipationPolicy {
 
 		private final static long serialVersionUID = 6096729656112591576L;
@@ -148,91 +92,6 @@ public abstract class SingleSignOnParticipationPolicy implements Entity {
 					.add("timeValue=" + timeValue)
 					.add("order" + order)
 					.toString();
-		}
-
-		/**
-		 * This is {@link AuthenticationDateRegisteredServiceSingleSignOnParticipationPolicy}.
-		 *
-		 * @author Yong.Teng
-		 * @since 2.2.0
-		 */
-		public static class AuthenticationDateRegisteredServiceSingleSignOnParticipationPolicy
-				extends BaseDateTimeRegisteredServiceSingleSignOnParticipationPolicy {
-
-			private final static long serialVersionUID = -2234621198076472341L;
-
-			@Override
-			public String toString(){
-				return super.toString();
-			}
-
-		}
-
-		/**
-		 * This is {@link LastUsedTimeRegisteredServiceSingleSignOnParticipationPolicy}.
-		 *
-		 * @author Yong.Teng
-		 * @since 2.2.0
-		 */
-		public static class LastUsedTimeRegisteredServiceSingleSignOnParticipationPolicy
-				extends BaseDateTimeRegisteredServiceSingleSignOnParticipationPolicy {
-
-			private final static long serialVersionUID = -1700035502556676976L;
-
-			@Override
-			public String toString(){
-				return super.toString();
-			}
-
-		}
-
-	}
-
-	/**
-	 * This is {@link ChainingRegisteredServiceSingleSignOnParticipationPolicy}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class ChainingRegisteredServiceSingleSignOnParticipationPolicy
-			extends SingleSignOnParticipationPolicy {
-
-		private final static long serialVersionUID = -35639220413464229L;
-
-		private List<SingleSignOnParticipationPolicy> policies;
-
-		public List<SingleSignOnParticipationPolicy> getPolicies(){
-			return policies;
-		}
-
-		public void setPolicies(List<SingleSignOnParticipationPolicy> policies){
-			this.policies = policies;
-		}
-
-		@Override
-		public String toString(){
-			return new StringJoiner(", ")
-					.add(super.toString())
-					.add("policies=" + policies)
-					.toString();
-		}
-
-	}
-
-	/**
-	 * This is {@link NeverRegisteredServiceSingleSignOnParticipationPolicy}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class NeverRegisteredServiceSingleSignOnParticipationPolicy
-			extends SingleSignOnParticipationPolicy {
-
-		private final static long serialVersionUID = 1993111264216653785L;
-
-		@Override
-		public String toString(){
-			return super.toString();
 		}
 
 	}

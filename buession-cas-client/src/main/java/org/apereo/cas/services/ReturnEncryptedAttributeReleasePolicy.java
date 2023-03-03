@@ -21,10 +21,38 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import java.util.Set;
+import java.util.StringJoiner;
+
+/**
+ * Return only the collection of allowed attributes out of what's resolved for the principal.
  *
  * @author Yong.Teng
- * @since 
- */public class ReturnEncryptedAttributeReleasePolicy {
+ * @since 2.2.0
+ */
+public class ReturnEncryptedAttributeReleasePolicy extends AttributeReleasePolicy.AbstractAttributeReleasePolicy {
+
+	private final static long serialVersionUID = -3892481828451957682L;
+
+	private Set<String> allowedAttributes;
+
+	public Set<String> getAllowedAttributes(){
+		return allowedAttributes;
+	}
+
+	public void setAllowedAttributes(Set<String> allowedAttributes){
+		this.allowedAttributes = allowedAttributes;
+	}
+
+	@Override
+	public String toString(){
+		return new StringJoiner(", ")
+				.add(super.toString())
+				.add("allowedAttributes=" + allowedAttributes)
+				.toString();
+	}
+
 }

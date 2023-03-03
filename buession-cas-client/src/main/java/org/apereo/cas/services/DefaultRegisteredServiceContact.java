@@ -21,10 +21,69 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import org.apereo.cas.entity.Entity;
+
+/**
+ * This is {@link DefaultRegisteredServiceContact}.
  *
  * @author Yong.Teng
- * @since 
- */public class DefaultRegisteredServiceContact {
+ * @since 2.2.0
+ */
+public class DefaultRegisteredServiceContact implements Contact {
+
+	private final static long serialVersionUID = 1274012701291346354L;
+
+	private String name;
+
+	private String email;
+
+	private String phone;
+
+	private String department;
+
+	public String getName(){
+		return name;
+	}
+
+	public void setName(String name){
+		this.name = name;
+	}
+
+	public String getEmail(){
+		return email;
+	}
+
+	public void setEmail(String email){
+		this.email = email;
+	}
+
+	public String getPhone(){
+		return phone;
+	}
+
+	public void setPhone(String phone){
+		this.phone = phone;
+	}
+
+	public String getDepartment(){
+		return department;
+	}
+
+	public void setDepartment(String department){
+		this.department = department;
+	}
+
+	@Override
+	public String toString(){
+		return Entity.StringBuilder.getInstance(this)
+				.add("name", name)
+				.add("email", email)
+				.add("phone", phone)
+				.add("department", department)
+				.asString();
+	}
+
 }

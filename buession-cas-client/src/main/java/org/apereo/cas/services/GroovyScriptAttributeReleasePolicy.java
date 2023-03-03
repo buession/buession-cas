@@ -21,10 +21,37 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import java.util.StringJoiner;
+
+/**
+ * A deny rule to refuse all service from receiving attributes, whether default or not.
  *
  * @author Yong.Teng
- * @since 
- */public class GroovyScriptAttributeReleasePolicy {
+ * @since 2.2.0
+ */
+public class GroovyScriptAttributeReleasePolicy extends AttributeReleasePolicy.AbstractAttributeReleasePolicy {
+
+	private final static long serialVersionUID = -8327471511863649000L;
+
+	private String groovyScript;
+
+	public String getGroovyScript(){
+		return groovyScript;
+	}
+
+	public void setGroovyScript(String groovyScript){
+		this.groovyScript = groovyScript;
+	}
+
+	@Override
+	public String toString(){
+		return new StringJoiner(", ")
+				.add(super.toString())
+				.add("groovyScript=" + groovyScript)
+				.toString();
+	}
+
 }

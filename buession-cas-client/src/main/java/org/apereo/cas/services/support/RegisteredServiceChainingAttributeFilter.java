@@ -21,10 +21,37 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services.support;/**
- * 
+ */
+package org.apereo.cas.services.support;
+
+import org.apereo.cas.services.AttributeFilter;
+
+import java.util.List;
+
+/**
+ * The filter that chains other filters inside it.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class RegisteredServiceChainingAttributeFilter {
+ */
+public class RegisteredServiceChainingAttributeFilter implements AttributeFilter {
+
+	private final static long serialVersionUID = 3032322289152303878L;
+
+	private List<AttributeFilter> filters;
+
+	public List<AttributeFilter> getFilters(){
+		return filters;
+	}
+
+	public void setFilters(List<AttributeFilter> filters){
+		this.filters = filters;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.of("filters", filters);
+	}
+
 }

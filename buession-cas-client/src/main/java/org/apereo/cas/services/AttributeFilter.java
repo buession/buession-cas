@@ -21,10 +21,19 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import org.apereo.cas.entity.Entity;
+
+/**
+ * Defines the general contract of the attribute release policy for a registered service.
+ * An instance of this attribute filter may determine how principal/global attributes are translated to
+ * a map of attributes that may be released for a registered service.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public interface AttributeFilter {
+ */
+public interface AttributeFilter extends Entity {
+
 }

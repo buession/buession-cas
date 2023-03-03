@@ -21,10 +21,22 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link FullRegexRegisteredServiceMatchingStrategy}.
  *
  * @author Yong.Teng
- * @since 
- */public class FullRegexRegisteredServiceMatchingStrategy {
+ * @since 2.2.0
+ */
+public class FullRegexRegisteredServiceMatchingStrategy implements MatchingStrategy {
+
+	private final static long serialVersionUID = -5475249649783863764L;
+
+	@Override
+	public String toString(){
+		return super.toString();
+	}
+
 }

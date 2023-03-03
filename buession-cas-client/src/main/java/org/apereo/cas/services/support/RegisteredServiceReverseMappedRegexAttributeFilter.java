@@ -21,10 +21,24 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services.support;/**
- * 
+ */
+package org.apereo.cas.services.support;
+
+/**
+ * A filtering policy that selectively applies patterns to attributes mapped in the config.
+ * If an attribute is mapped, it's only allowed to be released if it does not match the linked pattern.
+ * If an attribute is not mapped, it may optionally be excluded from the released set of attributes.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class RegisteredServiceReverseMappedRegexAttributeFilter {
+ */
+public class RegisteredServiceReverseMappedRegexAttributeFilter extends RegisteredServiceMappedRegexAttributeFilter {
+
+	private final static long serialVersionUID = -7071388350032286427L;
+
+	@Override
+	public String toString(){
+		return super.toString();
+	}
+
 }

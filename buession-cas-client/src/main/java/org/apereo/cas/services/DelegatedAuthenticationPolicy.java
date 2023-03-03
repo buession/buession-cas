@@ -21,10 +21,15 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
- *
+ */
+package org.apereo.cas.services;
+
+import org.apereo.cas.entity.Entity;
+
+/**
  * @author Yong.Teng
  * @since 2.2.0
- */public interface DelegatedAuthenticationPolicy {
+ */
+public interface DelegatedAuthenticationPolicy extends Entity {
+
 }

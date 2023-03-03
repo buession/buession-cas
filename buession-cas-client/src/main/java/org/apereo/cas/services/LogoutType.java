@@ -22,9 +22,11 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
 /**
+ * This is {@link LogoutType}.
+ *
  * @author Yong.Teng
  * @since 2.2.0
  */
@@ -33,10 +35,12 @@ public enum LogoutType {
 	 * For no SLO.
 	 */
 	NONE,
+
 	/**
 	 * For back channel SLO.
 	 */
 	BACK_CHANNEL,
+	
 	/**
 	 * For front channel SLO.
 	 */

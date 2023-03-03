@@ -22,13 +22,9 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.apereo.cas.services.CaseCanonicalizationMode;
-import org.apereo.cas.services.Entity;
-import org.apereo.cas.services.utils.ToStringBuilder;
+import org.apereo.cas.entity.Entity;
 
 /**
  * Strategy interface to define what username attribute should be returned for a given registered service.
@@ -36,11 +32,7 @@ import org.apereo.cas.services.utils.ToStringBuilder;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public abstract class UsernameAttributeProvider implements Entity {
-
-	private final static long serialVersionUID = 3142832654244632132L;
+public interface UsernameAttributeProvider extends Entity {
 
 	/**
 	 * This is {@link BaseRegisteredServiceUsernameAttributeProvider}.
@@ -48,9 +40,7 @@ public abstract class UsernameAttributeProvider implements Entity {
 	 * @author Yong.Teng
 	 * @since 2.2.0
 	 */
-	@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-	@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-	public abstract static class BaseRegisteredServiceUsernameAttributeProvider extends UsernameAttributeProvider {
+	abstract class BaseRegisteredServiceUsernameAttributeProvider implements UsernameAttributeProvider {
 
 		private final static long serialVersionUID = -256903697505154347L;
 
@@ -76,220 +66,9 @@ public abstract class UsernameAttributeProvider implements Entity {
 
 		@Override
 		public String toString(){
-			return ToStringBuilder.BaseEntityToStringBuilder.getInstance(this)
+			return StringBuilder.getInstance(this)
 					.add("canonicalizationMode", canonicalizationMode)
 					.add("encryptUsername", encryptUsername)
-					.asString();
-		}
-
-	}
-
-	/**
-	 * Resolves the username for the service to be the default principal id.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class DefaultRegisteredServiceUsernameProvider
-			extends BaseRegisteredServiceUsernameAttributeProvider {
-
-		private final static long serialVersionUID = 6259003239865782296L;
-
-		@Override
-		public String toString(){
-			return super.toString();
-		}
-
-	}
-
-	/**
-	 * Generates a persistent id as username for anonymous service access.
-	 * Generated ids are unique per service.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class AnonymousRegisteredServiceUsernameAttributeProvider
-			extends BaseRegisteredServiceUsernameAttributeProvider {
-
-		private final static long serialVersionUID = 5691464891465482625L;
-
-		/**
-		 * The generates a unique consistent Id based on the principal.
-		 */
-		private PersistentIdGenerator persistentIdGenerator;
-
-		/**
-		 * Return the enerates a unique consistent Id based on the principal.
-		 *
-		 * @return The generates a unique consistent Id based on the principal.
-		 */
-		public PersistentIdGenerator getPersistentIdGenerator(){
-			return persistentIdGenerator;
-		}
-
-		/**
-		 * Sets the enerates a unique consistent Id based on the principal.
-		 *
-		 * @param persistentIdGenerator
-		 * 		The generates a unique consistent Id based on the principal.
-		 */
-		public void setPersistentIdGenerator(
-				PersistentIdGenerator persistentIdGenerator){
-			this.persistentIdGenerator = persistentIdGenerator;
-		}
-
-		@Override
-		public String toString(){
-			return ToStringBuilder.BaseEntityToStringBuilder.getInstance(this)
-					.add("persistentIdGenerator", persistentIdGenerator)
-					.asString();
-		}
-
-		/**
-		 * Generates a unique consistent Id based on the principal.
-		 *
-		 * @author Yong.Teng
-		 * @since 2.2.0
-		 */
-		@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-		@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-		public abstract static class PersistentIdGenerator implements Entity {
-
-			private final static long serialVersionUID = 4844825769749202987L;
-
-			/**
-			 * Generates PersistentIds based on the Shibboleth algorithm.
-			 * The generated ids are based on a principal attribute is specified, or
-			 * the authenticated principal id.
-			 *
-			 * @author Yong.Teng
-			 * @since 2.2.0
-			 */
-			public static class ShibbolethCompatiblePersistentIdGenerator extends PersistentIdGenerator {
-
-				private final static long serialVersionUID = -8471511405431575393L;
-
-				private String salt;
-
-				private String attribute;
-
-				public String getSalt(){
-					return salt;
-				}
-
-				public void setSalt(String salt){
-					this.salt = salt;
-				}
-
-				public String getAttribute(){
-					return attribute;
-				}
-
-				public void setAttribute(String attribute){
-					this.attribute = attribute;
-				}
-
-				@Override
-				public String toString(){
-					return ToStringBuilder.BaseEntityToStringBuilder.getInstance(this)
-							.add("salt", salt)
-							.add("attribute", attribute)
-							.asString();
-				}
-
-			}
-
-		}
-
-	}
-
-	/**
-	 * Resolves the username for the service to be the default principal id.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class GroovyRegisteredServiceUsernameProvider
-			extends BaseRegisteredServiceUsernameAttributeProvider {
-
-		private final static long serialVersionUID = -6305778139709554308L;
-
-		private String groovyScript;
-
-		public String getGroovyScript(){
-			return groovyScript;
-		}
-
-		public void setGroovyScript(String groovyScript){
-			this.groovyScript = groovyScript;
-		}
-
-		@Override
-		public String toString(){
-			return ToStringBuilder.BaseEntityToStringBuilder.getInstance(this)
-					.add("groovyScript", groovyScript)
-					.asString();
-		}
-
-	}
-
-	/**
-	 * Determines the username for this registered service based on a principal attribute.
-	 * If the attribute is not found, default principal id is returned.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class PrincipalAttributeRegisteredServiceUsernameProvider
-			extends BaseRegisteredServiceUsernameAttributeProvider {
-
-		private final static long serialVersionUID = 3354169170543960592L;
-
-		private String usernameAttribute;
-
-		public String getUsernameAttribute(){
-			return usernameAttribute;
-		}
-
-		public void setUsernameAttribute(String usernameAttribute){
-			this.usernameAttribute = usernameAttribute;
-		}
-
-		@Override
-		public String toString(){
-			return ToStringBuilder.BaseEntityToStringBuilder.getInstance(this)
-					.add("usernameAttribute", usernameAttribute)
-					.asString();
-		}
-
-	}
-
-	/**
-	 * This is {@link ScriptedRegisteredServiceUsernameProvider}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class ScriptedRegisteredServiceUsernameProvider
-			extends BaseRegisteredServiceUsernameAttributeProvider {
-
-		private final static long serialVersionUID = -2248157523984671350L;
-
-		private String script;
-
-		public String getScript(){
-			return script;
-		}
-
-		public void setScript(String script){
-			this.script = script;
-		}
-
-		@Override
-		public String toString(){
-			return StringBuilder.getInstance(this)
-					.add("script", script)
 					.asString();
 		}
 

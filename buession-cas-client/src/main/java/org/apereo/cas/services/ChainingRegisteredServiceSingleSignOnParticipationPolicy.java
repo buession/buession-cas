@@ -21,10 +21,38 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import java.util.List;
+import java.util.StringJoiner;
+
+/**
+ * This is {@link ChainingRegisteredServiceSingleSignOnParticipationPolicy}.
  *
  * @author Yong.Teng
- * @since 
- */public class ChainingRegisteredServiceSingleSignOnParticipationPolicy {
+ * @since 2.2.0
+ */
+public class ChainingRegisteredServiceSingleSignOnParticipationPolicy implements SingleSignOnParticipationPolicy {
+
+	private final static long serialVersionUID = -35639220413464229L;
+
+	private List<SingleSignOnParticipationPolicy> policies;
+
+	public List<SingleSignOnParticipationPolicy> getPolicies(){
+		return policies;
+	}
+
+	public void setPolicies(List<SingleSignOnParticipationPolicy> policies){
+		this.policies = policies;
+	}
+
+	@Override
+	public String toString(){
+		return new StringJoiner(", ")
+				.add(super.toString())
+				.add("policies=" + policies)
+				.toString();
+	}
+
 }

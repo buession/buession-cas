@@ -21,10 +21,35 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * Determines the username for this registered service based on a principal attribute.
+ * If the attribute is not found, default principal id is returned.
  *
  * @author Yong.Teng
- * @since 
- */public class PrincipalAttributeRegisteredServiceUsernameProvider {
+ * @since 2.2.0
+ */
+public class PrincipalAttributeRegisteredServiceUsernameProvider extends
+		UsernameAttributeProvider.BaseRegisteredServiceUsernameAttributeProvider {
+
+	private final static long serialVersionUID = 3354169170543960592L;
+
+	private String usernameAttribute;
+
+	public String getUsernameAttribute(){
+		return usernameAttribute;
+	}
+
+	public void setUsernameAttribute(String usernameAttribute){
+		this.usernameAttribute = usernameAttribute;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.of("usernameAttribute", usernameAttribute);
+	}
+
 }

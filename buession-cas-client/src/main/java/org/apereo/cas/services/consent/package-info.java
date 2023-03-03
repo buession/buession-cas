@@ -26,4 +26,4 @@
  * @author Yong.Teng
  * @since 2.2.0
  */
-package org.apereo.cas.authentication.principal;
+package org.apereo.cas.services.consent;

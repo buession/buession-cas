@@ -9,6 +9,11 @@
 - [依赖库版本升级和安全漏洞修复](https://github.com/buession/buession-parent/releases/tag/v2.2.0)
 
 
+### ⭐ 新特性
+
+- **buession-cas-client：** 新增 RegisteredService Client SDK
+
+
 ---
 
 

@@ -21,10 +21,22 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services.support;/**
- * 
+ */
+package org.apereo.cas.services.support;
+
+/**
+ * This is {@link RegisteredServiceMutantRegexAttributeFilter}.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class RegisteredServiceMutantRegexAttributeFilter {
+ */
+public class RegisteredServiceMutantRegexAttributeFilter extends RegisteredServiceMappedRegexAttributeFilter {
+
+	private final static long serialVersionUID = -7071512399093935556L;
+
+	@Override
+	public String toString(){
+		return super.toString();
+	}
+
 }

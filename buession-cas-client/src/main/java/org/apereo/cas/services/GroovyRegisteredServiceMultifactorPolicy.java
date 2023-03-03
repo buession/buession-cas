@@ -21,10 +21,34 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link GroovyRegisteredServiceMultifactorPolicy}.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class GroovyRegisteredServiceMultifactorPolicy {
+ */
+public class GroovyRegisteredServiceMultifactorPolicy implements MultifactorPolicy {
+
+	private final static long serialVersionUID = -1740960141208799374L;
+
+	private String groovyScript;
+
+	public String getGroovyScript(){
+		return groovyScript;
+	}
+
+	public void setGroovyScript(String groovyScript){
+		this.groovyScript = groovyScript;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.add("groovyScript", groovyScript)
+				.asString();
+	}
+
 }

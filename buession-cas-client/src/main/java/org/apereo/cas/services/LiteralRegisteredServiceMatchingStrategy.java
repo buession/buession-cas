@@ -21,10 +21,33 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link LiteralRegisteredServiceMatchingStrategy}.
  *
  * @author Yong.Teng
- * @since 
- */public class LiteralRegisteredServiceMatchingStrategy {
+ * @since 2.2.0
+ */
+public class LiteralRegisteredServiceMatchingStrategy implements MatchingStrategy {
+
+	private final static long serialVersionUID = 5749700415198045976L;
+
+	private boolean caseInsensitive;
+
+	public boolean isCaseInsensitive(){
+		return caseInsensitive;
+	}
+
+	public void setCaseInsensitive(boolean caseInsensitive){
+		this.caseInsensitive = caseInsensitive;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.of("caseInsensitive", caseInsensitive);
+	}
+
 }

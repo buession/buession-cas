@@ -21,10 +21,22 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * A deny rule to refuse all service from receiving attributes, whether default or not.
  *
  * @author Yong.Teng
- * @since 
- */public class DenyAllAttributeReleasePolicy {
+ * @since 2.2.0
+ */
+public class DenyAllAttributeReleasePolicy extends AttributeReleasePolicy.AbstractAttributeReleasePolicy {
+
+	private final static long serialVersionUID = -982993369711200326L;
+
+	@Override
+	public String toString(){
+		return super.toString();
+	}
+
 }

@@ -21,10 +21,49 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import java.util.StringJoiner;
+
+/**
+ * The {@link TimeBasedRegisteredServiceAccessStrategy} is responsible for
+ * enforcing CAS authorization strategy based on a configured start/end time.
  *
  * @author Yong.Teng
- * @since 
- */public class TimeBasedRegisteredServiceAccessStrategy {
+ * @since 2.2.0
+ */
+public class TimeBasedRegisteredServiceAccessStrategy extends DefaultRegisteredServiceAccessStrategy {
+
+	private final static long serialVersionUID = -2498603590086171758L;
+
+	private String startingDateTime;
+
+	private String endingDateTime;
+
+	public String getStartingDateTime(){
+		return startingDateTime;
+	}
+
+	public void setStartingDateTime(String startingDateTime){
+		this.startingDateTime = startingDateTime;
+	}
+
+	public String getEndingDateTime(){
+		return endingDateTime;
+	}
+
+	public void setEndingDateTime(String endingDateTime){
+		this.endingDateTime = endingDateTime;
+	}
+
+	@Override
+	public String toString(){
+		return new StringJoiner(", ")
+				.add(super.toString())
+				.add("startingDateTime=" + startingDateTime)
+				.add("endingDateTime=" + endingDateTime)
+				.toString();
+	}
+
 }

@@ -21,10 +21,100 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import java.util.Set;
+
+/**
+ * This is {@link DefaultRegisteredServiceAuthenticationPolicy}.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class DefaultRegisteredServiceAuthenticationPolicy {
+ */
+public class DefaultRegisteredServiceAuthenticationPolicy implements AuthenticationPolicy {
+
+	private final static long serialVersionUID = -4299141576921130940L;
+
+	/**
+	 * The required authentication handlers.
+	 */
+	private Set<String> requiredAuthenticationHandlers;
+
+	/**
+	 * The excluded authentication handlers.
+	 */
+	private Set<String> excludedAuthenticationHandlers;
+
+	/**
+	 * The required authentication policies.
+	 */
+	private AuthenticationPolicyCriteria criteria;
+
+	/**
+	 * Return required authentication handlers by their name/id.
+	 *
+	 * @return The required authentication handlers.
+	 */
+	public Set<String> getRequiredAuthenticationHandlers(){
+		return requiredAuthenticationHandlers;
+	}
+
+	/**
+	 * Sets required authentication handlers by their name/id.
+	 *
+	 * @param requiredAuthenticationHandlers
+	 * 		The required authentication handlers.
+	 */
+	public void setRequiredAuthenticationHandlers(Set<String> requiredAuthenticationHandlers){
+		this.requiredAuthenticationHandlers = requiredAuthenticationHandlers;
+	}
+
+	/**
+	 * Return excluded authentication handlers by their name/id.
+	 *
+	 * @return The excluded authentication handlers.
+	 */
+	public Set<String> getExcludedAuthenticationHandlers(){
+		return excludedAuthenticationHandlers;
+	}
+
+	/**
+	 * Sets excluded authentication handlers by their name/id.
+	 *
+	 * @param excludedAuthenticationHandlers
+	 * 		The excluded authentication handlers.
+	 */
+	public void setExcludedAuthenticationHandlers(Set<String> excludedAuthenticationHandlers){
+		this.excludedAuthenticationHandlers = excludedAuthenticationHandlers;
+	}
+
+	/**
+	 * Return required authentication policy criteria.
+	 *
+	 * @return The required authentication policies.
+	 */
+	public AuthenticationPolicyCriteria getCriteria(){
+		return criteria;
+	}
+
+	/**
+	 * Sets required authentication policy criteria.
+	 *
+	 * @param criteria
+	 * 		The required authentication policies.
+	 */
+	public void setCriteria(AuthenticationPolicyCriteria criteria){
+		this.criteria = criteria;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.add("requiredAuthenticationHandlers", requiredAuthenticationHandlers)
+				.add("excludedAuthenticationHandlers", excludedAuthenticationHandlers)
+				.add("criteria", criteria)
+				.asString();
+	}
+
 }

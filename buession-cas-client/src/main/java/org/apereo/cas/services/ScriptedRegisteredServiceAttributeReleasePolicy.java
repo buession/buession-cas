@@ -21,10 +21,39 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import java.util.StringJoiner;
+
+/**
+ * This is {@link ScriptedRegisteredServiceAttributeReleasePolicy}.
  *
  * @author Yong.Teng
- * @since 
- */public class ScriptedRegisteredServiceAttributeReleasePolicy {
+ * @since 2.2.0
+ */
+@Deprecated
+public class ScriptedRegisteredServiceAttributeReleasePolicy extends
+		AttributeReleasePolicy.AbstractAttributeReleasePolicy {
+
+	private final static long serialVersionUID = -8257604978544917554L;
+
+	private String scriptFile;
+
+	public String getScriptFile(){
+		return scriptFile;
+	}
+
+	public void setScriptFile(String scriptFile){
+		this.scriptFile = scriptFile;
+	}
+
+	@Override
+	public String toString(){
+		return new StringJoiner(", ")
+				.add(super.toString())
+				.add("scriptFile=" + scriptFile)
+				.toString();
+	}
+
 }

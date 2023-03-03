@@ -21,10 +21,22 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * A proxy policy that disallows proxying.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class RefuseRegisteredServiceProxyPolicy {
+ */
+public class RefuseRegisteredServiceProxyPolicy implements ProxyPolicy {
+
+	private final static long serialVersionUID = -5397139242746277486L;
+
+	@Override
+	public String toString(){
+		return super.toString();
+	}
+
 }

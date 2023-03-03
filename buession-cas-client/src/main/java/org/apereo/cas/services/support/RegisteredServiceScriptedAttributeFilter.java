@@ -21,10 +21,47 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services.support;/**
- * 
+ */
+package org.apereo.cas.services.support;
+
+import org.apereo.cas.services.AttributeFilter;
+
+/**
+ * This is {@link RegisteredServiceScriptedAttributeFilter}.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class RegisteredServiceScriptedAttributeFilter {
+ */
+public class RegisteredServiceScriptedAttributeFilter implements AttributeFilter {
+
+	private final static long serialVersionUID = -2217015782224382118L;
+
+	private String script;
+
+	private int order;
+
+	public String getScript(){
+		return script;
+	}
+
+	public void setScript(String script){
+		this.script = script;
+	}
+
+	public int getOrder(){
+		return order;
+	}
+
+	public void setOrder(int order){
+		this.order = order;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.add("script", script)
+				.add("order", order)
+				.asString();
+	}
+
 }

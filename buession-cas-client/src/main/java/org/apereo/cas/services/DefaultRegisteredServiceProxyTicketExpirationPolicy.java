@@ -22,9 +22,7 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas;
-
-import org.apereo.cas.services.ProxyTicketExpirationPolicy;
+package org.apereo.cas.services;
 
 /**
  * This is {@link DefaultRegisteredServiceProxyTicketExpirationPolicy}.

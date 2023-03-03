@@ -21,10 +21,56 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+import java.util.List;
+
+/**
+ * This is {@link ChainingAttributeReleasePolicy}.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class ChainingAttributeReleasePolicy {
+ */
+public class ChainingAttributeReleasePolicy implements AttributeReleasePolicy {
+
+	private List<AttributeReleasePolicy> policies;
+
+	private String mergingPolicy;
+
+	private int order;
+
+	public List<AttributeReleasePolicy> getPolicies(){
+		return policies;
+	}
+
+	public void setPolicies(List<AttributeReleasePolicy> policies){
+		this.policies = policies;
+	}
+
+	public String getMergingPolicy(){
+		return mergingPolicy;
+	}
+
+	public void setMergingPolicy(String mergingPolicy){
+		this.mergingPolicy = mergingPolicy;
+	}
+
+	public int getOrder(){
+		return order;
+	}
+
+	public void setOrder(int order){
+		this.order = order;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.add("policies", policies)
+				.add("mergingPolicy", mergingPolicy)
+				.add("order", order)
+				.asString();
+	}
+
 }

@@ -22,7 +22,9 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.authentication.principal;
+package org.apereo.cas.authentication.principal.cache;
+
+import org.apereo.cas.authentication.principal.PrincipalAttributesRepository;
 
 import java.util.StringJoiner;
 

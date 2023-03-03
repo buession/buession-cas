@@ -21,10 +21,56 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link RestfulRegisteredServiceAuthenticationPolicyCriteria}.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class RestfulRegisteredServiceAuthenticationPolicyCriteria {
+ */
+public class RestfulRegisteredServiceAuthenticationPolicyCriteria implements AuthenticationPolicyCriteria {
+
+	private final static long serialVersionUID = -5384026225871407864L;
+
+	private String url;
+
+	private String basicAuthUsername;
+
+	private String basicAuthPassword;
+
+	public String getUrl(){
+		return this.url;
+	}
+
+	public void setUrl(String url){
+		this.url = url;
+	}
+
+	public String getBasicAuthUsername(){
+		return this.basicAuthUsername;
+	}
+
+	public void setBasicAuthUsername(String basicAuthUsername){
+		this.basicAuthUsername = basicAuthUsername;
+	}
+
+	public String getBasicAuthPassword(){
+		return this.basicAuthPassword;
+	}
+
+	public void setBasicAuthPassword(String basicAuthPassword){
+		this.basicAuthPassword = basicAuthPassword;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.add("url", url)
+				.add("basicAuthUsername", basicAuthUsername)
+				.add("basicAuthPassword", basicAuthPassword)
+				.asString();
+	}
+
 }

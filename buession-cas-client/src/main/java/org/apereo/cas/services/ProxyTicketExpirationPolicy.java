@@ -22,12 +22,9 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.apereo.cas.services.Entity;
-import org.apereo.cas.services.utils.ToStringBuilder;
+import org.apereo.cas.entity.Entity;
 
 /**
  * This is {@link ProxyTicketExpirationPolicy}. This contract allows applications registered with CAS to
@@ -36,58 +33,6 @@ import org.apereo.cas.services.utils.ToStringBuilder;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public abstract class ProxyTicketExpirationPolicy implements Entity {
-
-	private final static long serialVersionUID = 6884910885611214852L;
-
-	/**
-	 * This is {@link DefaultRegisteredServiceProxyTicketExpirationPolicy}.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public static class DefaultRegisteredServiceProxyTicketExpirationPolicy extends ProxyTicketExpirationPolicy {
-
-		private final static long serialVersionUID = -160807032099029082L;
-
-		/**
-		 * The number of uses.
-		 */
-		private long numberOfUses;
-
-		/**
-		 * The time to live.
-		 */
-		private String timeToLive;
-
-		/**
-		 * Return number of times this ticket can be used.
-		 *
-		 * @return The number of uses.
-		 */
-		public long getNumberOfUses(){
-			return numberOfUses;
-		}
-
-		/**
-		 * Return the TTL of this ticket, in seconds.
-		 *
-		 * @return The time to live.
-		 */
-		public String getTimeToLive(){
-			return timeToLive;
-		}
-
-		@Override
-		public String toString(){
-			return StringBuilder.getInstance(this)
-					.add("numberOfUses", numberOfUses)
-					.add("timeToLive", timeToLive)
-					.asString();
-		}
-
-	}
+public interface ProxyTicketExpirationPolicy extends Entity {
 
 }

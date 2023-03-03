@@ -21,10 +21,23 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link AllowedAuthenticationHandlersRegisteredServiceAuthenticationPolicyCriteria}.
  *
  * @author Yong.Teng
  * @since 2.2.0
- */public class AllowedAuthenticationHandlersRegisteredServiceAuthenticationPolicyCriteria {
+ */
+public class AllowedAuthenticationHandlersRegisteredServiceAuthenticationPolicyCriteria
+		implements AuthenticationPolicyCriteria {
+
+	private final static long serialVersionUID = 1092618504391502358L;
+
+	@Override
+	public String toString(){
+		return super.toString();
+	}
+
 }

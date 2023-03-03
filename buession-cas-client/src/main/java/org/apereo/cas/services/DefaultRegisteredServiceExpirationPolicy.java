@@ -21,10 +21,123 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link DefaultRegisteredServiceExpirationPolicy}.
  *
  * @author Yong.Teng
- * @since 
- */public class DefaultRegisteredServiceExpirationPolicy {
+ * @since 2.2.0
+ */
+public class DefaultRegisteredServiceExpirationPolicy implements ExpirationPolicy {
+
+	private final static long serialVersionUID = 6262218909087283352L;
+
+	/**
+	 * Is whether service should be deleted from the registry if and when expired.
+	 */
+	private boolean deleteWhenExpired;
+
+	/**
+	 * Is notify service owners and contacts when this service is marked as expired and is about to be deleted.
+	 */
+	private boolean notifyWhenDeleted;
+
+	/**
+	 * Iss expiration date that indicates when this may be expired.
+	 */
+	private boolean notifyWhenExpired;
+
+	/**
+	 * The expiration date.
+	 */
+	private String expirationDate;
+
+	/**
+	 * Return whether service should be deleted from the registry if and when expired.
+	 *
+	 * @return true/false
+	 */
+	public boolean isDeleteWhenExpired(){
+		return deleteWhenExpired;
+	}
+
+	/**
+	 * Sets whether service should be deleted from the registry if and when expired.
+	 *
+	 * @param deleteWhenExpired
+	 * 		true/false
+	 */
+	public void setDeleteWhenExpired(boolean deleteWhenExpired){
+		this.deleteWhenExpired = deleteWhenExpired;
+	}
+
+	/**
+	 * Return notify service owners and contacts when this service is marked as expired and is about to be deleted.
+	 *
+	 * @return true/false
+	 */
+	public boolean isNotifyWhenDeleted(){
+		return notifyWhenDeleted;
+	}
+
+	/**
+	 * Sets notify service owners and contacts when this service is marked as expired and is about to be deleted.
+	 *
+	 * @param notifyWhenDeleted
+	 * 		true/false
+	 */
+	public void setNotifyWhenDeleted(boolean notifyWhenDeleted){
+		this.notifyWhenDeleted = notifyWhenDeleted;
+	}
+
+	/**
+	 * Return notify service owners and contacts when this service is marked as expired.
+	 *
+	 * @return true/false
+	 */
+	public boolean isNotifyWhenExpired(){
+		return notifyWhenExpired;
+	}
+
+	/**
+	 * Sets notify service owners and contacts when this service is marked as expired.
+	 *
+	 * @param notifyWhenExpired
+	 * 		true/false
+	 */
+	public void setNotifyWhenExpired(boolean notifyWhenExpired){
+		this.notifyWhenExpired = notifyWhenExpired;
+	}
+
+	/**
+	 * Return expiration date that indicates when this may be expired.
+	 *
+	 * @return The expiration date.
+	 */
+	public String getExpirationDate(){
+		return expirationDate;
+	}
+
+	/**
+	 * Sets expiration date that indicates when this may be expired.
+	 *
+	 * @param expirationDate
+	 * 		The expiration date.
+	 */
+	public void setExpirationDate(String expirationDate){
+		this.expirationDate = expirationDate;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.add("deleteWhenExpired", deleteWhenExpired)
+				.add("notifyWhenDeleted", notifyWhenDeleted)
+				.add("notifyWhenExpired", notifyWhenExpired)
+				.add("expirationDate", expirationDate)
+				.asString();
+	}
+
 }

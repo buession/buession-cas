@@ -22,10 +22,8 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client;
+package org.apereo.cas.client;
 
-import com.buession.core.serializer.JacksonJsonSerializer;
-import com.buession.core.serializer.JsonSerializer;
 import com.buession.httpclient.HttpClient;
 
 /**
@@ -43,7 +41,7 @@ public class DefaultServiceRegistryClient extends AbstractServiceRegistryClient 
 	 * 		基路径
 	 */
 	public DefaultServiceRegistryClient(final String baseUrl){
-		super(baseUrl, new JacksonJsonSerializer());
+		super(baseUrl);
 	}
 
 	/**
@@ -55,34 +53,7 @@ public class DefaultServiceRegistryClient extends AbstractServiceRegistryClient 
 	 *        {@link HttpClient} 实例
 	 */
 	public DefaultServiceRegistryClient(final String baseUrl, final HttpClient httpClient){
-		super(baseUrl, new JacksonJsonSerializer(), httpClient);
-	}
-
-	/**
-	 * 构造函数
-	 *
-	 * @param baseUrl
-	 * 		基路径
-	 * @param serializer
-	 * 		JSON 反序列化实例
-	 */
-	public DefaultServiceRegistryClient(final String baseUrl, final JsonSerializer serializer){
-		super(baseUrl, serializer);
-	}
-
-	/**
-	 * 构造函数
-	 *
-	 * @param baseUrl
-	 * 		基路径
-	 * @param serializer
-	 * 		JSON 反序列化实例
-	 * @param httpClient
-	 *        {@link HttpClient} 实例
-	 */
-	public DefaultServiceRegistryClient(final String baseUrl, final JsonSerializer serializer,
-										final HttpClient httpClient){
-		super(baseUrl, serializer, httpClient);
+		super(baseUrl, httpClient);
 	}
 
 }

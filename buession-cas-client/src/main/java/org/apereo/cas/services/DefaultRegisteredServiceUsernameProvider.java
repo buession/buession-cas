@@ -21,10 +21,23 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * Resolves the username for the service to be the default principal id.
  *
  * @author Yong.Teng
- * @since 
- */public class DefaultRegisteredServiceUsernameProvider {
+ * @since 2.2.0
+ */
+public class DefaultRegisteredServiceUsernameProvider extends
+		UsernameAttributeProvider.BaseRegisteredServiceUsernameAttributeProvider {
+
+	private final static long serialVersionUID = 6259003239865782296L;
+
+	@Override
+	public String toString(){
+		return super.toString();
+	}
+
 }

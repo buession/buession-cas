@@ -21,10 +21,34 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * Resolves the username for the service to be the default principal id.
  *
  * @author Yong.Teng
- * @since 
- */public class GroovyRegisteredServiceUsernameProvider {
+ * @since 2.2.0
+ */
+public class GroovyRegisteredServiceUsernameProvider extends
+		UsernameAttributeProvider.BaseRegisteredServiceUsernameAttributeProvider {
+
+	private final static long serialVersionUID = -6305778139709554308L;
+
+	private String groovyScript;
+
+	public String getGroovyScript(){
+		return groovyScript;
+	}
+
+	public void setGroovyScript(String groovyScript){
+		this.groovyScript = groovyScript;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.of("groovyScript", groovyScript);
+	}
+
 }

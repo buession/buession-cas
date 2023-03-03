@@ -21,10 +21,48 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link DefaultRegisteredServiceProxyGrantingTicketExpirationPolicy}.
  *
  * @author Yong.Teng
- * @since 
- */public class DefaultRegisteredServiceProxyGrantingTicketExpirationPolicy {
+ * @since 2.2.0
+ */
+public class DefaultRegisteredServiceProxyGrantingTicketExpirationPolicy
+		implements ProxyGrantingTicketExpirationPolicy {
+
+	private final static long serialVersionUID = -495941258401283951L;
+
+	/**
+	 * The time to live of this ticket.
+	 */
+	private long maxTimeToLiveInSeconds;
+
+	/**
+	 * Return the TTL of this ticket, in seconds.
+	 *
+	 * @return The time to live of this ticket.
+	 */
+	public long getMaxTimeToLiveInSeconds(){
+		return maxTimeToLiveInSeconds;
+	}
+
+	/**
+	 * Set the TTL of this ticket, in seconds.
+	 *
+	 * @param maxTimeToLiveInSeconds
+	 * 		The time to live of this ticket.
+	 */
+	public void setMaxTimeToLiveInSeconds(long maxTimeToLiveInSeconds){
+		this.maxTimeToLiveInSeconds = maxTimeToLiveInSeconds;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.of("maxTimeToLiveInSeconds", maxTimeToLiveInSeconds);
+	}
+
 }

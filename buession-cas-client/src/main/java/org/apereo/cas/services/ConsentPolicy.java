@@ -22,12 +22,12 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas;
+package org.apereo.cas.services;
 
-import org.apereo.cas.services.AttributeReleasePolicy;
+import org.apereo.cas.entity.Entity;
 
 /**
- * This is {@link AttributeReleasePolicy.ConsentPolicy}.
+ * This is {@link ConsentPolicy}.
  *
  * @author Yong.Teng
  * @since 2.2.0

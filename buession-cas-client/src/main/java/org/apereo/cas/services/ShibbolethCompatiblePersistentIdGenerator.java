@@ -21,10 +21,47 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * Generates PersistentIds based on the Shibboleth algorithm.
+ * The generated ids are based on a principal attribute is specified, or
+ * the authenticated principal id.
  *
  * @author Yong.Teng
- * @since 
- */public class ShibbolethCompatiblePersistentIdGenerator {
+ * @since 2.2.0
+ */
+public class ShibbolethCompatiblePersistentIdGenerator implements PersistentIdGenerator {
+
+	private final static long serialVersionUID = -8471511405431575393L;
+
+	private String salt;
+
+	private String attribute;
+
+	public String getSalt(){
+		return salt;
+	}
+
+	public void setSalt(String salt){
+		this.salt = salt;
+	}
+
+	public String getAttribute(){
+		return attribute;
+	}
+
+	public void setAttribute(String attribute){
+		this.attribute = attribute;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.add("salt", salt)
+				.add("attribute", attribute)
+				.asString();
+	}
+
 }

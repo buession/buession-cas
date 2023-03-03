@@ -21,10 +21,22 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link NeverRegisteredServiceSingleSignOnParticipationPolicy}.
  *
  * @author Yong.Teng
- * @since 
- */public class NeverRegisteredServiceSingleSignOnParticipationPolicy {
+ * @since 2.2.0
+ */
+public class NeverRegisteredServiceSingleSignOnParticipationPolicy implements SingleSignOnParticipationPolicy {
+
+	private final static long serialVersionUID = 1993111264216653785L;
+
+	@Override
+	public String toString(){
+		return super.toString();
+	}
+
 }

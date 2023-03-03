@@ -22,12 +22,9 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client.model;
+package org.apereo.cas.services;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.apereo.cas.services.Entity;
-import org.apereo.cas.services.utils.ToStringBuilder;
+import org.apereo.cas.entity.Entity;
 
 /**
  * Defines the proxying policy for a registered service.
@@ -39,56 +36,6 @@ import org.apereo.cas.services.utils.ToStringBuilder;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public abstract class ProxyPolicy implements Entity {
-
-	private final static long serialVersionUID = -4257776404506361349L;
-
-	/**
-	 * A proxy policy that disallows proxying.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public final static class RefuseRegisteredServiceProxyPolicy extends ProxyPolicy {
-
-		private final static long serialVersionUID = 3965612694117621168L;
-
-		@Override
-		public String toString(){
-			return ToStringBuilder.BaseEntityToStringBuilder.getInstance(this).asString();
-		}
-
-	}
-
-	/**
-	 * A proxy policy that only allows proxying to pgt urls that match the specified regex pattern.
-	 *
-	 * @author Yong.Teng
-	 * @since 2.2.0
-	 */
-	public final static class RegexMatchingRegisteredServiceProxyPolicy extends ProxyPolicy {
-
-		private final static long serialVersionUID = -6511849385537022958L;
-
-		private String pattern;
-
-		public String getPattern(){
-			return pattern;
-		}
-
-		public void setPattern(String pattern){
-			this.pattern = pattern;
-		}
-
-		@Override
-		public String toString(){
-			return ToStringBuilder.BaseEntityToStringBuilder.getInstance(this)
-					.add("pattern", pattern)
-					.asString();
-		}
-
-	}
+public interface ProxyPolicy extends Entity {
 
 }

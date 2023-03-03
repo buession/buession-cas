@@ -22,8 +22,9 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client;
+package org.apereo.cas.client;
 
+import org.apereo.cas.client.exception.ServiceRegistryClientException;
 import org.apereo.cas.services.RegisteredService;
 
 import java.util.List;
@@ -43,15 +44,22 @@ public interface ServiceRegistryClient {
 	 * 		Service
 	 *
 	 * @return Service
+	 *
+	 * @throws ServiceRegistryClientException
+	 *        {@link ServiceRegistryClient} 异常
 	 */
-	RegisteredService save(final RegisteredService service);
+	RegisteredService save(final RegisteredService service)
+			throws ServiceRegistryClientException;
 
 	/**
 	 * 获取 Service 列表
 	 *
 	 * @return Service 列表
+	 *
+	 * @throws ServiceRegistryClientException
+	 *        {@link ServiceRegistryClient} 异常
 	 */
-	List<RegisteredService> list();
+	List<RegisteredService> list() throws ServiceRegistryClientException;
 
 	/**
 	 * 获取 Service
@@ -60,15 +68,21 @@ public interface ServiceRegistryClient {
 	 * 		Service Id
 	 *
 	 * @return Service
+	 *
+	 * @throws ServiceRegistryClientException
+	 *        {@link ServiceRegistryClient} 异常
 	 */
-	RegisteredService list(final String id);
+	RegisteredService get(final int id) throws ServiceRegistryClientException;
 
 	/**
 	 * 删除 Service
 	 *
 	 * @param id
 	 * 		Service Id
+	 *
+	 * @throws ServiceRegistryClientException
+	 *        {@link ServiceRegistryClient} 异常
 	 */
-	void delete(final String id);
+	void delete(final int id) throws ServiceRegistryClientException;
 
 }

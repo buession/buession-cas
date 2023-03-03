@@ -21,10 +21,69 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.client.exception;/**
- * 
- *
+ */
+package org.apereo.cas.client.exception;
+
+import java.util.StringJoiner;
+
+/**
  * @author Yong.Teng
  * @since 2.2.0
- */public class ServiceRegistryClientHttpException {
+ */
+public class ServiceRegistryClientHttpException extends ServiceRegistryClientException {
+
+	private static final long serialVersionUID = 4142153593236050023L;
+
+	private final int statusCode;
+
+	private final String statusText;
+
+	public ServiceRegistryClientHttpException(int statusCode, String statusText){
+		super(statusText);
+		this.statusCode = statusCode;
+		this.statusText = statusText;
+	}
+
+	public ServiceRegistryClientHttpException(int statusCode, String statusText, String message){
+		super(message);
+		this.statusCode = statusCode;
+		this.statusText = statusText;
+	}
+
+	public ServiceRegistryClientHttpException(int statusCode, String statusText, String message, Throwable cause){
+		super(message, cause);
+		this.statusCode = statusCode;
+		this.statusText = statusText;
+	}
+
+	public ServiceRegistryClientHttpException(int statusCode, String statusText, Throwable cause){
+		super(statusText, cause);
+		this.statusCode = statusCode;
+		this.statusText = statusText;
+	}
+
+	public ServiceRegistryClientHttpException(int statusCode, String statusText, String message, Throwable cause,
+											  boolean enableSuppression, boolean writableStackTrace){
+		super(message, cause, enableSuppression, writableStackTrace);
+		this.statusCode = statusCode;
+		this.statusText = statusText;
+	}
+
+	public int getStatusCode(){
+		return statusCode;
+	}
+
+	public String getStatusText(){
+		return statusText;
+	}
+
+	@Override
+	public String toString(){
+		return new StringJoiner(", ", "{", "}")
+				.add("statusCode=" + statusCode)
+				.add("statusText=" + statusText)
+				.add(super.toString())
+				.toString();
+	}
+	
 }

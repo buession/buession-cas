@@ -21,10 +21,48 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.services;/**
- * 
+ */
+package org.apereo.cas.services;
+
+/**
+ * This is {@link RemoteEndpointServiceAccessStrategy} that reaches out to a remote endpoint,
+ * passing the CAS principal id to determine if access is allowed.
+ * If the status code returned in the final response is not accepted by the policy here,
+ * access shall be denied.
  *
  * @author Yong.Teng
- * @since 
- */public class RemoteEndpointServiceAccessStrategy {
+ * @since 2.2.0
+ */
+public class RemoteEndpointServiceAccessStrategy implements AccessStrategy {
+
+	private final static long serialVersionUID = -4344515237615911513L;
+
+	private String endpointUrl;
+
+	private String acceptableResponseCodes;
+
+	public String getEndpointUrl(){
+		return endpointUrl;
+	}
+
+	public void setEndpointUrl(String endpointUrl){
+		this.endpointUrl = endpointUrl;
+	}
+
+	public String getAcceptableResponseCodes(){
+		return acceptableResponseCodes;
+	}
+
+	public void setAcceptableResponseCodes(String acceptableResponseCodes){
+		this.acceptableResponseCodes = acceptableResponseCodes;
+	}
+
+	@Override
+	public String toString(){
+		return StringBuilder.getInstance(this)
+				.add("endpointUrl", endpointUrl)
+				.add("acceptableResponseCodes", acceptableResponseCodes)
+				.asString();
+	}
+
 }

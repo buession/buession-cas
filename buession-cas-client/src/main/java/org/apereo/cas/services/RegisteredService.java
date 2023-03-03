@@ -22,11 +22,10 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client;
+package org.apereo.cas.services;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-import java.io.Serializable;
+import org.apereo.cas.entity.Entity;
 
 /**
  * Interface for a service that can be registered by the Services Management interface.
@@ -34,7 +33,7 @@ import java.io.Serializable;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-public interface RegisteredService extends Serializable {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
+public interface RegisteredService extends Entity {
 
 }

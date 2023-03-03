@@ -22,30 +22,7 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.client;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.apereo.cas.services.client.model.AcceptableUsagePolicy;
-import org.apereo.cas.services.client.model.AccessStrategy;
-import org.apereo.cas.services.client.model.AttributeReleasePolicy;
-import org.apereo.cas.services.client.model.AuthenticationPolicy;
-import org.apereo.cas.services.client.model.Contact;
-import org.apereo.cas.services.client.model.ExpirationPolicy;
-import org.apereo.cas.services.client.model.LogoutType;
-import org.apereo.cas.services.client.model.MatchingStrategy;
-import org.apereo.cas.services.client.model.MultifactorPolicy;
-import org.apereo.cas.services.client.model.Property;
-import org.apereo.cas.services.client.model.ProxyGrantingTicketExpirationPolicy;
-import org.apereo.cas.services.client.model.ProxyPolicy;
-import org.apereo.cas.services.client.model.ProxyTicketExpirationPolicy;
-import org.apereo.cas.services.client.model.PublicKey;
-import org.apereo.cas.services.client.model.ResponseType;
-import org.apereo.cas.services.client.model.ServiceTicketExpirationPolicy;
-import org.apereo.cas.services.client.model.SingleSignOnParticipationPolicy;
-import org.apereo.cas.services.client.model.TicketGrantingTicketExpirationPolicy;
-import org.apereo.cas.services.client.model.UsernameAttributeProvider;
-import org.apereo.cas.services.client.utils.ToStringBuilder;
+package org.apereo.cas.services;
 
 import java.util.List;
 import java.util.Map;
@@ -57,9 +34,9 @@ import java.util.Set;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public abstract class AbstractRegisteredService implements RegisteredService, Entity {
+public abstract class AbstractRegisteredService implements RegisteredService {
+
+	private final static long serialVersionUID = 7399254599664082034L;
 
 	/**
 	 * The numeric identifier for this service.
@@ -457,7 +434,8 @@ public abstract class AbstractRegisteredService implements RegisteredService, En
 	/**
 	 * Sets the logout type of the service.
 	 *
-	 * @return The logout type of the service.
+	 * @param logoutType
+	 * 		The logout type of the service.
 	 */
 	public void setLogoutType(LogoutType logoutType){
 		this.logoutType = logoutType;
@@ -819,7 +797,7 @@ public abstract class AbstractRegisteredService implements RegisteredService, En
 
 	@Override
 	public String toString(){
-		return ToStringBuilder.BaseEntityToStringBuilder.getInstance(this)
+		return StringBuilder.getInstance(this)
 				.add("id", id)
 				.add("name", name)
 				.add("serviceId", serviceId)
@@ -851,7 +829,7 @@ public abstract class AbstractRegisteredService implements RegisteredService, En
 				.add("publicKey", publicKey)
 				.add("properties", properties)
 				.add("evaluationOrder", evaluationOrder)
-				.toString();
+				.asString();
 	}
 
 }
