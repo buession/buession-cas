@@ -109,12 +109,12 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	private Set<String> environments;
 
 	/**
-	 * The proxy policy rules for this service.
+	 * 代理策略
 	 */
 	private ProxyPolicy proxyPolicy;
 
 	/**
-	 * The attribute release policy.
+	 * 参数返回策略
 	 */
 	private AttributeReleasePolicy attributeReleasePolicy;
 
@@ -174,7 +174,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	private AccessStrategy accessStrategy;
 
 	/**
-	 * The name of the attribute this service prefers to consume as username.
+	 * 用户名属性提供者
 	 */
 	private UsernameAttributeProvider usernameAttributeProvider;
 
@@ -461,38 +461,38 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	}
 
 	/**
-	 * Return the proxy policy rules for this service.
+	 * 返回 Service 代理策略
 	 *
-	 * @return The proxy policy rules for this service.
+	 * @return Service 代理策略
 	 */
 	public ProxyPolicy getProxyPolicy(){
 		return proxyPolicy;
 	}
 
 	/**
-	 * Sets the proxy policy rules for this service.
+	 * 设置 Service 代理策略
 	 *
 	 * @param proxyPolicy
-	 * 		The proxy policy rules for this service.
+	 * 		Service 代理策略
 	 */
 	public void setProxyPolicy(ProxyPolicy proxyPolicy){
 		this.proxyPolicy = proxyPolicy;
 	}
 
 	/**
-	 * Return the attribute filtering policy to determine how attributes are to be filtered and released for this service.
+	 * 返回参数返回策略
 	 *
-	 * @return The attribute release policy.
+	 * @return 参数返回策略
 	 */
 	public AttributeReleasePolicy getAttributeReleasePolicy(){
 		return attributeReleasePolicy;
 	}
 
 	/**
-	 * Sets the attribute release policy.
+	 * 设置参数返回策略
 	 *
 	 * @param attributeReleasePolicy
-	 * 		The attribute release policy.
+	 * 		参数返回策略
 	 */
 	public void setAttributeReleasePolicy(AttributeReleasePolicy attributeReleasePolicy){
 		this.attributeReleasePolicy = attributeReleasePolicy;
@@ -715,19 +715,19 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	}
 
 	/**
-	 * Return the name of the attribute this service prefers to consume as username.
+	 * 返回用户名属性提供者
 	 *
-	 * @return The name of the attribute this service prefers to consume as username.
+	 * @return 用户名属性提供者
 	 */
 	public UsernameAttributeProvider getUsernameAttributeProvider(){
 		return usernameAttributeProvider;
 	}
 
 	/**
-	 * Sets the name of the attribute this service prefers to consume as username.
+	 * 设置用户名属性提供者
 	 *
 	 * @param usernameAttributeProvider
-	 * 		The name of the attribute this service prefers to consume as username.
+	 * 		用户名属性提供者
 	 */
 	public void setUsernameAttributeProvider(
 			UsernameAttributeProvider usernameAttributeProvider){

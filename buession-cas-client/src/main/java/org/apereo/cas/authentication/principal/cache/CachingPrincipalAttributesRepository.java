@@ -48,7 +48,7 @@ public class CachingPrincipalAttributesRepository extends
 	/**
 	 * Expiration time unit.
 	 */
-	private String timeUnit;
+	private TimeUnit timeUnit;
 
 	/**
 	 * Return the expiration time.
@@ -70,21 +70,21 @@ public class CachingPrincipalAttributesRepository extends
 	}
 
 	/**
-	 * Return xpiration time unit.
+	 * Return expiration time unit.
 	 *
 	 * @return Expiration time unit.
 	 */
-	public String getTimeUnit(){
+	public TimeUnit getTimeUnit(){
 		return this.timeUnit;
 	}
 
 	/**
-	 * Sets xpiration time unit.
+	 * Sets expiration time unit.
 	 *
 	 * @param timeUnit
 	 * 		Expiration time unit.
 	 */
-	public void setTimeUnit(final String timeUnit){
+	public void setTimeUnit(final TimeUnit timeUnit){
 		this.timeUnit = timeUnit;
 	}
 
@@ -95,6 +95,16 @@ public class CachingPrincipalAttributesRepository extends
 				.add("expiration=" + expiration)
 				.add("timeUnit=" + timeUnit)
 				.toString();
+	}
+
+	public enum TimeUnit {
+		SECONDS,
+
+		MINUTES,
+
+		HOURS,
+
+		DAYS
 	}
 
 }

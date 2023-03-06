@@ -30,12 +30,7 @@ import org.apereo.cas.services.AttributeMergingStrategy;
 import java.util.Set;
 
 /**
- * Defines operations required for retrieving principal attributes.
- * Acts as a proxy between the external attribute source and CAS,
- * executing such as additional processing or caching on the set
- * of retrieved attributes. Implementations may simply decide to
- * do nothing on the set of attributes that the principal carries
- * or they may attempt to refresh them from the source, etc.
+ * 用户身份验证主体属性仓库
  *
  * @author Yong.Teng
  * @since 2.2.0
@@ -43,8 +38,7 @@ import java.util.Set;
 public interface PrincipalAttributesRepository extends Entity {
 
 	/**
-	 * Parent class for retrieval principals attributes, provides operations
-	 * around caching, merging of attributes.
+	 * 用户身份验证主体属性仓库抽象类
 	 *
 	 * @author Yong.Teng
 	 * @since 2.2.0
@@ -54,9 +48,7 @@ public interface PrincipalAttributesRepository extends Entity {
 		private final static long serialVersionUID = -919901110966922094L;
 
 		/**
-		 * The merging strategy that deals with existing principal attributes
-		 * and those that are retrieved from the source. By default, existing attributes
-		 * are ignored and the source is always consulted.
+		 * 属性合并策略
 		 */
 		private AttributeMergingStrategy mergingStrategy = AttributeMergingStrategy.MULTIVALUED;
 
@@ -68,22 +60,19 @@ public interface PrincipalAttributesRepository extends Entity {
 		private boolean ignoreResolvedAttributes;
 
 		/**
-		 * Return the merging strategy that deals with existing principal attributes
-		 * and those that are retrieved from the source.
+		 * 返回属性合并策略
 		 *
-		 * @return The merging strategy that deals with existing principal attributes
-		 * and those that are retrieved from the source.
+		 * @return 属性合并策略
 		 */
 		public AttributeMergingStrategy getMergingStrategy(){
 			return this.mergingStrategy;
 		}
 
 		/**
-		 * Sets the merging strategy that deals with existing principal attributes
-		 * and those that are retrieved from the source.
+		 * 设置属性合并策略
 		 *
 		 * @param mergingStrategy
-		 * 		The merging strategy that deals with existing principal attributes and those that are retrieved from the source.
+		 * 		属性合并策略
 		 */
 		public void setMergingStrategy(final AttributeMergingStrategy mergingStrategy){
 			this.mergingStrategy = mergingStrategy;

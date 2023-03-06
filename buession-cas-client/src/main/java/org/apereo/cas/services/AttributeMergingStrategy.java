@@ -25,27 +25,29 @@
 package org.apereo.cas.services;
 
 /**
+ * 属性合并策略
+ *
  * @author Yong.Teng
  * @since 2.2.0
  */
 public enum AttributeMergingStrategy {
 	/**
-	 * Replace attributes.
+	 * 替换
 	 */
 	REPLACE,
 
 	/**
-	 * Add attributes.
+	 * 添加
 	 */
 	ADD,
 
 	/**
-	 * Multivalued attributes.
+	 * 多值
 	 */
 	MULTIVALUED,
 
 	/**
-	 * No merging.
+	 * 不合并
 	 */
 	NONE;
 }

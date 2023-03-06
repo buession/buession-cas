@@ -27,11 +27,7 @@ package org.apereo.cas.services;
 import org.apereo.cas.entity.Entity;
 
 /**
- * Defines the proxying policy for a registered service.
- * While a service may be allowed proxying on a general level,
- * it may still want to restrict who is authorizes to receive
- * the proxy granting ticket. This interface defines the behavior
- * for both options.
+ * 代理策略
  *
  * @author Yong.Teng
  * @since 2.2.0

@@ -27,7 +27,7 @@ package org.apereo.cas.services;
 import org.apereo.cas.entity.Entity;
 
 /**
- * Strategy interface to define what username attribute should be returned for a given registered service.
+ * 用户名属性提供者
  *
  * @author Yong.Teng
  * @since 2.2.0

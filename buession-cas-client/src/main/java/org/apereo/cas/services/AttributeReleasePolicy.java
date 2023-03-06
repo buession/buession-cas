@@ -28,8 +28,7 @@ import org.apereo.cas.entity.Entity;
 import org.apereo.cas.authentication.principal.PrincipalAttributesRepository;
 
 /**
- * The release policy that decides how attributes are to be released for a given service.
- * Each policy has the ability to apply an optional filter.
+ * 参数返回策略，可用于控制返回参数
  *
  * @author Yong.Teng
  * @since 2.2.0
@@ -37,9 +36,7 @@ import org.apereo.cas.authentication.principal.PrincipalAttributesRepository;
 public interface AttributeReleasePolicy extends Entity {
 
 	/**
-	 * Abstract release policy for attributes,
-	 * provides common shared settings such as loggers and attribute filter config.
-	 * Subclasses are to provide the behavior for attribute retrieval.
+	 * 参数返回策略抽象类
 	 *
 	 * @author Yong.Teng
 	 * @since 2.2.0
@@ -65,10 +62,13 @@ public interface AttributeReleasePolicy extends Entity {
 
 		private boolean excludeDefaultAttributes;
 
+		/**
+		 * 身份凭据主体标识符
+		 */
 		private String principalIdAttribute;
 
 		/**
-		 * The principal attribute repository.
+		 * 用户身份验证主体属性仓库
 		 */
 		private PrincipalAttributesRepository principalAttributesRepository;
 
@@ -146,30 +146,39 @@ public interface AttributeReleasePolicy extends Entity {
 			this.excludeDefaultAttributes = excludeDefaultAttributes;
 		}
 
+		/**
+		 * 返回身份凭据主体标识符
+		 *
+		 * @return 身份凭据主体标识符
+		 */
 		public String getPrincipalIdAttribute(){
 			return principalIdAttribute;
 		}
 
+		/**
+		 * 设置身份凭据主体标识符
+		 *
+		 * @param principalIdAttribute
+		 * 		身份凭据主体标识符
+		 */
 		public void setPrincipalIdAttribute(String principalIdAttribute){
 			this.principalIdAttribute = principalIdAttribute;
 		}
 
 		/**
-		 * Return principal attribute repository that may control the fetching
-		 * and caching of attributes at release time from attribute repository sources.
+		 * 返回用户身份验证主体属性仓库
 		 *
-		 * @return The principal attribute repository.
+		 * @return 用户身份验证主体属性仓库
 		 */
 		public PrincipalAttributesRepository getPrincipalAttributesRepository(){
 			return principalAttributesRepository;
 		}
 
 		/**
-		 * Set principal attribute repository that may control the fetching
-		 * and caching of attributes at release time from attribute repository sources.
+		 * 设置用户身份验证主体属性仓库
 		 *
 		 * @param principalAttributesRepository
-		 * 		The principal attribute repository.
+		 * 		用户身份验证主体属性仓库
 		 */
 		public void setPrincipalAttributesRepository(PrincipalAttributesRepository principalAttributesRepository){
 			this.principalAttributesRepository = principalAttributesRepository;

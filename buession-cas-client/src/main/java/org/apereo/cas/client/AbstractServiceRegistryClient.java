@@ -80,7 +80,7 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 	 */
 	public AbstractServiceRegistryClient(final String baseUrl){
 		Assert.isBlank(baseUrl, "CAS Server base url cloud not be empty or null.");
-		this.baseUrl = baseUrl;
+		this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
 		objectMapper = getObjectMapper();
 	}
 
@@ -154,6 +154,8 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 			Response response = httpClient.get(baseUrl + "/registeredServices");
 
 			if(response.isSuccessful()){
+				objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator(),
+						ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT, JsonTypeInfo.As.PROPERTY);
 				final List<RegexRegisteredService> services = objectMapper.readValue(response.getBody(),
 						new TypeReference<List<RegexRegisteredService>>() {
 
@@ -182,6 +184,8 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 			Response response = httpClient.get(baseUrl + "/registeredServices/" + id);
 
 			if(response.isSuccessful()){
+				objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator(),
+						ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT, JsonTypeInfo.As.PROPERTY);
 				return objectMapper.readValue(response.getBody(), RegexRegisteredService.class);
 			}else{
 				if(logger.isErrorEnabled()){
@@ -231,8 +235,6 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator(),
-				ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT, JsonTypeInfo.As.PROPERTY);
 
 		return objectMapper;
 	}

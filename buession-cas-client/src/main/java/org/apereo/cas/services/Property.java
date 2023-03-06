@@ -26,7 +26,7 @@ package org.apereo.cas.services;
 
 import com.buession.core.utils.StringUtils;
 
-import java.util.HashSet;
+import java.util.Set;
 import java.util.StringJoiner;
 
 /**
@@ -35,13 +35,13 @@ import java.util.StringJoiner;
  */
 public final class Property {
 
-	private HashSet<String> values;
+	private Set<String> values;
 
-	public HashSet<String> getValues(){
+	public Set<String> getValues(){
 		return values;
 	}
 
-	public void setValues(HashSet<String> values){
+	public void setValues(Set<String> values){
 		this.values = values;
 	}
 

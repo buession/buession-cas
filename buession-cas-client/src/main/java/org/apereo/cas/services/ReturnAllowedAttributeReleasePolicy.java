@@ -37,12 +37,26 @@ public class ReturnAllowedAttributeReleasePolicy extends AttributeReleasePolicy.
 
 	private final static long serialVersionUID = 526227455320301888L;
 
+	/**
+	 * 允许的属性
+	 */
 	private Set<String> allowedAttributes;
 
+	/**
+	 * 返回允许的属性
+	 *
+	 * @return 允许的属性
+	 */
 	public Set<String> getAllowedAttributes(){
 		return allowedAttributes;
 	}
 
+	/**
+	 * 设置允许的属性
+	 *
+	 * @param allowedAttributes
+	 * 		允许的属性
+	 */
 	public void setAllowedAttributes(Set<String> allowedAttributes){
 		this.allowedAttributes = allowedAttributes;
 	}
