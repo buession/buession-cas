@@ -63,21 +63,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.buession.springboot</groupId>
-			<artifactId>buession-springboot-cache</artifactId>
-			<version>${buession.springboot.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.buession.springboot</groupId>
 			<artifactId>buession-springboot-web</artifactId>
 		</dependency>
 
