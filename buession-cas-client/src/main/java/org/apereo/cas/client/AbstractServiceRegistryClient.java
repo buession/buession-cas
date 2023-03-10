@@ -61,11 +61,6 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 	private final String baseUrl;
 
 	/**
-	 * JSON 反序列化实例
-	 */
-	private final ObjectMapper objectMapper;
-
-	/**
 	 * {@link HttpClient} 实例
 	 */
 	private HttpClient httpClient;
@@ -81,7 +76,6 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 	public AbstractServiceRegistryClient(final String baseUrl){
 		Assert.isBlank(baseUrl, "CAS Server base url cloud not be empty or null.");
 		this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
-		objectMapper = getObjectMapper();
 	}
 
 	/**
@@ -119,6 +113,8 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 
 	@Override
 	public RegisteredService save(final RegisteredService service) throws ServiceRegistryClientException{
+		final ObjectMapper objectMapper = getObjectMapper();
+
 		try{
 			objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator(),
 					ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
@@ -150,6 +146,8 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 
 	@Override
 	public List<RegisteredService> list() throws ServiceRegistryClientException{
+		final ObjectMapper objectMapper = getObjectMapper();
+
 		try{
 			Response response = httpClient.get(baseUrl + "/registeredServices");
 
@@ -180,6 +178,8 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 
 	@Override
 	public RegisteredService get(final int id) throws ServiceRegistryClientException{
+		final ObjectMapper objectMapper = getObjectMapper();
+
 		try{
 			Response response = httpClient.get(baseUrl + "/registeredServices/" + id);
 

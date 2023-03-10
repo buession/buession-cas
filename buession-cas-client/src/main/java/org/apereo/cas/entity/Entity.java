@@ -34,7 +34,7 @@ import java.util.StringJoiner;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public interface Entity extends Serializable {
 
