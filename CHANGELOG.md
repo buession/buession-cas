@@ -2,6 +2,21 @@
 ===========================
 
 
+## [2.2.0](https://github.com/buession/buession-cas/releases/tag/v2.2.0) (2022-03-10)
+
+### 🔨依赖升级
+
+- [依赖库版本升级和安全漏洞修复](https://github.com/buession/buession-parent/releases/tag/v2.2.0)
+
+
+### ⭐ 新特性
+
+- **buession-cas-client：** 新增 RegisteredService Client SDK
+
+
+---
+
+
 ## [2.1.2](https://github.com/buession/buession-cas/releases/tag/v2.1.2) (2022-11-15)
 
 ### 🔨依赖升级
