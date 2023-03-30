@@ -24,6 +24,8 @@
  */
 package org.apereo.cas.services;
 
+import org.apereo.cas.entity.Entity;
+
 /**
  * This is {@link NotPreventedRegisteredServiceAuthenticationPolicyCriteria}.
  *
@@ -36,7 +38,8 @@ public class NotPreventedRegisteredServiceAuthenticationPolicyCriteria implement
 
 	@Override
 	public String toString(){
-		return super.toString();
+		return Entity.StringBuilder.getInstance(this)
+				.asString();
 	}
 
 }
