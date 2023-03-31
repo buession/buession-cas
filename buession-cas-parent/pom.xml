@@ -78,7 +78,7 @@
 		<buession.security.version>2.2.1</buession.security.version>
 		<buession.springboot.version>2.2.1</buession.springboot.version>
 		<buession.springcloud.version>2.2.1</buession.springcloud.version>
-		<cas.version>6.3.7.4</cas.version>
+		<cas.version>6.4.2</cas.version>
 	</properties>
 
 	<dependencyManagement>
