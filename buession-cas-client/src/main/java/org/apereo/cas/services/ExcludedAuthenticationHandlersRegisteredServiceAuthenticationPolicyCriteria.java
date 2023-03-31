@@ -24,6 +24,8 @@
  */
 package org.apereo.cas.services;
 
+import org.apereo.cas.entity.Entity;
+
 /**
  * This is {@link ExcludedAuthenticationHandlersRegisteredServiceAuthenticationPolicyCriteria}.
  *
@@ -37,7 +39,8 @@ public class ExcludedAuthenticationHandlersRegisteredServiceAuthenticationPolicy
 
 	@Override
 	public String toString(){
-		return super.toString();
+		return Entity.StringBuilder.getInstance(this)
+				.asString();
 	}
 
 }
