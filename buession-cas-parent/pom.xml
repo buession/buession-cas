@@ -65,10 +65,45 @@
 		<module>../buession-cas-captcha</module>
 		<module>../buession-cas-client</module>
 		<module>../buession-cas-session</module>
+		<module>../buession-cas-session-hazelcast</module>
+		<module>../buession-cas-session-jdbc</module>
+		<module>../buession-cas-session-mongodb</module>
+		<module>../buession-cas-session-redis</module>
+		<module>../buession-cas-rest</module>
 		<module>../buession-cas-service</module>
+		<module>../buession-cas-service-cassandra</module>
+		<module>../buession-cas-service-cosmosdb</module>
+		<module>../buession-cas-service-couchbase</module>
+		<module>../buession-cas-service-couchdb</module>
+		<module>../buession-cas-service-git</module>
+		<module>../buession-cas-service-jdbc</module>
+		<module>../buession-cas-service-json</module>
+		<module>../buession-cas-service-ldap</module>
+		<module>../buession-cas-service-mongodb</module>
+		<module>../buession-cas-service-redis</module>
+		<module>../buession-cas-service-rest</module>
+		<module>../buession-cas-service-yaml</module>
 		<module>../buession-cas-support</module>
 		<module>../buession-cas-ticket</module>
+		<module>../buession-cas-ticket-cassandra</module>
+		<module>../buession-cas-ticket-couchbase</module>
+		<module>../buession-cas-ticket-couchdb</module>
+		<module>../buession-cas-ticket-ehcache</module>
+		<module>../buession-cas-ticket-hazelcast</module>
+		<module>../buession-cas-ticket-ignite</module>
+		<module>../buession-cas-ticket-infinispan</module>
+		<module>../buession-cas-ticket-jdbc</module>
+		<module>../buession-cas-ticket-jms</module>
+		<module>../buession-cas-ticket-memcached</module>
+		<module>../buession-cas-ticket-mongodb</module>
+		<module>../buession-cas-ticket-redis</module>
 		<module>../buession-cas-throttle</module>
+		<module>../buession-cas-throttle-bucket4j</module>
+		<module>../buession-cas-throttle-couchdb</module>
+		<module>../buession-cas-throttle-hazelcast</module>
+		<module>../buession-cas-throttle-jdbc</module>
+		<module>../buession-cas-throttle-mongodb</module>
+		<module>../buession-cas-throttle-redis</module>
 		<module>../buession-cas-metrics</module>
 		<module>../buession-cas-view</module>
 		<module>../buession-cas-web</module>
@@ -114,10 +149,6 @@
 						<groupId>commons-logging</groupId>
 						<artifactId>commons-logging</artifactId>
 					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
 				</exclusions>
 			</dependency>
 			<dependency>
@@ -136,10 +167,6 @@
 					<exclusion>
 						<groupId>commons-logging</groupId>
 						<artifactId>commons-logging</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>*</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -167,27 +194,83 @@
 				<exclusions>
 					<exclusion>
 						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-webflow-api</artifactId>
+						<artifactId>cas-server-core-api-authentication</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-cookie</artifactId>
+						<artifactId>cas-server-core-api-logout</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-mfa</artifactId>
+						<artifactId>cas-server-core-api-services</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-api-ticket</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-api-web</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apereo.cas</groupId>
 						<artifactId>cas-server-core-api-webflow</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.jasig.cas.client</groupId>
-						<artifactId>cas-client-core</artifactId>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-authentication-api</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-services-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-tickets-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-webflow-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-authentication-throttle</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-services</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-services-registry</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-services-authentication</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.service.persondir</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.inspektr</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.webflow</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-cli</groupId>
+						<artifactId>commons-cli</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
@@ -226,16 +309,12 @@
 						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
+						<groupId>org.springframework</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>geronimo-spec</groupId>
-						<artifactId>geronimo-spec-jta</artifactId>
+						<groupId>org.springframework.data</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.boot</groupId>
@@ -246,15 +325,23 @@
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.springframework.security</groupId>
-						<artifactId>spring-security-cas</artifactId>
+						<groupId>org.apache.httpcomponents</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.springframework.webflow</groupId>
+						<groupId>org.quartz-scheduler</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.pac4j</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.nimbusds</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 				</exclusions>
@@ -265,8 +352,56 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-api-authentication</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-api-events</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-api-webflow</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.service.persondir</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.inspektr</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.data</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.webflow</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.cloud</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-cli</groupId>
+						<artifactId>commons-cli</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
@@ -305,35 +440,15 @@
 						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
+						<groupId>org.apache.httpcomponents</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.quartz-scheduler</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.slf4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>geronimo-spec</groupId>
-						<artifactId>geronimo-spec-jta</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.cloud</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.security</groupId>
-						<artifactId>spring-security-cas</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.webflow</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 				</exclusions>
@@ -344,8 +459,44 @@
 				<version>${cas.version}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
+						<groupId>org.apereo.cas</groupId>
+						<artifactId>cas-server-core-web-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.service.persondir</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apereo.inspektr</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.data</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.webflow</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.cloud</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-cli</groupId>
+						<artifactId>commons-cli</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>javax.el</groupId>
@@ -384,35 +535,19 @@
 						<artifactId>el-impl</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
+						<groupId>org.springframework</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.httpcomponents</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.quartz-scheduler</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.slf4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>geronimo-spec</groupId>
-						<artifactId>geronimo-spec-jta</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.cloud</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.security</groupId>
-						<artifactId>spring-security-cas</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.webflow</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 				</exclusions>
@@ -422,6 +557,7 @@
 				<artifactId>cas-server-core-authentication</artifactId>
 				<version>${cas.version}</version>
 				<exclusions>
+					<!--
 					<exclusion>
 						<groupId>aopalliance</groupId>
 						<artifactId>aopalliance</artifactId>
@@ -494,6 +630,7 @@
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
+					-->
 				</exclusions>
 			</dependency>
 			<dependency>
@@ -501,6 +638,7 @@
 				<artifactId>cas-server-core-authentication-api</artifactId>
 				<version>${cas.version}</version>
 				<exclusions>
+					<!--
 					<exclusion>
 						<groupId>aopalliance</groupId>
 						<artifactId>aopalliance</artifactId>
@@ -573,6 +711,7 @@
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
+					-->
 				</exclusions>
 			</dependency>
 			<dependency>
@@ -651,6 +790,7 @@
 				<artifactId>cas-server-core-web</artifactId>
 				<version>${cas.version}</version>
 				<exclusions>
+					<!--
 					<exclusion>
 						<groupId>aopalliance</groupId>
 						<artifactId>aopalliance</artifactId>
@@ -727,6 +867,7 @@
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
+					-->
 				</exclusions>
 			</dependency>
 			<dependency>
@@ -734,6 +875,7 @@
 				<artifactId>cas-server-core-web-api</artifactId>
 				<version>${cas.version}</version>
 				<exclusions>
+					<!--
 					<exclusion>
 						<groupId>aopalliance</groupId>
 						<artifactId>aopalliance</artifactId>
@@ -806,6 +948,7 @@
 						<groupId>org.pac4j</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
+					-->
 				</exclusions>
 			</dependency>
 
