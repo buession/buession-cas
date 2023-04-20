@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2022 Buession.com Inc.														       |
+ * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.captcha.web.flow.action;
@@ -78,6 +78,20 @@ public class ValidateCaptchaAction extends AbstractAction {
 			return null;
 		}
 
+		if(logger.isDebugEnabled()){
+			CaptchaProperties.Aliyun aliyun = captchaProperties.getAliyun();
+			CaptchaProperties.Geetest geetest = captchaProperties.getGeetest();
+			CaptchaProperties.Tencent tencent = captchaProperties.getTencent();
+
+			if(aliyun != null){
+				logger.debug("Aliyun captcha validate.");
+			}else if(geetest != null){
+				logger.debug("Geetest captcha validate.");
+			}else if(tencent != null){
+				logger.debug("Tencent captcha validate.");
+			}
+		}
+
 		HttpServletRequest request = WebUtils.getHttpServletRequestFromExternalWebflowContext(requestContext);
 
 		try{
@@ -88,36 +102,46 @@ public class ValidateCaptchaAction extends AbstractAction {
 				logger.warn("Captcha validate failed.");
 			}
 		}catch(CaptchaException e){
-			if(e instanceof RequiredParameterCaptchaException){
-				if(logger.isWarnEnabled()){
-					logger.warn("Captcha parameter: {} is null or empty.",
-							((RequiredParameterCaptchaException) e).getParameter());
-				}
+			Event event = getError(requestContext, e);
 
-				return getError(requestContext, CaptchaConstants.CAPTCHA_REQUIRED_EVENT,
-						CaptchaConstants.CAPTCHA_REQUIRED_MESSAGE_CODE, CaptchaConstants.CAPTCHA_REQUIRED_MESSAGE_CODE);
-			}else if(e instanceof CaptchaValidateFailureException){
-				CaptchaValidateFailureException captchaValidateFailureException = (CaptchaValidateFailureException) e;
-
-				if(logger.isWarnEnabled()){
-					logger.warn("Captcha validate: {}(code: {}).", captchaValidateFailureException.getMessage(),
-							captchaValidateFailureException.getCode());
-				}
-
-				String messageCode = Validate.hasText(
-						captchaValidateFailureException.getMessage()) ? captchaValidateFailureException.getMessage() : CasWebflowConstants.TRANSITION_ID_CAPTCHA_ERROR;
-				String defaultText = Validate.hasText(
-						captchaValidateFailureException.getText()) ? captchaValidateFailureException.getText() : messageCode;
-				return getError(requestContext, CaptchaConstants.CAPTCHA_REQUIRED_EVENT, messageCode, defaultText);
-			}else{
-				if(logger.isWarnEnabled()){
-					logger.warn("Captcha validate failed: {}", e.getMessage());
-				}
+			if(event != null){
+				return event;
 			}
 		}
 
 		return getError(requestContext, CasWebflowConstants.TRANSITION_ID_CAPTCHA_ERROR,
 				CasWebflowConstants.TRANSITION_ID_CAPTCHA_ERROR, CasWebflowConstants.TRANSITION_ID_CAPTCHA_ERROR);
+	}
+
+	private Event getError(final RequestContext requestContext, final CaptchaException ex){
+		if(ex instanceof RequiredParameterCaptchaException){
+			if(logger.isWarnEnabled()){
+				logger.warn("Captcha parameter: {} is null or empty.",
+						((RequiredParameterCaptchaException) ex).getParameter());
+			}
+
+			return getError(requestContext, CaptchaConstants.CAPTCHA_REQUIRED_EVENT,
+					CaptchaConstants.CAPTCHA_REQUIRED_MESSAGE_CODE, CaptchaConstants.CAPTCHA_REQUIRED_MESSAGE_CODE);
+		}else if(ex instanceof CaptchaValidateFailureException){
+			CaptchaValidateFailureException captchaValidateFailureException = (CaptchaValidateFailureException) ex;
+
+			if(logger.isWarnEnabled()){
+				logger.warn("Captcha validate: {}(code: {}).", captchaValidateFailureException.getMessage(),
+						captchaValidateFailureException.getCode());
+			}
+
+			String messageCode = Validate.hasText(
+					captchaValidateFailureException.getMessage()) ? captchaValidateFailureException.getMessage() : CasWebflowConstants.TRANSITION_ID_CAPTCHA_ERROR;
+			String defaultText = Validate.hasText(
+					captchaValidateFailureException.getText()) ? captchaValidateFailureException.getText() : messageCode;
+			return getError(requestContext, CaptchaConstants.CAPTCHA_REQUIRED_EVENT, messageCode, defaultText);
+		}else{
+			if(logger.isWarnEnabled()){
+				logger.warn("Captcha validate failed: {}", ex.getMessage());
+			}
+		}
+
+		return null;
 	}
 
 	private Event getError(final RequestContext requestContext, final String eventId, final String messageCode,
