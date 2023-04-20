@@ -30,7 +30,7 @@ import org.apereo.cas.configuration.model.support.jpa.AbstractJpaProperties;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class JdbcProperties extends AbstractJpaProperties {
+public class LoginLogJdbcProperties extends AbstractJpaProperties {
 
 	/**
 	 * 数据表名称

@@ -26,4 +26,4 @@
  * @author Yong.Teng
  * @since 2.1.0
  */
-package org.apereo.cas.support.loginlog;
+package org.apereo.cas.support.loginlog.scheme;

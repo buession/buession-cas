@@ -19,13 +19,14 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2022 Buession.com Inc.														       |
+ * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.support.loginlog.flow.action;
 
 import com.buession.core.validator.Validate;
 import com.buession.web.servlet.http.request.RequestUtils;
+import com.buession.web.utils.useragentutils.UserAgent;
 import org.apereo.cas.support.loginlog.manager.LoginLogManager;
 import org.apereo.cas.web.support.WebUtils;
 import org.springframework.webflow.action.AbstractAction;
@@ -77,12 +78,15 @@ public class LoginLogAction extends AbstractAction {
 	protected Event doExecute(final RequestContext requestContext){
 		HttpServletRequest request = WebUtils.getHttpServletRequestFromExternalWebflowContext(requestContext);
 		String clientIp = Validate.hasText(clientIpHeaderName) ? request.getHeader(clientIpHeaderName) : null;
+		String userAgent = request.getHeader("User-Agent");
+		UserAgent userAgentInstance = new UserAgent(userAgent);
 
 		if(Validate.isBlank(clientIp)){
 			clientIp = RequestUtils.getClientIp(request);
 		}
 
-		loginLogManager.execute(requestContext.getRequestParameters().get("username"), new Date(), clientIp);
+		loginLogManager.execute(requestContext.getRequestParameters().get("username"), new Date(), clientIp,
+				userAgent, userAgentInstance.getOperatingSystem(), userAgentInstance.getBrowser());
 
 		return success();
 	}

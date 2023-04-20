@@ -19,13 +19,15 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2022 Buession.com Inc.														       |
+ * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.support;
 
 import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.apereo.cas.support.loginlog.scheme.LoginLogJdbcProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * @author Yong.Teng
@@ -36,4 +38,24 @@ public class CasSupportConfigurationProperties {
 
 	public final static String PREFIX = CasConfigurationProperties.PREFIX + ".support";
 
+	/**
+	 * @since 2.3.0
+	 */
+	@NestedConfigurationProperty
+	private LoginLogJdbcProperties jdbc = new LoginLogJdbcProperties();
+
+	/**
+	 * @since 2.3.0
+	 */
+	public LoginLogJdbcProperties getJdbc(){
+		return jdbc;
+	}
+
+	/**
+	 * @since 2.3.0
+	 */
+	public void setJdbc(LoginLogJdbcProperties jdbc){
+		this.jdbc = jdbc;
+	}
+	
 }

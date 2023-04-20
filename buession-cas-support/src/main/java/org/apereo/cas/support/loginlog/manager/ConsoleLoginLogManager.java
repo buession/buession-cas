@@ -19,10 +19,13 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2022 Buession.com Inc.														       |
+ * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.support.loginlog.manager;
+
+import com.buession.web.utils.useragentutils.Browser;
+import com.buession.web.utils.useragentutils.OperatingSystem;
 
 import java.util.Date;
 
@@ -37,6 +40,15 @@ public class ConsoleLoginLogManager extends AbstractLoginLogManager {
 	@Override
 	public void execute(final String id, final Date dateTime, final String clientIp){
 		System.out.printf("%s login success at: %s(IP: %s).", id, dateTime, clientIp);
+	}
+
+	@Override
+	public void execute(final String id, final Date dateTime, final String clientIp, final String userAgent,
+						final OperatingSystem operatingSystem, final Browser browser){
+		System.out.printf("%s login success at: %s(IP: %s), User-Agent: %s, operating system: %s %s, device type: %s," +
+						" browser: %s %s.", id, dateTime, clientIp, userAgent, operatingSystem.getName(),
+				operatingSystem.getVersion(), operatingSystem.getDeviceType().getName(), browser.getName(),
+				browser.getVersion());
 	}
 
 }

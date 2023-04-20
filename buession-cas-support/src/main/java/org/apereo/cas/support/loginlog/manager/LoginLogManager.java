@@ -19,11 +19,13 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2022 Buession.com Inc.														       |
+ * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.support.loginlog.manager;
 
+import com.buession.web.utils.useragentutils.Browser;
+import com.buession.web.utils.useragentutils.OperatingSystem;
 import org.springframework.beans.factory.DisposableBean;
 
 import java.util.Date;
@@ -47,5 +49,28 @@ public interface LoginLogManager extends DisposableBean {
 	 * 		客户端 IP
 	 */
 	void execute(final String id, final Date dateTime, final String clientIp);
+
+	/**
+	 * 登录日志执行操作
+	 *
+	 * @param id
+	 * 		用户 ID
+	 * @param dateTime
+	 * 		当前时间
+	 * @param clientIp
+	 * 		客户端 IP
+	 * @param userAgent
+	 * 		User-Agent
+	 * @param operatingSystem
+	 * 		操作系统
+	 * @param browser
+	 * 		浏览器
+	 *
+	 * @since 2.3.0
+	 */
+	default void execute(final String id, final Date dateTime, final String clientIp, final String userAgent,
+						 final OperatingSystem operatingSystem, final Browser browser){
+		execute(id, dateTime, clientIp);
+	}
 
 }

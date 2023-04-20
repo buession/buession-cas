@@ -30,7 +30,7 @@ import org.apereo.cas.configuration.model.support.jpa.AbstractJpaProperties;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class LoginLogJdbcProperties extends AbstractJpaProperties {
+public class HistoryLoginLogJdbcProperties extends AbstractJpaProperties {
 
 	/**
 	 * 数据表名称
@@ -41,6 +41,16 @@ public class LoginLogJdbcProperties extends AbstractJpaProperties {
 	 * 标识字段名称
 	 */
 	private String idFieldName;
+
+	/**
+	 * 用户 ID 字段名称
+	 */
+	private String userIdFieldName;
+
+	/**
+	 * 用户名字段名称
+	 */
+	private String userNameFieldName;
 
 	/**
 	 * 登录时间字段名称
@@ -98,61 +108,6 @@ public class LoginLogJdbcProperties extends AbstractJpaProperties {
 	private String districtNameFieldName;
 
 	/**
-	 * 上次登录时间字段名称
-	 */
-	private String lastLoginTimeFieldName;
-
-	/**
-	 * 上次登录 IP 字段名称
-	 */
-	private String lastLoginIpFieldName;
-
-	/**
-	 * 上次登录 User-Agent 字段名称
-	 */
-	private String lastUserAgentFieldName;
-
-	/**
-	 * 上次登录操作系统名称字段名称
-	 */
-	private String lastOperatingSystemNameFieldName;
-
-	/**
-	 * 上次登录操作系统版本字段名称
-	 */
-	private String lastOperatingSystemVersionFieldName;
-
-	/**
-	 * 上次登录设备类型字段名称
-	 */
-	private String lastDeviceTypeFieldName;
-
-	/**
-	 * 上次登录浏览器名称字段名称
-	 */
-	private String lastBrowserNameFieldName;
-
-	/**
-	 * 上次登录浏览器版本字段名称
-	 */
-	private String lastBrowserVersionFieldName;
-
-	/**
-	 * 上次登录国家 Code 字段名称
-	 */
-	private String lastCountryCodeFieldName;
-
-	/**
-	 * 上次登录国家名称字段名称
-	 */
-	private String lastCountryNameFieldName;
-
-	/**
-	 * 上次登录地区名称字段名称
-	 */
-	private String lastDistrictNameFieldName;
-
-	/**
 	 * 返回数据表名称
 	 *
 	 * @return 数据表名称
@@ -188,6 +143,44 @@ public class LoginLogJdbcProperties extends AbstractJpaProperties {
 	 */
 	public void setIdFieldName(String idFieldName){
 		this.idFieldName = idFieldName;
+	}
+
+	/**
+	 * 返回用户 ID 字段名称
+	 *
+	 * @return 用户 ID 字段名称
+	 */
+	public String getUserIdFieldName(){
+		return userIdFieldName;
+	}
+
+	/**
+	 * 设置用户 ID 字段名称
+	 *
+	 * @param userIdFieldName
+	 * 		用户 ID 字段名称
+	 */
+	public void setUserIdFieldName(String userIdFieldName){
+		this.userIdFieldName = userIdFieldName;
+	}
+
+	/**
+	 * 返回用户名字段名称
+	 *
+	 * @return 用户名字段名称
+	 */
+	public String getUserNameFieldName(){
+		return userNameFieldName;
+	}
+
+	/**
+	 * 设置用户名字段名称
+	 *
+	 * @param userNameFieldName
+	 * 		用户名字段名称
+	 */
+	public void setUserNameFieldName(String userNameFieldName){
+		this.userNameFieldName = userNameFieldName;
 	}
 
 	/**
@@ -397,215 +390,6 @@ public class LoginLogJdbcProperties extends AbstractJpaProperties {
 	 */
 	public void setDistrictNameFieldName(String districtNameFieldName){
 		this.districtNameFieldName = districtNameFieldName;
-	}
-
-	/**
-	 * 返回上次登录时间字段名称
-	 *
-	 * @return 上次登录时间字段名称
-	 */
-	public String getLastLoginTimeFieldName(){
-		return lastLoginTimeFieldName;
-	}
-
-	/**
-	 * 设置上次登录时间字段名称
-	 *
-	 * @param lastLoginTimeFieldName
-	 * 		上次登录时间字段名称
-	 */
-	public void setLastLoginTimeFieldName(String lastLoginTimeFieldName){
-		this.lastLoginTimeFieldName = lastLoginTimeFieldName;
-	}
-
-	/**
-	 * 返回上次登录 IP 字段名称
-	 *
-	 * @return 上次登录 IP 字段名称
-	 */
-	public String getLastLoginIpFieldName(){
-		return lastLoginIpFieldName;
-	}
-
-	/**
-	 * 设置上次登录 IP 字段名称
-	 *
-	 * @param lastLoginIpFieldName
-	 * 		上次登录 IP 字段名称
-	 */
-	public void setLastLoginIpFieldName(String lastLoginIpFieldName){
-		this.lastLoginIpFieldName = lastLoginIpFieldName;
-	}
-
-	/**
-	 * 返回上次登录 User-Agent 字段名称
-	 *
-	 * @return 上次登录 User-Agent 字段名称
-	 */
-	public String getLastUserAgentFieldName(){
-		return lastUserAgentFieldName;
-	}
-
-	/**
-	 * 设置上次登录 User-Agent 字段名称
-	 *
-	 * @param lastUserAgentFieldName
-	 * 		上次登录 User-Agent 字段名称
-	 */
-	public void setLastUserAgentFieldName(String lastUserAgentFieldName){
-		this.lastUserAgentFieldName = lastUserAgentFieldName;
-	}
-
-	/**
-	 * 返回上次登录操作系统名称字段名称
-	 *
-	 * @return 上次登录操作系统名称字段名称
-	 */
-	public String getLastOperatingSystemNameFieldName(){
-		return lastOperatingSystemNameFieldName;
-	}
-
-	/**
-	 * 设置上次登录操作系统名称字段名称
-	 *
-	 * @param lastOperatingSystemNameFieldName
-	 * 		上次登录操作系统名称字段名称
-	 */
-	public void setLastOperatingSystemNameFieldName(String lastOperatingSystemNameFieldName){
-		this.lastOperatingSystemNameFieldName = lastOperatingSystemNameFieldName;
-	}
-
-	/**
-	 * 返回上次登录操作系统版本字段名称
-	 *
-	 * @return 上次登录操作系统版本字段名称
-	 */
-	public String getLastOperatingSystemVersionFieldName(){
-		return lastOperatingSystemVersionFieldName;
-	}
-
-	/**
-	 * 设置上次登录操作系统版本字段名称
-	 *
-	 * @param lastOperatingSystemVersionFieldName
-	 * 		上次登录操作系统版本字段名称
-	 */
-	public void setLastOperatingSystemVersionFieldName(String lastOperatingSystemVersionFieldName){
-		this.lastOperatingSystemVersionFieldName = lastOperatingSystemVersionFieldName;
-	}
-
-	/**
-	 * 返回上次登录设备类型字段名称
-	 *
-	 * @return 上次登录设备类型字段名称
-	 */
-	public String getLastDeviceTypeFieldName(){
-		return lastDeviceTypeFieldName;
-	}
-
-	/**
-	 * 设置上次登录设备类型字段名称
-	 *
-	 * @param lastDeviceTypeFieldName
-	 * 		上次登录设备类型字段名称
-	 */
-	public void setLastDeviceTypeFieldName(String lastDeviceTypeFieldName){
-		this.lastDeviceTypeFieldName = lastDeviceTypeFieldName;
-	}
-
-	/**
-	 * 返回上次登录浏览器名称字段名称
-	 *
-	 * @return 上次登录浏览器名称字段名称
-	 */
-	public String getLastBrowserNameFieldName(){
-		return lastBrowserNameFieldName;
-	}
-
-	/**
-	 * 设置上次登录浏览器名称字段名称
-	 *
-	 * @param lastBrowserNameFieldName
-	 * 		上次登录浏览器名称字段名称
-	 */
-	public void setLastBrowserNameFieldName(String lastBrowserNameFieldName){
-		this.lastBrowserNameFieldName = lastBrowserNameFieldName;
-	}
-
-	/**
-	 * 返回上次登录浏览器版本字段名称
-	 *
-	 * @return 上次登录浏览器版本字段名称
-	 */
-	public String getLastBrowserVersionFieldName(){
-		return lastBrowserVersionFieldName;
-	}
-
-	/**
-	 * 设置上次登录浏览器版本字段名称
-	 *
-	 * @param lastBrowserVersionFieldName
-	 * 		上次登录浏览器版本字段名称
-	 */
-	public void setLastBrowserVersionFieldName(String lastBrowserVersionFieldName){
-		this.lastBrowserVersionFieldName = lastBrowserVersionFieldName;
-	}
-
-	/**
-	 * 返回上次登录国家 Code 字段名称
-	 *
-	 * @return 上次登录国家 Code 字段名称
-	 */
-	public String getLastCountryCodeFieldName(){
-		return lastCountryCodeFieldName;
-	}
-
-	/**
-	 * 设置上次登录国家 Code 字段名称
-	 *
-	 * @param lastCountryCodeFieldName
-	 * 		上次登录国家 Code 字段名称
-	 */
-	public void setLastCountryCodeFieldName(String lastCountryCodeFieldName){
-		this.lastCountryCodeFieldName = lastCountryCodeFieldName;
-	}
-
-	/**
-	 * 返回上次登录国家名称字段名称
-	 *
-	 * @return 上次登录国家名称字段名称
-	 */
-	public String getLastCountryNameFieldName(){
-		return lastCountryNameFieldName;
-	}
-
-	/**
-	 * 设置上次登录国家名称字段名称
-	 *
-	 * @param lastCountryNameFieldName
-	 * 		上次登录国家名称字段名称
-	 */
-	public void setLastCountryNameFieldName(String lastCountryNameFieldName){
-		this.lastCountryNameFieldName = lastCountryNameFieldName;
-	}
-
-	/**
-	 * 返回上次登录地区名称字段名称
-	 *
-	 * @return 上次登录地区名称字段名称
-	 */
-	public String getLastDistrictNameFieldName(){
-		return lastDistrictNameFieldName;
-	}
-
-	/**
-	 * 设置上次登录地区名称字段名称
-	 *
-	 * @param lastDistrictNameFieldName
-	 * 		上次登录地区名称字段名称
-	 */
-	public void setLastDistrictNameFieldName(String lastDistrictNameFieldName){
-		this.lastDistrictNameFieldName = lastDistrictNameFieldName;
 	}
 
 }
