@@ -54,7 +54,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.buession.cas</groupId>
-			<artifactId>buession-cas-core</artifactId>
+			<artifactId>buession-cas-audit-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -134,12 +134,20 @@
 			<groupId>com.sun.istack</groupId>
 			<artifactId>istack-commons-runtime</artifactId>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-		-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>

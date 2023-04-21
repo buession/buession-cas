@@ -54,7 +54,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.buession.cas</groupId>
-			<artifactId>buession-cas-core</artifactId>
+			<artifactId>buession-cas-session-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -135,6 +135,19 @@
 			<artifactId>jakarta.annotation-api</artifactId>
 		</dependency>
 		-->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>

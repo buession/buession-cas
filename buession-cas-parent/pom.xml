@@ -56,6 +56,7 @@
 	<modules>
 		<module>../buession-cas-core</module>
 		<module>../buession-cas-audit</module>
+		<module>../buession-cas-audit-core</module>
 		<module>../buession-cas-audit-couchbase</module>
 		<module>../buession-cas-audit-couchdb</module>
 		<module>../buession-cas-audit-jdbc</module>
@@ -65,12 +66,14 @@
 		<module>../buession-cas-captcha</module>
 		<module>../buession-cas-client</module>
 		<module>../buession-cas-session</module>
+		<module>../buession-cas-session-core</module>
 		<module>../buession-cas-session-hazelcast</module>
 		<module>../buession-cas-session-jdbc</module>
 		<module>../buession-cas-session-mongodb</module>
 		<module>../buession-cas-session-redis</module>
 		<module>../buession-cas-rest</module>
 		<module>../buession-cas-service</module>
+		<module>../buession-cas-service-core</module>
 		<module>../buession-cas-service-cassandra</module>
 		<module>../buession-cas-service-cosmosdb</module>
 		<module>../buession-cas-service-couchbase</module>
@@ -85,6 +88,7 @@
 		<module>../buession-cas-service-yaml</module>
 		<module>../buession-cas-support</module>
 		<module>../buession-cas-ticket</module>
+		<module>../buession-cas-ticket-core</module>
 		<module>../buession-cas-ticket-cassandra</module>
 		<module>../buession-cas-ticket-couchbase</module>
 		<module>../buession-cas-ticket-couchdb</module>
@@ -115,7 +119,7 @@
 		<project.java.version>11</project.java.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<buession.version>2.2.1</buession.version>
+		<buession.version>2.3.0</buession.version>
 		<buession.security.version>2.3.0</buession.security.version>
 		<buession.springboot.version>2.3.0</buession.springboot.version>
 		<buession.springcloud.version>2.3.0</buession.springcloud.version>
