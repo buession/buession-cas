@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<name>Buession CAS Throttle Core</name>
+	<name>Buession CAS Support Hazelcast</name>
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.buession.cas</groupId>
@@ -9,9 +9,9 @@
 		<relativePath>../buession-cas-parent</relativePath>
 		<version>2.3.0</version>
 	</parent>
-	<artifactId>buession-cas-throttle-core</artifactId>
+	<artifactId>buession-cas-support-hazelcast</artifactId>
 	<url>https://cas.buession.com/</url>
-	<description>Buession Framework Throttle Core For CAS</description>
+	<description>Buession Framework Support Hazelcast For CAS</description>
 	<packaging>jar</packaging>
 
 	<organization>
@@ -59,18 +59,21 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.buession.springboot</groupId>
-			<artifactId>buession-springboot-boot</artifactId>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>jakarta.annotation</groupId>
-			<artifactId>jakarta.annotation-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
+			<groupId>com.sun.istack</groupId>
+			<artifactId>istack-commons-runtime</artifactId>
 		</dependency>
 
 		<dependency>
@@ -80,7 +83,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>buession-cas-throttle-core</finalName>
+		<finalName>buession-cas-support-hazelcast</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
