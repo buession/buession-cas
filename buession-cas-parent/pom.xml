@@ -87,6 +87,8 @@
 		<module>../buession-cas-service-rest</module>
 		<module>../buession-cas-service-yaml</module>
 		<module>../buession-cas-support</module>
+		<module>../buession-cas-support-couchbase</module>
+		<module>../buession-cas-support-couchdb</module>
 		<module>../buession-cas-support-jdbc</module>
 		<module>../buession-cas-support-mongodb</module>
 		<module>../buession-cas-support-redis</module>
