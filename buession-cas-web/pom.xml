@@ -199,10 +199,6 @@
 					<groupId>org.bitbucket.b_c</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -326,10 +322,6 @@
 					<groupId>org.bitbucket.b_c</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -435,10 +427,6 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.bitbucket.b_c</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>
@@ -580,10 +568,6 @@
 					<groupId>org.bitbucket.b_c</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -685,10 +669,6 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.bitbucket.b_c</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>
@@ -798,6 +778,19 @@
 		<dependency>
 			<groupId>com.sun.istack</groupId>
 			<artifactId>istack-commons-runtime</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 
 		<dependency>
