@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<name>Buession CAS Support Couchbase</name>
+	<name>Buession CAS Support Cassandra</name>
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.buession.cas</groupId>
@@ -9,9 +9,9 @@
 		<relativePath>../buession-cas-parent</relativePath>
 		<version>2.3.0</version>
 	</parent>
-	<artifactId>buession-cas-support-couchbase</artifactId>
+	<artifactId>buession-cas-support-cassandra</artifactId>
 	<url>https://cas.buession.com/</url>
-	<description>Buession Framework Support Couchbase For CAS</description>
+	<description>Buession Framework Support Cassandra For CAS</description>
 	<packaging>jar</packaging>
 
 	<organization>
@@ -59,6 +59,20 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-cassandra</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 		</dependency>
@@ -72,9 +86,20 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-core</artifactId>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-handler</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.reactivestreams</groupId>
 			<artifactId>reactive-streams</artifactId>
@@ -92,7 +117,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>buession-cas-support-couchbase</finalName>
+		<finalName>buession-cas-support-cassandra</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

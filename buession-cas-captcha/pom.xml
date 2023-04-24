@@ -138,11 +138,19 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.apereo.service.persondir</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.springframework</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework.security</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.data</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
@@ -200,6 +208,14 @@
 				<exclusion>
 					<groupId>org.glassfish.web</groupId>
 					<artifactId>el-impl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.quartz-scheduler</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>

@@ -57,6 +57,11 @@
 			<artifactId>buession-cas-service-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>buession-cas-support-cassandra</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.buession.springboot</groupId>
