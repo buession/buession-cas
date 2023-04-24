@@ -71,6 +71,8 @@
 		<module>../buession-cas-session-jdbc</module>
 		<module>../buession-cas-session-mongodb</module>
 		<module>../buession-cas-session-redis</module>
+		<module>../buession-cas-metrics</module>
+		<module>../buession-cas-oauth</module>
 		<module>../buession-cas-rest</module>
 		<module>../buession-cas-service</module>
 		<module>../buession-cas-service-core</module>
@@ -94,6 +96,13 @@
 		<module>../buession-cas-support-jdbc</module>
 		<module>../buession-cas-support-mongodb</module>
 		<module>../buession-cas-support-redis</module>
+		<module>../buession-cas-throttle</module>
+		<module>../buession-cas-throttle-bucket4j</module>
+		<module>../buession-cas-throttle-couchdb</module>
+		<module>../buession-cas-throttle-hazelcast</module>
+		<module>../buession-cas-throttle-jdbc</module>
+		<module>../buession-cas-throttle-mongodb</module>
+		<module>../buession-cas-throttle-redis</module>
 		<module>../buession-cas-ticket</module>
 		<module>../buession-cas-ticket-core</module>
 		<module>../buession-cas-ticket-cassandra</module>
@@ -108,14 +117,7 @@
 		<module>../buession-cas-ticket-memcached</module>
 		<module>../buession-cas-ticket-mongodb</module>
 		<module>../buession-cas-ticket-redis</module>
-		<module>../buession-cas-throttle</module>
-		<module>../buession-cas-throttle-bucket4j</module>
-		<module>../buession-cas-throttle-couchdb</module>
-		<module>../buession-cas-throttle-hazelcast</module>
-		<module>../buession-cas-throttle-jdbc</module>
-		<module>../buession-cas-throttle-mongodb</module>
-		<module>../buession-cas-throttle-redis</module>
-		<module>../buession-cas-metrics</module>
+		<module>../buession-cas-token</module>
 		<module>../buession-cas-view</module>
 		<module>../buession-cas-web</module>
 		<module>../buession-cas-webflow</module>
@@ -196,6 +198,12 @@
 						<artifactId>jfiglet</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-annotations</artifactId>
+				<version>4.2.0</version>
 			</dependency>
 
 			<dependency>
