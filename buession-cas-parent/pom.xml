@@ -55,6 +55,7 @@
 
 	<modules>
 		<module>../buession-cas-core</module>
+		<module>../buession-cas-authentication</module>
 		<module>../buession-cas-audit</module>
 		<module>../buession-cas-audit-core</module>
 		<module>../buession-cas-audit-couchbase</module>
@@ -209,6 +210,10 @@
 						<groupId>javax.xml.bind</groupId>
 						<artifactId>jaxb-api</artifactId>
 					</exclusion>
+					<exclusion>
+						<groupId>org.glassfish.jaxb</groupId>
+						<artifactId>jaxb-core</artifactId>
+					</exclusion>
 				</exclusions>
 			</dependency>
 
@@ -248,6 +253,10 @@
 					<exclusion>
 						<groupId>jakarta.activation</groupId>
 						<artifactId>jakarta.activation-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>jakarta.xml.bind</groupId>
+						<artifactId>jakarta.xml.bind-api</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
