@@ -84,6 +84,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.springframework.security</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -154,6 +158,10 @@
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
 					<artifactId>geronimo-spec-jta</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
@@ -199,6 +207,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.springframework.security</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -269,6 +281,10 @@
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
 					<artifactId>geronimo-spec-jta</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -286,6 +302,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.springframework.security</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -356,6 +376,10 @@
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
 					<artifactId>geronimo-spec-jta</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -382,6 +406,10 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.service.persondir</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
@@ -463,6 +491,10 @@
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
 					<artifactId>geronimo-spec-jta</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>

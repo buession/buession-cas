@@ -126,10 +126,6 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.jasig.cas.client</groupId>
-					<artifactId>cas-client-core</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.springframework</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -208,6 +204,10 @@
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
 					<artifactId>geronimo-spec-jta</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>

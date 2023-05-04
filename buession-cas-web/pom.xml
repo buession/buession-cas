@@ -67,6 +67,21 @@
 			<artifactId>buession-cas-service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>buession-cas-support</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>buession-cas-support-jdbc</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>buession-cas-view</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.buession.springboot</groupId>
@@ -87,10 +102,6 @@
 			<artifactId>cas-server-core-web</artifactId>
 			<version>${cas.version}</version>
 			<exclusions>
-				<exclusion>
-					<groupId>org.apereo.cas</groupId>
-					<artifactId>cas-server-core-api-mfa</artifactId>
-				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-api-services</artifactId>
@@ -142,6 +153,10 @@
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-pool2</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.el</groupId>
@@ -271,6 +286,10 @@
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-pool2</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.el</groupId>
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
@@ -380,6 +399,10 @@
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-pool2</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.el</groupId>
@@ -525,6 +548,10 @@
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-pool2</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.el</groupId>
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
@@ -634,6 +661,10 @@
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-pool2</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.el</groupId>

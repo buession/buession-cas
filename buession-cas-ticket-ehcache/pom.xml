@@ -157,6 +157,10 @@
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-pool2</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.el</groupId>
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
@@ -276,10 +280,6 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.jasig.cas.client</groupId>
-					<artifactId>cas-client-core</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.springframework</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -314,6 +314,10 @@
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-pool2</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.el</groupId>

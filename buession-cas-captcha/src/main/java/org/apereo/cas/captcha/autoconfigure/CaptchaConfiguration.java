@@ -24,22 +24,9 @@
  */
 package org.apereo.cas.captcha.autoconfigure;
 
-import com.buession.core.validator.Validate;
-import com.buession.httpclient.HttpClient;
-import com.buession.security.captcha.CaptchaClient;
-import com.buession.security.captcha.aliyun.AliYunCaptchaClient;
-import com.buession.security.captcha.geetest.GeetestCaptchaClient;
-import com.buession.security.captcha.tencent.TencentCaptchaClient;
-import com.buession.security.captcha.validator.CaptchaValidator;
-import com.buession.security.captcha.validator.servlet.ServletAliYunCaptchaValidator;
-import com.buession.security.captcha.validator.servlet.ServletGeetestCaptchaValidator;
-import com.buession.security.captcha.validator.servlet.ServletTencentCaptchaValidator;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -51,123 +38,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(CaptchaProperties.class)
 @ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enabled", havingValue = "true")
-public class CaptchaConfiguration {
+@AutoConfigureBefore({com.buession.springboot.captcha.autoconfigure.CaptchaConfiguration.class})
+public class CaptchaConfiguration extends com.buession.springboot.captcha.autoconfigure.CaptchaConfiguration {
 
-	protected final CaptchaProperties properties;
-
-	protected HttpClient httpClient;
-
-	public CaptchaConfiguration(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient){
-		this.properties = properties;
-		this.httpClient = httpClient.getIfAvailable();
-	}
-
-	protected void afterInitialized(final CaptchaClient captchaClient){
-		captchaClient.setJavaScript(properties.getJavascript());
-	}
-
-	@Configuration(proxyBeanMethods = false)
-	@EnableConfigurationProperties(CaptchaProperties.class)
-	@ConditionalOnMissingBean({CaptchaValidator.class})
-	@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "aliyun.enabled", havingValue = "true")
-	static class AliYunCaptchaConfiguration extends CaptchaConfiguration {
-
-		public AliYunCaptchaConfiguration(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient){
-			super(properties, httpClient);
-		}
-
-		@Bean
-		@ConditionalOnMissingBean
-		@RefreshScope
-		public AliYunCaptchaClient captchaClient(){
-			final CaptchaProperties.Aliyun config = properties.getAliyun();
-			final AliYunCaptchaClient client = Validate.hasText(config.getRegionId()) ? new AliYunCaptchaClient(
-					config.getAccessKeyId(), config.getAccessKeySecret(), config.getAppKey(), config.getRegionId(),
-					httpClient) : new AliYunCaptchaClient(config.getAccessKeyId(), config.getAccessKeySecret(),
-					config.getAppKey(), httpClient);
-
-			afterInitialized(client);
-
-			return client;
-		}
-
-		@Bean
-		@ConditionalOnMissingBean
-		@RefreshScope
-		public ServletAliYunCaptchaValidator captchaValidator(AliYunCaptchaClient aliYunCaptchaClient){
-			return new ServletAliYunCaptchaValidator(aliYunCaptchaClient, properties.getAliyun().getParameter());
-		}
-
-	}
-
-	@Configuration(proxyBeanMethods = false)
-	@EnableConfigurationProperties(CaptchaProperties.class)
-	@ConditionalOnMissingBean({CaptchaValidator.class})
-	@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "geetest.enabled", havingValue = "true")
-	static class GeetestCaptchaConfiguration extends CaptchaConfiguration {
-
-		public GeetestCaptchaConfiguration(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient){
-			super(properties, httpClient);
-		}
-
-		@Bean
-		@ConditionalOnMissingBean
-		@RefreshScope
-		public GeetestCaptchaClient captchaClient(){
-			final CaptchaProperties.Geetest config = properties.getGeetest();
-			final GeetestCaptchaClient client = new GeetestCaptchaClient(config.getAppId(), config.getSecretKey(),
-					config.getVersion(), httpClient);
-
-			afterInitialized(client);
-
-			return client;
-		}
-
-		@Bean
-		@ConditionalOnMissingBean
-		@RefreshScope
-		public ServletGeetestCaptchaValidator captchaValidator(GeetestCaptchaClient geetestCaptchaClient){
-			if("v3".equalsIgnoreCase(geetestCaptchaClient.getVersion())){
-				return new ServletGeetestCaptchaValidator(geetestCaptchaClient, properties.getGeetest().getV3()
-						.getParameter());
-			}else{
-				return new ServletGeetestCaptchaValidator(geetestCaptchaClient, properties.getGeetest().getV4()
-						.getParameter());
-			}
-		}
-
-	}
-
-	@Configuration(proxyBeanMethods = false)
-	@EnableConfigurationProperties(CaptchaProperties.class)
-	@ConditionalOnMissingBean({CaptchaValidator.class})
-	@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "tencent.enabled", havingValue = "true")
-	static class TencentCaptchaConfiguration extends CaptchaConfiguration {
-
-		public TencentCaptchaConfiguration(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient){
-			super(properties, httpClient);
-		}
-
-		@Bean
-		@ConditionalOnMissingBean
-		@RefreshScope
-		public TencentCaptchaClient captchaClient(){
-			final CaptchaProperties.Tencent config = properties.getTencent();
-			final TencentCaptchaClient client = new TencentCaptchaClient(config.getAppId(), config.getSecretKey(),
-					httpClient);
-
-			afterInitialized(client);
-
-			return client;
-		}
-
-		@Bean
-		@ConditionalOnMissingBean
-		@RefreshScope
-		public ServletTencentCaptchaValidator captchaValidator(TencentCaptchaClient tencentCaptchaClient){
-			return new ServletTencentCaptchaValidator(tencentCaptchaClient, properties.getTencent().getParameter());
-		}
-
+	public CaptchaConfiguration(CaptchaProperties properties){
+		super(properties);
 	}
 
 }
