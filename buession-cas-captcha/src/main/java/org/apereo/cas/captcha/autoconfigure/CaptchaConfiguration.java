@@ -24,6 +24,8 @@
  */
 package org.apereo.cas.captcha.autoconfigure;
 
+import com.buession.httpclient.HttpClient;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -41,8 +43,8 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureBefore({com.buession.springboot.captcha.autoconfigure.CaptchaConfiguration.class})
 public class CaptchaConfiguration extends com.buession.springboot.captcha.autoconfigure.CaptchaConfiguration {
 
-	public CaptchaConfiguration(CaptchaProperties properties){
-		super(properties);
+	public CaptchaConfiguration(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient){
+		super(properties, httpClient);
 	}
 
 }

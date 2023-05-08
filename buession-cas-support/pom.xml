@@ -215,10 +215,6 @@
 					<groupId>com.nimbusds</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
-				<exclusion>
-					<groupId>org.bitbucket.b_c</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -388,10 +384,6 @@
 				</exclusion>
 				<exclusion>
 					<groupId>com.nimbusds</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.bitbucket.b_c</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>

@@ -213,10 +213,6 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.bitbucket.b_c</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -369,10 +365,6 @@
 				</exclusion>
 				<exclusion>
 					<groupId>com.nimbusds</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.bitbucket.b_c</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>

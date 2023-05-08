@@ -178,10 +178,6 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.bitbucket.b_c</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>com.lmax</groupId>
 					<artifactId>disruptor</artifactId>
 				</exclusion>
