@@ -472,6 +472,12 @@
 					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-api-webflow</artifactId>
 				</exclusion>
+				<!--
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-webflow-mfa</artifactId>
+				</exclusion>
+				-->
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-webflow</artifactId>
@@ -578,6 +584,10 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.quartz-scheduler</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
@@ -689,6 +699,10 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.quartz-scheduler</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>

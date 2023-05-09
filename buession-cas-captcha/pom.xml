@@ -64,13 +64,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.buession.springboot</groupId>
-			<artifactId>buession-springboot-boot</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.buession.springboot</groupId>
-			<artifactId>buession-springboot-captcha</artifactId>
-			<version>${buession.springboot.version}</version>
+			<groupId>com.buession.security</groupId>
+			<artifactId>buession-security-captcha</artifactId>
+			<version>${buession.security.version}</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
@@ -78,6 +74,11 @@
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.buession.springboot</groupId>
+			<artifactId>buession-springboot-boot</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.buession.springboot</groupId>
