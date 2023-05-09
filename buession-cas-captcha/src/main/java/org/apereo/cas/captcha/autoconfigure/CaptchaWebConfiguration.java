@@ -21,10 +21,68 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.captcha.autoconfigure;/**
- * 
- *
+ */
+package org.apereo.cas.captcha.autoconfigure;
+
+import com.buession.security.captcha.aliyun.AliYunCaptchaClient;
+import com.buession.security.captcha.geetest.GeetestCaptchaClient;
+import com.buession.security.captcha.geetest.GeetestParameter;
+import com.buession.security.captcha.tencent.TencentCaptchaClient;
+import com.buession.security.captcha.validator.CaptchaValidator;
+import com.buession.security.captcha.validator.servlet.ServletAliYunCaptchaValidator;
+import com.buession.security.captcha.validator.servlet.ServletGeetestCaptchaValidator;
+import com.buession.security.captcha.validator.servlet.ServletTencentCaptchaValidator;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
  * @author Yong.Teng
  * @since 2.3.0
- */public class CaptchaWebConfiguration {
+ */
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(CaptchaProperties.class)
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enabled", havingValue = "true")
+@AutoConfigureAfter({CaptchaConfiguration.class, WebMvcAutoConfiguration.class})
+public class CaptchaWebConfiguration {
+
+	private final CaptchaProperties properties;
+
+	public CaptchaWebConfiguration(CaptchaProperties properties){
+		this.properties = properties;
+	}
+
+	@Bean
+	@ConditionalOnMissingBean({CaptchaValidator.class})
+	@ConditionalOnBean({AliYunCaptchaClient.class})
+	public ServletAliYunCaptchaValidator aliYunCaptchaValidator(ObjectProvider<AliYunCaptchaClient> captchaClient){
+		return new ServletAliYunCaptchaValidator(captchaClient.getIfAvailable(), properties.getAliyun().getParameter());
+	}
+
+	@Bean
+	@ConditionalOnMissingBean({CaptchaValidator.class})
+	@ConditionalOnBean({GeetestCaptchaClient.class})
+	public ServletGeetestCaptchaValidator geetestCaptchaValidator(ObjectProvider<GeetestCaptchaClient> captchaClient){
+		GeetestParameter parameter = "v3".equalsIgnoreCase(
+				captchaClient.getIfAvailable().getVersion()) ? properties.getGeetest().getV3()
+				.getParameter() : properties.getGeetest().getV4().getParameter();
+		return new ServletGeetestCaptchaValidator(captchaClient.getIfAvailable(), parameter);
+	}
+
+	@Bean
+	@ConditionalOnMissingBean({CaptchaValidator.class})
+	@ConditionalOnBean({TencentCaptchaClient.class})
+	public ServletTencentCaptchaValidator tencentCaptchaValidator(ObjectProvider<TencentCaptchaClient> captchaClient){
+		return new ServletTencentCaptchaValidator(captchaClient.getIfAvailable(),
+				properties.getTencent().getParameter());
+	}
+
 }

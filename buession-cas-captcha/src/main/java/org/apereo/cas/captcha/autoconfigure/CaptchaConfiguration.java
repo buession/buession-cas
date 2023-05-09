@@ -25,10 +25,15 @@
 package org.apereo.cas.captcha.autoconfigure;
 
 import com.buession.httpclient.HttpClient;
+import com.buession.security.captcha.CaptchaClient;
+import com.buession.security.captcha.aliyun.AliYunCaptchaClient;
+import com.buession.security.captcha.geetest.GeetestCaptchaClient;
+import com.buession.security.captcha.tencent.TencentCaptchaClient;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -40,11 +45,56 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(CaptchaProperties.class)
 @ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enabled", havingValue = "true")
-@AutoConfigureBefore({com.buession.springboot.captcha.autoconfigure.CaptchaConfiguration.class})
-public class CaptchaConfiguration extends com.buession.springboot.captcha.autoconfigure.CaptchaConfiguration {
+public class CaptchaConfiguration {
+
+	private final CaptchaProperties properties;
+
+	private final HttpClient httpClient;
 
 	public CaptchaConfiguration(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient){
-		super(properties, httpClient);
+		this.properties = properties;
+		this.httpClient = httpClient.getIfAvailable();
+	}
+
+	protected void afterPropertiesSet(final CaptchaClient captchaClient){
+		captchaClient.setJavaScript(properties.getJavascript());
+	}
+
+	@Bean
+	@ConditionalOnMissingBean({CaptchaClient.class})
+	@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "aliyun.enabled", havingValue = "true")
+	public AliYunCaptchaClient aliYunCaptchaClient(){
+		final AliYunCaptchaClient client = new AliYunCaptchaClient(properties.getAliyun().getAccessKeyId(),
+				properties.getAliyun().getAccessKeySecret(), properties.getAliyun().getAppKey(),
+				properties.getAliyun().getRegionId(), httpClient);
+
+		afterPropertiesSet(client);
+
+		return client;
+	}
+
+	@Bean
+	@ConditionalOnMissingBean({CaptchaClient.class})
+	@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "geetest.enabled", havingValue = "true")
+	public GeetestCaptchaClient geetestCaptchaClient(){
+		final GeetestCaptchaClient client = new GeetestCaptchaClient(properties.getGeetest().getAppId(),
+				properties.getGeetest().getSecretKey(), properties.getGeetest().getVersion(), httpClient);
+
+		afterPropertiesSet(client);
+
+		return client;
+	}
+
+	@Bean
+	@ConditionalOnMissingBean({CaptchaClient.class})
+	@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "tencent.enabled", havingValue = "true")
+	public TencentCaptchaClient tencentCaptchaClient(){
+		final TencentCaptchaClient client = new TencentCaptchaClient(properties.getTencent().getAppId(),
+				properties.getTencent().getSecretKey(), httpClient);
+
+		afterPropertiesSet(client);
+
+		return client;
 	}
 
 }
