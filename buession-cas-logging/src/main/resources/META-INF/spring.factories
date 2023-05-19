@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  org.apereo.cas.logging.autoconfigure.JdbcLoginLoggingConfiguration, \
+  org.apereo.cas.logging.autoconfigure.MongoDbLoginLoggingConfiguration, \
+  org.apereo.cas.logging.autoconfigure.ConsoleLoginLoggingConfiguration, \
+  org.apereo.cas.logging.web.flow.autoconfigure.CasLoginLoggingConfiguration
