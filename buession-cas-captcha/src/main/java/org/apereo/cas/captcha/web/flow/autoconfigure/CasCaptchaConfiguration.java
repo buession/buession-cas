@@ -34,6 +34,7 @@ import org.apereo.cas.web.flow.CasWebflowConstants;
 import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
 import org.apereo.cas.captcha.web.flow.action.InitializeCaptchaAction;
 import org.apereo.cas.captcha.web.flow.action.ValidateCaptchaAction;
+import org.apereo.cas.web.flow.config.AbstractWebflowConfiguration;
 import org.apereo.cas.web.flow.config.CasWebflowContextConfiguration;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -59,27 +60,16 @@ import org.springframework.webflow.execution.Action;
 @ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enabled", havingValue = "true")
 @Import({CasWebflowContextConfiguration.class, CaptchaConfiguration.class})
 @AutoConfigureAfter({CasWebflowContextConfiguration.class})
-public class CasCaptchaConfiguration {
-
-	private final CasConfigurationProperties casProperties;
+public class CasCaptchaConfiguration extends AbstractWebflowConfiguration {
 
 	private final CaptchaProperties captchaProperties;
-
-	private final ConfigurableApplicationContext applicationContext;
-
-	private final FlowDefinitionRegistry loginFlowDefinitionRegistry;
-
-	private final FlowBuilderServices flowBuilderServices;
 
 	public CasCaptchaConfiguration(CasConfigurationProperties casProperties, CaptchaProperties captchaProperties,
 								   ObjectProvider<ConfigurableApplicationContext> applicationContext,
 								   @Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
 								   ObjectProvider<FlowBuilderServices> flowBuilderServices){
-		this.casProperties = casProperties;
+		super(casProperties, applicationContext, loginFlowDefinitionRegistry, flowBuilderServices);
 		this.captchaProperties = captchaProperties;
-		this.applicationContext = applicationContext.getIfAvailable();
-		this.loginFlowDefinitionRegistry = loginFlowDefinitionRegistry.getIfAvailable();
-		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
 	}
 
 	@Bean(name = "captchaWebflowConfigurer")

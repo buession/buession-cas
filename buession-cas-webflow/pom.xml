@@ -205,12 +205,20 @@
 					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.pac4j</groupId>
+					<groupId>com.nimbusds</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.nimbusds</groupId>
-					<artifactId>*</artifactId>
+					<groupId>org.pac4j</groupId>
+					<artifactId>pac4j-config</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.pac4j</groupId>
+					<artifactId>pac4j-http</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.pac4j</groupId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -468,7 +476,15 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>*</artifactId>
+					<artifactId>pac4j-config</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.pac4j</groupId>
+					<artifactId>pac4j-http</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.pac4j</groupId>
+					<artifactId>spring-webmvc-pac4j</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -509,8 +525,29 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jdk8</artifactId>
 		</dependency>
 
 		<dependency>

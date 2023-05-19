@@ -72,6 +72,7 @@
 		<module>../buession-cas-session-jdbc</module>
 		<module>../buession-cas-session-mongodb</module>
 		<module>../buession-cas-session-redis</module>
+		<module>../buession-cas-logging</module>
 		<module>../buession-cas-metrics</module>
 		<module>../buession-cas-oauth</module>
 		<module>../buession-cas-rest</module>

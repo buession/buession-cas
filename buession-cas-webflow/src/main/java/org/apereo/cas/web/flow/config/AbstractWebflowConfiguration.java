@@ -21,10 +21,38 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.web.flow.config;/**
- * 
- *
+ */
+package org.apereo.cas.web.flow.config;
+
+import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
+import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
+
+/**
  * @author Yong.Teng
  * @since 2.3.0
- */public class AbstractWebflowConfiguration {
+ */
+public abstract class AbstractWebflowConfiguration {
+
+	protected final CasConfigurationProperties casProperties;
+
+	protected final ConfigurableApplicationContext applicationContext;
+
+	protected final FlowDefinitionRegistry loginFlowDefinitionRegistry;
+
+	protected final FlowBuilderServices flowBuilderServices;
+
+	public AbstractWebflowConfiguration(CasConfigurationProperties casProperties,
+										ObjectProvider<ConfigurableApplicationContext> applicationContext,
+										@Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
+										ObjectProvider<FlowBuilderServices> flowBuilderServices){
+		this.casProperties = casProperties;
+		this.applicationContext = applicationContext.getIfAvailable();
+		this.loginFlowDefinitionRegistry = loginFlowDefinitionRegistry.getIfAvailable();
+		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
+	}
+
 }

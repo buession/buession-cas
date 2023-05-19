@@ -23,8 +23,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  */
 /**
- * 
- *
  * @author Yong.Teng
  * @since 2.3.0
- */package org.apereo.cas.web.flow.config;
+ */
+package org.apereo.cas.web.flow.config;
