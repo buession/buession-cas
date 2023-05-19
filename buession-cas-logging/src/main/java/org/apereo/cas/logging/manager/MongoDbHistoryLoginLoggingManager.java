@@ -65,11 +65,20 @@ public class MongoDbHistoryLoginLoggingManager extends AbstractLoginLoggingManag
 		// 登录 User-Agent
 		historyLoginLog.setUserAgent(loginData.getUserAgent());
 		// 登录操作系统
-		historyLoginLog.setOperatingSystem(loginData.getOperatingSystem());
+		final HistoryLoginLog.OperatingSystem operatingSystem = new HistoryLoginLog.OperatingSystem();
+
+		operatingSystem.setName(loginData.getOperatingSystem().name());
+		operatingSystem.setVersion(loginData.getOperatingSystem().getVersion());
+		historyLoginLog.setOperatingSystem(operatingSystem);
 		// 登录设备
 		historyLoginLog.setDeviceType(loginData.getOperatingSystem().getDeviceType().name());
 		// 登录浏览器
-		historyLoginLog.setBrowser(loginData.getBrowser());
+		final HistoryLoginLog.Browser browser = new HistoryLoginLog.Browser();
+
+		browser.setName(loginData.getBrowser().name());
+		browser.setType(loginData.getBrowser().getBrowserType());
+		browser.setVersion(loginData.getBrowser().getVersion());
+		historyLoginLog.setBrowser(browser);
 		// 登录地区
 		final HistoryLoginLog.District district = new HistoryLoginLog.District();
 		district.setCountryCode(loginData.getLocation().getCountry().getCode());

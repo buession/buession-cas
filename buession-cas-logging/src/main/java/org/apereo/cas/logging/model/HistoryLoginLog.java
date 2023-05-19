@@ -25,6 +25,7 @@
 package org.apereo.cas.logging.model;
 
 import com.buession.web.utils.useragentutils.Browser;
+import com.buession.web.utils.useragentutils.BrowserType;
 import com.buession.web.utils.useragentutils.OperatingSystem;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -174,6 +175,136 @@ public class HistoryLoginLog {
 
 	public void setDistrict(District district){
 		this.district = district;
+	}
+
+	public final static class OperatingSystem implements Serializable {
+
+		/**
+		 * 名称
+		 */
+		private String name;
+
+		/**
+		 * 版本
+		 */
+		private String version;
+
+		/**
+		 * 返回名称
+		 *
+		 * @return 名称
+		 */
+		public String getName(){
+			return name;
+		}
+
+		/**
+		 * 设置名称
+		 *
+		 * @param name
+		 * 		名称
+		 */
+		public void setName(String name){
+			this.name = name;
+		}
+
+		/**
+		 * 返回版本
+		 *
+		 * @return 版本
+		 */
+		public String getVersion(){
+			return version;
+		}
+
+		/**
+		 * 设置版本
+		 *
+		 * @param version
+		 * 		版本
+		 */
+		public void setVersion(String version){
+			this.version = version;
+		}
+
+	}
+
+	public final static class Browser implements Serializable {
+
+		private final static long serialVersionUID = -3381900546966052483L;
+
+		/**
+		 * 名称
+		 */
+		private String name;
+
+		/**
+		 * 类型
+		 */
+		private BrowserType type;
+
+		/**
+		 * 版本
+		 */
+		private String version;
+
+		/**
+		 * 返回名称
+		 *
+		 * @return 名称
+		 */
+		public String getName(){
+			return name;
+		}
+
+		/**
+		 * 设置名称
+		 *
+		 * @param name
+		 * 		名称
+		 */
+		public void setName(String name){
+			this.name = name;
+		}
+
+		/**
+		 * 返回类型
+		 *
+		 * @return 类型
+		 */
+		public BrowserType getType(){
+			return type;
+		}
+
+		/**
+		 * 设置类型
+		 *
+		 * @param type
+		 * 		类型
+		 */
+		public void setType(BrowserType type){
+			this.type = type;
+		}
+
+		/**
+		 * 返回版本
+		 *
+		 * @return 版本
+		 */
+		public String getVersion(){
+			return version;
+		}
+
+		/**
+		 * 设置版本
+		 *
+		 * @param version
+		 * 		版本
+		 */
+		public void setVersion(String version){
+			this.version = version;
+		}
+
 	}
 
 	public final static class District implements Serializable {
