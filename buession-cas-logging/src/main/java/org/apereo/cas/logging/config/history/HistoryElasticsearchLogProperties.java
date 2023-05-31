@@ -36,7 +36,7 @@ import java.util.List;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryElasticsearchProperties implements Serializable {
+public class HistoryElasticsearchLogProperties implements Serializable {
 
 	private final static long serialVersionUID = 4759244909748729352L;
 

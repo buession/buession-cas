@@ -28,11 +28,11 @@ import com.buession.core.id.IdGenerator;
 import com.buession.jdbc.datasource.config.PoolConfiguration;
 import com.buession.logging.jdbc.core.FieldConfiguration;
 import com.buession.logging.jdbc.formatter.DateTimeFormatter;
-import com.buession.logging.jdbc.formatter.DefaultDateTimeFormatter;
 import com.buession.logging.jdbc.formatter.DefaultGeoFormatter;
 import com.buession.logging.jdbc.formatter.GeoFormatter;
 import com.buession.logging.jdbc.formatter.JsonMapFormatter;
 import com.buession.logging.jdbc.formatter.MapFormatter;
+import org.apereo.cas.configuration.model.support.jpa.AbstractJpaProperties;
 
 import java.io.Serializable;
 
@@ -42,29 +42,9 @@ import java.io.Serializable;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryJdbcProperties implements Serializable {
+public class HistoryJdbcLogProperties extends AbstractJpaProperties implements Serializable {
 
 	private final static long serialVersionUID = 6396868404292124235L;
-
-	/**
-	 * 数据库驱动类名
-	 */
-	private String driverClassName;
-
-	/**
-	 * JDBC URL
-	 */
-	private String url;
-
-	/**
-	 * 数据库账号
-	 */
-	private String username;
-
-	/**
-	 * 数据库密码
-	 */
-	private String password;
 
 	/**
 	 * 连接池配置
@@ -79,7 +59,7 @@ public class HistoryJdbcProperties implements Serializable {
 	/**
 	 * 字段配置
 	 */
-	private FieldConfiguration fieldConfiguration;
+	private FieldConfiguration field;
 
 	/**
 	 * ID 生成器
@@ -89,7 +69,7 @@ public class HistoryJdbcProperties implements Serializable {
 	/**
 	 * 日期时间格式化对象
 	 */
-	private Class<? extends DateTimeFormatter> dateTimeFormatter = DefaultDateTimeFormatter.class;
+	private Class<? extends DateTimeFormatter> dateTimeFormatter = DateTimeFormatter.class;
 
 	/**
 	 * 请求参数格式化为字符串
@@ -105,82 +85,6 @@ public class HistoryJdbcProperties implements Serializable {
 	 * 附加参数格式化为字符串
 	 */
 	private Class<? extends MapFormatter> extraFormatter = JsonMapFormatter.class;
-
-	/**
-	 * 返回数据库驱动类名
-	 *
-	 * @return 数据库驱动类名
-	 */
-	public String getDriverClassName() {
-		return driverClassName;
-	}
-
-	/**
-	 * 设置数据库驱动类名
-	 *
-	 * @param driverClassName
-	 * 		数据库驱动类名
-	 */
-	public void setDriverClassName(String driverClassName) {
-		this.driverClassName = driverClassName;
-	}
-
-	/**
-	 * 返回 JDBC URL
-	 *
-	 * @return JDBC URL
-	 */
-	public String getUrl() {
-		return url;
-	}
-
-	/**
-	 * 设置 JDBC URL
-	 *
-	 * @param url
-	 * 		JDBC URL
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	/**
-	 * 返回数据库账号
-	 *
-	 * @return 数据库账号
-	 */
-	public String getUsername() {
-		return username;
-	}
-
-	/**
-	 * 设置数据库账号
-	 *
-	 * @param username
-	 * 		数据库账号
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	/**
-	 * 返回数据库密码
-	 *
-	 * @return 数据库密码
-	 */
-	public String getPassword() {
-		return password;
-	}
-
-	/**
-	 * 设置数据库密码
-	 *
-	 * @param password
-	 * 		数据库密码
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	/**
 	 * 返回连接池配置
@@ -225,18 +129,18 @@ public class HistoryJdbcProperties implements Serializable {
 	 *
 	 * @return 字段配置
 	 */
-	public FieldConfiguration getFieldConfiguration() {
-		return fieldConfiguration;
+	public FieldConfiguration getField() {
+		return field;
 	}
 
 	/**
 	 * 设置字段配置
 	 *
-	 * @param fieldConfiguration
+	 * @param field
 	 * 		字段配置
 	 */
-	public void setFieldConfiguration(FieldConfiguration fieldConfiguration) {
-		this.fieldConfiguration = fieldConfiguration;
+	public void setField(FieldConfiguration field) {
+		this.field = field;
 	}
 
 	/**

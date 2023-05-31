@@ -24,18 +24,14 @@
  */
 package org.apereo.cas.logging.web.flow.action;
 
-import com.buession.core.concurrent.ThreadPoolConfiguration;
-import com.buession.core.validator.Validate;
-import com.buession.geoip.Resolver;
-import com.buession.web.servlet.http.request.RequestUtils;
-import com.buession.web.utils.useragentutils.UserAgent;
-import org.apereo.cas.logging.Constants;
+import com.buession.lang.Constants;
+import com.buession.logging.core.LogData;
+import com.buession.logging.core.Principal;
+import org.apereo.cas.logging.BusinessType;
 import org.apereo.cas.logging.LoginLoggingThreadPoolExecutor;
+import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.manager.BasicLoginLoggingManager;
 import org.apereo.cas.logging.manager.HistoryLoginLoggingManager;
-import org.apereo.cas.logging.model.LoginData;
-import org.apereo.cas.logging.model.GeoLocation;
-import org.apereo.cas.logging.utils.GeoIpUtils;
 import org.apereo.cas.web.support.WebUtils;
 import org.springframework.webflow.action.AbstractAction;
 import org.springframework.webflow.execution.Action;
@@ -43,7 +39,7 @@ import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -60,6 +56,11 @@ public class LoginLoggingAction extends AbstractAction {
 	public final static String NAME = "loginLoggingAction";
 
 	/**
+	 * {@link CasLoggingConfigurationProperties}
+	 */
+	private final CasLoggingConfigurationProperties casLoggingConfigurationProperties;
+
+	/**
 	 * 基本登录日志管理器
 	 */
 	private final BasicLoginLoggingManager basicLoginLoggingManager;
@@ -69,127 +70,60 @@ public class LoginLoggingAction extends AbstractAction {
 	 */
 	private final HistoryLoginLoggingManager historyLoginLoggingManager;
 
-	/**
-	 * GeoIp 解析器
-	 */
-	protected final Resolver resolver;
-
-	/**
-	 * 真实 IP 头名称
-	 */
-	private final String clientIpHeaderName;
-
-	/**
-	 * 线程池配置
-	 */
-	private final ThreadPoolConfiguration threadPoolConfiguration;
-
 	private final ThreadPoolExecutor threadPoolExecutor;
 
 	/**
 	 * 构造函数
 	 *
+	 * @param casLoggingConfigurationProperties
+	 *        {@link CasLoggingConfigurationProperties}
 	 * @param basicLoginLoggingManager
 	 * 		基本登录日志管理器
 	 * @param historyLoginLoggingManager
 	 * 		历史登录日志管理器接口
-	 * @param resolver
-	 * 		GeoIp 解析器
-	 * @param clientIpHeaderName
-	 * 		真实 IP 头名称
-	 * @param threadPoolConfiguration
-	 * 		线程池配置
 	 */
-	public LoginLoggingAction(final BasicLoginLoggingManager basicLoginLoggingManager,
-							  final HistoryLoginLoggingManager historyLoginLoggingManager,
-							  final Resolver resolver, final String clientIpHeaderName,
-							  final ThreadPoolConfiguration threadPoolConfiguration){
+	public LoginLoggingAction(final CasLoggingConfigurationProperties casLoggingConfigurationProperties,
+							  final BasicLoginLoggingManager basicLoginLoggingManager,
+							  final HistoryLoginLoggingManager historyLoginLoggingManager) {
 		super();
+		this.casLoggingConfigurationProperties = casLoggingConfigurationProperties;
 		this.basicLoginLoggingManager = basicLoginLoggingManager;
 		this.historyLoginLoggingManager = historyLoginLoggingManager;
-		this.resolver = resolver;
-		this.clientIpHeaderName = clientIpHeaderName;
-		this.threadPoolConfiguration = threadPoolConfiguration;
 		this.threadPoolExecutor = createThreadPoolExecutor();
 	}
 
 	@Override
-	protected Event doExecute(final RequestContext requestContext){
-		HttpServletRequest request = WebUtils.getHttpServletRequestFromExternalWebflowContext(requestContext);
-		final LoginData loginData = new LoginData();
+	protected Event doExecute(final RequestContext requestContext) {
+		final HttpServletRequest request = WebUtils.getHttpServletRequestFromExternalWebflowContext(requestContext);
+		final LogData loginData = new LogData();
 		final String username = requestContext.getRequestParameters().get("username");
-		final String clientIp = getClientIp(request);
 		final String userAgent = request.getHeader("User-Agent");
+		final Principal principal = new Principal();
 
-		loginData.setId(username);
-		loginData.setDateTime(new Date());
-		loginData.setClientIp(clientIp);
+		principal.setUserName(username);
+
+		loginData.setBusinessType(new BusinessType(casLoggingConfigurationProperties.getBusinessType()));
+		loginData.setEvent(new org.apereo.cas.logging.Event(casLoggingConfigurationProperties.getEvent()));
+		loginData.setPrincipal(principal);
 		loginData.setUserAgent(userAgent);
+		loginData.setDescription(Optional.ofNullable(casLoggingConfigurationProperties.getDescription()).orElse(
+				Constants.EMPTY_STRING));
 
 		threadPoolExecutor.execute(()->{
-			final UserAgent userAgentInstance = new UserAgent(loginData.getUserAgent());
-			final GeoLocation location = GeoIpUtils.resolver(resolver, clientIp);
-
-			if(location.getCountry() == null){
-				final GeoLocation.Country country = new GeoLocation.Country();
-				country.setCode(Constants.NULL_VALUE);
-				country.setName(Constants.NULL_VALUE);
-				country.setFullName(Constants.NULL_VALUE);
-				location.setCountry(country);
-			}else{
-				if(Validate.isEmpty(location.getCountry().getCode())){
-					location.getCountry().setCode(Constants.NULL_VALUE);
-				}
-				if(Validate.isEmpty(location.getCountry().getName())){
-					location.getCountry().setName(Constants.NULL_VALUE);
-				}
-				if(Validate.isEmpty(location.getCountry().getFullName())){
-					location.getCountry().setFullName(Constants.NULL_VALUE);
-				}
-			}
-
-			if(location.getDistrict() == null){
-				final GeoLocation.District district = new GeoLocation.District();
-				district.setName(Constants.NULL_VALUE);
-				district.setFullName(Constants.NULL_VALUE);
-				location.setDistrict(district);
-			}else{
-				if(Validate.isEmpty(location.getDistrict().getName())){
-					location.getDistrict().setName(Constants.NULL_VALUE);
-				}
-				if(Validate.isEmpty(location.getDistrict().getFullName())){
-					location.getDistrict().setFullName(Constants.NULL_VALUE);
-				}
-			}
-
-			loginData.setOperatingSystem(userAgentInstance.getOperatingSystem());
-			loginData.setBrowser(userAgentInstance.getBrowser());
-			loginData.setLocation(location);
-
-			basicLoginLoggingManager.execute(loginData);
 			historyLoginLoggingManager.execute(loginData);
+			basicLoginLoggingManager.execute(loginData);
 		});
 
 		return success();
 	}
 
 	@Override
-	protected void doPostExecute(RequestContext context) throws Exception{
+	protected void doPostExecute(RequestContext context) throws Exception {
 		threadPoolExecutor.shutdown();
 	}
 
-	protected String getClientIp(final HttpServletRequest request){
-		String clientIp = Validate.hasText(clientIpHeaderName) ? request.getHeader(clientIpHeaderName) : null;
-
-		if(Validate.isBlank(clientIp)){
-			clientIp = RequestUtils.getClientIp(request);
-		}
-
-		return clientIp;
-	}
-
-	protected ThreadPoolExecutor createThreadPoolExecutor(){
-		return new LoginLoggingThreadPoolExecutor(threadPoolConfiguration);
+	protected ThreadPoolExecutor createThreadPoolExecutor() {
+		return new LoginLoggingThreadPoolExecutor(casLoggingConfigurationProperties.getThreadPool());
 	}
 
 }

@@ -21,10 +21,27 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.logging;/**
- * 
- *
+ */
+package org.apereo.cas.logging;
+
+import com.buession.core.utils.Assert;
+
+/**
  * @author Yong.Teng
- * @since 
- */public class Event {
+ * @since 2.3.0
+ */
+public final class Event implements com.buession.logging.core.Event {
+
+	private final String value;
+
+	public Event(final String value) {
+		Assert.isBlank(value, "Event cloud not be empty, blank or null.");
+		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		return value;
+	}
+
 }

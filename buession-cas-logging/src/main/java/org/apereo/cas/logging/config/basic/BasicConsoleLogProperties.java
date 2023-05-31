@@ -40,15 +40,16 @@ public class BasicConsoleLogProperties implements Serializable {
 	 * 日志消息
 	 */
 	private String message =
-			"${id} login success at: ${time}(IP: ${time}), User-Agent: ${User-Agent}, operating system: ${os_name} " +
-					"${os_version}, device type: ${device_type}, browser: ${browser_name} ${browser_version}.";
+			"${id} login success at: ${time}(IP: ${clientIp}), User-Agent: ${User-Agent}, operating system: " +
+					"${os_name} ${os_version}, device type: ${device_type}, browser: ${browser_name} " +
+					"${browser_version}.";
 
 	/**
 	 * 返回日志消息
 	 *
 	 * @return 日志消息
 	 */
-	public String getMessage(){
+	public String getMessage() {
 		return message;
 	}
 
@@ -58,7 +59,7 @@ public class BasicConsoleLogProperties implements Serializable {
 	 * @param message
 	 * 		日志消息
 	 */
-	public void setMessage(String message){
+	public void setMessage(String message) {
 		this.message = message;
 	}
 

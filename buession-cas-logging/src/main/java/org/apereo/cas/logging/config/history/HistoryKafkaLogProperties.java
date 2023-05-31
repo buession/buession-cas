@@ -24,8 +24,8 @@
  */
 package org.apereo.cas.logging.config.history;
 
+import com.buession.logging.core.SslConfiguration;
 import com.buession.logging.kafka.config.SecurityConfiguration;
-import com.buession.logging.kafka.config.SslConfiguration;
 import com.buession.logging.kafka.spring.KafkaLogHandlerFactoryBean;
 import org.springframework.util.unit.DataSize;
 
@@ -40,7 +40,7 @@ import java.util.Map;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryKafkaProperties implements Serializable {
+public class HistoryKafkaLogProperties implements Serializable {
 
 	private final static long serialVersionUID = -1795139796444219186L;
 
@@ -98,12 +98,12 @@ public class HistoryKafkaProperties implements Serializable {
 	/**
 	 * SSL 配置 {@link SslConfiguration}
 	 */
-	private SslConfiguration sslConfiguration = new SslConfiguration();
+	private SslConfiguration ssl = new SslConfiguration();
 
 	/**
 	 * 安全配置 {@link SecurityConfiguration}
 	 */
-	private SecurityConfiguration securityConfiguration = new SecurityConfiguration();
+	private SecurityConfiguration security = new SecurityConfiguration();
 
 	/**
 	 * Additional properties, common to producers and consumers, used to configure the client.
@@ -298,18 +298,18 @@ public class HistoryKafkaProperties implements Serializable {
 	 *
 	 * @return SSL 配置 {@link SslConfiguration}
 	 */
-	public SslConfiguration getSslConfiguration() {
-		return sslConfiguration;
+	public SslConfiguration getSsl() {
+		return ssl;
 	}
 
 	/**
 	 * 设置 SSL 配置 {@link SslConfiguration}
 	 *
-	 * @param sslConfiguration
+	 * @param ssl
 	 * 		SSL 配置 {@link SslConfiguration}
 	 */
-	public void setSslConfiguration(SslConfiguration sslConfiguration) {
-		this.sslConfiguration = sslConfiguration;
+	public void setSsl(SslConfiguration ssl) {
+		this.ssl = ssl;
 	}
 
 	/**
@@ -317,18 +317,18 @@ public class HistoryKafkaProperties implements Serializable {
 	 *
 	 * @return 安全配置 {@link SecurityConfiguration}
 	 */
-	public SecurityConfiguration getSecurityConfiguration() {
-		return securityConfiguration;
+	public SecurityConfiguration getSecurity() {
+		return security;
 	}
 
 	/**
 	 * 设置安全配置 {@link SecurityConfiguration}
 	 *
-	 * @param securityConfiguration
+	 * @param security
 	 * 		安全配置 {@link SecurityConfiguration}
 	 */
-	public void setSecurityConfiguration(SecurityConfiguration securityConfiguration) {
-		this.securityConfiguration = securityConfiguration;
+	public void setSecurity(SecurityConfiguration security) {
+		this.security = security;
 	}
 
 	/**

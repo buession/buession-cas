@@ -24,10 +24,10 @@
  */
 package org.apereo.cas.logging.web.flow.autoconfigure;
 
-import com.buession.geoip.Resolver;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.core.CasCoreConfigurationProperties;
-import org.apereo.cas.logging.autoconfigure.ConsoleLoginLoggingConfiguration;
+import org.apereo.cas.logging.autoconfigure.BasicLoginLoggingConfiguration;
+import org.apereo.cas.logging.autoconfigure.HistoryLoginLoggingConfiguration;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.manager.BasicLoginLoggingManager;
 import org.apereo.cas.logging.manager.HistoryLoginLoggingManager;
@@ -59,8 +59,9 @@ import org.springframework.webflow.execution.Action;
 @EnableConfigurationProperties({CasConfigurationProperties.class, CasCoreConfigurationProperties.class,
 		CasLoggingConfigurationProperties.class})
 @ConditionalOnProperty(prefix = CasLoggingConfigurationProperties.PREFIX, name = "enabled", havingValue = "true")
-@Import({CasWebflowContextConfiguration.class, ConsoleLoginLoggingConfiguration.class})
-@AutoConfigureAfter({CasWebflowContextConfiguration.class, ConsoleLoginLoggingConfiguration.class})
+@Import({CasWebflowContextConfiguration.class})
+@AutoConfigureAfter({CasWebflowContextConfiguration.class, BasicLoginLoggingConfiguration.class,
+		HistoryLoginLoggingConfiguration.class})
 public class CasLoginLoggingConfiguration extends AbstractWebflowConfiguration {
 
 	private final CasCoreConfigurationProperties casCoreConfigurationProperties;
@@ -72,7 +73,7 @@ public class CasLoginLoggingConfiguration extends AbstractWebflowConfiguration {
 										CasLoggingConfigurationProperties casLoggingConfigurationProperties,
 										ObjectProvider<ConfigurableApplicationContext> applicationContext,
 										@Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
-										ObjectProvider<FlowBuilderServices> flowBuilderServices){
+										ObjectProvider<FlowBuilderServices> flowBuilderServices) {
 		super(casProperties, applicationContext, loginFlowDefinitionRegistry, flowBuilderServices);
 		this.casCoreConfigurationProperties = casCoreConfigurationProperties;
 		this.casLoggingConfigurationProperties = casLoggingConfigurationProperties;
@@ -80,7 +81,7 @@ public class CasLoginLoggingConfiguration extends AbstractWebflowConfiguration {
 
 	@Bean(name = "loginLoggingWebflowConfigurer")
 	@ConditionalOnMissingBean(name = "loginLoggingWebflowConfigurer")
-	public CasWebflowConfigurer loginLogWebflowConfigurer(){
+	public CasWebflowConfigurer loginLogWebflowConfigurer() {
 		return new LoginLoggingWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext,
 				casProperties);
 	}
@@ -88,18 +89,15 @@ public class CasLoginLoggingConfiguration extends AbstractWebflowConfiguration {
 	@Bean(name = LoginLoggingAction.NAME)
 	@ConditionalOnMissingBean(name = LoginLoggingAction.NAME)
 	public Action loginLoggingAction(ObjectProvider<BasicLoginLoggingManager> basicLoginLoggingManager,
-									 ObjectProvider<HistoryLoginLoggingManager> historyLoginLoggingManager,
-									 ObjectProvider<Resolver> resolver){
-		return new LoginLoggingAction(basicLoginLoggingManager.getIfAvailable(),
-				historyLoginLoggingManager.getIfAvailable(), resolver.getIfAvailable(),
-				casCoreConfigurationProperties.getClientRealIpHeaderName(),
-				casLoggingConfigurationProperties.getThreadPool());
+									 ObjectProvider<HistoryLoginLoggingManager> historyLoginLoggingManager) {
+		return new LoginLoggingAction(casLoggingConfigurationProperties, basicLoginLoggingManager.getIfAvailable(),
+				historyLoginLoggingManager.getIfAvailable());
 	}
 
 	@Bean
 	@ConditionalOnMissingBean(name = "loggingCasWebflowExecutionPlanConfigurer")
 	public CasWebflowExecutionPlanConfigurer loginLoggingCasWebflowExecutionPlanConfigurer(
-			@Qualifier("loginLoggingWebflowConfigurer") CasWebflowConfigurer loginLogWebflowConfigurer){
+			@Qualifier("loginLoggingWebflowConfigurer") CasWebflowConfigurer loginLogWebflowConfigurer) {
 		return plan->plan.registerWebflowConfigurer(loginLogWebflowConfigurer);
 	}
 

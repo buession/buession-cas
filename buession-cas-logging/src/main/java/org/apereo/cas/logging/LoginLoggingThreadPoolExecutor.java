@@ -27,7 +27,6 @@ package org.apereo.cas.logging;
 import com.buession.core.concurrent.ThreadPoolConfiguration;
 import com.buession.core.converter.mapper.PropertyMapper;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.BeanUtils;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -39,21 +38,19 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public class LoginLoggingThreadPoolExecutor extends ThreadPoolExecutor {
 
-	public LoginLoggingThreadPoolExecutor(final ThreadPoolConfiguration threadPoolConfiguration){
+	public LoginLoggingThreadPoolExecutor(final ThreadPoolConfiguration threadPoolConfiguration) {
 		super(threadPoolConfiguration.getCorePoolSize(), threadPoolConfiguration.getMaximumPoolSize(),
 				threadPoolConfiguration.getKeepAliveTime(), threadPoolConfiguration.getTimeUnit(),
 				threadPoolConfiguration.getWorkQueue() == null ? new LinkedBlockingQueue<>() :
-						BeanUtils.instantiateClass(threadPoolConfiguration.getWorkQueue()),
+						threadPoolConfiguration.getWorkQueue(),
 				threadPoolConfiguration.getThreadFactory() == null ? new DefaultThreadFactory("Login-Logging",
 						threadPoolConfiguration.getDaemon(), threadPoolConfiguration.getPriority()) :
-						BeanUtils.instantiateClass(threadPoolConfiguration.getThreadFactory()));
+						threadPoolConfiguration.getThreadFactory());
 
-		if(threadPoolConfiguration.getRejectedHandler() != null){
-			setRejectedExecutionHandler(BeanUtils.instantiateClass(threadPoolConfiguration.getRejectedHandler()));
-		}
-		if(threadPoolConfiguration.getAllowCoreThreadTimeOut() != null){
-			allowCoreThreadTimeOut(threadPoolConfiguration.getAllowCoreThreadTimeOut());
-		}
+		final PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+
+		propertyMapper.from(threadPoolConfiguration.getRejectedHandler()).to(this::setRejectedExecutionHandler);
+		propertyMapper.from(threadPoolConfiguration.getAllowCoreThreadTimeOut()).to(this::allowCoreThreadTimeOut);
 	}
 
 	private final static class DefaultThreadFactory implements ThreadFactory {
@@ -64,16 +61,16 @@ public class LoginLoggingThreadPoolExecutor extends ThreadPoolExecutor {
 
 		private final Integer priority;
 
-		public DefaultThreadFactory(final String name, final Boolean daemon, final Integer priority){
+		public DefaultThreadFactory(final String name, final Boolean daemon, final Integer priority) {
 			this.name = name;
 			this.daemon = daemon;
 			this.priority = priority;
 		}
 
 		@Override
-		public Thread newThread(@NotNull Runnable r){
-			PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-			Thread thread = new Thread(r, name);
+		public Thread newThread(@NotNull Runnable r) {
+			final PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			final Thread thread = new Thread(r, name);
 
 			propertyMapper.from(daemon).to(thread::setDaemon);
 			propertyMapper.from(priority).to(thread::setPriority);

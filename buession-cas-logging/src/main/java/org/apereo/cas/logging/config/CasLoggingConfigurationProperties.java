@@ -24,13 +24,13 @@
  */
 package org.apereo.cas.logging.config;
 
+import com.buession.logging.core.BusinessType;
 import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.apereo.cas.configuration.support.RequiredProperty;
 import org.apereo.cas.core.ThreadPoolProperties;
 import org.apereo.cas.logging.config.basic.BasicJdbcLogProperties;
 import org.apereo.cas.logging.config.basic.BasicConsoleLogProperties;
-import org.apereo.cas.logging.config.basic.BasicMongoDbLogProperties;
-import org.apereo.cas.logging.config.history.HistoryJdbcLogProperties;
-import org.apereo.cas.logging.config.history.HistoryMongoDbLogProperties;
+import org.apereo.cas.logging.config.history.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
@@ -48,6 +48,23 @@ public class CasLoggingConfigurationProperties implements Serializable {
 	private final static long serialVersionUID = 1667933943101773003L;
 
 	public final static String PREFIX = CasConfigurationProperties.PREFIX + ".support.logging";
+
+	/**
+	 * {@link BusinessType} 值
+	 */
+	@RequiredProperty
+	private String businessType;
+
+	/**
+	 * {@link com.buession.logging.core.Event} 值
+	 */
+	@RequiredProperty
+	private String event;
+
+	/**
+	 * 描述
+	 */
+	private String description;
 
 	/**
 	 * 基本日志配置
@@ -68,11 +85,68 @@ public class CasLoggingConfigurationProperties implements Serializable {
 	private ThreadPoolProperties threadPool = new ThreadPoolProperties();
 
 	/**
+	 * 返回 {@link BusinessType} 值
+	 *
+	 * @return {@link BusinessType} 值
+	 */
+	public String getBusinessType() {
+		return businessType;
+	}
+
+	/**
+	 * 设置 {@link BusinessType} 值
+	 *
+	 * @param businessType
+	 *        {@link BusinessType} 值
+	 */
+	public void setBusinessType(String businessType) {
+		this.businessType = businessType;
+	}
+
+	/**
+	 * 返回 {@link com.buession.logging.core.Event} 值
+	 *
+	 * @return {@link com.buession.logging.core.Event} 值
+	 */
+	public String getEvent() {
+		return event;
+	}
+
+	/**
+	 * 设置 {@link com.buession.logging.core.Event} 值
+	 *
+	 * @param event
+	 *        {@link com.buession.logging.core.Event} 值
+	 */
+	public void setEvent(String event) {
+		this.event = event;
+	}
+
+	/**
+	 * 返回描述
+	 *
+	 * @return 描述
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * 设置描述
+	 *
+	 * @param description
+	 * 		描述
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
 	 * 返回基本日志配置
 	 *
 	 * @return 基本日志配置
 	 */
-	public Basic getBasic(){
+	public Basic getBasic() {
 		return basic;
 	}
 
@@ -82,7 +156,7 @@ public class CasLoggingConfigurationProperties implements Serializable {
 	 * @param basic
 	 * 		基本日志配置
 	 */
-	public void setBasic(Basic basic){
+	public void setBasic(Basic basic) {
 		this.basic = basic;
 	}
 
@@ -91,7 +165,7 @@ public class CasLoggingConfigurationProperties implements Serializable {
 	 *
 	 * @return 历史日志配置
 	 */
-	public History getHistory(){
+	public History getHistory() {
 		return history;
 	}
 
@@ -101,7 +175,7 @@ public class CasLoggingConfigurationProperties implements Serializable {
 	 * @param history
 	 * 		历史日志配置
 	 */
-	public void setHistory(History history){
+	public void setHistory(History history) {
 		this.history = history;
 	}
 
@@ -110,7 +184,7 @@ public class CasLoggingConfigurationProperties implements Serializable {
 	 *
 	 * @return 线程池配置
 	 */
-	public ThreadPoolProperties getThreadPool(){
+	public ThreadPoolProperties getThreadPool() {
 		return threadPool;
 	}
 
@@ -120,7 +194,7 @@ public class CasLoggingConfigurationProperties implements Serializable {
 	 * @param threadPool
 	 * 		线程池配置
 	 */
-	public void setThreadPool(ThreadPoolProperties threadPool){
+	public void setThreadPool(ThreadPoolProperties threadPool) {
 		this.threadPool = threadPool;
 	}
 
@@ -134,27 +208,19 @@ public class CasLoggingConfigurationProperties implements Serializable {
 		/**
 		 * 控制台日志配置
 		 */
-		@NestedConfigurationProperty
 		private BasicConsoleLogProperties console = new BasicConsoleLogProperties();
 
 		/**
 		 * JDBC 日志配置
 		 */
-		@NestedConfigurationProperty
 		private BasicJdbcLogProperties jdbc = new BasicJdbcLogProperties();
-
-		/**
-		 * MongoDB 日志配置
-		 */
-		@NestedConfigurationProperty
-		private BasicMongoDbLogProperties mongo = new BasicMongoDbLogProperties();
 
 		/**
 		 * 返回控制台日志配置
 		 *
 		 * @return 控制台日志配置
 		 */
-		public BasicConsoleLogProperties getConsole(){
+		public BasicConsoleLogProperties getConsole() {
 			return console;
 		}
 
@@ -164,7 +230,7 @@ public class CasLoggingConfigurationProperties implements Serializable {
 		 * @param console
 		 * 		控制台日志配置
 		 */
-		public void setConsole(BasicConsoleLogProperties console){
+		public void setConsole(BasicConsoleLogProperties console) {
 			this.console = console;
 		}
 
@@ -173,7 +239,7 @@ public class CasLoggingConfigurationProperties implements Serializable {
 		 *
 		 * @return JDBC 日志配置
 		 */
-		public BasicJdbcLogProperties getJdbc(){
+		public BasicJdbcLogProperties getJdbc() {
 			return jdbc;
 		}
 
@@ -183,27 +249,8 @@ public class CasLoggingConfigurationProperties implements Serializable {
 		 * @param jdbc
 		 * 		JDBC 日志配置
 		 */
-		public void setJdbc(BasicJdbcLogProperties jdbc){
+		public void setJdbc(BasicJdbcLogProperties jdbc) {
 			this.jdbc = jdbc;
-		}
-
-		/**
-		 * 返回 MongoDB 日志配置
-		 *
-		 * @return MongoDB 日志配置
-		 */
-		public BasicMongoDbLogProperties getMongo(){
-			return mongo;
-		}
-
-		/**
-		 * 设置 MongoDB 日志配置
-		 *
-		 * @param mongo
-		 * 		MongoDB 日志配置
-		 */
-		public void setMongo(BasicMongoDbLogProperties mongo){
-			this.mongo = mongo;
 		}
 
 	}
@@ -216,23 +263,60 @@ public class CasLoggingConfigurationProperties implements Serializable {
 		private final static long serialVersionUID = -8608612324312905183L;
 
 		/**
+		 * Elasticsearch 日志配置
+		 */
+		private HistoryElasticsearchLogProperties elasticsearch;
+
+		/**
 		 * JDBC 日志配置
 		 */
-		@NestedConfigurationProperty
-		private HistoryJdbcLogProperties jdbc = new HistoryJdbcLogProperties();
+		private HistoryJdbcLogProperties jdbc;
+
+		/**
+		 * Kafka 日志配置
+		 */
+		private HistoryKafkaLogProperties kafka;
 
 		/**
 		 * MongoDB 日志配置
 		 */
-		@NestedConfigurationProperty
-		private HistoryMongoDbLogProperties mongo = new HistoryMongoDbLogProperties();
+		private HistoryMongoLogProperties mongo;
+
+		/**
+		 * RabbitMQ 日志配置
+		 */
+		private HistoryRabbitLogProperties rabbit;
+
+		/**
+		 * Rest 日志配置
+		 */
+		private HistoryRestLogProperties rest;
+
+		/**
+		 * 返回 Elasticsearch 日志配置
+		 *
+		 * @return Elasticsearch 日志配置
+		 */
+		public HistoryElasticsearchLogProperties getElasticsearch() {
+			return elasticsearch;
+		}
+
+		/**
+		 * 设置 Elasticsearch 日志配置
+		 *
+		 * @param elasticsearch
+		 * 		Elasticsearch 日志配置
+		 */
+		public void setElasticsearch(HistoryElasticsearchLogProperties elasticsearch) {
+			this.elasticsearch = elasticsearch;
+		}
 
 		/**
 		 * 返回 JDBC 日志配置
 		 *
 		 * @return JDBC 日志配置
 		 */
-		public HistoryJdbcLogProperties getJdbc(){
+		public HistoryJdbcLogProperties getJdbc() {
 			return jdbc;
 		}
 
@@ -242,8 +326,27 @@ public class CasLoggingConfigurationProperties implements Serializable {
 		 * @param jdbc
 		 * 		JDBC 日志配置
 		 */
-		public void setJdbc(HistoryJdbcLogProperties jdbc){
+		public void setJdbc(HistoryJdbcLogProperties jdbc) {
 			this.jdbc = jdbc;
+		}
+
+		/**
+		 * 返回 Kafka 日志配置
+		 *
+		 * @return Kafka 日志配置
+		 */
+		public HistoryKafkaLogProperties getKafka() {
+			return kafka;
+		}
+
+		/**
+		 * 设置 Kafka 日志配置
+		 *
+		 * @param kafka
+		 * 		Kafka 日志配置
+		 */
+		public void setKafka(HistoryKafkaLogProperties kafka) {
+			this.kafka = kafka;
 		}
 
 		/**
@@ -251,7 +354,7 @@ public class CasLoggingConfigurationProperties implements Serializable {
 		 *
 		 * @return MongoDB 日志配置
 		 */
-		public HistoryMongoDbLogProperties getMongo(){
+		public HistoryMongoLogProperties getMongo() {
 			return mongo;
 		}
 
@@ -261,8 +364,46 @@ public class CasLoggingConfigurationProperties implements Serializable {
 		 * @param mongo
 		 * 		MongoDB 日志配置
 		 */
-		public void setMongo(HistoryMongoDbLogProperties mongo){
+		public void setMongo(HistoryMongoLogProperties mongo) {
 			this.mongo = mongo;
+		}
+
+		/**
+		 * 返回 RabbitMQ 日志配置
+		 *
+		 * @return RabbitMQ 日志配置
+		 */
+		public HistoryRabbitLogProperties getRabbit() {
+			return rabbit;
+		}
+
+		/**
+		 * 设置 RabbitMQ 日志配置
+		 *
+		 * @param rabbit
+		 * 		RabbitMQ 日志配置
+		 */
+		public void setRabbit(HistoryRabbitLogProperties rabbit) {
+			this.rabbit = rabbit;
+		}
+
+		/**
+		 * 返回 Rest 日志配置
+		 *
+		 * @return Rest 日志配置
+		 */
+		public HistoryRestLogProperties getRest() {
+			return rest;
+		}
+
+		/**
+		 * 设置 Rest 日志配置
+		 *
+		 * @param rest
+		 * 		Rest 日志配置
+		 */
+		public void setRest(HistoryRestLogProperties rest) {
+			this.rest = rest;
 		}
 
 	}

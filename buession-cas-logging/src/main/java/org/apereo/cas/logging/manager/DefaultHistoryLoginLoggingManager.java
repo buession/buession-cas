@@ -24,12 +24,30 @@
  */
 package org.apereo.cas.logging.manager;
 
+import com.buession.core.utils.Assert;
+import com.buession.logging.core.LogData;
+import com.buession.logging.core.mgt.LogManager;
+import com.buession.logging.core.request.ServletRequest;
+
 /**
- * 历史登录日志管理器接口
+ * 默认历史登录日志管理器
  *
  * @author Yong.Teng
  * @since 2.3.0
  */
-public interface HistoryLoginLoggingManager extends LoginLoggingManager {
+public class DefaultHistoryLoginLoggingManager extends AbstractLoginLoggingManager
+		implements HistoryLoginLoggingManager {
+
+	private final LogManager logManager;
+
+	public DefaultHistoryLoginLoggingManager(final LogManager logManager) {
+		Assert.isNull(logManager, "LogManager cloud not be null.");
+		this.logManager = logManager;
+	}
+
+	@Override
+	public void execute(final LogData logData) {
+		logManager.execute(logData, new ServletRequest());
+	}
 
 }

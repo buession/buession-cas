@@ -24,12 +24,16 @@
  */
 package org.apereo.cas.logging.config.history;
 
+import com.buession.dao.mongodb.core.ReadConcern;
+import com.buession.dao.mongodb.core.ReadPreference;
+import com.buession.dao.mongodb.core.WriteConcern;
+import com.buession.logging.mongodb.core.PoolConfiguration;
 import com.buession.logging.mongodb.spring.MongoHandlerFactoryBean;
-import com.mongodb.MongoClientSettings;
 import org.bson.UuidRepresentation;
 import org.springframework.data.mapping.model.FieldNamingStrategy;
 
 import java.io.Serializable;
+import java.time.Duration;
 
 /**
  * MongoDB 历史登录日志配置
@@ -37,7 +41,9 @@ import java.io.Serializable;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryMongoProperties implements Serializable {
+public class HistoryMongoLogProperties implements Serializable {
+
+	private final static long serialVersionUID = 3554795086203439061L;
 
 	/**
 	 * MongoDB 主机地址
@@ -85,6 +91,16 @@ public class HistoryMongoProperties implements Serializable {
 	private String collectionName;
 
 	/**
+	 * 连接超时
+	 */
+	private Duration connectionTimeout = MongoHandlerFactoryBean.DEFAULT_CONNECTION_TIMEOUT;
+
+	/**
+	 * 读取超时
+	 */
+	private Duration readTimeout = MongoHandlerFactoryBean.DEFAULT_READ_TIMEOUT;
+
+	/**
 	 * Representation to use when converting a UUID to a BSON binary value.
 	 */
 	private UuidRepresentation uuidRepresentation = MongoHandlerFactoryBean.DEFAULT_UUID_REPRESENTATION;
@@ -92,7 +108,7 @@ public class HistoryMongoProperties implements Serializable {
 	/**
 	 * Whether to enable auto-index creation.
 	 */
-	private Boolean autoIndexCreation = true;
+	private Boolean autoIndexCreation;
 
 	/**
 	 * Fully qualified name of the FieldNamingStrategy to use.
@@ -100,9 +116,24 @@ public class HistoryMongoProperties implements Serializable {
 	private Class<? extends FieldNamingStrategy> fieldNamingStrategy = MongoHandlerFactoryBean.DEFAULT_FIELD_NAMING_STRATEGY;
 
 	/**
-	 * {@link MongoClientSettings}
+	 * {@link ReadPreference}
 	 */
-	private MongoClientSettings clientSettings = MongoClientSettings.builder().build();
+	private ReadPreference readPreference;
+
+	/**
+	 * {@link ReadConcern}
+	 */
+	private ReadConcern readConcern = ReadConcern.AVAILABLE;
+
+	/**
+	 * {@link WriteConcern}
+	 */
+	private WriteConcern writeConcern = WriteConcern.ACKNOWLEDGED;
+
+	/**
+	 * 连接池配置
+	 */
+	private PoolConfiguration pool = new PoolConfiguration();
 
 	/**
 	 * 返回 MongoDB 主机地址
@@ -276,6 +307,44 @@ public class HistoryMongoProperties implements Serializable {
 	}
 
 	/**
+	 * 返回连接超时
+	 *
+	 * @return 连接超时
+	 */
+	public Duration getConnectionTimeout() {
+		return connectionTimeout;
+	}
+
+	/**
+	 * 设置连接超时
+	 *
+	 * @param connectionTimeout
+	 * 		连接超时
+	 */
+	public void setConnectionTimeout(Duration connectionTimeout) {
+		this.connectionTimeout = connectionTimeout;
+	}
+
+	/**
+	 * 返回读取超时
+	 *
+	 * @return 读取超时
+	 */
+	public Duration getReadTimeout() {
+		return readTimeout;
+	}
+
+	/**
+	 * 设置读取超时
+	 *
+	 * @param readTimeout
+	 * 		读取超时
+	 */
+	public void setReadTimeout(Duration readTimeout) {
+		this.readTimeout = readTimeout;
+	}
+
+	/**
 	 * Return representation to use when converting a UUID to a BSON binary value.
 	 *
 	 * @return Representation to use when converting a UUID to a BSON binary value.
@@ -334,22 +403,79 @@ public class HistoryMongoProperties implements Serializable {
 	}
 
 	/**
-	 * 返回 {@link MongoClientSettings}
+	 * 返回 {@link ReadPreference}
 	 *
-	 * @return {@link MongoClientSettings}
+	 * @return {@link ReadPreference}
 	 */
-	public MongoClientSettings getClientSettings() {
-		return clientSettings;
+	public ReadPreference getReadPreference() {
+		return readPreference;
 	}
 
 	/**
-	 * 设置 {@link MongoClientSettings}
+	 * 设置 {@link ReadPreference}
 	 *
-	 * @param clientSettings
-	 *        {@link MongoClientSettings}
+	 * @param readPreference
+	 *        {@link ReadPreference}
 	 */
-	public void setClientSettings(MongoClientSettings clientSettings) {
-		this.clientSettings = clientSettings;
+	public void setReadPreference(ReadPreference readPreference) {
+		this.readPreference = readPreference;
+	}
+
+	/**
+	 * 返回 {@link ReadConcern}
+	 *
+	 * @return {@link ReadConcern}
+	 */
+	public ReadConcern getReadConcern() {
+		return readConcern;
+	}
+
+	/**
+	 * 设置 {@link ReadConcern}
+	 *
+	 * @param readConcern
+	 *        {@link ReadConcern}
+	 */
+	public void setReadConcern(ReadConcern readConcern) {
+		this.readConcern = readConcern;
+	}
+
+	/**
+	 * 返回 {@link WriteConcern}
+	 *
+	 * @return {@link WriteConcern}
+	 */
+	public WriteConcern getWriteConcern() {
+		return writeConcern;
+	}
+
+	/**
+	 * 设置 {@link WriteConcern}
+	 *
+	 * @param writeConcern
+	 *        {@link WriteConcern}
+	 */
+	public void setWriteConcern(WriteConcern writeConcern) {
+		this.writeConcern = writeConcern;
+	}
+
+	/**
+	 * 返回连接池配置
+	 *
+	 * @return 连接池配置
+	 */
+	public PoolConfiguration getPool() {
+		return pool;
+	}
+
+	/**
+	 * 设置连接池配置
+	 *
+	 * @param pool
+	 * 		连接池配置
+	 */
+	public void setPool(PoolConfiguration pool) {
+		this.pool = pool;
 	}
 
 }

@@ -24,7 +24,8 @@
  */
 package org.apereo.cas.logging.manager;
 
-import org.apereo.cas.logging.model.LoginData;
+import com.buession.core.utils.StringUtils;
+import com.buession.logging.core.LogData;
 
 /**
  * 控制台基本登录日志管理器
@@ -34,13 +35,27 @@ import org.apereo.cas.logging.model.LoginData;
  */
 public class ConsoleBasicLoginLoggingManager extends AbstractLoginLoggingManager implements BasicLoginLoggingManager {
 
+	private final String template;
+
+	public ConsoleBasicLoginLoggingManager(final String template) {
+		this.template = template;
+	}
+
 	@Override
-	public void execute(final LoginData loginData){
-		System.out.printf("%s login success at: %s(IP: %s => %s), User-Agent: %s, operating system: %s %s, device " +
-						"type: %s, browser: %s %s.", loginData.getId(), loginData.getDateTime(), loginData.getClientIp(),
-				loginData.getLocation(), loginData.getUserAgent(), loginData.getOperatingSystem().getName(),
-				loginData.getOperatingSystem().getVersion(), loginData.getOperatingSystem().getDeviceType().getName(),
-				loginData.getBrowser().getName(), loginData.getBrowser().getVersion());
+	public void execute(final LogData logData) {
+		String message = template;
+
+		message = StringUtils.replace(message, "id", logData.getPrincipal().toString());
+		message = StringUtils.replace(message, "time", logData.getDateTime().toString());
+		message = StringUtils.replace(message, "clientIp", logData.getClientIp());
+		message = StringUtils.replace(message, "User-Agent", logData.getUserAgent());
+		message = StringUtils.replace(message, "os_name", logData.getOperatingSystem().getName());
+		message = StringUtils.replace(message, "os_version", logData.getOperatingSystem().getVersion());
+		message = StringUtils.replace(message, "device_type", logData.getDeviceType().getName());
+		message = StringUtils.replace(message, "browser_name", logData.getBrowser().getName());
+		message = StringUtils.replace(message, "browser_version", logData.getBrowser().getVersion());
+
+		System.out.printf(message);
 	}
 
 }

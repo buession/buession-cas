@@ -31,12 +31,12 @@ import com.buession.logging.rest.core.RequestMethod;
 import java.io.Serializable;
 
 /**
- * RabbitMQ 历史登录日志配置
+ * Rest 历史登录日志配置
  *
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class RestProperties implements Serializable {
+public class HistoryRestLogProperties implements Serializable {
 
 	private final static long serialVersionUID = -7178083723307742589L;
 

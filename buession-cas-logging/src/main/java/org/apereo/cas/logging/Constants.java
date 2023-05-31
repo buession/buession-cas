@@ -38,16 +38,6 @@ public interface Constants {
 
 	String BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME = "basicLoginLoggingJdbcTransactionTemplate";
 
-	String HISTORY_LOGIN_LOGGING_DATASOURCE_BEAN_NAME = "historyLoginLoggingDataSource";
-
-	String HISTORY_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME = "historyLoginLoggingJdbcTransactionManager";
-
-	String HISTORY_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME = "historyLoginLoggingJdbcTransactionTemplate";
-
-	String BASIC_LOGIN_LOGGING_MONGO_TEMPLATE_BEAN_NAME = "basicLoginLoggingMongoTemplate";
-
-	String HISTORY_LOGIN_LOGGING_MONGO_TEMPLATE_BEAN_NAME = "historyLoginLoggingMongoTemplate";
-
 	String BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME = "basicLoginLoggingManager";
 
 	String HISTORY_LOGIN_LOGGING_MANAGER_BEAN_NAME = "historyLoginLoggingManager";

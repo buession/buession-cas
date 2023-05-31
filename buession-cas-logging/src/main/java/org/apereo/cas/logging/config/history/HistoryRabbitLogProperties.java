@@ -27,7 +27,6 @@ package org.apereo.cas.logging.config.history;
 import com.buession.logging.core.SslConfiguration;
 import com.buession.logging.rabbitmq.core.Cache;
 import com.buession.logging.rabbitmq.core.Template;
-import com.buession.logging.rabbitmq.spring.RabbitLogHandlerFactoryBean;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 
 import java.io.Serializable;
@@ -39,14 +38,14 @@ import java.time.Duration;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryRabbitProperties implements Serializable {
+public class HistoryRabbitLogProperties implements Serializable {
 
 	private final static long serialVersionUID = 7838178327531884281L;
 
 	/**
 	 * RabbitMQ 地址
 	 */
-	private String host = RabbitLogHandlerFactoryBean.DEFAULT_HOST;
+	private String host = "localhost";
 
 	/**
 	 * RabbitMQ 端口
@@ -56,12 +55,12 @@ public class HistoryRabbitProperties implements Serializable {
 	/**
 	 * 用户名
 	 */
-	private String username = RabbitLogHandlerFactoryBean.DEFAULT_USERNAME;
+	private String username = "guest";
 
 	/**
 	 * 密码
 	 */
-	private String password = RabbitLogHandlerFactoryBean.DEFAULT_PASSWORD;
+	private String password = "guest";
 
 	/**
 	 * 虚拟机
@@ -87,7 +86,7 @@ public class HistoryRabbitProperties implements Serializable {
 	/**
 	 * Number of channels per connection requested by the client. Use 0 for unlimited.
 	 */
-	private int requestedChannelMax = RabbitLogHandlerFactoryBean.DEFAULT_REQUESTED_CHANNEL_MAX;
+	private int requestedChannelMax = 2047;
 
 	/**
 	 * Whether to enable publisher returns.

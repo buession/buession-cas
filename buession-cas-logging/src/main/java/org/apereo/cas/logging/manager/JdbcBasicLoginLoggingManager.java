@@ -26,8 +26,8 @@ package org.apereo.cas.logging.manager;
 
 import com.buession.core.utils.Assert;
 import com.buession.core.validator.Validate;
+import com.buession.logging.core.LogData;
 import org.apereo.cas.logging.config.basic.BasicJdbcLogProperties;
-import org.apereo.cas.logging.model.LoginData;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.transaction.TransactionStatus;
@@ -50,15 +50,15 @@ public class JdbcBasicLoginLoggingManager extends AbstractLoginLoggingManager im
 	private final JdbcBasicLoginLoggingJdbcDaoSupport daoSupport;
 
 	public JdbcBasicLoginLoggingManager(final DataSource dataSource, final TransactionTemplate transactionTemplate,
-										final BasicJdbcLogProperties properties){
+										final BasicJdbcLogProperties properties) {
 		super();
 		Assert.isNull(transactionTemplate, "TransactionTemplate cloud not be null.");
 		this.daoSupport = new JdbcBasicLoginLoggingJdbcDaoSupport(dataSource, transactionTemplate, properties);
 	}
 
 	@Override
-	public void execute(final LoginData loginData){
-		daoSupport.execute(loginData);
+	public void execute(final LogData logData) {
+		daoSupport.execute(logData);
 	}
 
 	private final static class JdbcBasicLoginLoggingJdbcDaoSupport extends NamedParameterJdbcDaoSupport {
@@ -71,86 +71,84 @@ public class JdbcBasicLoginLoggingManager extends AbstractLoginLoggingManager im
 
 		public JdbcBasicLoginLoggingJdbcDaoSupport(final DataSource dataSource,
 												   final TransactionTemplate transactionTemplate,
-												   final BasicJdbcLogProperties properties){
-			setDataSource(dataSource);
-
+												   final BasicJdbcLogProperties properties) {
 			this.transactionTemplate = transactionTemplate;
 			this.properties = properties;
 			this.sql = buildLogSql();
+			setDataSource(dataSource);
 		}
 
-		public void execute(final LoginData loginData){
+		public void execute(final LogData logData) {
 			List<Object> arguments = new ArrayList<>(12);
 
 			// 登录时间
 			if(Validate.isNotEmpty(properties.getLoginTimeFieldName())){
-				arguments.add(loginData.getDateTime());
+				arguments.add(logData.getDateTime());
 			}
 
 			// 登录 IP 地址
 			if(Validate.isNotEmpty(properties.getLoginIpFieldName())){
-				arguments.add(loginData.getClientIp());
+				arguments.add(logData.getClientIp());
 			}
 
 			// 登录 User-Agent
 			if(Validate.isNotEmpty(properties.getUserAgentFieldName())){
-				arguments.add(loginData.getUserAgent());
+				arguments.add(logData.getUserAgent());
 			}
 
 			// 登录操作系统名称
 			if(Validate.isNotEmpty(properties.getOperatingSystemNameFieldName())){
-				arguments.add(loginData.getOperatingSystem().name());
+				arguments.add(logData.getOperatingSystem().getName());
 			}
 
 			// 登录操作系统版本
 			if(Validate.isNotEmpty(properties.getOperatingSystemVersionFieldName())){
-				arguments.add(loginData.getOperatingSystem().getVersion());
+				arguments.add(logData.getOperatingSystem().getVersion());
 			}
 
 			// 登录设备
 			if(Validate.isNotEmpty(properties.getDeviceTypeFieldName())){
-				arguments.add(loginData.getOperatingSystem().getDeviceType().name());
+				arguments.add(logData.getDeviceType().name());
 			}
 
 			// 登录浏览器名称
 			if(Validate.isNotEmpty(properties.getBrowserNameFieldName())){
-				arguments.add(loginData.getBrowser().name());
+				arguments.add(logData.getBrowser().getName());
 			}
 
 			// 登录浏览器版本
 			if(Validate.isNotEmpty(properties.getBrowserVersionFieldName())){
-				arguments.add(loginData.getBrowser().getVersion());
+				arguments.add(logData.getBrowser().getVersion());
 			}
 
 			// 登录国家 code
 			if(Validate.isNotEmpty(properties.getCountryCodeFieldName())){
-				arguments.add(loginData.getLocation().getCountry().getCode());
+				arguments.add(logData.getLocation().getCountry().getCode());
 			}
 
 			// 登录国家名称
 			if(Validate.isNotEmpty(properties.getCountryNameFieldName())){
-				arguments.add(loginData.getLocation().getCountry().getName());
+				arguments.add(logData.getLocation().getCountry().getName());
 			}
 
 			// 登录地区名称
 			if(Validate.isNotEmpty(properties.getDistrictNameFieldName())){
-				arguments.add(loginData.getLocation().getDistrict().getFullName());
+				arguments.add(logData.getLocation().getDistrict().getFullName());
 			}
 
-			arguments.add(loginData.getId());
+			arguments.add(logData.getPrincipal().getUserName());
 
 			transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
 				@Override
-				protected void doInTransactionWithoutResult(@NotNull TransactionStatus transactionStatus){
+				protected void doInTransactionWithoutResult(@NotNull TransactionStatus transactionStatus) {
 					getJdbcTemplate().update(sql, arguments.toArray(new Object[]{}));
 				}
 
 			});
 		}
 
-
-		private String buildLogSql(){
+		private String buildLogSql() {
 			final StringBuilder sql = new StringBuilder();
 			final StringJoiner updateFields = new StringJoiner(", ");
 
