@@ -24,15 +24,52 @@
  */
 package org.apereo.cas.logging.config.history;
 
-import org.apereo.cas.configuration.model.support.jpa.AbstractJpaProperties;
+import com.buession.core.id.IdGenerator;
+import com.buession.jdbc.datasource.config.PoolConfiguration;
+import com.buession.logging.jdbc.core.FieldConfiguration;
+import com.buession.logging.jdbc.formatter.DateTimeFormatter;
+import com.buession.logging.jdbc.formatter.DefaultDateTimeFormatter;
+import com.buession.logging.jdbc.formatter.DefaultGeoFormatter;
+import com.buession.logging.jdbc.formatter.GeoFormatter;
+import com.buession.logging.jdbc.formatter.JsonMapFormatter;
+import com.buession.logging.jdbc.formatter.MapFormatter;
+
+import java.io.Serializable;
 
 /**
+ * JDBC 历史登录日志配置
+ *
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryJdbcLogProperties extends AbstractJpaProperties {
+public class HistoryJdbcProperties implements Serializable {
 
-	private final static long serialVersionUID = -1727570732357482240L;
+	private final static long serialVersionUID = 6396868404292124235L;
+
+	/**
+	 * 数据库驱动类名
+	 */
+	private String driverClassName;
+
+	/**
+	 * JDBC URL
+	 */
+	private String url;
+
+	/**
+	 * 数据库账号
+	 */
+	private String username;
+
+	/**
+	 * 数据库密码
+	 */
+	private String password;
+
+	/**
+	 * 连接池配置
+	 */
+	private PoolConfiguration poolConfiguration;
 
 	/**
 	 * 数据表名称
@@ -40,81 +77,136 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties {
 	private String tableName;
 
 	/**
-	 * 标识字段名称
+	 * 字段配置
 	 */
-	private String idFieldName;
+	private FieldConfiguration fieldConfiguration;
 
 	/**
-	 * 用户 ID 字段名称
+	 * ID 生成器
 	 */
-	private String userIdFieldName;
+	private Class<? extends IdGenerator<?>> idGenerator;
 
 	/**
-	 * 用户名字段名称
+	 * 日期时间格式化对象
 	 */
-	private String userNameFieldName;
+	private Class<? extends DateTimeFormatter> dateTimeFormatter = DefaultDateTimeFormatter.class;
 
 	/**
-	 * 登录时间字段名称
+	 * 请求参数格式化为字符串
 	 */
-	private String loginTimeFieldName;
+	private Class<? extends MapFormatter> requestParametersFormatter = JsonMapFormatter.class;
 
 	/**
-	 * 登录 IP 字段名称
+	 * Geo 格式化
 	 */
-	private String loginIpFieldName;
+	private Class<? extends GeoFormatter> geoFormatter = DefaultGeoFormatter.class;
 
 	/**
-	 * User-Agent 字段名称
+	 * 附加参数格式化为字符串
 	 */
-	private String userAgentFieldName;
+	private Class<? extends MapFormatter> extraFormatter = JsonMapFormatter.class;
 
 	/**
-	 * 操作系统名称字段名称
+	 * 返回数据库驱动类名
+	 *
+	 * @return 数据库驱动类名
 	 */
-	private String operatingSystemNameFieldName;
+	public String getDriverClassName() {
+		return driverClassName;
+	}
 
 	/**
-	 * 操作系统版本字段名称
+	 * 设置数据库驱动类名
+	 *
+	 * @param driverClassName
+	 * 		数据库驱动类名
 	 */
-	private String operatingSystemVersionFieldName;
+	public void setDriverClassName(String driverClassName) {
+		this.driverClassName = driverClassName;
+	}
 
 	/**
-	 * 设备类型字段名称
+	 * 返回 JDBC URL
+	 *
+	 * @return JDBC URL
 	 */
-	private String deviceTypeFieldName;
+	public String getUrl() {
+		return url;
+	}
 
 	/**
-	 * 浏览器名称字段名称
+	 * 设置 JDBC URL
+	 *
+	 * @param url
+	 * 		JDBC URL
 	 */
-	private String browserNameFieldName;
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	/**
-	 * 浏览器版本字段名称
+	 * 返回数据库账号
+	 *
+	 * @return 数据库账号
 	 */
-	private String browserVersionFieldName;
+	public String getUsername() {
+		return username;
+	}
 
 	/**
-	 * 国家 Code 字段名称
+	 * 设置数据库账号
+	 *
+	 * @param username
+	 * 		数据库账号
 	 */
-	private String countryCodeFieldName;
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	/**
-	 * 国家名称字段名称
+	 * 返回数据库密码
+	 *
+	 * @return 数据库密码
 	 */
-	private String countryNameFieldName;
+	public String getPassword() {
+		return password;
+	}
 
 	/**
-	 * 地区名称字段名称
+	 * 设置数据库密码
+	 *
+	 * @param password
+	 * 		数据库密码
 	 */
-	private String districtNameFieldName;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * 返回连接池配置
+	 *
+	 * @return 连接池配置
+	 */
+	public PoolConfiguration getPoolConfiguration() {
+		return poolConfiguration;
+	}
+
+	/**
+	 * 设置连接池配置
+	 *
+	 * @param poolConfiguration
+	 * 		连接池配置
+	 */
+	public void setPoolConfiguration(PoolConfiguration poolConfiguration) {
+		this.poolConfiguration = poolConfiguration;
+	}
 
 	/**
 	 * 返回数据表名称
 	 *
 	 * @return 数据表名称
 	 */
-	public String getTableName(){
+	public String getTableName() {
 		return tableName;
 	}
 
@@ -124,274 +216,122 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties {
 	 * @param tableName
 	 * 		数据表名称
 	 */
-	public void setTableName(String tableName){
+	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
 
 	/**
-	 * 返回标识字段名称
+	 * 返回字段配置
 	 *
-	 * @return 标识字段名称
+	 * @return 字段配置
 	 */
-	public String getIdFieldName(){
-		return idFieldName;
+	public FieldConfiguration getFieldConfiguration() {
+		return fieldConfiguration;
 	}
 
 	/**
-	 * 设置标识字段名称
+	 * 设置字段配置
 	 *
-	 * @param idFieldName
-	 * 		标识字段名称
+	 * @param fieldConfiguration
+	 * 		字段配置
 	 */
-	public void setIdFieldName(String idFieldName){
-		this.idFieldName = idFieldName;
+	public void setFieldConfiguration(FieldConfiguration fieldConfiguration) {
+		this.fieldConfiguration = fieldConfiguration;
 	}
 
 	/**
-	 * 返回用户 ID 字段名称
+	 * 返回 ID 生成器
 	 *
-	 * @return 用户 ID 字段名称
+	 * @return ID 生成器
 	 */
-	public String getUserIdFieldName(){
-		return userIdFieldName;
+	public Class<? extends IdGenerator<?>> getIdGenerator() {
+		return idGenerator;
 	}
 
 	/**
-	 * 设置用户 ID 字段名称
+	 * 设置 ID 生成器
 	 *
-	 * @param userIdFieldName
-	 * 		用户 ID 字段名称
+	 * @param idGenerator
+	 * 		ID 生成器
 	 */
-	public void setUserIdFieldName(String userIdFieldName){
-		this.userIdFieldName = userIdFieldName;
+	public void setIdGenerator(Class<? extends IdGenerator<?>> idGenerator) {
+		this.idGenerator = idGenerator;
 	}
 
 	/**
-	 * 返回用户名字段名称
+	 * 返回日期时间格式化对象
 	 *
-	 * @return 用户名字段名称
+	 * @return 日期时间格式化对象
 	 */
-	public String getUserNameFieldName(){
-		return userNameFieldName;
+	public Class<? extends DateTimeFormatter> getDateTimeFormatter() {
+		return dateTimeFormatter;
 	}
 
 	/**
-	 * 设置用户名字段名称
+	 * 设置日期时间格式化对象
 	 *
-	 * @param userNameFieldName
-	 * 		用户名字段名称
+	 * @param dateTimeFormatter
+	 * 		日期时间格式化对象
 	 */
-	public void setUserNameFieldName(String userNameFieldName){
-		this.userNameFieldName = userNameFieldName;
+	public void setDateTimeFormatter(Class<? extends DateTimeFormatter> dateTimeFormatter) {
+		this.dateTimeFormatter = dateTimeFormatter;
 	}
 
 	/**
-	 * 返回登录时间字段名称
+	 * 返回请求参数格式化为字符串
 	 *
-	 * @return 登录时间字段名称
+	 * @return 请求参数格式化为字符串
 	 */
-	public String getLoginTimeFieldName(){
-		return loginTimeFieldName;
+	public Class<? extends MapFormatter> getRequestParametersFormatter() {
+		return requestParametersFormatter;
 	}
 
 	/**
-	 * 设置登录时间字段名称
+	 * 设置请求参数格式化为字符串
 	 *
-	 * @param loginTimeFieldName
-	 * 		登录时间字段名称
+	 * @param requestParametersFormatter
+	 * 		请求参数格式化为字符串
 	 */
-	public void setLoginTimeFieldName(String loginTimeFieldName){
-		this.loginTimeFieldName = loginTimeFieldName;
+	public void setRequestParametersFormatter(Class<? extends MapFormatter> requestParametersFormatter) {
+		this.requestParametersFormatter = requestParametersFormatter;
 	}
 
 	/**
-	 * 返回登录 IP 字段名称
+	 * 返回 Geo 格式化
 	 *
-	 * @return 登录 IP 字段名称
+	 * @return Geo 格式化
 	 */
-	public String getLoginIpFieldName(){
-		return loginIpFieldName;
+	public Class<? extends GeoFormatter> getGeoFormatter() {
+		return geoFormatter;
 	}
 
 	/**
-	 * 设置登录 IP 字段名称
+	 * 设置 Geo 格式化
 	 *
-	 * @param loginIpFieldName
-	 * 		登录 IP 字段名称
+	 * @param geoFormatter
+	 * 		Geo 格式化
 	 */
-	public void setLoginIpFieldName(String loginIpFieldName){
-		this.loginIpFieldName = loginIpFieldName;
+	public void setGeoFormatter(Class<? extends GeoFormatter> geoFormatter) {
+		this.geoFormatter = geoFormatter;
 	}
 
 	/**
-	 * 返回 User-Agent 字段名称
+	 * 返回附加参数格式化为字符串
 	 *
-	 * @return User-Agent 字段名称
+	 * @return 附加参数格式化为字符串
 	 */
-	public String getUserAgentFieldName(){
-		return userAgentFieldName;
+	public Class<? extends MapFormatter> getExtraFormatter() {
+		return extraFormatter;
 	}
 
 	/**
-	 * 设置 User-Agent 字段名称
+	 * 设置附加参数格式化为字符串
 	 *
-	 * @param userAgentFieldName
-	 * 		User-Agent 字段名称
+	 * @param extraFormatter
+	 * 		附加参数格式化为字符串
 	 */
-	public void setUserAgentFieldName(String userAgentFieldName){
-		this.userAgentFieldName = userAgentFieldName;
-	}
-
-	/**
-	 * 返回操作系统名称字段名称
-	 *
-	 * @return 操作系统名称字段名称
-	 */
-	public String getOperatingSystemNameFieldName(){
-		return operatingSystemNameFieldName;
-	}
-
-	/**
-	 * 设置操作系统名称字段名称
-	 *
-	 * @param operatingSystemNameFieldName
-	 * 		操作系统名称字段名称
-	 */
-	public void setOperatingSystemNameFieldName(String operatingSystemNameFieldName){
-		this.operatingSystemNameFieldName = operatingSystemNameFieldName;
-	}
-
-	/**
-	 * 返回操作系统版本字段名称
-	 *
-	 * @return 操作系统版本字段名称
-	 */
-	public String getOperatingSystemVersionFieldName(){
-		return operatingSystemVersionFieldName;
-	}
-
-	/**
-	 * 设置操作系统版本字段名称
-	 *
-	 * @param operatingSystemVersionFieldName
-	 * 		操作系统版本字段名称
-	 */
-	public void setOperatingSystemVersionFieldName(String operatingSystemVersionFieldName){
-		this.operatingSystemVersionFieldName = operatingSystemVersionFieldName;
-	}
-
-	/**
-	 * 返回设备类型字段名称
-	 *
-	 * @return 设备类型字段名称
-	 */
-	public String getDeviceTypeFieldName(){
-		return deviceTypeFieldName;
-	}
-
-	/**
-	 * 设置设备类型字段名称
-	 *
-	 * @param deviceTypeFieldName
-	 * 		设备类型字段名称
-	 */
-	public void setDeviceTypeFieldName(String deviceTypeFieldName){
-		this.deviceTypeFieldName = deviceTypeFieldName;
-	}
-
-	/**
-	 * 返回浏览器名称字段名称
-	 *
-	 * @return 浏览器名称字段名称
-	 */
-	public String getBrowserNameFieldName(){
-		return browserNameFieldName;
-	}
-
-	/**
-	 * 设置浏览器名称字段名称
-	 *
-	 * @param browserNameFieldName
-	 * 		浏览器名称字段名称
-	 */
-	public void setBrowserNameFieldName(String browserNameFieldName){
-		this.browserNameFieldName = browserNameFieldName;
-	}
-
-	/**
-	 * 返回浏览器版本字段名称
-	 *
-	 * @return 浏览器版本字段名称
-	 */
-	public String getBrowserVersionFieldName(){
-		return browserVersionFieldName;
-	}
-
-	/**
-	 * 设置浏览器版本字段名称
-	 *
-	 * @param browserVersionFieldName
-	 * 		浏览器版本字段名称
-	 */
-	public void setBrowserVersionFieldName(String browserVersionFieldName){
-		this.browserVersionFieldName = browserVersionFieldName;
-	}
-
-	/**
-	 * 返回国家 Code 字段名称
-	 *
-	 * @return 国家 Code 字段名称
-	 */
-	public String getCountryCodeFieldName(){
-		return countryCodeFieldName;
-	}
-
-	/**
-	 * 设置国家 Code 字段名称
-	 *
-	 * @param countryCodeFieldName
-	 * 		国家 Code 字段名称
-	 */
-	public void setCountryCodeFieldName(String countryCodeFieldName){
-		this.countryCodeFieldName = countryCodeFieldName;
-	}
-
-	/**
-	 * 返回国家名称字段名称
-	 *
-	 * @return 国家名称字段名称
-	 */
-	public String getCountryNameFieldName(){
-		return countryNameFieldName;
-	}
-
-	/**
-	 * 设置国家名称字段名称
-	 *
-	 * @param countryNameFieldName
-	 * 		国家名称字段名称
-	 */
-	public void setCountryNameFieldName(String countryNameFieldName){
-		this.countryNameFieldName = countryNameFieldName;
-	}
-
-	/**
-	 * 返回地区名称字段名称
-	 *
-	 * @return 地区名称字段名称
-	 */
-	public String getDistrictNameFieldName(){
-		return districtNameFieldName;
-	}
-
-	/**
-	 * 设置地区名称字段名称
-	 *
-	 * @param districtNameFieldName
-	 * 		地区名称字段名称
-	 */
-	public void setDistrictNameFieldName(String districtNameFieldName){
-		this.districtNameFieldName = districtNameFieldName;
+	public void setExtraFormatter(Class<? extends MapFormatter> extraFormatter) {
+		this.extraFormatter = extraFormatter;
 	}
 
 }

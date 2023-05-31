@@ -26,4 +26,4 @@
  * @author Yong.Teng
  * @since 2.3.0
  */
-package org.apereo.cas.logging.utils;
+package org.apereo.cas.logging;

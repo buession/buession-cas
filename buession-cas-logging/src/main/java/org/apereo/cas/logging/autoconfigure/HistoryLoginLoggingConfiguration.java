@@ -29,9 +29,8 @@ import org.apereo.cas.configuration.support.JpaBeans;
 import org.apereo.cas.logging.Constants;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.manager.BasicLoginLoggingManager;
-import org.apereo.cas.logging.manager.HistoryLoginLoggingManager;
+import org.apereo.cas.logging.manager.ConsoleBasicLoginLoggingManager;
 import org.apereo.cas.logging.manager.JdbcBasicLoginLoggingManager;
-import org.apereo.cas.logging.manager.JdbcHistoryLoginLoggingManager;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -42,7 +41,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
@@ -54,23 +52,53 @@ import javax.sql.DataSource;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({CasLoggingConfigurationProperties.class})
 @ConditionalOnProperty(prefix = CasLoggingConfigurationProperties.PREFIX, name = "enabled", havingValue = "true")
-@EnableTransactionManagement(proxyTargetClass = true)
-public class JdbcLoginLoggingConfiguration {
+public class BasicLoginLoggingConfiguration {
 
-	abstract static class AbstractJdbcConfiguration {
+	@Configuration(proxyBeanMethods = false)
+	@EnableConfigurationProperties({CasLoggingConfigurationProperties.class})
+	@ConditionalOnProperty(prefix = CasLoggingConfigurationProperties.PREFIX, name = "basic.jdbc.url")
+	@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME)
+	static class BasicJdbcLoginLoggingManagerConfiguration {
 
 		protected final CasLoggingConfigurationProperties loggingConfigurationProperties;
 
-		protected final AbstractJpaProperties jpaProperties;
-
-		public AbstractJdbcConfiguration(CasLoggingConfigurationProperties loggingConfigurationProperties,
-										 AbstractJpaProperties jpaProperties){
+		public BasicJdbcLoginLoggingManagerConfiguration(
+				CasLoggingConfigurationProperties loggingConfigurationProperties) {
 			this.loggingConfigurationProperties = loggingConfigurationProperties;
-			this.jpaProperties = jpaProperties;
 		}
 
-		protected TransactionTemplate createTransactionTemplate(final PlatformTransactionManager transactionManager){
-			TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+		@Bean(name = Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME)
+		@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME)
+		public DataSource basicLoginLoggingDataSource() {
+			return JpaBeans.newDataSource(loggingConfigurationProperties.getBasic().getJdbc());
+		}
+
+		@Bean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME)
+		@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME)
+		public PlatformTransactionManager basicLoginLoggingTransactionManager(
+				@Qualifier(Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME) DataSource loginLogDataSource) {
+			return new DataSourceTransactionManager(loginLogDataSource);
+		}
+
+		@Bean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
+		@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
+		public TransactionTemplate basicLoginLoggingTransactionTemplate(
+				@Qualifier(Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME) PlatformTransactionManager loginLogTransactionManager) {
+			return createTransactionTemplate(loginLogTransactionManager);
+		}
+
+		@Bean(name = Constants.BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME)
+		@ConditionalOnBean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
+		public BasicLoginLoggingManager basicLoginLoggingManager(
+				@Qualifier(Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME) ObjectProvider<DataSource> dataSource,
+				@Qualifier(Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME) ObjectProvider<TransactionTemplate> transactionTemplate) {
+			return new JdbcBasicLoginLoggingManager(dataSource.getIfAvailable(),
+					transactionTemplate.getIfAvailable(), loggingConfigurationProperties.getBasic().getJdbc());
+		}
+
+		protected TransactionTemplate createTransactionTemplate(final PlatformTransactionManager transactionManager) {
+			final TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+			final AbstractJpaProperties jpaProperties = loggingConfigurationProperties.getBasic().getJdbc();
 
 			transactionTemplate.setIsolationLevelName(jpaProperties.getIsolationLevelName());
 			transactionTemplate.setPropagationBehaviorName(jpaProperties.getPropagationBehaviorName());
@@ -82,82 +110,12 @@ public class JdbcLoginLoggingConfiguration {
 
 	@Configuration(proxyBeanMethods = false)
 	@EnableConfigurationProperties({CasLoggingConfigurationProperties.class})
-	@ConditionalOnProperty(prefix = CasLoggingConfigurationProperties.PREFIX, name = "basic.jdbc.url")
 	@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME)
-	static class BasicJdbcLoginLoggingConfiguration extends AbstractJdbcConfiguration {
-
-		public BasicJdbcLoginLoggingConfiguration(CasLoggingConfigurationProperties loggingConfigurationProperties){
-			super(loggingConfigurationProperties, loggingConfigurationProperties.getBasic().getJdbc());
-		}
-
-		@Bean(name = Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME)
-		@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME)
-		public DataSource basicLoginLoggingDataSource(){
-			return JpaBeans.newDataSource(jpaProperties);
-		}
-
-		@Bean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME)
-		@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME)
-		public PlatformTransactionManager basicLoginLoggingTransactionManager(
-				@Qualifier(Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME) DataSource loginLogDataSource){
-			return new DataSourceTransactionManager(loginLogDataSource);
-		}
-
-		@Bean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
-		@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
-		public TransactionTemplate basicLoginLoggingTransactionTemplate(
-				@Qualifier(Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME) PlatformTransactionManager loginLogTransactionManager){
-			return createTransactionTemplate(loginLogTransactionManager);
-		}
+	static class BasicConsoleLoginLoggingManagerConfiguration {
 
 		@Bean(name = Constants.BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME)
-		@ConditionalOnBean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
-		public BasicLoginLoggingManager basicLoginLoggingManager(
-				@Qualifier(Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME) ObjectProvider<DataSource> dataSource,
-				@Qualifier(Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME) ObjectProvider<TransactionTemplate> transactionTemplate){
-			return new JdbcBasicLoginLoggingManager(dataSource.getIfAvailable(),
-					transactionTemplate.getIfAvailable(), loggingConfigurationProperties.getBasic().getJdbc());
-		}
-
-	}
-
-	@Configuration(proxyBeanMethods = false)
-	@EnableConfigurationProperties({CasLoggingConfigurationProperties.class})
-	@ConditionalOnProperty(prefix = CasLoggingConfigurationProperties.PREFIX, name = "history.jdbc.url")
-	@ConditionalOnMissingBean(name = Constants.HISTORY_LOGIN_LOGGING_MANAGER_BEAN_NAME)
-	static class HistoryJdbcLoginLoggingConfiguration extends AbstractJdbcConfiguration {
-
-		public HistoryJdbcLoginLoggingConfiguration(CasLoggingConfigurationProperties loggingConfigurationProperties){
-			super(loggingConfigurationProperties, loggingConfigurationProperties.getHistory().getJdbc());
-		}
-
-		@Bean(name = Constants.HISTORY_LOGIN_LOGGING_DATASOURCE_BEAN_NAME)
-		@ConditionalOnMissingBean(name = Constants.HISTORY_LOGIN_LOGGING_DATASOURCE_BEAN_NAME)
-		public DataSource historyLoginLoggingDataSource(){
-			return JpaBeans.newDataSource(jpaProperties);
-		}
-
-		@Bean(name = Constants.HISTORY_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME)
-		@ConditionalOnMissingBean(name = Constants.HISTORY_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME)
-		public PlatformTransactionManager historyLoginLoggingTransactionManager(
-				@Qualifier(Constants.HISTORY_LOGIN_LOGGING_DATASOURCE_BEAN_NAME) DataSource loginLogDataSource){
-			return new DataSourceTransactionManager(loginLogDataSource);
-		}
-
-		@Bean(name = Constants.HISTORY_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
-		@ConditionalOnMissingBean(name = Constants.HISTORY_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
-		public TransactionTemplate historyLoginLoggingTransactionTemplate(
-				@Qualifier(Constants.HISTORY_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME) PlatformTransactionManager loginLogTransactionManager){
-			return createTransactionTemplate(loginLogTransactionManager);
-		}
-
-		@Bean(name = Constants.HISTORY_LOGIN_LOGGING_MANAGER_BEAN_NAME)
-		@ConditionalOnBean(name = Constants.HISTORY_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
-		public HistoryLoginLoggingManager historyLoginLoggingManager(
-				@Qualifier(Constants.HISTORY_LOGIN_LOGGING_DATASOURCE_BEAN_NAME) ObjectProvider<DataSource> dataSource,
-				@Qualifier(Constants.HISTORY_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME) ObjectProvider<TransactionTemplate> transactionTemplate){
-			return new JdbcHistoryLoginLoggingManager(dataSource.getIfAvailable(),
-					transactionTemplate.getIfAvailable(), loggingConfigurationProperties.getHistory().getJdbc());
+		public BasicLoginLoggingManager basicLoginLoggingManager() {
+			return new ConsoleBasicLoginLoggingManager();
 		}
 
 	}

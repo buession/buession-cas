@@ -21,28 +21,10 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */
-package org.apereo.cas.logging.manager;
-
-import org.apereo.cas.logging.model.LoginData;
-
-/**
- * 控制台历史登录日志管理器
+ */package org.apereo.cas.core;/**
+ * 
  *
  * @author Yong.Teng
  * @since 2.3.0
- */
-public class ConsoleHistoryLoginLoggingManager extends AbstractLoginLoggingManager
-		implements HistoryLoginLoggingManager {
-
-	@Override
-	public void execute(final LoginData loginData){
-		System.out.printf(
-				"%s login success at: %s(IP: %s => %s), User-Agent: %s, operating system: %s %s, device type:" +
-						" %s, browser: %s %s.", loginData.getId(), loginData.getDateTime(), loginData.getClientIp(),
-				loginData.getLocation(), loginData.getUserAgent(), loginData.getOperatingSystem().getName(),
-				loginData.getOperatingSystem().getVersion(), loginData.getOperatingSystem().getDeviceType().getName(),
-				loginData.getBrowser().getName(), loginData.getBrowser().getVersion());
-	}
-
+ */public class BusinessType {
 }

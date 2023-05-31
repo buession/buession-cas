@@ -22,61 +22,94 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.model;
+package org.apereo.cas.logging.config.history;
 
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.FieldType;
+import com.buession.logging.rest.core.JsonRequestBodyBuilder;
+import com.buession.logging.rest.core.RequestBodyBuilder;
+import com.buession.logging.rest.core.RequestMethod;
 
 import java.io.Serializable;
 
 /**
+ * RabbitMQ 历史登录日志配置
+ *
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class District implements Serializable {
+public class RestProperties implements Serializable {
 
-	private final static long serialVersionUID = -2622605869813427465L;
-
-	/**
-	 * 国家 Code 字段名称
-	 */
-	@Field(name = "country_code", targetType = FieldType.STRING)
-	private String countryCode;
+	private final static long serialVersionUID = -7178083723307742589L;
 
 	/**
-	 * 国家名称字段名称
+	 * Rest Url
 	 */
-	@Field(name = "country_name", targetType = FieldType.STRING)
-	private String countryName;
+	private String url;
 
 	/**
-	 * 地区名称字段名称
+	 * 请求方式 {@link RequestMethod}
 	 */
-	@Field(name = "name", targetType = FieldType.STRING)
-	private String name;
+	private RequestMethod requestMethod = RequestMethod.POST;
 
-	public String getCountryCode(){
-		return countryCode;
+	/**
+	 * 请求体构建器
+	 */
+	private Class<? extends RequestBodyBuilder> requestBodyBuilder = JsonRequestBodyBuilder.class;
+
+	/**
+	 * 返回 Rest Url
+	 *
+	 * @return Rest Url
+	 */
+	public String getUrl() {
+		return url;
 	}
 
-	public void setCountryCode(String countryCode){
-		this.countryCode = countryCode;
+	/**
+	 * 设置 Rest Url
+	 *
+	 * @param url
+	 * 		Rest Url
+	 */
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
-	public String getCountryName(){
-		return countryName;
+	/**
+	 * 返回请求方式 {@link RequestMethod}
+	 *
+	 * @return 请求方式 {@link RequestMethod}
+	 */
+	public RequestMethod getRequestMethod() {
+		return requestMethod;
 	}
 
-	public void setCountryName(String countryName){
-		this.countryName = countryName;
+	/**
+	 * 设置请求方式 {@link RequestMethod}
+	 *
+	 * @param requestMethod
+	 * 		请求方式 {@link RequestMethod}
+	 */
+	public void setRequestMethod(RequestMethod requestMethod) {
+		this.requestMethod = requestMethod;
 	}
 
-	public String getName(){
-		return name;
+	/**
+	 * 返回请求体构建器
+	 *
+	 * @return 请求体构建器
+	 */
+	public Class<? extends RequestBodyBuilder> getRequestBodyBuilder() {
+		return requestBodyBuilder;
 	}
 
-	public void setName(String name){
-		this.name = name;
+	/**
+	 * 设置请求体构建器
+	 *
+	 * @param requestBodyBuilder
+	 * 		请求体构建器
+	 */
+	public void setRequestBodyBuilder(Class<? extends RequestBodyBuilder> requestBodyBuilder) {
+		this.requestBodyBuilder = requestBodyBuilder;
 	}
 
 }

@@ -21,98 +21,10 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */
-package org.apereo.cas.logging.model;
-
-import java.io.Serializable;
-
-/**
+ */package org.apereo.cas.logging.autoconfigure;/**
+ * 
+ *
  * @author Yong.Teng
  * @since 2.3.0
- */
-public class GeoLocation implements Serializable {
-
-	private final static long serialVersionUID = 951578665709567861L;
-
-	private Country country;
-
-	private District district;
-
-	public Country getCountry(){
-		return country;
-	}
-
-	public void setCountry(Country country){
-		this.country = country;
-	}
-
-	public District getDistrict(){
-		return district;
-	}
-
-	public void setDistrict(District district){
-		this.district = district;
-	}
-
-	public final static class Country implements Serializable {
-
-		private final static long serialVersionUID = 2542996497353771071L;
-
-		private String code;
-
-		private String name;
-
-		private String fullName;
-
-		public String getCode(){
-			return code;
-		}
-
-		public void setCode(String code){
-			this.code = code;
-		}
-
-		public String getName(){
-			return name;
-		}
-
-		public void setName(String name){
-			this.name = name;
-		}
-
-		public String getFullName(){
-			return fullName;
-		}
-
-		public void setFullName(String fullName){
-			this.fullName = fullName;
-		}
-	}
-
-	public final static class District implements Serializable {
-
-		private final static long serialVersionUID = 8703201935758837505L;
-
-		private String name;
-
-		private String fullName;
-
-		public String getName(){
-			return name;
-		}
-
-		public void setName(String name){
-			this.name = name;
-		}
-
-		public String getFullName(){
-			return fullName;
-		}
-
-		public void setFullName(String fullName){
-			this.fullName = fullName;
-		}
-
-	}
-
+ */public class BasicLoginLoggingConfiguration {
 }

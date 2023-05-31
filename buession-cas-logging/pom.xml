@@ -64,11 +64,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.buession.cas</groupId>
-			<artifactId>buession-cas-support-mongodb</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.buession.cas</groupId>
 			<artifactId>buession-cas-webflow</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -78,6 +73,54 @@
 			<artifactId>buession-web</artifactId>
 			<version>${buession.version}</version>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>com.buession.logging</groupId>
+			<artifactId>buession-logging-spring</artifactId>
+			<version>${buession.logging.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.logging</groupId>
+			<artifactId>buession-logging-support-elasticsearch</artifactId>
+			<version>${buession.logging.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.logging</groupId>
+			<artifactId>buession-logging-support-file</artifactId>
+			<version>${buession.logging.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.logging</groupId>
+			<artifactId>buession-logging-support-jdbc</artifactId>
+			<version>${buession.logging.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.logging</groupId>
+			<artifactId>buession-logging-support-kafka</artifactId>
+			<version>${buession.logging.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.logging</groupId>
+			<artifactId>buession-logging-support-mongodb</artifactId>
+			<version>${buession.logging.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.logging</groupId>
+			<artifactId>buession-logging-support-rabbitmq</artifactId>
+			<version>${buession.logging.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.logging</groupId>
+			<artifactId>buession-logging-support-rest</artifactId>
+			<version>${buession.logging.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

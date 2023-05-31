@@ -22,58 +22,14 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.utils;
-
-import com.buession.geoip.Resolver;
-import com.buession.geoip.model.Location;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import org.apereo.cas.logging.model.GeoLocation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
+package org.apereo.cas.logging.manager;
 
 /**
+ * 历史登录日志管理器接口
+ *
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class GeoIpUtils {
-
-	private final static Logger logger = LoggerFactory.getLogger(GeoIpUtils.class);
-
-	private GeoIpUtils(){
-
-	}
-
-	public static GeoLocation resolver(final Resolver resolver, final String clientIp){
-		GeoLocation geoLocation = new GeoLocation();
-
-		try{
-			Location location = resolver.location(clientIp);
-
-			if(location != null){
-				GeoLocation.Country country = new GeoLocation.Country();
-
-				country.setCode(location.getCountry().getCode());
-				country.setName(location.getCountry().getName());
-				country.setFullName(location.getCountry().getFullName());
-
-				geoLocation.setCountry(country);
-
-				GeoLocation.District district = new GeoLocation.District();
-
-				district.setName(location.getDistrict().getName());
-				district.setFullName(location.getDistrict().getFullName());
-
-				geoLocation.setDistrict(district);
-			}
-		}catch(IOException e){
-			logger.error(e.getMessage());
-		}catch(GeoIp2Exception e){
-			logger.error(e.getMessage());
-		}
-
-		return geoLocation;
-	}
+public interface HistoryLoginLoggingManager extends LoginLoggingManager {
 
 }

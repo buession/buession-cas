@@ -21,21 +21,10 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */
-package org.apereo.cas.logging.config.history;
-
-import org.apereo.cas.configuration.model.support.mongo.SingleCollectionMongoDbProperties;
-
-/**
+ */package org.apereo.cas.logging;/**
+ * 
+ *
  * @author Yong.Teng
- * @since 2.3.0
- */
-public class HistoryMongoDbLogProperties extends SingleCollectionMongoDbProperties {
-
-	private final static long serialVersionUID = -1727570732357482240L;
-
-	public HistoryMongoDbLogProperties(){
-		setCollection("login_log");
-	}
-
+ * @since 
+ */public class Event {
 }

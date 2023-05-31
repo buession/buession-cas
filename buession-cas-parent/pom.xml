@@ -132,6 +132,7 @@
 		<maven.compiler.target>11</maven.compiler.target>
 		<buession.version>2.3.0</buession.version>
 		<buession.security.version>2.3.0</buession.security.version>
+		<buession.logging.version>0.0.1</buession.logging.version>
 		<buession.springboot.version>2.3.0</buession.springboot.version>
 		<buession.springcloud.version>2.3.0</buession.springcloud.version>
 		<cas.version>6.3.7.4</cas.version>
@@ -222,6 +223,12 @@
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-annotations</artifactId>
 				<version>4.2.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.javaparser</groupId>
+				<artifactId>javaparser-core</artifactId>
+				<version>3.25.1</version>
 			</dependency>
 
 			<dependency>
