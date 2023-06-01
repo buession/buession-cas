@@ -24,7 +24,6 @@
  */
 package org.apereo.cas.logging.autoconfigure;
 
-import com.buession.beans.BeanUtils;
 import com.buession.core.converter.mapper.PropertyMapper;
 import com.buession.logging.core.handler.LogHandler;
 import com.buession.logging.elasticsearch.spring.ElasticsearchLogHandlerFactoryBean;
@@ -38,6 +37,7 @@ import com.buession.logging.rest.spring.RestLogHandlerFactoryBean;
 import com.buession.logging.support.spring.BaseLogHandlerFactoryBean;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.config.history.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

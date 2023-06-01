@@ -26,6 +26,7 @@ package org.apereo.cas.logging.manager;
 
 import com.buession.core.utils.StringUtils;
 import com.buession.logging.core.LogData;
+import com.buession.logging.core.request.Request;
 
 /**
  * 控制台基本登录日志管理器
@@ -42,20 +43,20 @@ public class ConsoleBasicLoginLoggingManager extends AbstractLoginLoggingManager
 	}
 
 	@Override
-	public void execute(final LogData logData) {
+	public void execute(final LogData logData, final Request request) {
 		String message = template;
 
-		message = StringUtils.replace(message, "id", logData.getPrincipal().toString());
-		message = StringUtils.replace(message, "time", logData.getDateTime().toString());
-		message = StringUtils.replace(message, "clientIp", logData.getClientIp());
-		message = StringUtils.replace(message, "User-Agent", logData.getUserAgent());
-		message = StringUtils.replace(message, "os_name", logData.getOperatingSystem().getName());
-		message = StringUtils.replace(message, "os_version", logData.getOperatingSystem().getVersion());
-		message = StringUtils.replace(message, "device_type", logData.getDeviceType().getName());
-		message = StringUtils.replace(message, "browser_name", logData.getBrowser().getName());
-		message = StringUtils.replace(message, "browser_version", logData.getBrowser().getVersion());
+		message = StringUtils.replace(message, "${id}", logData.getPrincipal().toString());
+		message = StringUtils.replace(message, "${time}", logData.getDateTime().toString());
+		message = StringUtils.replace(message, "${clientIp}", logData.getClientIp());
+		message = StringUtils.replace(message, "${User-Agent}", logData.getUserAgent());
+		message = StringUtils.replace(message, "${os_name}", logData.getOperatingSystem().getName());
+		message = StringUtils.replace(message, "${os_version}", logData.getOperatingSystem().getVersion());
+		message = StringUtils.replace(message, "${device_type}", logData.getDeviceType().getName());
+		message = StringUtils.replace(message, "${browser_name}", logData.getBrowser().getName());
+		message = StringUtils.replace(message, "${browser_version}", logData.getBrowser().getVersion());
 
-		System.out.printf(message);
+		System.out.println(message);
 	}
 
 }

@@ -27,7 +27,7 @@ package org.apereo.cas.logging.manager;
 import com.buession.core.utils.Assert;
 import com.buession.logging.core.LogData;
 import com.buession.logging.core.mgt.LogManager;
-import com.buession.logging.core.request.ServletRequest;
+import com.buession.logging.core.request.Request;
 
 /**
  * 默认历史登录日志管理器
@@ -46,8 +46,8 @@ public class DefaultHistoryLoginLoggingManager extends AbstractLoginLoggingManag
 	}
 
 	@Override
-	public void execute(final LogData logData) {
-		logManager.execute(logData, new ServletRequest());
+	public void execute(final LogData logData, final Request request) {
+		logManager.execute(logData, request);
 	}
 
 }

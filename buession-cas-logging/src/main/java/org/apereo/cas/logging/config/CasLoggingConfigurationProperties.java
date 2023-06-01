@@ -53,18 +53,18 @@ public class CasLoggingConfigurationProperties implements Serializable {
 	 * {@link BusinessType} 值
 	 */
 	@RequiredProperty
-	private String businessType;
+	private String businessType = "Login";
 
 	/**
 	 * {@link com.buession.logging.core.Event} 值
 	 */
 	@RequiredProperty
-	private String event;
+	private String event = "Login";
 
 	/**
 	 * 描述
 	 */
-	private String description;
+	private String description = "Login";
 
 	/**
 	 * 基本日志配置

@@ -27,6 +27,8 @@ package org.apereo.cas.logging.web.flow.action;
 import com.buession.lang.Constants;
 import com.buession.logging.core.LogData;
 import com.buession.logging.core.Principal;
+import com.buession.logging.core.request.Request;
+import com.buession.logging.core.request.ServletRequest;
 import org.apereo.cas.logging.BusinessType;
 import org.apereo.cas.logging.LoginLoggingThreadPoolExecutor;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
@@ -70,6 +72,12 @@ public class LoginLoggingAction extends AbstractAction {
 	 */
 	private final HistoryLoginLoggingManager historyLoginLoggingManager;
 
+	private final BusinessType businessType;
+
+	private final org.apereo.cas.logging.Event event;
+
+	private final String description;
+
 	private final ThreadPoolExecutor threadPoolExecutor;
 
 	/**
@@ -89,41 +97,34 @@ public class LoginLoggingAction extends AbstractAction {
 		this.casLoggingConfigurationProperties = casLoggingConfigurationProperties;
 		this.basicLoginLoggingManager = basicLoginLoggingManager;
 		this.historyLoginLoggingManager = historyLoginLoggingManager;
-		this.threadPoolExecutor = createThreadPoolExecutor();
+		this.businessType = new BusinessType(casLoggingConfigurationProperties.getBusinessType());
+		this.event = new org.apereo.cas.logging.Event(casLoggingConfigurationProperties.getEvent());
+		this.description = Optional.ofNullable(casLoggingConfigurationProperties.getDescription()).orElse(
+				Constants.EMPTY_STRING);
+		this.threadPoolExecutor = new LoginLoggingThreadPoolExecutor(casLoggingConfigurationProperties.getThreadPool());
 	}
 
 	@Override
 	protected Event doExecute(final RequestContext requestContext) {
-		final HttpServletRequest request = WebUtils.getHttpServletRequestFromExternalWebflowContext(requestContext);
+		final HttpServletRequest httpRequest = WebUtils.getHttpServletRequestFromExternalWebflowContext(requestContext);
+		final Request request = new ServletRequest(httpRequest);
 		final LogData loginData = new LogData();
 		final String username = requestContext.getRequestParameters().get("username");
-		final String userAgent = request.getHeader("User-Agent");
 		final Principal principal = new Principal();
 
 		principal.setUserName(username);
 
-		loginData.setBusinessType(new BusinessType(casLoggingConfigurationProperties.getBusinessType()));
-		loginData.setEvent(new org.apereo.cas.logging.Event(casLoggingConfigurationProperties.getEvent()));
+		loginData.setBusinessType(businessType);
+		loginData.setEvent(event);
 		loginData.setPrincipal(principal);
-		loginData.setUserAgent(userAgent);
-		loginData.setDescription(Optional.ofNullable(casLoggingConfigurationProperties.getDescription()).orElse(
-				Constants.EMPTY_STRING));
+		loginData.setDescription(description);
 
 		threadPoolExecutor.execute(()->{
-			historyLoginLoggingManager.execute(loginData);
-			basicLoginLoggingManager.execute(loginData);
+			historyLoginLoggingManager.execute(loginData, request);
+			basicLoginLoggingManager.execute(loginData, request);
 		});
 
 		return success();
-	}
-
-	@Override
-	protected void doPostExecute(RequestContext context) throws Exception {
-		threadPoolExecutor.shutdown();
-	}
-
-	protected ThreadPoolExecutor createThreadPoolExecutor() {
-		return new LoginLoggingThreadPoolExecutor(casLoggingConfigurationProperties.getThreadPool());
 	}
 
 }

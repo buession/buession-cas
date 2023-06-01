@@ -28,6 +28,7 @@ import com.buession.core.id.IdGenerator;
 import com.buession.jdbc.datasource.config.PoolConfiguration;
 import com.buession.logging.jdbc.core.FieldConfiguration;
 import com.buession.logging.jdbc.formatter.DateTimeFormatter;
+import com.buession.logging.jdbc.formatter.DefaultDateTimeFormatter;
 import com.buession.logging.jdbc.formatter.DefaultGeoFormatter;
 import com.buession.logging.jdbc.formatter.GeoFormatter;
 import com.buession.logging.jdbc.formatter.JsonMapFormatter;
@@ -69,7 +70,7 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties implements S
 	/**
 	 * 日期时间格式化对象
 	 */
-	private Class<? extends DateTimeFormatter> dateTimeFormatter = DateTimeFormatter.class;
+	private Class<? extends DateTimeFormatter> dateTimeFormatter = DefaultDateTimeFormatter.class;
 
 	/**
 	 * 请求参数格式化为字符串
