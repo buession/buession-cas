@@ -24,7 +24,8 @@
  */
 package org.apereo.cas.logging.config.history;
 
-import com.buession.logging.elasticsearch.spring.ElasticsearchLogHandlerFactoryBean;
+import com.buession.logging.elasticsearch.spring.RestHighLevelClientFactory;
+import com.buession.logging.support.config.HandlerProperties;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -36,14 +37,14 @@ import java.util.List;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryElasticsearchLogProperties implements Serializable {
+public class HistoryElasticsearchLogProperties implements HandlerProperties, Serializable {
 
 	private final static long serialVersionUID = 4759244909748729352L;
 
 	/**
 	 * Elasticsearch URL 地址
 	 */
-	private List<String> urls = ElasticsearchLogHandlerFactoryBean.DEFAULT_URLS;
+	private List<String> urls = RestHighLevelClientFactory.DEFAULT_URLS;
 
 	/**
 	 * Elasticsearch 地址
@@ -53,7 +54,7 @@ public class HistoryElasticsearchLogProperties implements Serializable {
 	/**
 	 * Elasticsearch 端口
 	 */
-	private int port = ElasticsearchLogHandlerFactoryBean.DEFAULT_PORT;
+	private int port = RestHighLevelClientFactory.DEFAULT_PORT;
 
 	/**
 	 * 用户名
@@ -68,12 +69,12 @@ public class HistoryElasticsearchLogProperties implements Serializable {
 	/**
 	 * 连接超时
 	 */
-	private Duration connectionTimeout = ElasticsearchLogHandlerFactoryBean.DEFAULT_CONNECTION_TIMEOUT;
+	private Duration connectionTimeout = RestHighLevelClientFactory.DEFAULT_CONNECTION_TIMEOUT;
 
 	/**
 	 * 读取超时
 	 */
-	private Duration readTimeout = ElasticsearchLogHandlerFactoryBean.DEFAULT_READ_TIMEOUT;
+	private Duration readTimeout = RestHighLevelClientFactory.DEFAULT_READ_TIMEOUT;
 
 	/**
 	 * 索引名称

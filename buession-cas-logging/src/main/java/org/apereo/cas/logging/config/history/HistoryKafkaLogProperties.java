@@ -24,9 +24,10 @@
  */
 package org.apereo.cas.logging.config.history;
 
-import com.buession.logging.core.SslConfiguration;
 import com.buession.logging.kafka.config.SecurityConfiguration;
-import com.buession.logging.kafka.spring.KafkaLogHandlerFactoryBean;
+import com.buession.logging.kafka.config.SslConfiguration;
+import com.buession.logging.kafka.spring.ProducerFactory;
+import com.buession.logging.support.config.HandlerProperties;
 import org.springframework.util.unit.DataSize;
 
 import java.io.Serializable;
@@ -40,7 +41,7 @@ import java.util.Map;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryKafkaLogProperties implements Serializable {
+public class HistoryKafkaLogProperties implements HandlerProperties, Serializable {
 
 	private final static long serialVersionUID = -1795139796444219186L;
 
@@ -48,7 +49,7 @@ public class HistoryKafkaLogProperties implements Serializable {
 	 * Comma-delimited list of host:port pairs to use for establishing the initial
 	 * connections to the Kafka cluster. Applies to all components unless overridden.
 	 */
-	private List<String> bootstrapServers = KafkaLogHandlerFactoryBean.DEFAULT_BOOTSTRAP_SERVERS;
+	private List<String> bootstrapServers = ProducerFactory.DEFAULT_BOOTSTRAP_SERVERS;
 
 	/**
 	 * ID to pass to the server when making requests. Used for server-side logging.
@@ -96,14 +97,14 @@ public class HistoryKafkaLogProperties implements Serializable {
 	private Integer retries = 3;
 
 	/**
-	 * SSL 配置 {@link SslConfiguration}
+	 * SSL 配置 {@link com.buession.logging.kafka.config.SslConfiguration}
 	 */
-	private SslConfiguration ssl = new SslConfiguration();
+	private com.buession.logging.kafka.config.SslConfiguration sslConfiguration = new com.buession.logging.kafka.config.SslConfiguration();
 
 	/**
 	 * 安全配置 {@link SecurityConfiguration}
 	 */
-	private SecurityConfiguration security = new SecurityConfiguration();
+	private SecurityConfiguration securityConfiguration = new SecurityConfiguration();
 
 	/**
 	 * Additional properties, common to producers and consumers, used to configure the client.
@@ -294,22 +295,22 @@ public class HistoryKafkaLogProperties implements Serializable {
 	}
 
 	/**
-	 * 返回 SSL 配置 {@link SslConfiguration}
+	 * 返回 SSL 配置 {@link com.buession.logging.kafka.config.SslConfiguration}
 	 *
-	 * @return SSL 配置 {@link SslConfiguration}
+	 * @return SSL 配置 {@link com.buession.logging.kafka.config.SslConfiguration}
 	 */
-	public SslConfiguration getSsl() {
-		return ssl;
+	public com.buession.logging.kafka.config.SslConfiguration getSslConfiguration() {
+		return sslConfiguration;
 	}
 
 	/**
-	 * 设置 SSL 配置 {@link SslConfiguration}
+	 * 设置 SSL 配置 {@link com.buession.logging.kafka.config.SslConfiguration}
 	 *
-	 * @param ssl
-	 * 		SSL 配置 {@link SslConfiguration}
+	 * @param sslConfiguration
+	 * 		SSL 配置 {@link com.buession.logging.kafka.config.SslConfiguration}
 	 */
-	public void setSsl(SslConfiguration ssl) {
-		this.ssl = ssl;
+	public void setSslConfiguration(SslConfiguration sslConfiguration) {
+		this.sslConfiguration = sslConfiguration;
 	}
 
 	/**
@@ -317,18 +318,18 @@ public class HistoryKafkaLogProperties implements Serializable {
 	 *
 	 * @return 安全配置 {@link SecurityConfiguration}
 	 */
-	public SecurityConfiguration getSecurity() {
-		return security;
+	public SecurityConfiguration getSecurityConfiguration() {
+		return securityConfiguration;
 	}
 
 	/**
 	 * 设置安全配置 {@link SecurityConfiguration}
 	 *
-	 * @param security
+	 * @param securityConfiguration
 	 * 		安全配置 {@link SecurityConfiguration}
 	 */
-	public void setSecurity(SecurityConfiguration security) {
-		this.security = security;
+	public void setSecurityConfiguration(SecurityConfiguration securityConfiguration) {
+		this.securityConfiguration = securityConfiguration;
 	}
 
 	/**

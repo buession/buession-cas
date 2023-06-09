@@ -28,7 +28,9 @@ import com.buession.dao.mongodb.core.ReadConcern;
 import com.buession.dao.mongodb.core.ReadPreference;
 import com.buession.dao.mongodb.core.WriteConcern;
 import com.buession.logging.mongodb.core.PoolConfiguration;
-import com.buession.logging.mongodb.spring.MongoHandlerFactoryBean;
+import com.buession.logging.mongodb.spring.MongoClientFactory;
+import com.buession.logging.mongodb.spring.MongoMappingContextFactory;
+import com.buession.logging.support.config.HandlerProperties;
 import org.bson.UuidRepresentation;
 import org.springframework.data.mapping.model.FieldNamingStrategy;
 
@@ -41,7 +43,7 @@ import java.time.Duration;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryMongoLogProperties implements Serializable {
+public class HistoryMongoLogProperties implements HandlerProperties, Serializable {
 
 	private final static long serialVersionUID = 3554795086203439061L;
 
@@ -53,7 +55,7 @@ public class HistoryMongoLogProperties implements Serializable {
 	/**
 	 * MongoDB 端口
 	 */
-	private int port = MongoHandlerFactoryBean.DEFAULT_PORT;
+	private int port = MongoClientFactory.DEFAULT_PORT;
 
 	/**
 	 * 用户名
@@ -68,7 +70,7 @@ public class HistoryMongoLogProperties implements Serializable {
 	/**
 	 * Mongo database URI.
 	 */
-	private String url = MongoHandlerFactoryBean.DEFAULT_URL;
+	private String url = MongoClientFactory.DEFAULT_URL;
 
 	/**
 	 * 副本集名称
@@ -93,17 +95,17 @@ public class HistoryMongoLogProperties implements Serializable {
 	/**
 	 * 连接超时
 	 */
-	private Duration connectionTimeout = MongoHandlerFactoryBean.DEFAULT_CONNECTION_TIMEOUT;
+	private Duration connectionTimeout = MongoClientFactory.DEFAULT_CONNECTION_TIMEOUT;
 
 	/**
 	 * 读取超时
 	 */
-	private Duration readTimeout = MongoHandlerFactoryBean.DEFAULT_READ_TIMEOUT;
+	private Duration readTimeout = MongoClientFactory.DEFAULT_READ_TIMEOUT;
 
 	/**
 	 * Representation to use when converting a UUID to a BSON binary value.
 	 */
-	private UuidRepresentation uuidRepresentation = MongoHandlerFactoryBean.DEFAULT_UUID_REPRESENTATION;
+	private UuidRepresentation uuidRepresentation = MongoClientFactory.DEFAULT_UUID_REPRESENTATION;
 
 	/**
 	 * Whether to enable auto-index creation.
@@ -113,7 +115,7 @@ public class HistoryMongoLogProperties implements Serializable {
 	/**
 	 * Fully qualified name of the FieldNamingStrategy to use.
 	 */
-	private Class<? extends FieldNamingStrategy> fieldNamingStrategy = MongoHandlerFactoryBean.DEFAULT_FIELD_NAMING_STRATEGY;
+	private Class<? extends FieldNamingStrategy> fieldNamingStrategy = MongoMappingContextFactory.DEFAULT_FIELD_NAMING_STRATEGY;
 
 	/**
 	 * {@link ReadPreference}

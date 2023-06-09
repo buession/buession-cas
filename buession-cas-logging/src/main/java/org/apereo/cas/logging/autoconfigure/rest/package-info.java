@@ -22,25 +22,8 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.manager;
-
-import com.buession.logging.core.LogData;
-import org.springframework.beans.factory.DisposableBean;
-
 /**
- * 登录日志管理器接口
- *
  * @author Yong.Teng
  * @since 2.3.0
  */
-public interface LoginLoggingManager extends DisposableBean {
-
-	/**
-	 * 登录日志执行操作
-	 *
-	 * @param logData
-	 * 		登录日志数据
-	 */
-	void execute(final LogData logData);
-
-}
+package org.apereo.cas.logging.autoconfigure.rest;

@@ -27,7 +27,6 @@ package org.apereo.cas.logging.manager;
 import com.buession.core.utils.Assert;
 import com.buession.core.validator.Validate;
 import com.buession.logging.core.LogData;
-import com.buession.logging.core.request.Request;
 import org.apereo.cas.logging.config.basic.BasicJdbcLogProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
@@ -58,7 +57,7 @@ public class JdbcBasicLoginLoggingManager extends AbstractLoginLoggingManager im
 	}
 
 	@Override
-	public void execute(final LogData logData, final Request request) {
+	public void execute(final LogData logData) {
 		daoSupport.execute(logData);
 	}
 

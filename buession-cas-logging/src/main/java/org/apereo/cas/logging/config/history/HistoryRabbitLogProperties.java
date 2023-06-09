@@ -27,6 +27,8 @@ package org.apereo.cas.logging.config.history;
 import com.buession.logging.core.SslConfiguration;
 import com.buession.logging.rabbitmq.core.Cache;
 import com.buession.logging.rabbitmq.core.Template;
+import com.buession.logging.rabbitmq.spring.ConnectionFactory;
+import com.buession.logging.support.config.HandlerProperties;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 
 import java.io.Serializable;
@@ -38,14 +40,14 @@ import java.time.Duration;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryRabbitLogProperties implements Serializable {
+public class HistoryRabbitLogProperties implements HandlerProperties, Serializable {
 
 	private final static long serialVersionUID = 7838178327531884281L;
 
 	/**
 	 * RabbitMQ 地址
 	 */
-	private String host = "localhost";
+	private String host = ConnectionFactory.DEFAULT_HOST;
 
 	/**
 	 * RabbitMQ 端口
@@ -55,22 +57,32 @@ public class HistoryRabbitLogProperties implements Serializable {
 	/**
 	 * 用户名
 	 */
-	private String username = "guest";
+	private String username = ConnectionFactory.DEFAULT_USERNAME;
 
 	/**
 	 * 密码
 	 */
-	private String password = "guest";
+	private String password = ConnectionFactory.DEFAULT_PASSWORD;
 
 	/**
 	 * 虚拟机
 	 */
-	private String virtualHost;
+	private String virtualHost = ConnectionFactory.DEFAULT_VIRTUAL_HOST;
+
+	/**
+	 * Exchange 名称
+	 */
+	private String exchange;
+
+	/**
+	 * Routing key 名称
+	 */
+	private String routingKey;
 
 	/**
 	 * 连接超时
 	 */
-	private Duration connectionTimeout;
+	private Duration connectionTimeout = ConnectionFactory.DEFAULT_CONNECTION_TIMEOUT;
 
 	/**
 	 * SSL 配置
@@ -86,7 +98,7 @@ public class HistoryRabbitLogProperties implements Serializable {
 	/**
 	 * Number of channels per connection requested by the client. Use 0 for unlimited.
 	 */
-	private int requestedChannelMax = 2047;
+	private int requestedChannelMax = ConnectionFactory.DEFAULT_REQUESTED_CHANNEL_MAX;
 
 	/**
 	 * Whether to enable publisher returns.
@@ -101,12 +113,12 @@ public class HistoryRabbitLogProperties implements Serializable {
 	/**
 	 * 缓存配置
 	 */
-	private Cache cache;
+	private Cache cache = new Cache();
 
 	/**
 	 * Template 配置
 	 */
-	private Template template;
+	private Template template = new Template();
 
 	/**
 	 * 返回 RabbitMQ 地址
@@ -201,6 +213,44 @@ public class HistoryRabbitLogProperties implements Serializable {
 	 */
 	public void setVirtualHost(String virtualHost) {
 		this.virtualHost = virtualHost;
+	}
+
+	/**
+	 * 返回 Exchange 名称
+	 *
+	 * @return Exchange 名称
+	 */
+	public String getExchange() {
+		return exchange;
+	}
+
+	/**
+	 * 设置 Exchange 名称
+	 *
+	 * @param exchange
+	 * 		Exchange 名称
+	 */
+	public void setExchange(String exchange) {
+		this.exchange = exchange;
+	}
+
+	/**
+	 * 返回 Routing key 名称
+	 *
+	 * @return Routing key 名称
+	 */
+	public String getRoutingKey() {
+		return routingKey;
+	}
+
+	/**
+	 * 设置 Routing key 名称
+	 *
+	 * @param routingKey
+	 * 		Routing key 名称
+	 */
+	public void setRoutingKey(String routingKey) {
+		this.routingKey = routingKey;
 	}
 
 	/**

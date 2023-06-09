@@ -27,22 +27,15 @@ package org.apereo.cas.logging.web.flow.action;
 import com.buession.lang.Constants;
 import com.buession.logging.core.LogData;
 import com.buession.logging.core.Principal;
-import com.buession.logging.core.request.Request;
-import com.buession.logging.core.request.ServletRequest;
-import org.apereo.cas.logging.BusinessType;
-import org.apereo.cas.logging.LoginLoggingThreadPoolExecutor;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.manager.BasicLoginLoggingManager;
 import org.apereo.cas.logging.manager.HistoryLoginLoggingManager;
-import org.apereo.cas.web.support.WebUtils;
 import org.springframework.webflow.action.AbstractAction;
 import org.springframework.webflow.execution.Action;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 登录日志 {@link Action}
@@ -72,13 +65,7 @@ public class LoginLoggingAction extends AbstractAction {
 	 */
 	private final HistoryLoginLoggingManager historyLoginLoggingManager;
 
-	private final BusinessType businessType;
-
-	private final org.apereo.cas.logging.Event event;
-
 	private final String description;
-
-	private final ThreadPoolExecutor threadPoolExecutor;
 
 	/**
 	 * 构造函数
@@ -97,32 +84,25 @@ public class LoginLoggingAction extends AbstractAction {
 		this.casLoggingConfigurationProperties = casLoggingConfigurationProperties;
 		this.basicLoginLoggingManager = basicLoginLoggingManager;
 		this.historyLoginLoggingManager = historyLoginLoggingManager;
-		this.businessType = new BusinessType(casLoggingConfigurationProperties.getBusinessType());
-		this.event = new org.apereo.cas.logging.Event(casLoggingConfigurationProperties.getEvent());
 		this.description = Optional.ofNullable(casLoggingConfigurationProperties.getDescription()).orElse(
 				Constants.EMPTY_STRING);
-		this.threadPoolExecutor = new LoginLoggingThreadPoolExecutor(casLoggingConfigurationProperties.getThreadPool());
 	}
 
 	@Override
 	protected Event doExecute(final RequestContext requestContext) {
-		final HttpServletRequest httpRequest = WebUtils.getHttpServletRequestFromExternalWebflowContext(requestContext);
-		final Request request = new ServletRequest(httpRequest);
 		final LogData loginData = new LogData();
 		final String username = requestContext.getRequestParameters().get("username");
 		final Principal principal = new Principal();
 
 		principal.setUserName(username);
 
-		loginData.setBusinessType(businessType);
-		loginData.setEvent(event);
+		loginData.setBusinessType(casLoggingConfigurationProperties.getBusinessType());
+		loginData.setEvent(casLoggingConfigurationProperties.getEvent());
 		loginData.setPrincipal(principal);
 		loginData.setDescription(description);
 
-		threadPoolExecutor.execute(()->{
-			historyLoginLoggingManager.execute(loginData, request);
-			basicLoginLoggingManager.execute(loginData, request);
-		});
+		historyLoginLoggingManager.execute(loginData);
+		basicLoginLoggingManager.execute(loginData);
 
 		return success();
 	}

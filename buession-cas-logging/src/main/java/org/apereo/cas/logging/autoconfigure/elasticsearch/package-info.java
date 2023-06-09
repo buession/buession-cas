@@ -22,26 +22,8 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.core;
-
-import com.buession.core.concurrent.ThreadPoolConfiguration;
-
-import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
-
 /**
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class ThreadPoolProperties extends ThreadPoolConfiguration implements Serializable {
-
-	public ThreadPoolProperties(){
-		Runtime runtime = Runtime.getRuntime();
-		int availableProcessors = runtime.availableProcessors();
-		setCorePoolSize(availableProcessors);
-		setMaximumPoolSize(availableProcessors * 2);
-		setKeepAliveTime(1L);
-		setTimeUnit(TimeUnit.MINUTES);
-	}
-
-}
+package org.apereo.cas.logging.autoconfigure.elasticsearch;

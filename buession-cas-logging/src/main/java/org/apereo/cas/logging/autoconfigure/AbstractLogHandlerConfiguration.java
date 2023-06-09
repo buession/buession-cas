@@ -22,26 +22,26 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging;
+package org.apereo.cas.logging.autoconfigure;
 
-import com.buession.core.utils.Assert;
+import com.buession.core.converter.mapper.PropertyMapper;
+import com.buession.logging.support.config.HandlerProperties;
+import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 
 /**
  * @author Yong.Teng
  * @since 2.3.0
  */
-public final class Event implements com.buession.logging.core.Event {
+public abstract class AbstractLogHandlerConfiguration<P extends HandlerProperties> {
 
-	private final String value;
+	public final static String PREFIX = CasLoggingConfigurationProperties.PREFIX + ".history";
 
-	public Event(final String value) {
-		Assert.isBlank(value, "Event cloud not be empty, blank or null.");
-		this.value = value;
-	}
+	protected final P handlerProperties;
 
-	@Override
-	public String toString() {
-		return value;
+	protected final PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+
+	public AbstractLogHandlerConfiguration(final P handlerProperties) {
+		this.handlerProperties = handlerProperties;
 	}
 
 }

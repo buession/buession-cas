@@ -27,6 +27,7 @@ package org.apereo.cas.logging.config.history;
 import com.buession.logging.rest.core.JsonRequestBodyBuilder;
 import com.buession.logging.rest.core.RequestBodyBuilder;
 import com.buession.logging.rest.core.RequestMethod;
+import com.buession.logging.support.config.HandlerProperties;
 
 import java.io.Serializable;
 
@@ -36,7 +37,7 @@ import java.io.Serializable;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryRestLogProperties implements Serializable {
+public class HistoryRestLogProperties implements HandlerProperties, Serializable {
 
 	private final static long serialVersionUID = -7178083723307742589L;
 

@@ -26,7 +26,6 @@ package org.apereo.cas.logging.manager;
 
 import com.buession.core.utils.StringUtils;
 import com.buession.logging.core.LogData;
-import com.buession.logging.core.request.Request;
 
 /**
  * 控制台基本登录日志管理器
@@ -43,7 +42,7 @@ public class ConsoleBasicLoginLoggingManager extends AbstractLoginLoggingManager
 	}
 
 	@Override
-	public void execute(final LogData logData, final Request request) {
+	public void execute(final LogData logData) {
 		String message = template;
 
 		message = StringUtils.replace(message, "${id}", logData.getPrincipal().toString());

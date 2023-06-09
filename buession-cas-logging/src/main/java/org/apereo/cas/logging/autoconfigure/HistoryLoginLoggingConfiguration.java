@@ -24,46 +24,75 @@
  */
 package org.apereo.cas.logging.autoconfigure;
 
+import com.buession.core.validator.Validate;
 import com.buession.geoip.Resolver;
+import com.buession.logging.core.handler.DefaultLogHandler;
+import com.buession.logging.core.handler.DefaultPrincipalHandler;
 import com.buession.logging.core.handler.LogHandler;
+import com.buession.logging.core.handler.PrincipalHandler;
 import com.buession.logging.core.mgt.LogManager;
-import com.buession.logging.spring.LogFactoryBean;
+import com.buession.logging.core.request.ServletRequestContext;
+import com.buession.logging.spring.LogManagerFactoryBean;
+import org.apereo.cas.core.CasCoreConfigurationProperties;
 import org.apereo.cas.logging.Constants;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.manager.DefaultHistoryLoginLoggingManager;
 import org.apereo.cas.logging.manager.HistoryLoginLoggingManager;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 /**
  * @author Yong.Teng
  * @since 2.3.0
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({CasLoggingConfigurationProperties.class})
+@EnableConfigurationProperties({CasCoreConfigurationProperties.class, CasLoggingConfigurationProperties.class})
 @ConditionalOnProperty(prefix = CasLoggingConfigurationProperties.PREFIX, name = "enabled", havingValue = "true")
-@Import({HistoryLoginLoggingLogHandlerConfiguration.class})
 public class HistoryLoginLoggingConfiguration {
 
+	private CasCoreConfigurationProperties casCoreConfigurationProperties;
+
+	public HistoryLoginLoggingConfiguration(
+			CasCoreConfigurationProperties casCoreConfigurationProperties) {
+		this.casCoreConfigurationProperties = casCoreConfigurationProperties;
+	}
+
 	@Bean
-	@ConditionalOnBean({LogHandler.class})
-	public LogFactoryBean logManager(ObjectProvider<LogHandler> logHandler, ObjectProvider<Resolver> geoResolver) {
-		final LogFactoryBean logManager = new LogFactoryBean();
+	public LogManagerFactoryBean logManagerFactoryBean(ObjectProvider<PrincipalHandler<?>> principalHandler,
+													   ObjectProvider<LogHandler> logHandler,
+													   ObjectProvider<Resolver> geoResolver) {
+		final LogManagerFactoryBean logManagerFactoryBean = new LogManagerFactoryBean();
 
-		logManager.setPrincipalHandler(null);
-		logHandler.ifUnique(logManager::setLogHandler);
-		geoResolver.ifUnique(logManager::setGeoResolver);
+		logManagerFactoryBean.setRequestContext(new ServletRequestContext());
 
-		return logManager;
+		geoResolver.ifUnique(logManagerFactoryBean::setGeoResolver);
+		principalHandler.ifUnique(logManagerFactoryBean::setPrincipalHandler);
+
+		PrincipalHandler<?> principalHandlerInstance = principalHandler.getIfAvailable();
+		if(principalHandlerInstance == null){
+			logManagerFactoryBean.setPrincipalHandler(new DefaultPrincipalHandler());
+		}else{
+			logManagerFactoryBean.setPrincipalHandler(principalHandlerInstance);
+		}
+
+		LogHandler logHandlerInstance = logHandler.getIfAvailable();
+		if(logHandlerInstance == null){
+			logManagerFactoryBean.setLogHandler(new DefaultLogHandler());
+		}else{
+			logManagerFactoryBean.setLogHandler(logHandlerInstance);
+		}
+
+		if(Validate.isNotBlank(casCoreConfigurationProperties.getClientRealIpHeaderName())){
+			logManagerFactoryBean.setClientIpHeaderName(casCoreConfigurationProperties.getClientRealIpHeaderName());
+		}
+
+		return logManagerFactoryBean;
 	}
 
 	@Bean(name = Constants.HISTORY_LOGIN_LOGGING_MANAGER_BEAN_NAME)
-	@ConditionalOnBean({LogManager.class})
 	public HistoryLoginLoggingManager historyLoginLoggingManager(ObjectProvider<LogManager> logManager) {
 		return new DefaultHistoryLoginLoggingManager(logManager.getIfAvailable());
 	}

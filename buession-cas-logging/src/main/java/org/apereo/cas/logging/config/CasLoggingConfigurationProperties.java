@@ -27,7 +27,6 @@ package org.apereo.cas.logging.config;
 import com.buession.logging.core.BusinessType;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.configuration.support.RequiredProperty;
-import org.apereo.cas.core.ThreadPoolProperties;
 import org.apereo.cas.logging.config.basic.BasicJdbcLogProperties;
 import org.apereo.cas.logging.config.basic.BasicConsoleLogProperties;
 import org.apereo.cas.logging.config.history.*;
@@ -77,12 +76,6 @@ public class CasLoggingConfigurationProperties implements Serializable {
 	 */
 	@NestedConfigurationProperty
 	private History history = new History();
-
-	/**
-	 * 线程池配置
-	 */
-	@NestedConfigurationProperty
-	private ThreadPoolProperties threadPool = new ThreadPoolProperties();
 
 	/**
 	 * 返回 {@link BusinessType} 值
@@ -177,25 +170,6 @@ public class CasLoggingConfigurationProperties implements Serializable {
 	 */
 	public void setHistory(History history) {
 		this.history = history;
-	}
-
-	/**
-	 * 返回线程池配置
-	 *
-	 * @return 线程池配置
-	 */
-	public ThreadPoolProperties getThreadPool() {
-		return threadPool;
-	}
-
-	/**
-	 * 设置线程池配置
-	 *
-	 * @param threadPool
-	 * 		线程池配置
-	 */
-	public void setThreadPool(ThreadPoolProperties threadPool) {
-		this.threadPool = threadPool;
 	}
 
 	/**

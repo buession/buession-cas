@@ -1,5 +1,10 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  org.apereo.cas.logging.autoconfigure.elasticsearch.ElasticsearchLogHandlerConfiguration, \
+  org.apereo.cas.logging.autoconfigure.jdbc.JdbcLogHandlerConfiguration, \
+  org.apereo.cas.logging.autoconfigure.kafka.KafkaLogHandlerConfiguration, \
+  org.apereo.cas.logging.autoconfigure.mongo.MongoLogHandlerConfiguration, \
+  org.apereo.cas.logging.autoconfigure.rabbit.RabbitLogHandlerConfiguration, \
+  org.apereo.cas.logging.autoconfigure.rest.RestLogHandlerConfiguration, \
   org.apereo.cas.logging.autoconfigure.BasicLoginLoggingConfiguration, \
-  org.apereo.cas.logging.autoconfigure.HistoryLoginLoggingLogHandlerConfiguration, \
   org.apereo.cas.logging.autoconfigure.HistoryLoginLoggingConfiguration, \
   org.apereo.cas.logging.web.flow.autoconfigure.CasLoginLoggingConfiguration

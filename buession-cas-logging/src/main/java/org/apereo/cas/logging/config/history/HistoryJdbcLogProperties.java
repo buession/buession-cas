@@ -26,13 +26,11 @@ package org.apereo.cas.logging.config.history;
 
 import com.buession.core.id.IdGenerator;
 import com.buession.jdbc.datasource.config.PoolConfiguration;
-import com.buession.logging.jdbc.core.FieldConfiguration;
-import com.buession.logging.jdbc.formatter.DateTimeFormatter;
-import com.buession.logging.jdbc.formatter.DefaultDateTimeFormatter;
+import com.buession.logging.core.formatter.GeoFormatter;
+import com.buession.logging.core.formatter.MapFormatter;
 import com.buession.logging.jdbc.formatter.DefaultGeoFormatter;
-import com.buession.logging.jdbc.formatter.GeoFormatter;
 import com.buession.logging.jdbc.formatter.JsonMapFormatter;
-import com.buession.logging.jdbc.formatter.MapFormatter;
+import com.buession.logging.support.config.HandlerProperties;
 import org.apereo.cas.configuration.model.support.jpa.AbstractJpaProperties;
 
 import java.io.Serializable;
@@ -43,9 +41,14 @@ import java.io.Serializable;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class HistoryJdbcLogProperties extends AbstractJpaProperties implements Serializable {
+public class HistoryJdbcLogProperties extends AbstractJpaProperties implements HandlerProperties, Serializable {
 
 	private final static long serialVersionUID = 6396868404292124235L;
+
+	/**
+	 * 数据库驱动类名
+	 */
+	private String driverClassName;
 
 	/**
 	 * 连接池配置
@@ -53,14 +56,9 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties implements S
 	private PoolConfiguration poolConfiguration;
 
 	/**
-	 * 数据表名称
+	 * SQL
 	 */
-	private String tableName;
-
-	/**
-	 * 字段配置
-	 */
-	private FieldConfiguration field;
+	private String sql;
 
 	/**
 	 * ID 生成器
@@ -68,14 +66,14 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties implements S
 	private Class<? extends IdGenerator<?>> idGenerator;
 
 	/**
-	 * 日期时间格式化对象
+	 * 日期时间格式
 	 */
-	private Class<? extends DateTimeFormatter> dateTimeFormatter = DefaultDateTimeFormatter.class;
+	private String dateTimeFormat;
 
 	/**
 	 * 请求参数格式化为字符串
 	 */
-	private Class<? extends MapFormatter> requestParametersFormatter = JsonMapFormatter.class;
+	private Class<? extends MapFormatter<Object>> requestParametersFormatter = JsonMapFormatter.class;
 
 	/**
 	 * Geo 格式化
@@ -85,7 +83,26 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties implements S
 	/**
 	 * 附加参数格式化为字符串
 	 */
-	private Class<? extends MapFormatter> extraFormatter = JsonMapFormatter.class;
+	private Class<? extends MapFormatter<Object>> extraFormatter = JsonMapFormatter.class;
+
+	/**
+	 * 返回数据库驱动类名
+	 *
+	 * @return 数据库驱动类名
+	 */
+	public String getDriverClassName() {
+		return driverClassName;
+	}
+
+	/**
+	 * 设置数据库驱动类名
+	 *
+	 * @param driverClassName
+	 * 		数据库驱动类名
+	 */
+	public void setDriverClassName(String driverClassName) {
+		this.driverClassName = driverClassName;
+	}
 
 	/**
 	 * 返回连接池配置
@@ -107,41 +124,22 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties implements S
 	}
 
 	/**
-	 * 返回数据表名称
+	 * 返回 SQL
 	 *
-	 * @return 数据表名称
+	 * @return SQL
 	 */
-	public String getTableName() {
-		return tableName;
+	public String getSql() {
+		return sql;
 	}
 
 	/**
-	 * 设置数据表名称
+	 * 设置 SQL
 	 *
-	 * @param tableName
-	 * 		数据表名称
+	 * @param sql
+	 * 		SQL
 	 */
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
-	}
-
-	/**
-	 * 返回字段配置
-	 *
-	 * @return 字段配置
-	 */
-	public FieldConfiguration getField() {
-		return field;
-	}
-
-	/**
-	 * 设置字段配置
-	 *
-	 * @param field
-	 * 		字段配置
-	 */
-	public void setField(FieldConfiguration field) {
-		this.field = field;
+	public void setSql(String sql) {
+		this.sql = sql;
 	}
 
 	/**
@@ -164,22 +162,22 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties implements S
 	}
 
 	/**
-	 * 返回日期时间格式化对象
+	 * 返回日期时间格式
 	 *
-	 * @return 日期时间格式化对象
+	 * @return 日期时间格式
 	 */
-	public Class<? extends DateTimeFormatter> getDateTimeFormatter() {
-		return dateTimeFormatter;
+	public String getDateTimeFormat() {
+		return dateTimeFormat;
 	}
 
 	/**
-	 * 设置日期时间格式化对象
+	 * 设置日期时间格式
 	 *
-	 * @param dateTimeFormatter
-	 * 		日期时间格式化对象
+	 * @param dateTimeFormat
+	 * 		日期时间格式
 	 */
-	public void setDateTimeFormatter(Class<? extends DateTimeFormatter> dateTimeFormatter) {
-		this.dateTimeFormatter = dateTimeFormatter;
+	public void setDateTimeFormat(String dateTimeFormat) {
+		this.dateTimeFormat = dateTimeFormat;
 	}
 
 	/**
@@ -187,7 +185,7 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties implements S
 	 *
 	 * @return 请求参数格式化为字符串
 	 */
-	public Class<? extends MapFormatter> getRequestParametersFormatter() {
+	public Class<? extends MapFormatter<Object>> getRequestParametersFormatter() {
 		return requestParametersFormatter;
 	}
 
@@ -197,7 +195,7 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties implements S
 	 * @param requestParametersFormatter
 	 * 		请求参数格式化为字符串
 	 */
-	public void setRequestParametersFormatter(Class<? extends MapFormatter> requestParametersFormatter) {
+	public void setRequestParametersFormatter(Class<? extends MapFormatter<Object>> requestParametersFormatter) {
 		this.requestParametersFormatter = requestParametersFormatter;
 	}
 
@@ -225,7 +223,7 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties implements S
 	 *
 	 * @return 附加参数格式化为字符串
 	 */
-	public Class<? extends MapFormatter> getExtraFormatter() {
+	public Class<? extends MapFormatter<Object>> getExtraFormatter() {
 		return extraFormatter;
 	}
 
@@ -235,7 +233,7 @@ public class HistoryJdbcLogProperties extends AbstractJpaProperties implements S
 	 * @param extraFormatter
 	 * 		附加参数格式化为字符串
 	 */
-	public void setExtraFormatter(Class<? extends MapFormatter> extraFormatter) {
+	public void setExtraFormatter(Class<? extends MapFormatter<Object>> extraFormatter) {
 		this.extraFormatter = extraFormatter;
 	}
 
