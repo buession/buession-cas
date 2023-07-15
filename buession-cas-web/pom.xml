@@ -596,10 +596,6 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.ldaptive</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>geronimo-spec</groupId>
 					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
