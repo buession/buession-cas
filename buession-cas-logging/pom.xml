@@ -97,6 +97,12 @@
 			<artifactId>buession-logging-support-jdbc</artifactId>
 			<version>${buession.logging.version}</version>
 			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-support-jdbc-authentication</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.buession.logging</groupId>
