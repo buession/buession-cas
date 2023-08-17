@@ -2,6 +2,23 @@
 ===========================
 
 
+## [2.3.0](https://github.com/buession/buession-cas/releases/tag/v2.3.0) (2022-08-17)
+
+### 🔨依赖升级
+
+- [依赖库版本升级和安全漏洞修复](https://github.com/buession/buession-parent/releases/tag/v2.3.0)
+
+
+### ⭐ 新特性
+
+- **buession-cas-support：** 登录日志增加记录 User-Agent、设备客户端操作系统及其版本、浏览器及其版本
+- **buession-cas-support：** 登录日志增加 JDBC、MongoDB、CouchDb、Redis、Rest、Slf4j、Couchbase、DynamoDb 支持
+- **buession-cas-support：** 登录日志增加存储历史登录日志
+
+
+---
+
+
 ## [2.2.1](https://github.com/buession/buession-cas/releases/tag/v2.2.1) (2022-03-31)
 
 ### 🔨依赖升级

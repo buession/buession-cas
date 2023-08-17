@@ -27,12 +27,16 @@ package org.apereo.cas.core;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.io.Serializable;
+
 /**
  * @author Yong.Teng
  * @since 2.1.0
  */
 @ConfigurationProperties(prefix = CasConfigurationProperties.PREFIX)
-public class CasCoreConfigurationProperties {
+public class CasCoreConfigurationProperties implements Serializable {
+
+	private final static long serialVersionUID = -1624756312933516280L;
 
 	/**
 	 * 真实客户端 IP 头名称
