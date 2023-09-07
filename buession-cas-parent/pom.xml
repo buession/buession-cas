@@ -131,11 +131,11 @@
 		<project.java.version>11</project.java.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<buession.version>2.3.0</buession.version>
-		<buession.security.version>2.3.0</buession.security.version>
-		<buession.logging.version>0.0.1</buession.logging.version>
-		<buession.springboot.version>2.3.0</buession.springboot.version>
-		<buession.springcloud.version>2.3.0</buession.springcloud.version>
+		<buession.version>2.3.1</buession.version>
+		<buession.security.version>2.3.1</buession.security.version>
+		<buession.logging.version>0.0.2</buession.logging.version>
+		<buession.springboot.version>2.3.1</buession.springboot.version>
+		<buession.springcloud.version>2.3.1</buession.springcloud.version>
 		<cas.version>6.3.7.4</cas.version>
 	</properties>
 
@@ -216,6 +216,10 @@
 					<exclusion>
 						<groupId>org.glassfish.jaxb</groupId>
 						<artifactId>jaxb-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.bouncycastle</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>

@@ -9,6 +9,11 @@
 - [依赖库版本升级和安全漏洞修复](https://github.com/buession/buession-parent/releases/tag/v2.3.1)
 
 
+### 🐞 Bug 修复
+
+- **buession-cas-webflow：** 修复 AccountPasswordMustChangeException 异常时，工作流 casMustChangePassView 不存在的 BUG
+
+
 ---
 
 
