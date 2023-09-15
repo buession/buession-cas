@@ -82,6 +82,14 @@
 					<artifactId>cas-server-core-api-cookie</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-support-discovery-profile</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-support-trusted-mfa-core</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.apereo.inspektr</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -164,6 +172,10 @@
 				<exclusion>
 					<groupId>org.glassfish.web</groupId>
 					<artifactId>el-impl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>geronimo-spec</groupId>
