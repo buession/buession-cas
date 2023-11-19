@@ -2,6 +2,21 @@
 ===========================
 
 
+## [2.3.1](https://github.com/buession/buession-cas/releases/tag/v2.3.1) (2022-11-19)
+
+### 🔨依赖升级
+
+- [依赖库版本升级和安全漏洞修复](https://github.com/buession/buession-parent/releases/tag/v2.3.1)
+
+
+### 🐞 Bug 修复
+
+- **buession-cas-webflow：** 修复 AccountPasswordMustChangeException 异常时，工作流 casMustChangePassView 不存在的 BUG
+
+
+---
+
+
 ## [2.3.0](https://github.com/buession/buession-cas/releases/tag/v2.3.0) (2022-08-17)
 
 ### 🔨依赖升级
