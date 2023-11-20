@@ -2,7 +2,17 @@
 ===========================
 
 
-## [2.3.1](https://github.com/buession/buession-cas/releases/tag/v2.3.1) (2022-11-19)
+## [2.3.2](https://github.com/buession/buession-cas/releases/tag/v2.3.2) (2023-xx-xx)
+
+### 🔨依赖升级
+
+- [依赖库版本升级和安全漏洞修复](https://github.com/buession/buession-parent/releases/tag/v2.3.2)
+
+
+---
+
+
+## [2.3.1](https://github.com/buession/buession-cas/releases/tag/v2.3.1) (2023-11-19)
 
 ### 🔨依赖升级
 
@@ -17,7 +27,7 @@
 ---
 
 
-## [2.3.0](https://github.com/buession/buession-cas/releases/tag/v2.3.0) (2022-08-17)
+## [2.3.0](https://github.com/buession/buession-cas/releases/tag/v2.3.0) (2023-08-17)
 
 ### 🔨依赖升级
 
@@ -34,7 +44,7 @@
 ---
 
 
-## [2.2.1](https://github.com/buession/buession-cas/releases/tag/v2.2.1) (2022-03-31)
+## [2.2.1](https://github.com/buession/buession-cas/releases/tag/v2.2.1) (2023-03-31)
 
 ### 🔨依赖升级
 
@@ -44,7 +54,7 @@
 ---
 
 
-## [2.2.0](https://github.com/buession/buession-cas/releases/tag/v2.2.0) (2022-03-10)
+## [2.2.0](https://github.com/buession/buession-cas/releases/tag/v2.2.0) (2023-03-10)
 
 ### 🔨依赖升级
 
