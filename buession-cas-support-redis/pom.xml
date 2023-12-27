@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>2.3.1</version>
+		<version>2.3.2</version>
 	</parent>
 	<artifactId>buession-cas-support-redis</artifactId>
 	<url>https://cas.buession.com/</url>
