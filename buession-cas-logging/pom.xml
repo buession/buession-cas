@@ -82,6 +82,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.buession.logging</groupId>
+			<artifactId>buession-logging-support-console</artifactId>
+			<version>${buession.logging.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.logging</groupId>
 			<artifactId>buession-logging-support-elasticsearch</artifactId>
 			<version>${buession.logging.version}</version>
 			<scope>provided</scope>

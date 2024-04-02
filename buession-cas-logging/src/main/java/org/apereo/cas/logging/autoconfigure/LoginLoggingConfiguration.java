@@ -19,43 +19,41 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.manager;
+package org.apereo.cas.logging.autoconfigure;
 
-import com.buession.core.utils.StringUtils;
-import com.buession.logging.core.LogData;
+import com.buession.logging.core.handler.DefaultPrincipalHandler;
+import com.buession.logging.core.handler.PrincipalHandler;
+import com.buession.logging.core.request.RequestContext;
+import com.buession.logging.core.request.ServletRequestContext;
+import org.apereo.cas.core.CasCoreConfigurationProperties;
+import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.security.Principal;
 
 /**
- * 控制台基本登录日志管理器
- *
  * @author Yong.Teng
- * @since 2.3.0
+ * @since 2.3.3
  */
-public class ConsoleBasicLoginLoggingManager extends AbstractLoginLoggingManager implements BasicLoginLoggingManager {
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties({CasCoreConfigurationProperties.class, CasLoggingConfigurationProperties.class})
+@ConditionalOnProperty(prefix = CasLoggingConfigurationProperties.PREFIX, name = "enabled", havingValue = "true")
+public class LoginLoggingConfiguration {
 
-	private final String template;
-
-	public ConsoleBasicLoginLoggingManager(final String template) {
-		this.template = template;
+	@Bean
+	public RequestContext requestContext() {
+		return new ServletRequestContext();
 	}
 
-	@Override
-	public void execute(final LogData logData) {
-		String message = template;
-
-		message = StringUtils.replace(message, "${id}", logData.getPrincipal().toString());
-		message = StringUtils.replace(message, "${time}", logData.getDateTime().toString());
-		message = StringUtils.replace(message, "${clientIp}", logData.getClientIp());
-		message = StringUtils.replace(message, "${User-Agent}", logData.getUserAgent());
-		message = StringUtils.replace(message, "${os_name}", logData.getOperatingSystem().getName());
-		message = StringUtils.replace(message, "${os_version}", logData.getOperatingSystem().getVersion());
-		message = StringUtils.replace(message, "${device_type}", logData.getDeviceType().getName());
-		message = StringUtils.replace(message, "${browser_name}", logData.getBrowser().getName());
-		message = StringUtils.replace(message, "${browser_version}", logData.getBrowser().getVersion());
-
-		System.out.println(message);
+	@Bean
+	public PrincipalHandler<? extends Principal> principalHandler() {
+		return new DefaultPrincipalHandler();
 	}
 
 }

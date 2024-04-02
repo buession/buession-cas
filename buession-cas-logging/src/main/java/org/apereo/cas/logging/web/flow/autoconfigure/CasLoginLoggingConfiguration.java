@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.logging.web.flow.autoconfigure;
@@ -64,18 +64,14 @@ import org.springframework.webflow.execution.Action;
 		HistoryLoginLoggingConfiguration.class})
 public class CasLoginLoggingConfiguration extends AbstractWebflowConfiguration {
 
-	private final CasCoreConfigurationProperties casCoreConfigurationProperties;
-
 	private final CasLoggingConfigurationProperties casLoggingConfigurationProperties;
 
 	public CasLoginLoggingConfiguration(CasConfigurationProperties casProperties,
-										CasCoreConfigurationProperties casCoreConfigurationProperties,
 										CasLoggingConfigurationProperties casLoggingConfigurationProperties,
 										ObjectProvider<ConfigurableApplicationContext> applicationContext,
 										@Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
 										ObjectProvider<FlowBuilderServices> flowBuilderServices) {
 		super(casProperties, applicationContext, loginFlowDefinitionRegistry, flowBuilderServices);
-		this.casCoreConfigurationProperties = casCoreConfigurationProperties;
 		this.casLoggingConfigurationProperties = casLoggingConfigurationProperties;
 	}
 

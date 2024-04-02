@@ -22,18 +22,8 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.config.history;
-
-import org.apereo.cas.logging.config.BaseJdbcLogProperties;
-
 /**
- * JDBC 历史登录日志配置
- *
  * @author Yong.Teng
- * @since 2.3.0
+ * @since 2.3.3
  */
-public class HistoryJdbcLogProperties extends BaseJdbcLogProperties {
-
-	private final static long serialVersionUID = 6396868404292124235L;
-
-}
+package org.apereo.cas.logging.autoconfigure.console;

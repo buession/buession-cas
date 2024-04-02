@@ -32,16 +32,38 @@ import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public abstract class AbstractLogHandlerConfiguration<P extends HandlerProperties> {
+public abstract class AbstractLogHandlerConfiguration {
 
-	public final static String PREFIX = CasLoggingConfigurationProperties.PREFIX + ".history";
+	protected final static PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 
-	protected final P handlerProperties;
+	public static class AbstractBasicLogHandlerConfiguration<P extends HandlerProperties>
+			extends AbstractLogHandlerConfiguration {
 
-	protected final PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+		public final static String PREFIX = CasLoggingConfigurationProperties.PREFIX + ".basic";
 
-	public AbstractLogHandlerConfiguration(final P handlerProperties) {
-		this.handlerProperties = handlerProperties;
+		public final static String LOG_HANDLER_BEAN_NAME = "basicLoggingLogHandler";
+
+		protected final P handlerProperties;
+
+		public AbstractBasicLogHandlerConfiguration(final P handlerProperties) {
+			this.handlerProperties = handlerProperties;
+		}
+
+	}
+
+	public static class AbstractHistoryLogHandlerConfiguration<P extends HandlerProperties>
+			extends AbstractLogHandlerConfiguration {
+
+		public final static String PREFIX = CasLoggingConfigurationProperties.PREFIX + ".history";
+
+		public final static String LOG_HANDLER_BEAN_NAME = "historyLoggingLogHandler";
+
+		protected final P handlerProperties;
+
+		public AbstractHistoryLogHandlerConfiguration(final P handlerProperties) {
+			this.handlerProperties = handlerProperties;
+		}
+
 	}
 
 }

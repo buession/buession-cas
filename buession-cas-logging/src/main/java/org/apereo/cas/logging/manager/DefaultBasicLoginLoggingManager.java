@@ -22,18 +22,30 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.config.history;
+package org.apereo.cas.logging.manager;
 
-import org.apereo.cas.logging.config.BaseJdbcLogProperties;
+import com.buession.core.utils.Assert;
+import com.buession.logging.core.LogData;
+import com.buession.logging.core.mgt.LogManager;
 
 /**
- * JDBC 历史登录日志配置
+ * 默认基本登录日志管理器
  *
  * @author Yong.Teng
- * @since 2.3.0
+ * @since 2.3.3
  */
-public class HistoryJdbcLogProperties extends BaseJdbcLogProperties {
+public class DefaultBasicLoginLoggingManager extends AbstractLoginLoggingManager implements BasicLoginLoggingManager {
 
-	private final static long serialVersionUID = 6396868404292124235L;
+	private final LogManager logManager;
+
+	public DefaultBasicLoginLoggingManager(final LogManager logManager) {
+		Assert.isNull(logManager, "LogManager cloud not be null.");
+		this.logManager = logManager;
+	}
+
+	@Override
+	public void execute(final LogData logData) {
+		logManager.save(logData);
+	}
 
 }
