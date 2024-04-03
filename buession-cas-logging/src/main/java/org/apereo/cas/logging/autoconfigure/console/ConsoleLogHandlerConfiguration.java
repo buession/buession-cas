@@ -25,11 +25,11 @@
 package org.apereo.cas.logging.autoconfigure.console;
 
 import com.buession.logging.console.formatter.ConsoleLogDataFormatter;
+import com.buession.logging.console.formatter.DefaultConsoleLogDataFormatter;
 import com.buession.logging.console.spring.ConsoleLogHandlerFactoryBean;
 import org.apereo.cas.logging.autoconfigure.AbstractLogHandlerConfiguration;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.config.basic.BasicConsoleLogProperties;
-import org.apereo.cas.logging.manager.console.CasConsoleLogDataFormatter;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -63,7 +63,7 @@ public class ConsoleLogHandlerConfiguration extends AbstractLogHandlerConfigurat
 		@Bean(name = "basicLoggingConsoleLogDataFormatter")
 		@ConditionalOnMissingBean(name = "basicLoggingConsoleLogDataFormatter")
 		public ConsoleLogDataFormatter<String> consoleLogDataFormatter() {
-			return new CasConsoleLogDataFormatter();
+			return new DefaultConsoleLogDataFormatter();
 		}
 
 		@Bean(name = Basic.LOG_HANDLER_BEAN_NAME)
