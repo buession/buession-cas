@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.logging.web.flow.action;
@@ -27,14 +27,21 @@ package org.apereo.cas.logging.web.flow.action;
 import com.buession.lang.Constants;
 import com.buession.logging.core.LogData;
 import com.buession.logging.core.Principal;
+import org.apereo.cas.authentication.Authentication;
+import org.apereo.cas.authentication.AuthenticationResult;
+import org.apereo.cas.authentication.Credential;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.manager.BasicLoginLoggingManager;
 import org.apereo.cas.logging.manager.HistoryLoginLoggingManager;
+import org.apereo.cas.web.support.WebUtils;
 import org.springframework.webflow.action.AbstractAction;
 import org.springframework.webflow.execution.Action;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -90,16 +97,27 @@ public class LoginLoggingAction extends AbstractAction {
 
 	@Override
 	protected Event doExecute(final RequestContext requestContext) {
-		final LogData loginData = new LogData();
-		final String username = requestContext.getRequestParameters().get("username");
-		final Principal principal = new Principal();
+		final AuthenticationResult authenticationResult = WebUtils.getAuthenticationResult(requestContext);
+		final Authentication authentication = authenticationResult.getAuthentication();
+		final org.apereo.cas.authentication.principal.Principal principal = authentication.getPrincipal();
+		final String uid = principal.getId();
+		final Map<String, List<Object>> uAttributes = principal.getAttributes();
+		final Credential credential = WebUtils.getCredential(requestContext);
 
-		principal.setUserName(username);
+		final LogData loginData = new LogData();
+
+		final Principal logPrincipal = new Principal();
+
+		logPrincipal.setId(uid);
+		logPrincipal.setUserName(credential.getId());
+
+		final Map<String, Object> extra = new HashMap<>(uAttributes);
 
 		loginData.setBusinessType(casLoggingConfigurationProperties.getBusinessType());
 		loginData.setEvent(casLoggingConfigurationProperties.getEvent());
-		loginData.setPrincipal(principal);
+		loginData.setPrincipal(logPrincipal);
 		loginData.setDescription(description);
+		loginData.setExtra(extra);
 
 		historyLoginLoggingManager.execute(loginData);
 		basicLoginLoggingManager.execute(loginData);
