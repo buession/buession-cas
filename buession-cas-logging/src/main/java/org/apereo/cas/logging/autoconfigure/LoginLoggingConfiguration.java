@@ -19,11 +19,41 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
+package org.apereo.cas.logging.autoconfigure;
+
+import com.buession.logging.core.handler.DefaultPrincipalHandler;
+import com.buession.logging.core.handler.PrincipalHandler;
+import com.buession.logging.core.request.RequestContext;
+import com.buession.logging.core.request.ServletRequestContext;
+import org.apereo.cas.core.CasCoreConfigurationProperties;
+import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.security.Principal;
+
 /**
  * @author Yong.Teng
- * @since 2.3.0
+ * @since 2.3.3
  */
-package org.apereo.cas.logging.utils;
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties({CasCoreConfigurationProperties.class, CasLoggingConfigurationProperties.class})
+@ConditionalOnProperty(prefix = CasLoggingConfigurationProperties.PREFIX, name = "enabled", havingValue = "true")
+public class LoginLoggingConfiguration {
+
+	@Bean
+	public RequestContext requestContext() {
+		return new ServletRequestContext();
+	}
+
+	@Bean
+	public PrincipalHandler<? extends Principal> principalHandler() {
+		return new DefaultPrincipalHandler();
+	}
+
+}

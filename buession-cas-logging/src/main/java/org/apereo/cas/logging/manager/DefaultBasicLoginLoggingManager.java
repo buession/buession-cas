@@ -19,43 +19,33 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.logging.manager;
 
-import com.buession.core.utils.StringUtils;
+import com.buession.core.utils.Assert;
 import com.buession.logging.core.LogData;
+import com.buession.logging.core.mgt.LogManager;
 
 /**
- * 控制台基本登录日志管理器
+ * 默认基本登录日志管理器
  *
  * @author Yong.Teng
- * @since 2.3.0
+ * @since 2.3.3
  */
-public class ConsoleBasicLoginLoggingManager extends AbstractLoginLoggingManager implements BasicLoginLoggingManager {
+public class DefaultBasicLoginLoggingManager extends AbstractLoginLoggingManager implements BasicLoginLoggingManager {
 
-	private final String template;
+	private final LogManager logManager;
 
-	public ConsoleBasicLoginLoggingManager(final String template) {
-		this.template = template;
+	public DefaultBasicLoginLoggingManager(final LogManager logManager) {
+		Assert.isNull(logManager, "LogManager cloud not be null.");
+		this.logManager = logManager;
 	}
 
 	@Override
 	public void execute(final LogData logData) {
-		String message = template;
-
-		message = StringUtils.replace(message, "${id}", logData.getPrincipal().toString());
-		message = StringUtils.replace(message, "${time}", logData.getDateTime().toString());
-		message = StringUtils.replace(message, "${clientIp}", logData.getClientIp());
-		message = StringUtils.replace(message, "${User-Agent}", logData.getUserAgent());
-		message = StringUtils.replace(message, "${os_name}", logData.getOperatingSystem().getName());
-		message = StringUtils.replace(message, "${os_version}", logData.getOperatingSystem().getVersion());
-		message = StringUtils.replace(message, "${device_type}", logData.getDeviceType().getName());
-		message = StringUtils.replace(message, "${browser_name}", logData.getBrowser().getName());
-		message = StringUtils.replace(message, "${browser_version}", logData.getBrowser().getVersion());
-
-		System.out.println(message);
+		logManager.save(logData);
 	}
 
 }

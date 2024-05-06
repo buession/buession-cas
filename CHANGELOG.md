@@ -2,6 +2,27 @@
 ===========================
 
 
+## [2.3.3](https://github.com/buession/buession-cas/releases/tag/v2.3.3) (2024-05-06)
+
+### 🔨依赖升级
+
+- [依赖库版本升级和安全漏洞修复](https://github.com/buession/buession-parent/releases/tag/v2.3.3)
+
+
+### 🔔 变化
+
+- **buession-cas-logging：** 基本日志控制台模式，集成 com.buession.logging:buession-logging-support-console
+
+
+### ⏪ 优化
+
+- **buession-cas-logging：** 优化和规范 LogHandler bean 初始化
+- **buession-cas-logging：** 优化日志数据参数
+
+
+---
+
+
 ## [2.3.2](https://github.com/buession/buession-cas/releases/tag/v2.3.2) (2023-12-27)
 
 ### 🔨依赖升级

@@ -22,13 +22,16 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.autoconfigure.rest;
+package org.apereo.cas.logging.autoconfigure.console;
 
-import com.buession.logging.rest.spring.RestLogHandlerFactoryBean;
+import com.buession.logging.console.formatter.ConsoleLogDataFormatter;
+import com.buession.logging.console.formatter.DefaultConsoleLogDataFormatter;
+import com.buession.logging.console.spring.ConsoleLogHandlerFactoryBean;
 import org.apereo.cas.logging.autoconfigure.AbstractLogHandlerConfiguration;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
-import org.apereo.cas.logging.config.history.HistoryRestLogProperties;
-import org.springframework.beans.BeanUtils;
+import org.apereo.cas.logging.config.basic.BasicConsoleLogProperties;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -37,34 +40,39 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Rest 日志处理器自动配置类
+ * 控制台日志处理器自动配置类
  *
  * @author Yong.Teng
- * @since 2.3.0
+ * @since 2.3.3
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(CasLoggingConfigurationProperties.class)
-@ConditionalOnClass(name = {"com.buession.logging.rest.spring.RestLogHandlerFactoryBean"})
-public class RestLogHandlerConfiguration extends AbstractLogHandlerConfiguration {
+@ConditionalOnClass(name = {"com.buession.logging.console.spring.ConsoleLogHandlerFactoryBean"})
+public class ConsoleLogHandlerConfiguration extends AbstractLogHandlerConfiguration {
 
 	@Configuration(proxyBeanMethods = false)
 	@EnableConfigurationProperties(CasLoggingConfigurationProperties.class)
-	@ConditionalOnProperty(prefix = History.PREFIX, name = "rest.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = History.LOG_HANDLER_BEAN_NAME)
-	static class History extends AbstractHistoryLogHandlerConfiguration<HistoryRestLogProperties> {
+	@ConditionalOnProperty(prefix = Basic.PREFIX, name = "console.enabled", havingValue = "true")
+	@ConditionalOnMissingBean(name = Basic.LOG_HANDLER_BEAN_NAME)
+	static class Basic extends AbstractBasicLogHandlerConfiguration<BasicConsoleLogProperties> {
 
-		public History(CasLoggingConfigurationProperties logProperties) {
-			super(logProperties.getHistory().getRest());
+		public Basic(CasLoggingConfigurationProperties logProperties) {
+			super(logProperties.getBasic().getConsole());
 		}
 
-		@Bean(name = History.LOG_HANDLER_BEAN_NAME)
-		public RestLogHandlerFactoryBean logHandlerFactoryBean() {
-			final RestLogHandlerFactoryBean logHandlerFactoryBean = new RestLogHandlerFactoryBean();
+		@Bean(name = "basicLoggingConsoleLogDataFormatter")
+		@ConditionalOnMissingBean(name = "basicLoggingConsoleLogDataFormatter")
+		public ConsoleLogDataFormatter<String> consoleLogDataFormatter() {
+			return new DefaultConsoleLogDataFormatter();
+		}
 
-			propertyMapper.from(handlerProperties::getUrl).to(logHandlerFactoryBean::setUrl);
-			propertyMapper.from(handlerProperties::getRequestMethod).to(logHandlerFactoryBean::setRequestMethod);
-			propertyMapper.from(handlerProperties::getRequestBodyBuilder).as(BeanUtils::instantiateClass)
-					.to(logHandlerFactoryBean::setRequestBodyBuilder);
+		@Bean(name = Basic.LOG_HANDLER_BEAN_NAME)
+		public ConsoleLogHandlerFactoryBean logHandlerFactoryBean(
+				@Qualifier("basicLoggingConsoleLogDataFormatter") ObjectProvider<ConsoleLogDataFormatter<String>> consoleLogDataFormatter) {
+			final ConsoleLogHandlerFactoryBean logHandlerFactoryBean = new ConsoleLogHandlerFactoryBean();
+
+			consoleLogDataFormatter.ifAvailable(logHandlerFactoryBean::setFormatter);
+			propertyMapper.from(handlerProperties.getTemplate()).to(logHandlerFactoryBean::setTemplate);
 
 			return logHandlerFactoryBean;
 		}
