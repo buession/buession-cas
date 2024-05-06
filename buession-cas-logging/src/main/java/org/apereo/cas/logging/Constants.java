@@ -38,7 +38,11 @@ public interface Constants {
 
 	String BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME = "basicLoginLoggingJdbcTransactionTemplate";
 
+	String BASIC_LOGIN_LOGGING_MANAGER_FACTORY_BEAN_NAME = "basicLoginLoggingManagerFactory";
+
 	String BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME = "basicLoginLoggingManager";
+
+	String HISTORY_LOGIN_LOGGING_MANAGER_FACTORY_BEAN_NAME = "historyLoginLoggingManagerFactory";
 
 	String HISTORY_LOGIN_LOGGING_MANAGER_BEAN_NAME = "historyLoginLoggingManager";
 

@@ -19,19 +19,16 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.logging.autoconfigure;
 
-import com.buession.core.validator.Validate;
 import com.buession.geoip.Resolver;
-import com.buession.logging.core.handler.DefaultLogHandler;
-import com.buession.logging.core.handler.DefaultPrincipalHandler;
 import com.buession.logging.core.handler.LogHandler;
 import com.buession.logging.core.handler.PrincipalHandler;
 import com.buession.logging.core.mgt.LogManager;
-import com.buession.logging.core.request.ServletRequestContext;
+import com.buession.logging.core.request.RequestContext;
 import com.buession.logging.spring.LogManagerFactoryBean;
 import org.apereo.cas.core.CasCoreConfigurationProperties;
 import org.apereo.cas.logging.Constants;
@@ -39,6 +36,8 @@ import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.manager.DefaultHistoryLoginLoggingManager;
 import org.apereo.cas.logging.manager.HistoryLoginLoggingManager;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -51,49 +50,25 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({CasCoreConfigurationProperties.class, CasLoggingConfigurationProperties.class})
 @ConditionalOnProperty(prefix = CasLoggingConfigurationProperties.PREFIX, name = "enabled", havingValue = "true")
-public class HistoryLoginLoggingConfiguration {
+public class HistoryLoginLoggingConfiguration extends BaseLoginLoggingConfiguration {
 
-	private CasCoreConfigurationProperties casCoreConfigurationProperties;
-
-	public HistoryLoginLoggingConfiguration(
-			CasCoreConfigurationProperties casCoreConfigurationProperties) {
-		this.casCoreConfigurationProperties = casCoreConfigurationProperties;
+	public HistoryLoginLoggingConfiguration(CasCoreConfigurationProperties casCoreConfigurationProperties) {
+		super(casCoreConfigurationProperties);
 	}
 
-	@Bean
+	@Bean(name = Constants.HISTORY_LOGIN_LOGGING_MANAGER_FACTORY_BEAN_NAME)
+	@ConditionalOnMissingBean(name = {Constants.HISTORY_LOGIN_LOGGING_MANAGER_FACTORY_BEAN_NAME})
 	public LogManagerFactoryBean logManagerFactoryBean(ObjectProvider<PrincipalHandler<?>> principalHandler,
-													   ObjectProvider<LogHandler> logHandler,
+													   ObjectProvider<RequestContext> requestContext,
+													   @Qualifier(AbstractLogHandlerConfiguration.AbstractHistoryLogHandlerConfiguration.LOG_HANDLER_BEAN_NAME) ObjectProvider<LogHandler> logHandler,
 													   ObjectProvider<Resolver> geoResolver) {
-		final LogManagerFactoryBean logManagerFactoryBean = new LogManagerFactoryBean();
-
-		logManagerFactoryBean.setRequestContext(new ServletRequestContext());
-
-		geoResolver.ifUnique(logManagerFactoryBean::setGeoResolver);
-		principalHandler.ifUnique(logManagerFactoryBean::setPrincipalHandler);
-
-		PrincipalHandler<?> principalHandlerInstance = principalHandler.getIfAvailable();
-		if(principalHandlerInstance == null){
-			logManagerFactoryBean.setPrincipalHandler(new DefaultPrincipalHandler());
-		}else{
-			logManagerFactoryBean.setPrincipalHandler(principalHandlerInstance);
-		}
-
-		LogHandler logHandlerInstance = logHandler.getIfAvailable();
-		if(logHandlerInstance == null){
-			logManagerFactoryBean.setLogHandler(new DefaultLogHandler());
-		}else{
-			logManagerFactoryBean.setLogHandler(logHandlerInstance);
-		}
-
-		if(Validate.isNotBlank(casCoreConfigurationProperties.getClientRealIpHeaderName())){
-			logManagerFactoryBean.setClientIpHeaderName(casCoreConfigurationProperties.getClientRealIpHeaderName());
-		}
-
-		return logManagerFactoryBean;
+		return createLogManagerFactoryBean(principalHandler, requestContext, logHandler, geoResolver);
 	}
 
 	@Bean(name = Constants.HISTORY_LOGIN_LOGGING_MANAGER_BEAN_NAME)
-	public HistoryLoginLoggingManager historyLoginLoggingManager(ObjectProvider<LogManager> logManager) {
+	@ConditionalOnMissingBean(name = {Constants.HISTORY_LOGIN_LOGGING_MANAGER_BEAN_NAME})
+	public HistoryLoginLoggingManager historyLoginLoggingManager(
+			@Qualifier(Constants.HISTORY_LOGIN_LOGGING_MANAGER_FACTORY_BEAN_NAME) ObjectProvider<LogManager> logManager) {
 		return new DefaultHistoryLoginLoggingManager(logManager.getIfAvailable());
 	}
 

@@ -19,117 +19,57 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.logging.autoconfigure;
 
-import org.apereo.cas.configuration.model.support.jpa.AbstractJpaProperties;
-import org.apereo.cas.configuration.support.JpaBeans;
+import com.buession.geoip.Resolver;
+import com.buession.logging.core.handler.LogHandler;
+import com.buession.logging.core.handler.PrincipalHandler;
+import com.buession.logging.core.mgt.LogManager;
+import com.buession.logging.core.request.RequestContext;
+import com.buession.logging.spring.LogManagerFactoryBean;
+import org.apereo.cas.core.CasCoreConfigurationProperties;
 import org.apereo.cas.logging.Constants;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.manager.BasicLoginLoggingManager;
-import org.apereo.cas.logging.manager.ConsoleBasicLoginLoggingManager;
-import org.apereo.cas.logging.manager.JdbcBasicLoginLoggingManager;
+import org.apereo.cas.logging.manager.DefaultBasicLoginLoggingManager;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
-
-import javax.sql.DataSource;
 
 /**
  * @author Yong.Teng
  * @since 2.3.0
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({CasLoggingConfigurationProperties.class})
+@EnableConfigurationProperties({CasCoreConfigurationProperties.class, CasLoggingConfigurationProperties.class})
 @ConditionalOnProperty(prefix = CasLoggingConfigurationProperties.PREFIX, name = "enabled", havingValue = "true")
-public class BasicLoginLoggingConfiguration {
+public class BasicLoginLoggingConfiguration extends BaseLoginLoggingConfiguration {
 
-	private final static String PREFIX = CasLoggingConfigurationProperties.PREFIX + ".basic";
-
-	@Configuration(proxyBeanMethods = false)
-	@EnableConfigurationProperties({CasLoggingConfigurationProperties.class})
-	@ConditionalOnProperty(prefix = PREFIX, name = "jdbc.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME)
-	static class BasicJdbcLoginLoggingManagerConfiguration {
-
-		protected final CasLoggingConfigurationProperties loggingConfigurationProperties;
-
-		protected final AbstractJpaProperties jpaProperties;
-
-		public BasicJdbcLoginLoggingManagerConfiguration(
-				CasLoggingConfigurationProperties loggingConfigurationProperties) {
-			this.loggingConfigurationProperties = loggingConfigurationProperties;
-			this.jpaProperties = loggingConfigurationProperties.getBasic().getJdbc();
-		}
-
-		@Bean(name = Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME)
-		@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME)
-		public DataSource basicLoginLoggingDataSource() {
-			return JpaBeans.newDataSource(jpaProperties);
-		}
-
-		@Bean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME)
-		@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME)
-		public PlatformTransactionManager basicLoginLoggingTransactionManager(
-				@Qualifier(Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME) DataSource loginLogDataSource) {
-			return new DataSourceTransactionManager(loginLogDataSource);
-		}
-
-		@Bean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
-		@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
-		public TransactionTemplate basicLoginLoggingTransactionTemplate(
-				@Qualifier(Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME) PlatformTransactionManager loginLogTransactionManager) {
-			return createTransactionTemplate(loginLogTransactionManager);
-		}
-
-		@Bean(name = Constants.BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME)
-		@ConditionalOnBean(name = Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME)
-		public BasicLoginLoggingManager basicLoginLoggingManager(
-				@Qualifier(Constants.BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME) ObjectProvider<DataSource> dataSource,
-				@Qualifier(Constants.BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME) ObjectProvider<TransactionTemplate> transactionTemplate) {
-			return new JdbcBasicLoginLoggingManager(dataSource.getIfAvailable(),
-					transactionTemplate.getIfAvailable(), loggingConfigurationProperties.getBasic().getJdbc());
-		}
-
-		protected TransactionTemplate createTransactionTemplate(final PlatformTransactionManager transactionManager) {
-			final TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
-
-			transactionTemplate.setIsolationLevelName(jpaProperties.getIsolationLevelName());
-			transactionTemplate.setPropagationBehaviorName(jpaProperties.getPropagationBehaviorName());
-
-			return transactionTemplate;
-		}
-
+	public BasicLoginLoggingConfiguration(CasCoreConfigurationProperties casCoreConfigurationProperties) {
+		super(casCoreConfigurationProperties);
 	}
 
-	@Configuration(proxyBeanMethods = false)
-	@EnableConfigurationProperties({CasLoggingConfigurationProperties.class})
-	@ConditionalOnMissingBean(name = Constants.BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME)
-	static class BasicConsoleLoginLoggingManagerConfiguration {
+	@Bean(name = Constants.BASIC_LOGIN_LOGGING_MANAGER_FACTORY_BEAN_NAME)
+	@ConditionalOnMissingBean(name = {Constants.BASIC_LOGIN_LOGGING_MANAGER_FACTORY_BEAN_NAME})
+	public LogManagerFactoryBean logManagerFactoryBean(ObjectProvider<PrincipalHandler<?>> principalHandler,
+													   ObjectProvider<RequestContext> requestContext,
+													   @Qualifier(AbstractLogHandlerConfiguration.AbstractBasicLogHandlerConfiguration.LOG_HANDLER_BEAN_NAME) ObjectProvider<LogHandler> logHandler,
+													   ObjectProvider<Resolver> geoResolver) {
+		return createLogManagerFactoryBean(principalHandler, requestContext, logHandler, geoResolver);
+	}
 
-		protected final CasLoggingConfigurationProperties loggingConfigurationProperties;
-
-		public BasicConsoleLoginLoggingManagerConfiguration(
-				CasLoggingConfigurationProperties loggingConfigurationProperties) {
-			this.loggingConfigurationProperties = loggingConfigurationProperties;
-		}
-
-		@Bean(name = Constants.BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME)
-		public BasicLoginLoggingManager basicLoginLoggingManager() {
-			return new ConsoleBasicLoginLoggingManager(
-					loggingConfigurationProperties.getBasic().getConsole().getMessage());
-		}
-
+	@Bean(name = Constants.BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME)
+	@ConditionalOnMissingBean(name = {Constants.BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME})
+	public BasicLoginLoggingManager historyLoginLoggingManager(
+			@Qualifier(Constants.BASIC_LOGIN_LOGGING_MANAGER_FACTORY_BEAN_NAME) ObjectProvider<LogManager> logManager) {
+		return new DefaultBasicLoginLoggingManager(logManager.getIfAvailable());
 	}
 
 }

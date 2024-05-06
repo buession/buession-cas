@@ -19,12 +19,11 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.logging.autoconfigure.elasticsearch;
 
-import com.buession.logging.core.handler.LogHandler;
 import com.buession.logging.elasticsearch.spring.ElasticsearchLogHandlerFactoryBean;
 import com.buession.logging.elasticsearch.spring.ElasticsearchRestTemplateFactoryBean;
 import com.buession.logging.elasticsearch.spring.RestHighLevelClientFactoryBean;
@@ -50,52 +49,57 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(CasLoggingConfigurationProperties.class)
-@ConditionalOnMissingBean(LogHandler.class)
-@ConditionalOnClass({ElasticsearchLogHandlerFactoryBean.class})
-@ConditionalOnProperty(prefix = ElasticsearchLogHandlerConfiguration.PREFIX, name = "elasticsearch.enabled", havingValue = "true")
-public class ElasticsearchLogHandlerConfiguration
-		extends AbstractLogHandlerConfiguration<HistoryElasticsearchLogProperties> {
+@ConditionalOnClass(name = {"com.buession.logging.elasticsearch.spring.ElasticsearchLogHandlerFactoryBean"})
+public class ElasticsearchLogHandlerConfiguration extends AbstractLogHandlerConfiguration {
 
-	public ElasticsearchLogHandlerConfiguration(CasLoggingConfigurationProperties logProperties) {
-		super(logProperties.getHistory().getElasticsearch());
-	}
+	@Configuration(proxyBeanMethods = false)
+	@EnableConfigurationProperties(CasLoggingConfigurationProperties.class)
+	@ConditionalOnProperty(prefix = History.PREFIX, name = "elasticsearch.enabled", havingValue = "true")
+	@ConditionalOnMissingBean(name = History.LOG_HANDLER_BEAN_NAME)
+	static class History extends AbstractHistoryLogHandlerConfiguration<HistoryElasticsearchLogProperties> {
 
-	@Bean(name = "loggingElasticsearchRestHighLevelClient")
-	public RestHighLevelClientFactoryBean restHighLevelClientFactoryBean() {
-		final RestHighLevelClientFactoryBean restHighLevelClientFactoryBean = new RestHighLevelClientFactoryBean();
+		public History(CasLoggingConfigurationProperties logProperties) {
+			super(logProperties.getHistory().getElasticsearch());
+		}
 
-		propertyMapper.from(handlerProperties::getUrls).to(restHighLevelClientFactoryBean::setUrls);
-		propertyMapper.from(handlerProperties::getHost).to(restHighLevelClientFactoryBean::setHost);
-		propertyMapper.from(handlerProperties::getPort).to(restHighLevelClientFactoryBean::setPort);
-		propertyMapper.from(handlerProperties::getUsername).to(restHighLevelClientFactoryBean::setUsername);
-		propertyMapper.from(handlerProperties::getPassword).to(restHighLevelClientFactoryBean::setPassword);
-		propertyMapper.from(handlerProperties::getConnectionTimeout)
-				.to(restHighLevelClientFactoryBean::setConnectionTimeout);
-		propertyMapper.from(handlerProperties::getReadTimeout).to(restHighLevelClientFactoryBean::setReadTimeout);
+		@Bean(name = "historyLoggingElasticsearchRestHighLevelClient")
+		public RestHighLevelClientFactoryBean restHighLevelClientFactoryBean() {
+			final RestHighLevelClientFactoryBean restHighLevelClientFactoryBean = new RestHighLevelClientFactoryBean();
 
-		return restHighLevelClientFactoryBean;
-	}
+			propertyMapper.from(handlerProperties::getUrls).to(restHighLevelClientFactoryBean::setUrls);
+			propertyMapper.from(handlerProperties::getHost).to(restHighLevelClientFactoryBean::setHost);
+			propertyMapper.from(handlerProperties::getPort).to(restHighLevelClientFactoryBean::setPort);
+			propertyMapper.from(handlerProperties::getUsername).to(restHighLevelClientFactoryBean::setUsername);
+			propertyMapper.from(handlerProperties::getPassword).to(restHighLevelClientFactoryBean::setPassword);
+			propertyMapper.from(handlerProperties::getConnectionTimeout)
+					.to(restHighLevelClientFactoryBean::setConnectionTimeout);
+			propertyMapper.from(handlerProperties::getReadTimeout).to(restHighLevelClientFactoryBean::setReadTimeout);
 
-	@Bean(name = "loggingElasticsearchElasticsearchRestTemplate")
-	public ElasticsearchRestTemplateFactoryBean elasticsearchRestTemplateFactoryBean(
-			@Qualifier("loggingElasticsearchRestHighLevelClient") ObjectProvider<RestHighLevelClient> restHighLevelClient) {
-		final ElasticsearchRestTemplateFactoryBean elasticsearchRestTemplateFactoryBean =
-				new ElasticsearchRestTemplateFactoryBean();
+			return restHighLevelClientFactoryBean;
+		}
 
-		restHighLevelClient.ifUnique(elasticsearchRestTemplateFactoryBean::setClient);
+		@Bean(name = "historyLoggingElasticsearchRestTemplate")
+		public ElasticsearchRestTemplateFactoryBean elasticsearchRestTemplateFactoryBean(
+				@Qualifier("historyLoggingElasticsearchRestHighLevelClient") ObjectProvider<RestHighLevelClient> restHighLevelClient) {
+			final ElasticsearchRestTemplateFactoryBean elasticsearchRestTemplateFactoryBean =
+					new ElasticsearchRestTemplateFactoryBean();
 
-		return elasticsearchRestTemplateFactoryBean;
-	}
+			restHighLevelClient.ifAvailable(elasticsearchRestTemplateFactoryBean::setClient);
 
-	@Bean
-	public ElasticsearchLogHandlerFactoryBean logHandlerFactoryBean(
-			@Qualifier("loggingElasticsearchElasticsearchRestTemplate") ObjectProvider<ElasticsearchRestTemplate> restTemplateFactory) {
-		final ElasticsearchLogHandlerFactoryBean logHandlerFactoryBean = new ElasticsearchLogHandlerFactoryBean();
+			return elasticsearchRestTemplateFactoryBean;
+		}
 
-		restTemplateFactory.ifUnique(logHandlerFactoryBean::setRestTemplate);
-		propertyMapper.from(handlerProperties::getIndexName).to(logHandlerFactoryBean::setIndexName);
+		@Bean(name = History.LOG_HANDLER_BEAN_NAME)
+		public ElasticsearchLogHandlerFactoryBean logHandlerFactoryBean(
+				@Qualifier("historyLoggingElasticsearchRestTemplate") ObjectProvider<ElasticsearchRestTemplate> restTemplateFactory) {
+			final ElasticsearchLogHandlerFactoryBean logHandlerFactoryBean = new ElasticsearchLogHandlerFactoryBean();
 
-		return logHandlerFactoryBean;
+			restTemplateFactory.ifAvailable(logHandlerFactoryBean::setRestTemplate);
+			propertyMapper.from(handlerProperties::getIndexName).to(logHandlerFactoryBean::setIndexName);
+
+			return logHandlerFactoryBean;
+		}
+
 	}
 
 }

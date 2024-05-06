@@ -19,10 +19,12 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.logging.config.basic;
+
+import com.buession.logging.support.config.HandlerProperties;
 
 import java.io.Serializable;
 
@@ -32,35 +34,56 @@ import java.io.Serializable;
  * @author Yong.Teng
  * @since 2.3.0
  */
-public class BasicConsoleLogProperties implements Serializable {
+public class BasicConsoleLogProperties implements HandlerProperties, Serializable {
 
 	private final static long serialVersionUID = -6264010693592997006L;
 
 	/**
-	 * 日志消息
+	 * 日志模板
 	 */
-	private String message =
+	private String template =
 			"${id} login success at: ${time}(IP: ${clientIp}), User-Agent: ${User-Agent}, operating system: " +
 					"${os_name} ${os_version}, device type: ${device_type}, browser: ${browser_name} " +
 					"${browser_version}.";
 
 	/**
-	 * 返回日志消息
+	 * 返回日志模板
 	 *
-	 * @return 日志消息
+	 * @return 日志模板
 	 */
-	public String getMessage() {
-		return message;
+	public String getTemplate() {
+		return template;
 	}
 
 	/**
-	 * 设置日志消息
+	 * 设置日志模板
+	 *
+	 * @param template
+	 * 		日志模板
+	 */
+	public void setTemplate(String template) {
+		this.template = template;
+	}
+
+	/**
+	 * 返回日志模板
+	 *
+	 * @return 日志模板
+	 */
+	@Deprecated
+	public String getMessage() {
+		return getTemplate();
+	}
+
+	/**
+	 * 设置日志模板
 	 *
 	 * @param message
-	 * 		日志消息
+	 * 		日志模板
 	 */
+	@Deprecated
 	public void setMessage(String message) {
-		this.message = message;
+		setTemplate(message);
 	}
 
 }
