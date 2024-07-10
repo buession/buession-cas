@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.services;
@@ -41,7 +41,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	/**
 	 * The numeric identifier for this service.
 	 */
-	private long id;
+	private int id;
 
 	/**
 	 * The name of the service.
@@ -198,7 +198,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The numeric identifier for this service.
 	 */
-	public long getId(){
+	public int getId() {
 		return id;
 	}
 
@@ -208,7 +208,18 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param id
 	 * 		The numeric identifier for the service.
 	 */
-	public void setId(long id){
+	@Deprecated
+	public void setId(long id) {
+		this.id = (int) id;
+	}
+
+	/**
+	 * Sets the identifier for this service.
+	 *
+	 * @param id
+	 * 		The numeric identifier for the service.
+	 */
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -217,7 +228,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The name of the service.
 	 */
-	public String getName(){
+	public String getName() {
 		return name;
 	}
 
@@ -227,7 +238,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param name
 	 * 		The name of the service.
 	 */
-	public void setName(String name){
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -236,7 +247,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The unique identifier for this service.
 	 */
-	public String getServiceId(){
+	public String getServiceId() {
 		return serviceId;
 	}
 
@@ -246,7 +257,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param serviceId
 	 * 		The unique identifier for this service.
 	 */
-	public void setServiceId(String serviceId){
+	public void setServiceId(String serviceId) {
 		this.serviceId = serviceId;
 	}
 
@@ -255,7 +266,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The URL of the logo image.
 	 */
-	public String getLogo(){
+	public String getLogo() {
 		return logo;
 	}
 
@@ -265,7 +276,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param logo
 	 * 		The URL of the logo image.
 	 */
-	public void setLogo(String logo){
+	public void setLogo(String logo) {
 		this.logo = logo;
 	}
 
@@ -274,7 +285,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The description of the service.
 	 */
-	public String getDescription(){
+	public String getDescription() {
 		return description;
 	}
 
@@ -284,7 +295,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param description
 	 * 		The description of the service.
 	 */
-	public void setDescription(String description){
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
@@ -293,7 +304,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The theme name associated with this service.
 	 */
-	public String getTheme(){
+	public String getTheme() {
 		return theme;
 	}
 
@@ -303,7 +314,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param theme
 	 * 		The theme name associated with this service.
 	 */
-	public void setTheme(String theme){
+	public void setTheme(String theme) {
 		this.theme = theme;
 	}
 
@@ -312,7 +323,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The info url.
 	 */
-	public String getInformationUrl(){
+	public String getInformationUrl() {
 		return informationUrl;
 	}
 
@@ -322,7 +333,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param informationUrl
 	 * 		The info url.
 	 */
-	public void setInformationUrl(String informationUrl){
+	public void setInformationUrl(String informationUrl) {
 		this.informationUrl = informationUrl;
 	}
 
@@ -331,7 +342,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The link to privacy policy.
 	 */
-	public String getPrivacyUrl(){
+	public String getPrivacyUrl() {
 		return privacyUrl;
 	}
 
@@ -341,7 +352,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param privacyUrl
 	 * 		The link to privacy policy.
 	 */
-	public void setPrivacyUrl(String privacyUrl){
+	public void setPrivacyUrl(String privacyUrl) {
 		this.privacyUrl = privacyUrl;
 	}
 
@@ -350,7 +361,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The redirect url for this service.
 	 */
-	public String getRedirectUrl(){
+	public String getRedirectUrl() {
 		return redirectUrl;
 	}
 
@@ -360,7 +371,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param redirectUrl
 	 * 		The redirect url for this service.
 	 */
-	public void setRedirectUrl(String redirectUrl){
+	public void setRedirectUrl(String redirectUrl) {
 		this.redirectUrl = redirectUrl;
 	}
 
@@ -369,7 +380,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The logout url for this service.
 	 */
-	public String getLogoutUrl(){
+	public String getLogoutUrl() {
 		return logoutUrl;
 	}
 
@@ -379,7 +390,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param logoutUrl
 	 * 		The logout url for this service.
 	 */
-	public void setLogoutUrl(String logoutUrl){
+	public void setLogoutUrl(String logoutUrl) {
 		this.logoutUrl = logoutUrl;
 	}
 
@@ -388,7 +399,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The list of Contacts.
 	 */
-	public List<Contact> getContacts(){
+	public List<Contact> getContacts() {
 		return contacts;
 	}
 
@@ -398,7 +409,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param contacts
 	 * 		The list of Contacts.
 	 */
-	public void setContacts(List<Contact> contacts){
+	public void setContacts(List<Contact> contacts) {
 		this.contacts = contacts;
 	}
 
@@ -408,7 +419,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The response type.
 	 */
-	public ResponseType getResponseType(){
+	public ResponseType getResponseType() {
 		return responseType;
 	}
 
@@ -418,7 +429,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param responseType
 	 * 		The response type.
 	 */
-	public void setResponseType(ResponseType responseType){
+	public void setResponseType(ResponseType responseType) {
 		this.responseType = responseType;
 	}
 
@@ -427,7 +438,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The logout type of the service.
 	 */
-	public LogoutType getLogoutType(){
+	public LogoutType getLogoutType() {
 		return logoutType;
 	}
 
@@ -437,7 +448,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param logoutType
 	 * 		The logout type of the service.
 	 */
-	public void setLogoutType(LogoutType logoutType){
+	public void setLogoutType(LogoutType logoutType) {
 		this.logoutType = logoutType;
 	}
 
@@ -446,7 +457,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return Non -null set of environment names.
 	 */
-	public Set<String> getEnvironments(){
+	public Set<String> getEnvironments() {
 		return environments;
 	}
 
@@ -456,7 +467,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param environments
 	 * 		Non -null set of environment names.
 	 */
-	public void setEnvironments(Set<String> environments){
+	public void setEnvironments(Set<String> environments) {
 		this.environments = environments;
 	}
 
@@ -465,7 +476,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return Service 代理策略
 	 */
-	public ProxyPolicy getProxyPolicy(){
+	public ProxyPolicy getProxyPolicy() {
 		return proxyPolicy;
 	}
 
@@ -475,7 +486,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param proxyPolicy
 	 * 		Service 代理策略
 	 */
-	public void setProxyPolicy(ProxyPolicy proxyPolicy){
+	public void setProxyPolicy(ProxyPolicy proxyPolicy) {
 		this.proxyPolicy = proxyPolicy;
 	}
 
@@ -484,7 +495,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return 参数返回策略
 	 */
-	public AttributeReleasePolicy getAttributeReleasePolicy(){
+	public AttributeReleasePolicy getAttributeReleasePolicy() {
 		return attributeReleasePolicy;
 	}
 
@@ -494,7 +505,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param attributeReleasePolicy
 	 * 		参数返回策略
 	 */
-	public void setAttributeReleasePolicy(AttributeReleasePolicy attributeReleasePolicy){
+	public void setAttributeReleasePolicy(AttributeReleasePolicy attributeReleasePolicy) {
 		this.attributeReleasePolicy = attributeReleasePolicy;
 	}
 
@@ -503,7 +514,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The expiration policy..
 	 */
-	public ExpirationPolicy getExpirationPolicy(){
+	public ExpirationPolicy getExpirationPolicy() {
 		return expirationPolicy;
 	}
 
@@ -513,7 +524,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param expirationPolicy
 	 * 		The expiration policy.
 	 */
-	public void setExpirationPolicy(ExpirationPolicy expirationPolicy){
+	public void setExpirationPolicy(ExpirationPolicy expirationPolicy) {
 		this.expirationPolicy = expirationPolicy;
 	}
 
@@ -522,7 +533,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The authentication policy.
 	 */
-	public AuthenticationPolicy getAuthenticationPolicy(){
+	public AuthenticationPolicy getAuthenticationPolicy() {
 		return authenticationPolicy;
 	}
 
@@ -532,7 +543,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param authenticationPolicy
 	 * 		The authentication policy.
 	 */
-	public void setAuthenticationPolicy(AuthenticationPolicy authenticationPolicy){
+	public void setAuthenticationPolicy(AuthenticationPolicy authenticationPolicy) {
 		this.authenticationPolicy = authenticationPolicy;
 	}
 
@@ -541,7 +552,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The instance of {@link AcceptableUsagePolicy} .
 	 */
-	public AcceptableUsagePolicy getAcceptableUsagePolicy(){
+	public AcceptableUsagePolicy getAcceptableUsagePolicy() {
 		return acceptableUsagePolicy;
 	}
 
@@ -551,7 +562,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param acceptableUsagePolicy
 	 * 		The instance of {@link AcceptableUsagePolicy} .
 	 */
-	public void setAcceptableUsagePolicy(AcceptableUsagePolicy acceptableUsagePolicy){
+	public void setAcceptableUsagePolicy(AcceptableUsagePolicy acceptableUsagePolicy) {
 		this.acceptableUsagePolicy = acceptableUsagePolicy;
 	}
 
@@ -560,7 +571,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The multifactor authentication policy.
 	 */
-	public MultifactorPolicy getMultifactorPolicy(){
+	public MultifactorPolicy getMultifactorPolicy() {
 		return multifactorPolicy;
 	}
 
@@ -570,7 +581,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param multifactorPolicy
 	 * 		The multifactor authentication policy.
 	 */
-	public void setMultifactorPolicy(MultifactorPolicy multifactorPolicy){
+	public void setMultifactorPolicy(MultifactorPolicy multifactorPolicy) {
 		this.multifactorPolicy = multifactorPolicy;
 	}
 
@@ -579,7 +590,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The proxy ticket expiration policy.
 	 */
-	public ProxyTicketExpirationPolicy getProxyTicketExpirationPolicy(){
+	public ProxyTicketExpirationPolicy getProxyTicketExpirationPolicy() {
 		return proxyTicketExpirationPolicy;
 	}
 
@@ -590,7 +601,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * 		The proxy ticket expiration policy.
 	 */
 	public void setProxyTicketExpirationPolicy(
-			ProxyTicketExpirationPolicy proxyTicketExpirationPolicy){
+			ProxyTicketExpirationPolicy proxyTicketExpirationPolicy) {
 		this.proxyTicketExpirationPolicy = proxyTicketExpirationPolicy;
 	}
 
@@ -599,7 +610,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The ticket granting ticket expiration policy.
 	 */
-	public TicketGrantingTicketExpirationPolicy getTicketGrantingTicketExpirationPolicy(){
+	public TicketGrantingTicketExpirationPolicy getTicketGrantingTicketExpirationPolicy() {
 		return ticketGrantingTicketExpirationPolicy;
 	}
 
@@ -610,7 +621,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * 		The ticket granting ticket expiration policy.
 	 */
 	public void setTicketGrantingTicketExpirationPolicy(
-			TicketGrantingTicketExpirationPolicy ticketGrantingTicketExpirationPolicy){
+			TicketGrantingTicketExpirationPolicy ticketGrantingTicketExpirationPolicy) {
 		this.ticketGrantingTicketExpirationPolicy = ticketGrantingTicketExpirationPolicy;
 	}
 
@@ -619,7 +630,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The proxy granting ticket expiration policy.
 	 */
-	public ProxyGrantingTicketExpirationPolicy getProxyGrantingTicketExpirationPolicy(){
+	public ProxyGrantingTicketExpirationPolicy getProxyGrantingTicketExpirationPolicy() {
 		return proxyGrantingTicketExpirationPolicy;
 	}
 
@@ -630,7 +641,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * 		The proxy granting ticket expiration policy.
 	 */
 	public void setProxyGrantingTicketExpirationPolicy(
-			ProxyGrantingTicketExpirationPolicy proxyGrantingTicketExpirationPolicy){
+			ProxyGrantingTicketExpirationPolicy proxyGrantingTicketExpirationPolicy) {
 		this.proxyGrantingTicketExpirationPolicy = proxyGrantingTicketExpirationPolicy;
 	}
 
@@ -639,7 +650,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The service ticket expiration policy.
 	 */
-	public ServiceTicketExpirationPolicy getServiceTicketExpirationPolicy(){
+	public ServiceTicketExpirationPolicy getServiceTicketExpirationPolicy() {
 		return serviceTicketExpirationPolicy;
 	}
 
@@ -650,7 +661,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * 		The service ticket expiration policy.
 	 */
 	public void setServiceTicketExpirationPolicy(
-			ServiceTicketExpirationPolicy serviceTicketExpirationPolicy){
+			ServiceTicketExpirationPolicy serviceTicketExpirationPolicy) {
 		this.serviceTicketExpirationPolicy = serviceTicketExpirationPolicy;
 	}
 
@@ -659,7 +670,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The service ticket expiration policy.
 	 */
-	public SingleSignOnParticipationPolicy getSingleSignOnParticipationPolicy(){
+	public SingleSignOnParticipationPolicy getSingleSignOnParticipationPolicy() {
 		return singleSignOnParticipationPolicy;
 	}
 
@@ -670,7 +681,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * 		The service ticket expiration policy.
 	 */
 	public void setSingleSignOnParticipationPolicy(
-			SingleSignOnParticipationPolicy singleSignOnParticipationPolicy){
+			SingleSignOnParticipationPolicy singleSignOnParticipationPolicy) {
 		this.singleSignOnParticipationPolicy = singleSignOnParticipationPolicy;
 	}
 
@@ -679,7 +690,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The matching strategy.
 	 */
-	public MatchingStrategy getMatchingStrategy(){
+	public MatchingStrategy getMatchingStrategy() {
 		return matchingStrategy;
 	}
 
@@ -689,7 +700,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param matchingStrategy
 	 * 		The matching strategy.
 	 */
-	public void setMatchingStrategy(MatchingStrategy matchingStrategy){
+	public void setMatchingStrategy(MatchingStrategy matchingStrategy) {
 		this.matchingStrategy = matchingStrategy;
 	}
 
@@ -699,7 +710,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The access strategy.
 	 */
-	public AccessStrategy getAccessStrategy(){
+	public AccessStrategy getAccessStrategy() {
 		return accessStrategy;
 	}
 
@@ -710,7 +721,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param accessStrategy
 	 * 		The access strategy.
 	 */
-	public void setAccessStrategy(AccessStrategy accessStrategy){
+	public void setAccessStrategy(AccessStrategy accessStrategy) {
 		this.accessStrategy = accessStrategy;
 	}
 
@@ -719,7 +730,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return 用户名属性提供者
 	 */
-	public UsernameAttributeProvider getUsernameAttributeProvider(){
+	public UsernameAttributeProvider getUsernameAttributeProvider() {
 		return usernameAttributeProvider;
 	}
 
@@ -730,7 +741,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * 		用户名属性提供者
 	 */
 	public void setUsernameAttributeProvider(
-			UsernameAttributeProvider usernameAttributeProvider){
+			UsernameAttributeProvider usernameAttributeProvider) {
 		this.usernameAttributeProvider = usernameAttributeProvider;
 	}
 
@@ -740,7 +751,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The public key instance used to authorize the request.
 	 */
-	public PublicKey getPublicKey(){
+	public PublicKey getPublicKey() {
 		return publicKey;
 	}
 
@@ -751,7 +762,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param publicKey
 	 * 		The public key instance used to authorize the request.
 	 */
-	public void setPublicKey(PublicKey publicKey){
+	public void setPublicKey(PublicKey publicKey) {
 		this.publicKey = publicKey;
 	}
 
@@ -761,7 +772,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The map of custom metadata.
 	 */
-	public Map<String, Property> getProperties(){
+	public Map<String, Property> getProperties() {
 		return properties;
 	}
 
@@ -772,7 +783,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param properties
 	 * 		The map of custom metadata.
 	 */
-	public void setProperties(Map<String, Property> properties){
+	public void setProperties(Map<String, Property> properties) {
 		this.properties = properties;
 	}
 
@@ -781,7 +792,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return Evaluation order relative to other registered services. Services with lower values will be evaluated for a match before others.
 	 */
-	public int getEvaluationOrder(){
+	public int getEvaluationOrder() {
 		return evaluationOrder;
 	}
 
@@ -791,12 +802,12 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param evaluationOrder
 	 * 		The service evaluation order.
 	 */
-	public void setEvaluationOrder(int evaluationOrder){
+	public void setEvaluationOrder(int evaluationOrder) {
 		this.evaluationOrder = evaluationOrder;
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return StringBuilder.getInstance(this)
 				.add("id", id)
 				.add("name", name)

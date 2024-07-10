@@ -9,6 +9,11 @@
 - [依赖库版本升级和安全漏洞修复](https://github.com/buession/buession-parent/releases/tag/v3.0.0)
 
 
+### 🔔 变化
+
+- RegisteredService id 类型由 long 变更为 int
+
+
 ---
 
 
