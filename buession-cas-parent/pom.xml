@@ -56,7 +56,6 @@
 	<modules>
 		<module>../buession-cas-core</module>
 		<module>../buession-cas-authentication</module>
-		<module>../buession-cas-audit</module>
 		<module>../buession-cas-audit-core</module>
 		<module>../buession-cas-audit-couchbase</module>
 		<module>../buession-cas-audit-couchdb</module>
@@ -66,7 +65,6 @@
 		<module>../buession-cas-audit-rest</module>
 		<module>../buession-cas-captcha</module>
 		<module>../buession-cas-client</module>
-		<module>../buession-cas-session</module>
 		<module>../buession-cas-session-core</module>
 		<module>../buession-cas-session-hazelcast</module>
 		<module>../buession-cas-session-jdbc</module>
@@ -76,7 +74,6 @@
 		<module>../buession-cas-metrics</module>
 		<module>../buession-cas-oauth</module>
 		<module>../buession-cas-rest</module>
-		<module>../buession-cas-service</module>
 		<module>../buession-cas-service-core</module>
 		<module>../buession-cas-service-cassandra</module>
 		<module>../buession-cas-service-cosmosdb</module>
@@ -98,7 +95,6 @@
 		<module>../buession-cas-support-jdbc</module>
 		<module>../buession-cas-support-mongodb</module>
 		<module>../buession-cas-support-redis</module>
-		<module>../buession-cas-throttle</module>
 		<module>../buession-cas-throttle-core</module>
 		<module>../buession-cas-throttle-bucket4j</module>
 		<module>../buession-cas-throttle-couchdb</module>
@@ -106,7 +102,6 @@
 		<module>../buession-cas-throttle-jdbc</module>
 		<module>../buession-cas-throttle-mongodb</module>
 		<module>../buession-cas-throttle-redis</module>
-		<module>../buession-cas-ticket</module>
 		<module>../buession-cas-ticket-core</module>
 		<module>../buession-cas-ticket-cassandra</module>
 		<module>../buession-cas-ticket-couchbase</module>

@@ -19,37 +19,87 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.services;
 
 import com.buession.core.utils.StringUtils;
 
+import java.util.Objects;
 import java.util.Set;
-import java.util.StringJoiner;
 
 /**
+ * Service 属性
+ *
  * @author Yong.Teng
  * @since 2.2.0
  */
 public final class Property {
 
+	/**
+	 * Service 属性值
+	 */
 	private Set<String> values;
 
-	public Set<String> getValues(){
+	/**
+	 * 构造函数
+	 */
+	public Property() {
+	}
+
+	/**
+	 * 构造函数
+	 *
+	 * @param values
+	 * 		Service 属性值
+	 */
+	public Property(Set<String> values) {
+		this.values = values;
+	}
+
+	/**
+	 * 返回 Service 属性值
+	 *
+	 * @return Service 属性值
+	 */
+	public Set<String> getValues() {
 		return values;
 	}
 
-	public void setValues(Set<String> values){
+	/**
+	 * 设置 Service 属性值
+	 *
+	 * @param values
+	 * 		Service 属性值
+	 */
+	public void setValues(Set<String> values) {
 		this.values = values;
 	}
 
 	@Override
-	public String toString(){
-		return new StringJoiner(", ", "[", "]")
-				.add(StringUtils.join(values, ", "))
-				.toString();
+	public boolean equals(Object o) {
+		if(this == o){
+			return true;
+		}
+
+		if(o instanceof Property){
+			Property property = (Property) o;
+
+			return Objects.equals(values, property.values);
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(values);
+	}
+
+	@Override
+	public String toString() {
+		return "[" + StringUtils.join(values, ", ") + "]";
 	}
 
 }

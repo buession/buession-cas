@@ -534,10 +534,6 @@
 			<artifactId>jsr305</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.fasterxml</groupId>
-			<artifactId>classmate</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 		</dependency>
