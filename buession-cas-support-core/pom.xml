@@ -9,7 +9,7 @@
 		<relativePath>../buession-cas-parent</relativePath>
 		<version>3.0.0</version>
 	</parent>
-	<artifactId>buession-cas-support</artifactId>
+	<artifactId>buession-cas-support-core</artifactId>
 	<url>https://cas.buession.com/</url>
 	<description>Buession Framework Support For CAS</description>
 	<packaging>jar</packaging>
@@ -490,11 +490,6 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
 		</dependency>
 	</dependencies>
 

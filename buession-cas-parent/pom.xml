@@ -87,7 +87,7 @@
 		<module>../buession-cas-service-redis</module>
 		<module>../buession-cas-service-rest</module>
 		<module>../buession-cas-service-yaml</module>
-		<module>../buession-cas-support</module>
+		<module>../buession-cas-support-core</module>
 		<module>../buession-cas-support-cassandra</module>
 		<module>../buession-cas-support-couchbase</module>
 		<module>../buession-cas-support-couchdb</module>
@@ -131,7 +131,7 @@
 		<buession.logging.version>1.0.0</buession.logging.version>
 		<buession.springboot.version>3.0.0</buession.springboot.version>
 		<buession.springcloud.version>3.0.0</buession.springcloud.version>
-		<cas.version>6.3.7.4</cas.version>
+		<cas.version>6.6.15.2</cas.version>
 	</properties>
 
 	<dependencyManagement>
@@ -140,28 +140,12 @@
 				<groupId>com.buession</groupId>
 				<artifactId>buession-core</artifactId>
 				<version>${project.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<dependency>
 				<groupId>com.buession.springboot</groupId>
 				<artifactId>buession-springboot-boot</artifactId>
 				<version>${buession.springboot.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>com.github.lalyos</groupId>
-						<artifactId>jfiglet</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>com.buession.springboot</groupId>
@@ -171,14 +155,6 @@
 					<exclusion>
 						<groupId>org.owasp.antisamy</groupId>
 						<artifactId>antisamy</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.github.lalyos</groupId>
-						<artifactId>jfiglet</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -191,10 +167,6 @@
 					<exclusion>
 						<groupId>org.springframework.security</groupId>
 						<artifactId>spring-security-crypto</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.github.lalyos</groupId>
-						<artifactId>jfiglet</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
