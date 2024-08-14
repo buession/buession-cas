@@ -24,18 +24,17 @@
  */
 package org.apereo.cas.logging.autoconfigure.jdbc;
 
-import com.buession.jdbc.datasource.config.HikariPoolConfiguration;
 import com.buession.logging.jdbc.converter.DefaultLogDataConverter;
 import com.buession.logging.jdbc.converter.LogDataConverter;
 import com.buession.logging.jdbc.spring.JdbcLogHandlerFactoryBean;
-import com.buession.logging.jdbc.spring.JdbcTemplateFactoryBean;
-import org.apereo.cas.configuration.model.support.ConnectionPoolingProperties;
-import org.apereo.cas.configuration.support.Beans;
+import org.apereo.cas.configuration.support.JpaBeans;
 import org.apereo.cas.logging.autoconfigure.AbstractLogHandlerConfiguration;
 import org.apereo.cas.logging.config.BaseJdbcLogProperties;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.config.basic.BasicJdbcLogProperties;
 import org.apereo.cas.logging.config.history.HistoryJdbcLogProperties;
+import org.apereo.cas.util.spring.beans.BeanCondition;
+import org.apereo.cas.util.spring.beans.BeanSupplier;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,11 +42,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.time.Duration;
+import javax.sql.DataSource;
 
 /**
  * JDBC 日志处理器自动配置类
@@ -59,33 +61,6 @@ import java.time.Duration;
 @EnableConfigurationProperties(CasLoggingConfigurationProperties.class)
 @ConditionalOnClass(name = {"com.buession.logging.jdbc.spring.JdbcLogHandlerFactoryBean"})
 public class JdbcLogHandlerConfiguration extends AbstractLogHandlerConfiguration {
-
-	protected static JdbcTemplateFactoryBean jdbcTemplateFactoryBean(final BaseJdbcLogProperties jdbcLogProperties) {
-		final JdbcTemplateFactoryBean jdbcTemplateFactoryBean = new JdbcTemplateFactoryBean();
-
-		propertyMapper.from(jdbcLogProperties::getDriverClass).to(jdbcTemplateFactoryBean::setDriverClassName);
-		propertyMapper.from(jdbcLogProperties::getUrl).to(jdbcTemplateFactoryBean::setUrl);
-		propertyMapper.from(jdbcLogProperties::getUser).to(jdbcTemplateFactoryBean::setUsername);
-		propertyMapper.from(jdbcLogProperties::getPassword).to(jdbcTemplateFactoryBean::setPassword);
-
-		final ConnectionPoolingProperties pool = jdbcLogProperties.getPool();
-		final HikariPoolConfiguration poolConfiguration = new HikariPoolConfiguration();
-
-		poolConfiguration.setIdleTimeout(Beans.newDuration(jdbcLogProperties.getIdleTimeout()));
-		poolConfiguration.setMinIdle(pool.getMinSize());
-		poolConfiguration.setMaxPoolSize(pool.getMaxSize());
-		poolConfiguration.setInitializationFailTimeout(Duration.ofMillis(jdbcLogProperties.getFailFastTimeout()));
-		poolConfiguration.setConnectionTestQuery(jdbcLogProperties.getHealthQuery());
-		poolConfiguration.setValidationTimeout(Duration.ofMillis(pool.getTimeoutMillis()));
-		poolConfiguration.setAutoCommit(jdbcLogProperties.isAutocommit());
-		poolConfiguration.setAllowPoolSuspension(jdbcLogProperties.getPool().isSuspension());
-		poolConfiguration.setIsolateInternalQueries(jdbcLogProperties.isIsolateInternalQueries());
-		poolConfiguration.setLeakDetectionThreshold((long) jdbcLogProperties.getLeakThreshold());
-
-		jdbcTemplateFactoryBean.setPoolConfiguration(poolConfiguration);
-
-		return jdbcTemplateFactoryBean;
-	}
 
 	protected static JdbcLogHandlerFactoryBean logHandlerFactoryBean(final BaseJdbcLogProperties jdbcLogProperties,
 																	 final LogDataConverter logDataConverter,
@@ -112,13 +87,26 @@ public class JdbcLogHandlerConfiguration extends AbstractLogHandlerConfiguration
 	@ConditionalOnMissingBean(name = Basic.LOG_HANDLER_BEAN_NAME)
 	static class Basic extends AbstractBasicLogHandlerConfiguration<BasicJdbcLogProperties> {
 
+		private static final BeanCondition CONDITION = BeanCondition.on(CasLoggingConfigurationProperties.PREFIX +
+				".basic.jdbc.url").evenIfMissing();
+
 		public Basic(CasLoggingConfigurationProperties logProperties) {
 			super(logProperties.getBasic().getJdbc());
 		}
 
-		@Bean(name = "basicLoggingJdbcJdbcTemplate")
-		public JdbcTemplateFactoryBean jdbcTemplateFactoryBean() {
-			return JdbcLogHandlerConfiguration.jdbcTemplateFactoryBean(handlerProperties);
+		@ConditionalOnMissingBean(name = {"basicLoggingDataSource"})
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		@Bean(name = "basicLoggingDataSource")
+		public DataSource dataSource(final ConfigurableApplicationContext applicationContext) {
+			return BeanSupplier.of(DataSource.class).when(CONDITION.given(applicationContext.getEnvironment()))
+					.supply(()->JpaBeans.newDataSource(handlerProperties)).otherwiseProxy().get();
+		}
+
+		@ConditionalOnMissingBean(name = {"basicLoggingJdbcTemplate"})
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		@Bean(name = "basicLoggingJdbcTemplate")
+		public JdbcTemplate jdbcTemplate(@Qualifier("basicLoggingDataSource") ObjectProvider<DataSource> dataSource) {
+			return new JdbcTemplate(dataSource.getIfAvailable());
 		}
 
 		@Bean(name = "basicLoggingJdbcDataConverter")
@@ -129,7 +117,7 @@ public class JdbcLogHandlerConfiguration extends AbstractLogHandlerConfiguration
 
 		@Bean(name = Basic.LOG_HANDLER_BEAN_NAME)
 		public JdbcLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("basicLoggingJdbcJdbcTemplate") ObjectProvider<JdbcTemplate> jdbcTemplate,
+				@Qualifier("basicLoggingJdbcTemplate") ObjectProvider<JdbcTemplate> jdbcTemplate,
 				@Qualifier("basicLoggingJdbcDataConverter") ObjectProvider<LogDataConverter> logDataConverter) {
 			return JdbcLogHandlerConfiguration.logHandlerFactoryBean(handlerProperties,
 					logDataConverter.getIfAvailable(), jdbcTemplate.getIfAvailable());
@@ -143,13 +131,24 @@ public class JdbcLogHandlerConfiguration extends AbstractLogHandlerConfiguration
 	@ConditionalOnMissingBean(name = History.LOG_HANDLER_BEAN_NAME)
 	static class History extends AbstractHistoryLogHandlerConfiguration<HistoryJdbcLogProperties> {
 
+		private static final BeanCondition CONDITION = BeanCondition.on(CasLoggingConfigurationProperties.PREFIX +
+				".history.jdbc.url").evenIfMissing();
+
 		public History(CasLoggingConfigurationProperties logProperties) {
 			super(logProperties.getHistory().getJdbc());
 		}
 
-		@Bean(name = "historyLoggingJdbcJdbcTemplate")
-		public JdbcTemplateFactoryBean jdbcTemplateFactoryBean() {
-			return JdbcLogHandlerConfiguration.jdbcTemplateFactoryBean(handlerProperties);
+		@ConditionalOnMissingBean(name = {"historyLoggingDataSource"})
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		@Bean(name = "historyLoggingDataSource")
+		public DataSource dataSource(final ConfigurableApplicationContext applicationContext) {
+			return BeanSupplier.of(DataSource.class).when(CONDITION.given(applicationContext.getEnvironment()))
+					.supply(()->JpaBeans.newDataSource(handlerProperties)).otherwiseProxy().get();
+		}
+
+		@Bean(name = "historyLoggingJdbcTemplate")
+		public JdbcTemplate jdbcTemplate(@Qualifier("historyLoggingDataSource") ObjectProvider<DataSource> dataSource) {
+			return new JdbcTemplate(dataSource.getIfAvailable());
 		}
 
 		@Bean(name = "historyLoggingJdbcDataConverter")
@@ -160,7 +159,7 @@ public class JdbcLogHandlerConfiguration extends AbstractLogHandlerConfiguration
 
 		@Bean(name = History.LOG_HANDLER_BEAN_NAME)
 		public JdbcLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("historyLoggingJdbcJdbcTemplate") ObjectProvider<JdbcTemplate> jdbcTemplate,
+				@Qualifier("historyLoggingJdbcTemplate") ObjectProvider<JdbcTemplate> jdbcTemplate,
 				@Qualifier("historyLoggingJdbcDataConverter") ObjectProvider<LogDataConverter> logDataConverter) {
 			return JdbcLogHandlerConfiguration.logHandlerFactoryBean(handlerProperties,
 					logDataConverter.getIfAvailable(), jdbcTemplate.getIfAvailable());

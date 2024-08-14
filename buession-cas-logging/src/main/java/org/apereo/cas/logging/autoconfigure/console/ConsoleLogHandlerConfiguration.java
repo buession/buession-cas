@@ -24,14 +24,14 @@
  */
 package org.apereo.cas.logging.autoconfigure.console;
 
+import com.buession.core.utils.ClassUtils;
 import com.buession.logging.console.formatter.ConsoleLogDataFormatter;
-import com.buession.logging.console.formatter.DefaultConsoleLogDataFormatter;
 import com.buession.logging.console.spring.ConsoleLogHandlerFactoryBean;
 import org.apereo.cas.logging.autoconfigure.AbstractLogHandlerConfiguration;
 import org.apereo.cas.logging.config.CasLoggingConfigurationProperties;
 import org.apereo.cas.logging.config.basic.BasicConsoleLogProperties;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.BeanInstantiationException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -60,18 +60,19 @@ public class ConsoleLogHandlerConfiguration extends AbstractLogHandlerConfigurat
 			super(logProperties.getBasic().getConsole());
 		}
 
-		@Bean(name = "basicLoggingConsoleLogDataFormatter")
-		@ConditionalOnMissingBean(name = "basicLoggingConsoleLogDataFormatter")
-		public ConsoleLogDataFormatter<String> consoleLogDataFormatter() {
-			return new DefaultConsoleLogDataFormatter();
-		}
-
 		@Bean(name = Basic.LOG_HANDLER_BEAN_NAME)
-		public ConsoleLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("basicLoggingConsoleLogDataFormatter") ObjectProvider<ConsoleLogDataFormatter<String>> consoleLogDataFormatter) {
+		public ConsoleLogHandlerFactoryBean logHandlerFactoryBean() {
 			final ConsoleLogHandlerFactoryBean logHandlerFactoryBean = new ConsoleLogHandlerFactoryBean();
 
-			consoleLogDataFormatter.ifAvailable(logHandlerFactoryBean::setFormatter);
+			try{
+				ConsoleLogDataFormatter<String> consoleLogDataFormatter =
+						BeanUtils.instantiateClass((Class<ConsoleLogDataFormatter<String>>) ClassUtils.getClass(
+								handlerProperties.getFormatterName(), false));
+				logHandlerFactoryBean.setFormatter(consoleLogDataFormatter);
+			}catch(ClassNotFoundException e){
+			}catch(BeanInstantiationException e){
+			}
+
 			propertyMapper.from(handlerProperties.getTemplate()).to(logHandlerFactoryBean::setTemplate);
 
 			return logHandlerFactoryBean;

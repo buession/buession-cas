@@ -24,6 +24,7 @@
  */
 package org.apereo.cas.logging.config.basic;
 
+import com.buession.logging.console.formatter.ConsoleLogDataFormatter;
 import com.buession.logging.support.config.HandlerProperties;
 
 import java.io.Serializable;
@@ -47,6 +48,13 @@ public class BasicConsoleLogProperties implements HandlerProperties, Serializabl
 					"${browser_version}.";
 
 	/**
+	 * 格式化 {@link ConsoleLogDataFormatter} 类名
+	 *
+	 * @since 3.0.0
+	 */
+	private String formatterName = "com.buession.logging.console.formatter.DefaultConsoleLogDataFormatter";
+
+	/**
 	 * 返回日志模板
 	 *
 	 * @return 日志模板
@@ -66,24 +74,26 @@ public class BasicConsoleLogProperties implements HandlerProperties, Serializabl
 	}
 
 	/**
-	 * 返回日志模板
+	 * 返回格式化 {@link ConsoleLogDataFormatter} 类名
 	 *
-	 * @return 日志模板
+	 * @return 格式化 {@link ConsoleLogDataFormatter} 类名
+	 *
+	 * @since 3.0.0
 	 */
-	@Deprecated
-	public String getMessage() {
-		return getTemplate();
+	public String getFormatterName() {
+		return formatterName;
 	}
 
 	/**
-	 * 设置日志模板
+	 * 设置格式化 {@link ConsoleLogDataFormatter} 类名
 	 *
-	 * @param message
-	 * 		日志模板
+	 * @param formatterName
+	 * 		格式化 {@link ConsoleLogDataFormatter} 类名
+	 *
+	 * @since 3.0.0
 	 */
-	@Deprecated
-	public void setMessage(String message) {
-		setTemplate(message);
+	public void setFormatterName(String formatterName) {
+		this.formatterName = formatterName;
 	}
 
 }
