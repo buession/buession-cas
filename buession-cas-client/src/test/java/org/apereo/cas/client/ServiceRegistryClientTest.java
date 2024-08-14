@@ -36,7 +36,7 @@ import org.apereo.cas.services.RegexMatchingRegisteredServiceProxyPolicy;
 import org.apereo.cas.services.RegexRegisteredService;
 import org.apereo.cas.services.RegisteredService;
 import org.apereo.cas.services.ResponseType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +51,7 @@ public class ServiceRegistryClientTest {
 			"http://localhost:29100/actuator", new ApacheHttpClient());
 
 	@Test
-	public void save() throws ServiceRegistryClientException{
+	public void save() throws ServiceRegistryClientException {
 		RegexRegisteredService service = new RegexRegisteredService();
 
 		service.setId(RandomUtils.nextInt());
@@ -96,19 +96,19 @@ public class ServiceRegistryClientTest {
 	}
 
 	@Test
-	public void list() throws ServiceRegistryClientException{
+	public void list() throws ServiceRegistryClientException {
 		List<RegisteredService> services = client.list();
 		System.out.println(services);
 	}
 
 	@Test
-	public void get() throws ServiceRegistryClientException{
+	public void get() throws ServiceRegistryClientException {
 		RegisteredService service = client.get(2);
 		System.out.println(service);
 	}
 
 	@Test
-	public void delete() throws ServiceRegistryClientException{
+	public void delete() throws ServiceRegistryClientException {
 		client.delete(3);
 	}
 

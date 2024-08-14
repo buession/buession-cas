@@ -28,7 +28,7 @@ import com.buession.core.builder.SetBuilder;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
@@ -39,7 +39,7 @@ import java.util.Collections;
 public class ServiceTest {
 
 	@Test
-	public void jsonEncode() throws JsonProcessingException{
+	public void jsonEncode() throws JsonProcessingException {
 		RegexRegisteredService service = new RegexRegisteredService();
 
 		service.setId(1);
