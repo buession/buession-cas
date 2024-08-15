@@ -189,6 +189,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.mongodb</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.pac4j</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>

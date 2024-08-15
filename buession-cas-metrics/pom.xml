@@ -57,16 +57,6 @@
 			<artifactId>buession-cas-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.buession.cas</groupId>
-			<artifactId>buession-cas-support-mongodb</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.buession.springboot</groupId>
-			<artifactId>buession-springboot-boot</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
@@ -83,11 +73,51 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-logout</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-ticket</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-webflow</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-audit-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-authentication-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-cookie-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-services-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-web-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-webflow-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-support-discovery-profile</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-support-trusted-mfa-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-authentication-mfa</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.inspektr</groupId>
@@ -142,6 +172,10 @@
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -186,6 +220,10 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.quartz-scheduler</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.pac4j</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -201,6 +239,10 @@
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>io.swagger.core.v3</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -210,7 +252,15 @@
 			<exclusions>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-authentication-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-tickets-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-web-api</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
@@ -269,6 +319,10 @@
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -301,6 +355,10 @@
 					<artifactId>el-impl</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.quartz-scheduler</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>geronimo-spec</groupId>
 					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
@@ -308,65 +366,11 @@
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>io.swagger.core.v3</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
 			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-stdlib</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-stdlib-jdk8</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jms</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-messaging</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-text</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-jexl3</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>jakarta.inject</groupId>
-			<artifactId>jakarta.inject-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>jsr305</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk18on</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcpkix-jdk18on</artifactId>
 		</dependency>
 
 		<dependency>
@@ -376,53 +380,17 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>okhttp</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>logging-interceptor</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>io.lettuce</groupId>
-			<artifactId>lettuce-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-handler</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-transport</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-transport-native-epoll</artifactId>
-			<classifier>linux-x86_64</classifier>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>com.rabbitmq</groupId>
 			<artifactId>amqp-client</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-core</artifactId>
 		</dependency>
 
 		<dependency>
@@ -475,88 +443,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.dropwizard.metrics</groupId>
-			<artifactId>metrics-graphite</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.reactivestreams</groupId>
-			<artifactId>reactive-streams</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-guava</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jdk8</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-cbor</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-properties</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-xml</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-yaml</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.jaxrs</groupId>
-			<artifactId>jackson-jaxrs-json-provider</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-jaxb-annotations</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-parameter-names</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.sun.istack</groupId>
-			<artifactId>istack-commons-runtime</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jul-to-slf4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 	</dependencies>
 

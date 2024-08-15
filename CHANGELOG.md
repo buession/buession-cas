@@ -13,6 +13,7 @@
 ### 🔔 变化
 
 - RegisteredService id 类型由 long 变更为 int
+- 删除 buession-cas-support-couchbase、buession-cas-support-couchdb、buession-cas-support-jdbc、buession-cas-support-mongodb、buession-cas-support-redis、buession-cas-support-cassandra、buession-cas-support-hazelcast
 
 
 ---

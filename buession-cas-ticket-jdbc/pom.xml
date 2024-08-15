@@ -176,6 +176,10 @@
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -233,6 +237,10 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.bouncycastle</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>io.swagger.core.v3</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>

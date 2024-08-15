@@ -62,18 +62,6 @@
 			<artifactId>buession-cas-audit-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>com.buession.cas</groupId>
-			<artifactId>buession-cas-support-couchdb</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		-->
-
-		<dependency>
-			<groupId>com.buession.springboot</groupId>
-			<artifactId>buession-springboot-boot</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.apereo.cas</groupId>

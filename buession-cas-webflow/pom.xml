@@ -86,6 +86,10 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-monitor</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-api-services</artifactId>
 				</exclusion>
 				<exclusion>
@@ -161,6 +165,10 @@
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -214,15 +222,15 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>pac4j-config</artifactId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.pac4j</groupId>
-					<artifactId>pac4j-http</artifactId>
+					<groupId>org.apache.velocity</groupId>
+					<artifactId>velocity-engine-core</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.pac4j</groupId>
-					<artifactId>spring-webmvc-pac4j</artifactId>
+					<groupId>io.swagger.core.v3</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -312,6 +320,10 @@
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -359,6 +371,10 @@
 					<groupId>org.bouncycastle</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>io.swagger.core.v3</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -369,6 +385,14 @@
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-api-cookie</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-services</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-ticket</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
@@ -389,6 +413,10 @@
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-services</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-services-registry</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.inspektr</groupId>
@@ -439,6 +467,10 @@
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -484,15 +516,15 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>pac4j-config</artifactId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.pac4j</groupId>
-					<artifactId>pac4j-http</artifactId>
+					<groupId>org.bouncycastle</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.pac4j</groupId>
-					<artifactId>spring-webmvc-pac4j</artifactId>
+					<groupId>io.swagger.core.v3</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -527,7 +559,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
-					<artifactId>cas-server-core-services</artifactId>
+					<artifactId>cas-server-core-audit-api</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
@@ -548,6 +580,10 @@
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-authentication-throttle</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-services</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
@@ -606,6 +642,10 @@
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -659,15 +699,11 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.pac4j</groupId>
-					<artifactId>pac4j-config</artifactId>
+					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.pac4j</groupId>
-					<artifactId>pac4j-http</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.pac4j</groupId>
-					<artifactId>spring-webmvc-pac4j</artifactId>
+					<groupId>io.swagger.core.v3</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -690,6 +726,7 @@
 			<artifactId>spring-webflow</artifactId>
 		</dependency>
 
+		<!--
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk18on</artifactId>
@@ -795,6 +832,7 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
+		-->
 	</dependencies>
 
 	<build>

@@ -197,6 +197,10 @@
 					<artifactId>jaxws-api</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.apache.geronimo.specs</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.glassfish.main.javaee-api</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -243,6 +247,10 @@
 		<dependency>
 			<groupId>jakarta.jws</groupId>
 			<artifactId>jakarta.jws-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.management.j2ee</groupId>
+			<artifactId>jakarta.management.j2ee-api</artifactId>
 		</dependency>
 
 		<dependency>
