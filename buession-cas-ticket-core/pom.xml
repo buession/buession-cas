@@ -59,12 +59,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.buession.springboot</groupId>
-			<artifactId>buession-springboot-boot</artifactId>
-		</dependency>
-
-
-		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-tickets</artifactId>
 			<version>${cas.version}</version>
@@ -79,15 +73,23 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
-					<artifactId>cas-server-core-api-mfa</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-api-logout</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-mfa</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-monitor</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-api-services</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-web</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
@@ -166,6 +168,10 @@
 					<artifactId>javax.el-api</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>javax.persistence-api</artifactId>
 				</exclusion>
@@ -217,38 +223,15 @@
 					<groupId>com.nimbusds</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.apache.velocity</groupId>
+					<artifactId>velocity-engine-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>io.swagger.core.v3</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.jasig.cas.client</groupId>
-			<artifactId>cas-client-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-text</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-jexl3</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>jakarta.annotation</groupId>
-			<artifactId>jakarta.annotation-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk18on</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcpkix-jdk18on</artifactId>
 		</dependency>
 
 		<dependency>
@@ -257,69 +240,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-guava</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jdk8</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-properties</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-xml</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-yaml</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.jaxrs</groupId>
-			<artifactId>jackson-jaxrs-json-provider</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-jaxb-annotations</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-parameter-names</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jul-to-slf4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 	</dependencies>
 
