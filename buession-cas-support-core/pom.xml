@@ -89,6 +89,10 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-authentication-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-authentication-mfa-api</artifactId>
 				</exclusion>
 				<exclusion>
@@ -132,16 +136,20 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.springmodules</groupId>
+					<artifactId>spring-modules-cache</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>commons-cli</groupId>
 					<artifactId>commons-cli</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>commons-pool2</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.el</groupId>
@@ -200,10 +208,6 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.bouncycastle</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
@@ -236,11 +240,19 @@
 			<exclusions>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-authentication</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-api-audit</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-api-cookie</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-events</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
@@ -343,16 +355,20 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.springmodules</groupId>
+					<artifactId>spring-modules-cache</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>commons-cli</groupId>
 					<artifactId>commons-cli</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>commons-pool2</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.el</groupId>
@@ -401,10 +417,6 @@
 				<exclusion>
 					<groupId>org.quartz-scheduler</groupId>
 					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.bouncycastle</groupId>
@@ -474,6 +486,14 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.springmodules</groupId>
+					<artifactId>spring-modules-cache</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>commons-cli</groupId>
 					<artifactId>commons-cli</artifactId>
 				</exclusion>
@@ -528,10 +548,6 @@
 				<exclusion>
 					<groupId>org.quartz-scheduler</groupId>
 					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
@@ -609,6 +625,14 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.springmodules</groupId>
+					<artifactId>spring-modules-cache</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>commons-cli</groupId>
 					<artifactId>commons-cli</artifactId>
 				</exclusion>
@@ -663,10 +687,6 @@
 				<exclusion>
 					<groupId>org.quartz-scheduler</groupId>
 					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
@@ -728,6 +748,14 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.springmodules</groupId>
+					<artifactId>spring-modules-cache</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>commons-cli</groupId>
 					<artifactId>commons-cli</artifactId>
 				</exclusion>
@@ -784,16 +812,8 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.jboss.spec.javax.transaction</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.quartz-scheduler</groupId>
 					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
@@ -813,7 +833,7 @@
 				</exclusion>
 				<exclusion>
 					<groupId>io.swagger.core.v3</groupId>
-					<artifactId>swagger-annotations</artifactId>
+					<artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

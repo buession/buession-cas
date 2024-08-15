@@ -174,8 +174,16 @@
 					<artifactId>*</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.springmodules</groupId>
+					<artifactId>spring-modules-cache</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>aopalliance</groupId>
 					<artifactId>aopalliance</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>commons-cli</groupId>
@@ -184,10 +192,6 @@
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>commons-pool2</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>javax.el</groupId>
@@ -236,10 +240,6 @@
 				<exclusion>
 					<groupId>org.quartz-scheduler</groupId>
 					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>geronimo-spec</groupId>
-					<artifactId>geronimo-spec-jta</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.bouncycastle</groupId>
