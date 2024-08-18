@@ -21,10 +21,28 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.logging;/**
- * 
+ */
+package org.apereo.cas.logging;
+
+import com.buession.logging.core.mgt.LogManager;
+import org.apereo.cas.logging.manager.AbstractLoggingManager;
+
+/**
+ * 控制台日志管理器
  *
  * @author Yong.Teng
- * @since 3.0.0
- */public class ConsoleLoggingManager {
+ * @since 1.0.0
+ */
+public class ConsoleLoggingManager extends AbstractLoggingManager {
+
+	/**
+	 * 构造函数
+	 *
+	 * @param logManager
+	 * 		原生日志管理器
+	 */
+	public ConsoleLoggingManager(final LogManager logManager) {
+		super(logManager);
+	}
+
 }
