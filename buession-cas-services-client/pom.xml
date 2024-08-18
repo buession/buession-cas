@@ -54,26 +54,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.jasig.cas.client</groupId>
-			<artifactId>cas-client-core</artifactId>
-			<version>3.6.4</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.xml.bind</groupId>
-					<artifactId>jaxb-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.glassfish.jaxb</groupId>
-					<artifactId>jaxb-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
 			<groupId>com.buession</groupId>
 			<artifactId>buession-core</artifactId>
 			<scope>compile</scope>
