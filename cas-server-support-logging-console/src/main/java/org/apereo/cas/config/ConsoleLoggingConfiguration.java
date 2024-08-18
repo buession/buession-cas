@@ -51,12 +51,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 @AutoConfiguration
 @EnableConfigurationProperties(LoggingProperties.class)
 @ConditionalOnClass(ConsoleLogHandlerFactoryBean.class)
-public class ConsoleLoggingConfiguration extends BaseHandlerConfiguration {
-
-	public ConsoleLoggingConfiguration(final ConfigurableApplicationContext applicationContext,
-									   final LoggingProperties loggingProperties) {
-		super(applicationContext, loggingProperties);
-	}
+public class ConsoleLoggingConfiguration {
 
 	protected static ConsoleLogHandlerFactoryBean createConsoleLogHandlerFactoryBean(
 			final ConfigurableApplicationContext applicationContext,
@@ -82,7 +77,7 @@ public class ConsoleLoggingConfiguration extends BaseHandlerConfiguration {
 	@AutoConfiguration
 	@EnableConfigurationProperties(LoggingProperties.class)
 	@ConditionalOnMissingBean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-	static class Basic extends BaseModeHandlerConfiguration<ConsoleLoggingProperties> {
+	static class Basic extends BaseHandlerConfiguration.BaseAdapterHandlerConfiguration<ConsoleLoggingProperties> {
 
 		public Basic(final ConfigurableApplicationContext applicationContext, final LoggingProperties properties) {
 			super(applicationContext, properties.getBasic().getConsole());
@@ -100,7 +95,7 @@ public class ConsoleLoggingConfiguration extends BaseHandlerConfiguration {
 	@AutoConfiguration
 	@EnableConfigurationProperties(LoggingProperties.class)
 	@ConditionalOnMissingBean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-	static class History extends BaseModeHandlerConfiguration<ConsoleLoggingProperties> {
+	static class History extends BaseHandlerConfiguration.BaseAdapterHandlerConfiguration<ConsoleLoggingProperties> {
 
 		public History(final ConfigurableApplicationContext applicationContext, final LoggingProperties properties) {
 			super(applicationContext, properties.getHistory().getConsole());

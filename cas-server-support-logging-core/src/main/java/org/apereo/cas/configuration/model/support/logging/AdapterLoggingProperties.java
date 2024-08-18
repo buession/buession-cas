@@ -21,10 +21,13 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.configuration.model.support.logging;/**
- * 
- *
+ */
+package org.apereo.cas.configuration.model.support.logging;
+
+/**
  * @author Yong.Teng
  * @since 1.0.0
- */public interface ModeLoggingProperties {
+ */
+public interface ModeLoggingProperties {
+
 }
