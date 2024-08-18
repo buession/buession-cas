@@ -25,11 +25,29 @@
 package org.apereo.cas.logging;
 
 /**
- * 日志管理器
- *
  * @author Yong.Teng
  * @since 3.0.0
  */
-public interface LoggingManager {
+public interface Constants {
+
+	String BASIC_LOG_HANDLER_BEAN_NAME = "casBasicLoggingLogHandler";
+
+	String HISTORY_LOG_HANDLER_BEAN_NAME = "casHistoryLoggingLogHandler";
+
+	String NULL_VALUE = "N/A";
+
+	String BASIC_LOGIN_LOGGING_DATASOURCE_BEAN_NAME = "basicLoginLoggingDataSource";
+
+	String BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_MANAGER_BEAN_NAME = "basicLoginLoggingJdbcTransactionManager";
+
+	String BASIC_LOGIN_LOGGING_JDBC_TRANSACTION_TEMPLATE_BEAN_NAME = "basicLoginLoggingJdbcTransactionTemplate";
+
+	String BASIC_LOGIN_LOGGING_MANAGER_FACTORY_BEAN_NAME = "basicLoginLoggingManagerFactory";
+
+	String BASIC_LOGIN_LOGGING_MANAGER_BEAN_NAME = "basicLoginLoggingManager";
+
+	String HISTORY_LOGIN_LOGGING_MANAGER_FACTORY_BEAN_NAME = "historyLoginLoggingManagerFactory";
+
+	String HISTORY_LOGIN_LOGGING_MANAGER_BEAN_NAME = "historyLoginLoggingManager";
 
 }

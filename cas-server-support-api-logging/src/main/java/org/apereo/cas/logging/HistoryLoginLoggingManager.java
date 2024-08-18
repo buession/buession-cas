@@ -25,11 +25,11 @@
 package org.apereo.cas.logging;
 
 /**
- * 日志管理器
+ * 历史登录日志管理器接口
  *
  * @author Yong.Teng
  * @since 3.0.0
  */
-public interface LoggingManager {
+public interface HistoryLoginLoggingManager extends LoginLoggingManager {
 
 }

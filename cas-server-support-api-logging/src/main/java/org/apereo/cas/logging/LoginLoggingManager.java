@@ -24,12 +24,23 @@
  */
 package org.apereo.cas.logging;
 
+import com.buession.logging.core.LogData;
+import org.springframework.beans.factory.DisposableBean;
+
 /**
- * 日志管理器
+ * 登录日志管理器接口
  *
  * @author Yong.Teng
  * @since 3.0.0
  */
-public interface LoggingManager {
+public interface LoginLoggingManager extends DisposableBean {
+
+	/**
+	 * 登录日志执行操作
+	 *
+	 * @param logData
+	 * 		登录日志数据
+	 */
+	void execute(final LogData logData);
 
 }
