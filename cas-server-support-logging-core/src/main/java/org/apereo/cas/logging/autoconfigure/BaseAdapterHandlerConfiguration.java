@@ -21,10 +21,46 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.logging.autoconfigure;/**
- * 
- *
+ */
+package org.apereo.cas.logging.autoconfigure;
+
+import com.buession.core.converter.mapper.PropertyMapper;
+import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
+import org.apereo.cas.configuration.model.support.logging.AdapterLoggingProperties;
+import org.springframework.context.ConfigurableApplicationContext;
+
+/**
  * @author Yong.Teng
  * @since 3.0.0
- */public class BaseHandlerConfiguration {
+ */
+public abstract class BaseHandlerConfiguration {
+
+	protected final ConfigurableApplicationContext applicationContext;
+
+	protected final LoggingProperties loggingProperties;
+
+	protected final PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenHasText();
+
+	public BaseHandlerConfiguration(final ConfigurableApplicationContext applicationContext,
+									final LoggingProperties loggingProperties) {
+		this.applicationContext = applicationContext;
+		this.loggingProperties = loggingProperties;
+	}
+
+	public abstract static class BaseAdapterHandlerConfiguration<PROPS extends AdapterLoggingProperties> {
+
+		protected final ConfigurableApplicationContext applicationContext;
+
+		protected PROPS properties;
+
+		protected final PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenHasText();
+
+		public BaseAdapterHandlerConfiguration(final ConfigurableApplicationContext applicationContext,
+											   final PROPS properties) {
+			this.applicationContext = applicationContext;
+			this.properties = properties;
+		}
+
+	}
+
 }
