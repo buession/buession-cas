@@ -28,7 +28,7 @@ package org.apereo.cas.logging;
  * 日志管理器
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
 public interface LoggingManager {
 

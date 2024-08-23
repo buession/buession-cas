@@ -31,7 +31,7 @@ import org.springframework.beans.factory.DisposableBean;
  * 登录日志管理器接口
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
 public interface LoginLoggingManager extends DisposableBean {
 
