@@ -21,10 +21,45 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.web.flow;/**
- * 
+ */
+package org.apereo.cas.web.flow;
+
+import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.apereo.cas.web.flow.action.LoggingAction;
+import org.apereo.cas.web.flow.configurer.AbstractCasWebflowConfigurer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
+import org.springframework.webflow.engine.ActionState;
+import org.springframework.webflow.engine.Flow;
+import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
+
+/**
+ * This is a captcha {@link CasWebflowConfigurer}.
  *
  * @author Yong.Teng
- * @since 3.0.0
- */public class CasLoggingWebflowConfigurer {
+ * @since 1.0.0
+ */
+public class CasLoggingWebflowConfigurer extends AbstractCasWebflowConfigurer {
+
+	public CasLoggingWebflowConfigurer(final FlowBuilderServices flowBuilderServices,
+									   final FlowDefinitionRegistry loginFlowDefinitionRegistry,
+									   final ConfigurableApplicationContext applicationContext,
+									   final CasConfigurationProperties casProperties) {
+		super(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext, casProperties);
+	}
+
+	@Override
+	protected void doInitialize() {
+		Flow flow = getLoginFlow();
+		if(flow != null){
+			createLoginLoggingAction(flow);
+		}
+	}
+
+	private void createLoginLoggingAction(final Flow flow) {
+		ActionState state = getState(flow, CasWebflowConstants.STATE_ID_CREATE_TICKET_GRANTING_TICKET,
+				ActionState.class);
+		state.getExitActionList().add(createEvaluateAction(LoggingAction.NAME));
+	}
+
 }

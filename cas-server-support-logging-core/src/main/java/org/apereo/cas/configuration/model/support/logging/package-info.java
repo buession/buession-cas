@@ -24,6 +24,6 @@
  */
 /**
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
-package org.apereo.cas.logging.config;
+package org.apereo.cas.configuration.model.support.logging;

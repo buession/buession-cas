@@ -25,6 +25,7 @@
 package org.apereo.cas.configuration.model.support.logging;
 
 import com.buession.logging.console.formatter.ConsoleLogDataFormatter;
+import com.buession.logging.console.formatter.DefaultConsoleLogDataFormatter;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
 
@@ -34,10 +35,10 @@ import java.io.Serializable;
  * 控制台日志适配器配置
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
-@JsonFilter("BasicConsoleLogProperties")
-public class BasicConsoleLogProperties implements Serializable {
+@JsonFilter("ConsoleLoggingProperties")
+public class ConsoleLoggingProperties implements AdapterLoggingProperties, Serializable {
 
 	private final static long serialVersionUID = -6264010693592997006L;
 
@@ -45,18 +46,13 @@ public class BasicConsoleLogProperties implements Serializable {
 	 * 日志模板
 	 */
 	@RequiredProperty
-	private String template =
-			"${id} login success at: ${time}(IP: ${clientIp}), User-Agent: ${User-Agent}, operating system: " +
-					"${os_name} ${os_version}, device type: ${device_type}, browser: ${browser_name} " +
-					"${browser_version}.";
+	private String template = "${id} login success at: ${time}(IP: ${clientIp}), User-Agent: ${User-Agent}, OS: " +
+			"${os_name} ${os_version}, Device: ${device_type}, Browser: ${browser_name} ${browser_version}.";
 
 	/**
-	 * 格式化 {@link ConsoleLogDataFormatter} 类名
-	 *
-	 * @since 3.0.0
+	 * 格式化 {@link ConsoleLogDataFormatter}
 	 */
-	@RequiredProperty
-	private String formatterName = "com.buession.logging.console.formatter.DefaultConsoleLogDataFormatter";
+	private Class<? extends ConsoleLogDataFormatter> formatter;
 
 	/**
 	 * 返回日志模板
@@ -78,26 +74,22 @@ public class BasicConsoleLogProperties implements Serializable {
 	}
 
 	/**
-	 * 返回格式化 {@link ConsoleLogDataFormatter} 类名
+	 * 返回格式化 {@link ConsoleLogDataFormatter}
 	 *
-	 * @return 格式化 {@link ConsoleLogDataFormatter} 类名
-	 *
-	 * @since 3.0.0
+	 * @return 格式化 {@link ConsoleLogDataFormatter}
 	 */
-	public String getFormatterName() {
-		return formatterName;
+	public Class<? extends ConsoleLogDataFormatter> getFormatter() {
+		return formatter;
 	}
 
 	/**
 	 * 设置格式化 {@link ConsoleLogDataFormatter} 类名
 	 *
-	 * @param formatterName
+	 * @param formatter
 	 * 		格式化 {@link ConsoleLogDataFormatter} 类名
-	 *
-	 * @since 3.0.0
 	 */
-	public void setFormatterName(String formatterName) {
-		this.formatterName = formatterName;
+	public void setFormatter(Class<? extends ConsoleLogDataFormatter> formatter) {
+		this.formatter = formatter;
 	}
 
 }

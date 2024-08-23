@@ -24,10 +24,18 @@
  */
 package org.apereo.cas.logging;
 
+import com.buession.logging.core.mgt.LogManager;
+import org.apereo.cas.logging.manager.AbstractLoggingManager;
+
 /**
+ * Elasticsearch 日志管理器
+ *
  * @author Yong.Teng
  * @since 3.0.0
  */
-public class ConsoleLoggingManager extends AbstractLoggingManager {
+public class ElasticsearchLoggingManager extends AbstractLoggingManager {
 
+	public ElasticsearchLoggingManager(LogManager logManager) {
+		super(logManager);
+	}
 }

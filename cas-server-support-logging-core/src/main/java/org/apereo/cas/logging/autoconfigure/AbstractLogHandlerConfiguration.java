@@ -25,42 +25,31 @@
 package org.apereo.cas.logging.autoconfigure;
 
 import com.buession.core.converter.mapper.PropertyMapper;
-import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
-import org.apereo.cas.configuration.model.support.logging.AdapterLoggingProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
+ * 日志适配器 {@link org.springframework.boot.autoconfigure.AutoConfiguration} 基类
+ *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
-public abstract class BaseHandlerConfiguration {
+public abstract class AbstractLogHandlerConfiguration {
 
+	protected final static PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenHasText();
+
+	/**
+	 * {@link ConfigurableApplicationContext}
+	 */
 	protected final ConfigurableApplicationContext applicationContext;
 
-	protected final LoggingProperties loggingProperties;
-
-	protected final PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenHasText();
-
-	public BaseHandlerConfiguration(final ConfigurableApplicationContext applicationContext,
-									final LoggingProperties loggingProperties) {
+	/**
+	 * 构造函数
+	 *
+	 * @param applicationContext
+	 *        {@link ConfigurableApplicationContext}
+	 */
+	public AbstractLogHandlerConfiguration(final ConfigurableApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
-		this.loggingProperties = loggingProperties;
-	}
-
-	public abstract static class BaseAdapterHandlerConfiguration<PROPS extends AdapterLoggingProperties> {
-
-		protected final ConfigurableApplicationContext applicationContext;
-
-		protected PROPS properties;
-
-		protected final PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenHasText();
-
-		public BaseAdapterHandlerConfiguration(final ConfigurableApplicationContext applicationContext,
-											   final PROPS properties) {
-			this.applicationContext = applicationContext;
-			this.properties = properties;
-		}
-
 	}
 
 }

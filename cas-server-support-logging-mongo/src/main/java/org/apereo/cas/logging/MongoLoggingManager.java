@@ -24,14 +24,18 @@
  */
 package org.apereo.cas.logging;
 
-import org.apereo.cas.logging.config.AbstractLoggingManager;
+import com.buession.logging.core.mgt.LogManager;
+import org.apereo.cas.logging.manager.AbstractLoggingManager;
 
 /**
- * Kafka 日志管理器
+ * MongoDB 日志管理器
  *
  * @author Yong.Teng
  * @since 3.0.0
  */
-public class KafkaLoggingManager extends AbstractLoggingManager {
+public class MongoLoggingManager extends AbstractLoggingManager {
 
+	public MongoLoggingManager(LogManager logManager) {
+		super(logManager);
+	}
 }

@@ -24,14 +24,19 @@
  */
 package org.apereo.cas.logging;
 
-import org.apereo.cas.logging.config.AbstractLoggingManager;
+import com.buession.logging.core.mgt.LogManager;
+import org.apereo.cas.logging.manager.AbstractLoggingManager;
 
 /**
- * 文件日志管理器
+ * JDBC 日志管理器
  *
  * @author Yong.Teng
  * @since 3.0.0
  */
-public class FileLoggingManager extends AbstractLoggingManager {
+public class JdbcLoggingManager extends AbstractLoggingManager {
+
+	public JdbcLoggingManager(LogManager logManager) {
+		super(logManager);
+	}
 
 }

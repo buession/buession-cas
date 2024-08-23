@@ -21,10 +21,40 @@
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
- */package org.apereo.cas.logging.manager;/**
- * 
+ */
+package org.apereo.cas.logging.manager;
+
+import com.buession.core.utils.Assert;
+import com.buession.logging.core.LogData;
+import com.buession.logging.core.mgt.LogManager;
+
+/**
+ * 日志管理器抽象类
  *
  * @author Yong.Teng
- * @since 3.0.0
- */public class AbstractLoginLoggingManager {
+ * @since 1.0.0
+ */
+public abstract class AbstractLoggingManager implements LoggingManager {
+
+	/**
+	 * 原生日志管理器
+	 */
+	private final LogManager logManager;
+
+	/**
+	 * 构造函数
+	 *
+	 * @param logManager
+	 * 		原生日志管理器
+	 */
+	public AbstractLoggingManager(final LogManager logManager) {
+		Assert.isNull(logManager, "LogManager cloud not be null.");
+		this.logManager = logManager;
+	}
+
+	@Override
+	public void execute(final LogData logData) {
+		logManager.save(logData);
+	}
+
 }

@@ -22,7 +22,7 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.config;
+package org.apereo.cas.logging.autoconfigure;
 
 import com.buession.logging.core.handler.DefaultPrincipalHandler;
 import com.buession.logging.core.handler.PrincipalHandler;
@@ -36,7 +36,7 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
 @AutoConfiguration
 @EnableConfigurationProperties(LoggingProperties.class)

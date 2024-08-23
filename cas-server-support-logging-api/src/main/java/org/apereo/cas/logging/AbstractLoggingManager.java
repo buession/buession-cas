@@ -22,9 +22,7 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.config;
-
-import org.apereo.cas.logging.LoggingManager;
+package org.apereo.cas.logging;
 
 /**
  * 日志管理器抽象类

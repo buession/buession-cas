@@ -35,12 +35,12 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  * 日志配置
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
 @RequiresModule(name = "cas-server-core-authentication", automated = true)
 @JsonFilter("CasLoggingProperties")
-@ConfigurationProperties(prefix = CasLoggingProperties.PREFIX)
-public class CasLoggingProperties {
+@ConfigurationProperties(prefix = LoggingProperties.PREFIX)
+public class LoggingProperties {
 
 	public final static String PREFIX = CasConfigurationProperties.PREFIX + ".logging";
 

@@ -24,59 +24,100 @@
  */
 package org.apereo.cas.config;
 
-import com.buession.core.utils.ClassUtils;
-import com.buession.logging.console.formatter.ConsoleLogDataFormatter;
-import com.buession.logging.console.spring.ConsoleLogHandlerFactoryBean;
-import org.apereo.cas.logging.autoconfigure.AbstractLogHandlerConfiguration;
-import org.apereo.cas.logging.config.basic.BasicConsoleLogProperties;
-import org.springframework.beans.BeanInstantiationException;
-import org.springframework.beans.BeanUtils;
+import com.buession.logging.rabbitmq.spring.RabbitLogHandlerFactoryBean;
+import com.buession.logging.rabbitmq.spring.config.AbstractRabbitLogHandlerConfiguration;
+import com.buession.logging.rabbitmq.spring.config.RabbitLogHandlerFactoryBeanConfigurer;
+import org.apereo.cas.configuration.model.support.logging.BasicLoggingProperties;
+import org.apereo.cas.configuration.model.support.logging.HistoryLoggingProperties;
+import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
+import org.apereo.cas.configuration.model.support.logging.RabbitLoggingProperties;
+import org.apereo.cas.logging.Constants;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 /**
- * 控制台日志处理器自动配置类
+ * RabbitMQ 日志处理器自动配置类
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
 @AutoConfiguration
-@EnableConfigurationProperties(CasLoggingProperties.class)
-@ConditionalOnClass(name = {"com.buession.logging.console.spring.ConsoleLogHandlerFactoryBean"})
-public class MongoLoggingConfiguration {
+@EnableConfigurationProperties(LoggingProperties.class)
+@ConditionalOnClass(RabbitLoggingConfiguration.class)
+public class RabbitLoggingConfiguration {
 
-	@Configuration(proxyBeanMethods = false)
-	@EnableConfigurationProperties(CasLoggingConfigurationProperties.class)
-	@ConditionalOnProperty(prefix = Basic.PREFIX, name = "console.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Basic.LOG_HANDLER_BEAN_NAME)
-	static class Basic extends AbstractBasicLogHandlerConfiguration<BasicConsoleLogProperties> {
+	protected static RabbitLogHandlerFactoryBeanConfigurer rabbitLogHandlerFactoryBeanConfigurer(
+			final RabbitLoggingProperties rabbitLoggingProperties) {
+		final RabbitLogHandlerFactoryBeanConfigurer configurer = new RabbitLogHandlerFactoryBeanConfigurer();
 
-		public Basic(CasLoggingConfigurationProperties logProperties) {
-			super(logProperties.getBasic().getConsole());
+		configurer.setExchange(rabbitLoggingProperties.getExchange());
+		configurer.setRoutingKey(rabbitLoggingProperties.getRoutingKey());
+
+		return configurer;
+	}
+
+	@AutoConfiguration
+	@EnableConfigurationProperties(LoggingProperties.class)
+	@ConditionalOnProperty(prefix = BasicLoggingProperties.PREFIX, name = "rabbit.enabled", havingValue = "true")
+	@ConditionalOnMissingBean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
+	static class Basic extends AbstractRabbitLogHandlerConfiguration {
+
+		private final RabbitLoggingProperties rabbitLoggingProperties;
+
+		public Basic(final LoggingProperties properties) {
+			this.rabbitLoggingProperties = properties.getHistory().getRabbit();
 		}
 
-		@Bean(name = Basic.LOG_HANDLER_BEAN_NAME)
-		public ConsoleLogHandlerFactoryBean logHandlerFactoryBean() {
-			final ConsoleLogHandlerFactoryBean logHandlerFactoryBean = new ConsoleLogHandlerFactoryBean();
+		@Bean(name = "casBasicLoggingRabbitLogHandlerFactoryBeanConfigurer")
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		protected RabbitLogHandlerFactoryBeanConfigurer rabbitLogHandlerFactoryBeanConfigurer() {
+			return RabbitLoggingConfiguration.rabbitLogHandlerFactoryBeanConfigurer(rabbitLoggingProperties);
+		}
 
-			try{
-				ConsoleLogDataFormatter<String> consoleLogDataFormatter =
-						BeanUtils.instantiateClass((Class<ConsoleLogDataFormatter<String>>) ClassUtils.getClass(
-								handlerProperties.getFormatterName(), false));
-				logHandlerFactoryBean.setFormatter(consoleLogDataFormatter);
-			}catch(ClassNotFoundException e){
-			}catch(BeanInstantiationException e){
-			}
+		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		@Override
+		public RabbitLogHandlerFactoryBean logHandlerFactoryBean(
+				@Qualifier("casBasicLoggingRabbitLogHandlerFactoryBeanConfigurer") RabbitLogHandlerFactoryBeanConfigurer configurer,
+				@Qualifier("casBasicLoggingRabbitTemplate") RabbitTemplate rabbitTemplate) {
+			return super.logHandlerFactoryBean(configurer, rabbitTemplate);
+		}
 
-			AbstractLogHandlerConfiguration.propertyMapper.from(handlerProperties.getTemplate())
-					.to(logHandlerFactoryBean::setTemplate);
+	}
 
-			return logHandlerFactoryBean;
+	@AutoConfiguration
+	@EnableConfigurationProperties(LoggingProperties.class)
+	@ConditionalOnProperty(prefix = HistoryLoggingProperties.PREFIX, name = "rabbit.enabled", havingValue = "true")
+	@ConditionalOnMissingBean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
+	static class History extends AbstractRabbitLogHandlerConfiguration {
+
+		private final RabbitLoggingProperties rabbitLoggingProperties;
+
+		public History(final LoggingProperties properties) {
+			this.rabbitLoggingProperties = properties.getHistory().getRabbit();
+		}
+
+		@Bean(name = "casHistoryLoggingRabbitLogHandlerFactoryBeanConfigurer")
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		protected RabbitLogHandlerFactoryBeanConfigurer rabbitLogHandlerFactoryBeanConfigurer() {
+			return RabbitLoggingConfiguration.rabbitLogHandlerFactoryBeanConfigurer(rabbitLoggingProperties);
+		}
+
+		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		@Override
+		public RabbitLogHandlerFactoryBean logHandlerFactoryBean(
+				@Qualifier("casHistoryLoggingRabbitLogHandlerFactoryBeanConfigurer") RabbitLogHandlerFactoryBeanConfigurer configurer,
+				@Qualifier("casHistoryLoggingRabbitTemplate") RabbitTemplate rabbitTemplate) {
+			return super.logHandlerFactoryBean(configurer, rabbitTemplate);
 		}
 
 	}

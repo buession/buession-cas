@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<name>Buession CAS Client</name>
+	<name>Buession CAS Support Logging RabbitMQ</name>
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.buession.cas</groupId>
@@ -9,9 +9,9 @@
 		<relativePath>../buession-cas-parent</relativePath>
 		<version>3.0.0</version>
 	</parent>
-	<artifactId>buession-cas-services-client</artifactId>
+	<artifactId>cas-server-support-logging-rabbit</artifactId>
 	<url>https://cas.buession.com/</url>
-	<description>Buession Framework Client For CAS</description>
+	<description>cas-server-support-logging-rabbit</description>
 	<packaging>jar</packaging>
 
 	<organization>
@@ -46,67 +46,41 @@
 		<url>https://github.com/buession/buession-cas</url>
 	</scm>
 
-	<properties>
-		<project.java.version>1.8</project.java.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/buession/buession-cas/issues</url>
+	</issueManagement>
 
 	<dependencies>
 		<dependency>
-			<groupId>com.buession</groupId>
-			<artifactId>buession-core</artifactId>
-			<scope>compile</scope>
-			<optional>true</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.buession</groupId>
-			<artifactId>buession-httpclient</artifactId>
-			<version>${buession.version}</version>
-			<scope>compile</scope>
-			<optional>true</optional>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>cas-server-support-logging-core</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
+			<groupId>com.buession.logging</groupId>
+			<artifactId>buession-logging-support-rabbitmq</artifactId>
+			<version>${buession.logging.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apereo.cas</groupId>
+			<artifactId>cas-server-core-util-api</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>buession-cas-client</finalName>
+		<finalName>cas-server-support-logging-rabbit</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<encoding>${project.build.encoding}</encoding>
-					<source>${project.java.version}</source>
-					<target>${project.java.version}</target>
-					<compilerArgument>-Xlint:unchecked</compilerArgument>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

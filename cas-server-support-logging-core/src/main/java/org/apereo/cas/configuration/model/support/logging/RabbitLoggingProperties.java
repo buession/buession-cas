@@ -19,31 +19,30 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.configuration.model.support.logging;
 
 import com.buession.logging.core.SslConfiguration;
 import com.buession.logging.rabbitmq.core.Cache;
-import com.buession.logging.rabbitmq.core.Template;
-import com.buession.logging.rabbitmq.spring.ConnectionFactory;
-import com.buession.logging.support.config.HandlerProperties;
+import com.buession.logging.rabbitmq.core.Retry;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.support.converter.MessageConverter;
 
 import java.io.Serializable;
 import java.time.Duration;
 
 /**
- * RabbitMQ 历史登录日志配置
+ * RabbitMQ 日志适配器配置
  *
  * @author Yong.Teng
- * @since 2.3.0
+ * @since 1.0.0
  */
-@JsonFilter("HistoryRabbitLogProperties")
-public class HistoryRabbitLogProperties implements HandlerProperties, Serializable {
+@JsonFilter("RabbitLoggingProperties")
+public class RabbitLoggingProperties implements AdapterLoggingProperties, Serializable {
 
 	private final static long serialVersionUID = 7838178327531884281L;
 
@@ -51,49 +50,50 @@ public class HistoryRabbitLogProperties implements HandlerProperties, Serializab
 	 * RabbitMQ 地址
 	 */
 	@RequiredProperty
-	private String host = ConnectionFactory.DEFAULT_HOST;
+	private String host = "localhost";
 
 	/**
 	 * RabbitMQ 端口
 	 */
-	private int port;
+	private int port = 5672;
 
 	/**
 	 * 用户名
 	 */
-	private String username = ConnectionFactory.DEFAULT_USERNAME;
+	private String username = "guest";
 
 	/**
 	 * 密码
 	 */
-	private String password = ConnectionFactory.DEFAULT_PASSWORD;
+	private String password = "guest";
 
 	/**
 	 * 虚拟机
 	 */
-	private String virtualHost = ConnectionFactory.DEFAULT_VIRTUAL_HOST;
+	@RequiredProperty
+	private String virtualHost = "/";
 
 	/**
 	 * Exchange 名称
 	 */
-	@RequiredProperty
 	private String exchange;
 
 	/**
 	 * Routing key 名称
 	 */
-	@RequiredProperty
 	private String routingKey;
 
 	/**
 	 * 连接超时
 	 */
-	private Duration connectionTimeout = ConnectionFactory.DEFAULT_CONNECTION_TIMEOUT;
+	private Duration connectionTimeout = Duration.ofSeconds(1);
 
 	/**
-	 * SSL 配置
+	 * Continuation timeout for RPC calls in channels. Set it to zero to wait forever.
+	 *
+	 * @since 1.0.0
 	 */
-	private SslConfiguration sslConfiguration = new SslConfiguration();
+	private Duration channelRpcTimeout = Duration.ofMinutes(10);
 
 	/**
 	 * Requested heartbeat timeout; zero for none. If a duration suffix is not specified,
@@ -104,7 +104,12 @@ public class HistoryRabbitLogProperties implements HandlerProperties, Serializab
 	/**
 	 * Number of channels per connection requested by the client. Use 0 for unlimited.
 	 */
-	private int requestedChannelMax = ConnectionFactory.DEFAULT_REQUESTED_CHANNEL_MAX;
+	private int requestedChannelMax = 2047;
+
+	/**
+	 * SSL 配置
+	 */
+	private SslConfiguration sslConfiguration = new SslConfiguration();
 
 	/**
 	 * Whether to enable publisher returns.
@@ -117,14 +122,51 @@ public class HistoryRabbitLogProperties implements HandlerProperties, Serializab
 	private CachingConnectionFactory.ConfirmType publisherConfirmType;
 
 	/**
+	 * Timeout for `receive()` operations.
+	 *
+	 * @since 1.0.0
+	 */
+	private Duration receiveTimeout;
+
+	/**
+	 * Timeout for `sendAndReceive()` operations.
+	 *
+	 * @since 1.0.0
+	 */
+	private Duration replyTimeout;
+
+	/**
+	 * Whether to enable mandatory messages.
+	 *
+	 * @since 1.0.0
+	 */
+	private Boolean mandatory;
+
+	/**
+	 * Name of the default queue to receive messages from when none is specified explicitly.
+	 *
+	 * @since 1.0.0
+	 */
+	private String defaultReceiveQueue;
+
+	/**
+	 * 消息转换器
+	 *
+	 * @since 1.0.0
+	 */
+	private Class<? extends MessageConverter> messageConverter;
+
+	/**
 	 * 缓存配置
 	 */
 	private Cache cache = new Cache();
 
 	/**
-	 * Template 配置
+	 * 重试配置
+	 *
+	 * @since 1.0.0
 	 */
-	private Template template = new Template();
+	private Retry retry = new Retry();
 
 	/**
 	 * 返回 RabbitMQ 地址
@@ -279,22 +321,26 @@ public class HistoryRabbitLogProperties implements HandlerProperties, Serializab
 	}
 
 	/**
-	 * 返回 SSL 配置
+	 * Return continuation timeout for RPC calls in channels. Set it to zero to wait forever.
 	 *
-	 * @return SSL 配置
+	 * @return Continuation timeout for RPC calls in channels.
+	 *
+	 * @since 1.0.0
 	 */
-	public SslConfiguration getSslConfiguration() {
-		return sslConfiguration;
+	public Duration getChannelRpcTimeout() {
+		return channelRpcTimeout;
 	}
 
 	/**
-	 * 设置 SSL 配置
+	 * Sets continuation timeout for RPC calls in channels. Set it to zero to wait forever.
 	 *
-	 * @param sslConfiguration
-	 * 		SSL 配置
+	 * @param channelRpcTimeout
+	 * 		Continuation timeout for RPC calls in channels.
+	 *
+	 * @since 1.0.0
 	 */
-	public void setSslConfiguration(SslConfiguration sslConfiguration) {
-		this.sslConfiguration = sslConfiguration;
+	public void setChannelRpcTimeout(Duration channelRpcTimeout) {
+		this.channelRpcTimeout = channelRpcTimeout;
 	}
 
 	/**
@@ -336,6 +382,25 @@ public class HistoryRabbitLogProperties implements HandlerProperties, Serializab
 	}
 
 	/**
+	 * 返回 SSL 配置
+	 *
+	 * @return SSL 配置
+	 */
+	public SslConfiguration getSslConfiguration() {
+		return sslConfiguration;
+	}
+
+	/**
+	 * 设置 SSL 配置
+	 *
+	 * @param sslConfiguration
+	 * 		SSL 配置
+	 */
+	public void setSslConfiguration(SslConfiguration sslConfiguration) {
+		this.sslConfiguration = sslConfiguration;
+	}
+
+	/**
 	 * Return whether to enable publisher returns.
 	 *
 	 * @return Whether to enable publisher returns.
@@ -369,9 +434,119 @@ public class HistoryRabbitLogProperties implements HandlerProperties, Serializab
 	 * @param publisherConfirmType
 	 * 		Type of publisher confirms to use.
 	 */
-	public void setPublisherConfirmType(
-			CachingConnectionFactory.ConfirmType publisherConfirmType) {
+	public void setPublisherConfirmType(CachingConnectionFactory.ConfirmType publisherConfirmType) {
 		this.publisherConfirmType = publisherConfirmType;
+	}
+
+	/**
+	 * Return timeout for `receive()` operations.
+	 *
+	 * @return Timeout for `receive()` operations.
+	 *
+	 * @since 1.0.0
+	 */
+	public Duration getReceiveTimeout() {
+		return this.receiveTimeout;
+	}
+
+	/**
+	 * Sets timeout for `receive()` operations.
+	 *
+	 * @param receiveTimeout
+	 * 		Timeout for `receive()` operations.
+	 *
+	 * @since 1.0.0
+	 */
+	public void setReceiveTimeout(Duration receiveTimeout) {
+		this.receiveTimeout = receiveTimeout;
+	}
+
+	/**
+	 * Return timeout for `sendAndReceive()` operations.
+	 *
+	 * @return Timeout for `sendAndReceive()` operations.
+	 *
+	 * @since 1.0.0
+	 */
+	public Duration getReplyTimeout() {
+		return this.replyTimeout;
+	}
+
+	/**
+	 * Sets timeout for `sendAndReceive()` operations.
+	 *
+	 * @param replyTimeout
+	 * 		Timeout for `sendAndReceive()` operations.
+	 *
+	 * @since 1.0.0
+	 */
+	public void setReplyTimeout(Duration replyTimeout) {
+		this.replyTimeout = replyTimeout;
+	}
+
+	/**
+	 * Return Whether to enable mandatory messages.
+	 *
+	 * @return true / false
+	 *
+	 * @since 1.0.0
+	 */
+	public Boolean getMandatory() {
+		return this.mandatory;
+	}
+
+	/**
+	 * Sets enable mandatory messages.
+	 *
+	 * @param mandatory
+	 * 		Whether to enable mandatory messages.
+	 *
+	 * @since 1.0.0
+	 */
+	public void setMandatory(Boolean mandatory) {
+		this.mandatory = mandatory;
+	}
+
+	/**
+	 * Return Name of the default queue to receive messages from when none is specified explicitly.
+	 *
+	 * @return Name of the default queue to receive messages from when none is specified explicitly.
+	 *
+	 * @since 1.0.0
+	 */
+	public String getDefaultReceiveQueue() {
+		return this.defaultReceiveQueue;
+	}
+
+	/**
+	 * Sets name of the default queue to receive messages from when none is specified explicitly.
+	 *
+	 * @param defaultReceiveQueue
+	 * 		Name of the default queue to receive messages from when none is specified explicitly.
+	 *
+	 * @since 1.0.0
+	 */
+	public void setDefaultReceiveQueue(String defaultReceiveQueue) {
+		this.defaultReceiveQueue = defaultReceiveQueue;
+	}
+
+	/**
+	 * 返回消息转换器
+	 *
+	 * @return 消息转换器
+	 */
+	public Class<? extends MessageConverter> getMessageConverter() {
+		return messageConverter;
+	}
+
+	/**
+	 * 设置消息转换器
+	 *
+	 * @param messageConverter
+	 * 		消息转换器
+	 */
+	public void setMessageConverter(Class<? extends MessageConverter> messageConverter) {
+		this.messageConverter = messageConverter;
 	}
 
 	/**
@@ -394,22 +569,26 @@ public class HistoryRabbitLogProperties implements HandlerProperties, Serializab
 	}
 
 	/**
-	 * 返回 Template 配置
+	 * 返回重试配置
 	 *
-	 * @return Template 配置
+	 * @return 重试配置
+	 *
+	 * @since 1.0.0
 	 */
-	public Template getTemplate() {
-		return template;
+	public Retry getRetry() {
+		return retry;
 	}
 
 	/**
-	 * 设置 Template 配置
+	 * 设置重试配置
 	 *
-	 * @param template
-	 * 		Template 配置
+	 * @param retry
+	 * 		重试配置
+	 *
+	 * @since 1.0.0
 	 */
-	public void setTemplate(Template template) {
-		this.template = template;
+	public void setRetry(Retry retry) {
+		this.retry = retry;
 	}
 
 }

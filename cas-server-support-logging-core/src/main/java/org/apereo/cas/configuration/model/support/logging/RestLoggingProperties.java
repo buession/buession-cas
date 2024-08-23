@@ -22,23 +22,28 @@
  * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.config.history;
+package org.apereo.cas.configuration.model.support.logging;
 
-import com.buession.logging.rest.core.RequestMethod;
-import com.buession.logging.support.config.HandlerProperties;
+import com.buession.httpclient.conn.nio.IOReactorConfig;
+import com.buession.httpclient.core.Configuration;
+import com.buession.logging.core.RequestMethod;
+import com.buession.logging.rest.core.JsonRequestBodyBuilder;
+import com.buession.logging.rest.core.RequestBodyBuilder;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.io.Serializable;
+import java.util.concurrent.ThreadFactory;
 
 /**
- * Rest 历史登录日志配置
+ * Rest 日志适配器配置
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
 @JsonFilter("HistoryRestLogProperties")
-public class HistoryRestLogProperties implements HandlerProperties, Serializable {
+public class RestLoggingProperties implements AdapterLoggingProperties, Serializable {
 
 	private final static long serialVersionUID = -7178083723307742589L;
 
@@ -56,7 +61,15 @@ public class HistoryRestLogProperties implements HandlerProperties, Serializable
 	/**
 	 * 请求体构建器
 	 */
-	private String requestBodyBuilder = "com.buession.logging.rest.core.JsonRequestBodyBuilder";
+	private Class<? extends RequestBodyBuilder> requestBodyBuilder = JsonRequestBodyBuilder.class;
+
+	/**
+	 * {@link com.buession.httpclient.HttpClient} 配置
+	 *
+	 * @since 3.0.0
+	 */
+	@NestedConfigurationProperty
+	private HttpClientProperties httpClient = new HttpClientProperties();
 
 	/**
 	 * 返回 Rest Url
@@ -101,7 +114,7 @@ public class HistoryRestLogProperties implements HandlerProperties, Serializable
 	 *
 	 * @return 请求体构建器
 	 */
-	public String getRequestBodyBuilder() {
+	public Class<? extends RequestBodyBuilder> getRequestBodyBuilder() {
 		return requestBodyBuilder;
 	}
 
@@ -111,8 +124,88 @@ public class HistoryRestLogProperties implements HandlerProperties, Serializable
 	 * @param requestBodyBuilder
 	 * 		请求体构建器
 	 */
-	public void setRequestBodyBuilder(String requestBodyBuilder) {
+	public void setRequestBodyBuilder(Class<? extends RequestBodyBuilder> requestBodyBuilder) {
 		this.requestBodyBuilder = requestBodyBuilder;
+	}
+
+	/**
+	 * 返回 {@link com.buession.httpclient.HttpClient} 配置
+	 *
+	 * @return {@link com.buession.httpclient.HttpClient} 配置
+	 *
+	 * @since 3.0.0
+	 */
+	public HttpClientProperties getHttpClient() {
+		return httpClient;
+	}
+
+	/**
+	 * 设置 {@link com.buession.httpclient.HttpClient} 配置
+	 *
+	 * @param httpClient
+	 *        {@link com.buession.httpclient.HttpClient} 配置
+	 *
+	 * @since 3.0.0
+	 */
+	public void setHttpClient(HttpClientProperties httpClient) {
+		this.httpClient = httpClient;
+	}
+
+	/**
+	 * {@link com.buession.httpclient.HttpClient} 配置
+	 */
+	public final static class HttpClientProperties extends Configuration {
+
+		@NestedConfigurationProperty
+		private ApacheClient apacheClient;
+
+		@NestedConfigurationProperty
+		private OkHttp okHttp;
+
+		public ApacheClient getApacheClient() {
+			return apacheClient;
+		}
+
+		public void setApacheClient(ApacheClient apacheClient) {
+			this.apacheClient = apacheClient;
+		}
+
+		public OkHttp getOkHttp() {
+			return okHttp;
+		}
+
+		public void setOkHttp(OkHttp okHttp) {
+			this.okHttp = okHttp;
+		}
+
+		public final static class ApacheClient {
+
+			private IOReactorConfig ioReactor;
+
+			private Class<? extends ThreadFactory> threadFactory;
+
+			public IOReactorConfig getIoReactor() {
+				return ioReactor;
+			}
+
+			public void setIoReactor(IOReactorConfig ioReactor) {
+				this.ioReactor = ioReactor;
+			}
+
+			public Class<? extends ThreadFactory> getThreadFactory() {
+				return threadFactory;
+			}
+
+			public void setThreadFactory(Class<? extends ThreadFactory> threadFactory) {
+				this.threadFactory = threadFactory;
+			}
+
+		}
+
+		public final static class OkHttp {
+
+		}
+
 	}
 
 }

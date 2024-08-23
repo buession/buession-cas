@@ -24,59 +24,109 @@
  */
 package org.apereo.cas.config;
 
-import com.buession.core.utils.ClassUtils;
-import com.buession.logging.console.formatter.ConsoleLogDataFormatter;
-import com.buession.logging.console.spring.ConsoleLogHandlerFactoryBean;
-import org.apereo.cas.logging.autoconfigure.AbstractLogHandlerConfiguration;
-import org.apereo.cas.logging.config.basic.BasicConsoleLogProperties;
-import org.springframework.beans.BeanInstantiationException;
+import com.buession.core.converter.mapper.PropertyMapper;
+import com.buession.httpclient.HttpAsyncClient;
+import com.buession.httpclient.HttpClient;
+import com.buession.logging.rest.spring.RestLogHandlerFactoryBean;
+import com.buession.logging.rest.spring.config.AbstractRestLogHandlerConfiguration;
+import com.buession.logging.rest.spring.config.RestLogHandlerFactoryBeanConfigurer;
+import org.apereo.cas.configuration.model.support.logging.BasicLoggingProperties;
+import org.apereo.cas.configuration.model.support.logging.HistoryLoggingProperties;
+import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
+import org.apereo.cas.configuration.model.support.logging.RestLoggingProperties;
+import org.apereo.cas.logging.Constants;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 /**
- * 控制台日志处理器自动配置类
+ * REST 日志处理器自动配置类
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
 @AutoConfiguration
-@EnableConfigurationProperties(CasLoggingProperties.class)
-@ConditionalOnClass(name = {"com.buession.logging.console.spring.ConsoleLogHandlerFactoryBean"})
-public class RabbitLoggingConfiguration {
+@EnableConfigurationProperties(LoggingProperties.class)
+@ConditionalOnClass(RestLogHandlerFactoryBean.class)
+public class RestLoggingConfiguration {
 
-	@Configuration(proxyBeanMethods = false)
-	@EnableConfigurationProperties(CasLoggingConfigurationProperties.class)
-	@ConditionalOnProperty(prefix = Basic.PREFIX, name = "console.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Basic.LOG_HANDLER_BEAN_NAME)
-	static class Basic extends AbstractBasicLogHandlerConfiguration<BasicConsoleLogProperties> {
+	protected static RestLogHandlerFactoryBeanConfigurer restLogHandlerFactoryBeanConfigurer(
+			final RestLoggingProperties restLoggingProperties) {
+		final RestLogHandlerFactoryBeanConfigurer configurer = new RestLogHandlerFactoryBeanConfigurer();
+		final PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 
-		public Basic(CasLoggingConfigurationProperties logProperties) {
-			super(logProperties.getBasic().getConsole());
+		configurer.setUrl(restLoggingProperties.getUrl());
+		configurer.setRequestMethod(restLoggingProperties.getRequestMethod());
+		propertyMapper.from(restLoggingProperties::getRequestBodyBuilder).as(BeanUtils::instantiateClass)
+				.to(configurer::setRequestBodyBuilder);
+
+		return configurer;
+	}
+
+	@AutoConfiguration
+	@EnableConfigurationProperties(LoggingProperties.class)
+	@ConditionalOnProperty(prefix = BasicLoggingProperties.PREFIX, name = "rest.enabled", havingValue = "true")
+	@ConditionalOnMissingBean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
+	static class Basic extends AbstractRestLogHandlerConfiguration {
+
+		private final RestLoggingProperties restLoggingProperties;
+
+		public Basic(final LoggingProperties properties) {
+			this.restLoggingProperties = properties.getHistory().getRest();
 		}
 
-		@Bean(name = Basic.LOG_HANDLER_BEAN_NAME)
-		public ConsoleLogHandlerFactoryBean logHandlerFactoryBean() {
-			final ConsoleLogHandlerFactoryBean logHandlerFactoryBean = new ConsoleLogHandlerFactoryBean();
+		@Bean(name = "casBasicLoggingRestLogHandlerFactoryBeanConfigurer")
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public RestLogHandlerFactoryBeanConfigurer restLogHandlerFactoryBeanConfigurer() {
+			return RestLoggingConfiguration.restLogHandlerFactoryBeanConfigurer(restLoggingProperties);
+		}
 
-			try{
-				ConsoleLogDataFormatter<String> consoleLogDataFormatter =
-						BeanUtils.instantiateClass((Class<ConsoleLogDataFormatter<String>>) ClassUtils.getClass(
-								handlerProperties.getFormatterName(), false));
-				logHandlerFactoryBean.setFormatter(consoleLogDataFormatter);
-			}catch(ClassNotFoundException e){
-			}catch(BeanInstantiationException e){
-			}
+		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		@Override
+		public RestLogHandlerFactoryBean logHandlerFactoryBean(
+				@Qualifier("casBasicLoggingRestLogHandlerFactoryBeanConfigurer") RestLogHandlerFactoryBeanConfigurer configurer,
+				@Qualifier("casBasicLoggingHttpClient") ObjectProvider<HttpClient> httpClient,
+				@Qualifier("casBasicLoggingHttpAsyncClient") ObjectProvider<HttpAsyncClient> httpAsyncClient) {
+			return super.logHandlerFactoryBean(configurer, httpClient, httpAsyncClient);
+		}
 
-			AbstractLogHandlerConfiguration.propertyMapper.from(handlerProperties.getTemplate())
-					.to(logHandlerFactoryBean::setTemplate);
+	}
 
-			return logHandlerFactoryBean;
+	@AutoConfiguration
+	@EnableConfigurationProperties(LoggingProperties.class)
+	@ConditionalOnProperty(prefix = HistoryLoggingProperties.PREFIX, name = "rest.enabled", havingValue = "true")
+	@ConditionalOnMissingBean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
+	static class History extends AbstractRestLogHandlerConfiguration {
+
+		private final RestLoggingProperties restLoggingProperties;
+
+		public History(final LoggingProperties properties) {
+			this.restLoggingProperties = properties.getHistory().getRest();
+		}
+
+		@Bean(name = "casHistoryLoggingRestLogHandlerFactoryBeanConfigurer")
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public RestLogHandlerFactoryBeanConfigurer restLogHandlerFactoryBeanConfigurer() {
+			return RestLoggingConfiguration.restLogHandlerFactoryBeanConfigurer(restLoggingProperties);
+		}
+
+		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		@Override
+		public RestLogHandlerFactoryBean logHandlerFactoryBean(
+				@Qualifier("casHistoryLoggingRestLogHandlerFactoryBeanConfigurer") RestLogHandlerFactoryBeanConfigurer configurer,
+				@Qualifier("casHistoryLoggingHttpClient") ObjectProvider<HttpClient> httpClient,
+				@Qualifier("casHistoryLoggingHttpAsyncClient") ObjectProvider<HttpAsyncClient> httpAsyncClient) {
+			return super.logHandlerFactoryBean(configurer, httpClient, httpAsyncClient);
 		}
 
 	}

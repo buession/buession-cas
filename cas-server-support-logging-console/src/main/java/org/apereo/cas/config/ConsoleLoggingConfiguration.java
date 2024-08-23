@@ -24,18 +24,20 @@
  */
 package org.apereo.cas.config;
 
-import com.buession.logging.console.formatter.ConsoleLogDataFormatter;
 import com.buession.logging.console.spring.ConsoleLogHandlerFactoryBean;
+import com.buession.logging.console.spring.config.AbstractConsoleLogHandlerConfiguration;
+import com.buession.logging.console.spring.config.ConsoleLogHandlerFactoryBeanConfigurer;
+import org.apereo.cas.configuration.model.support.logging.BasicLoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.ConsoleLoggingProperties;
+import org.apereo.cas.configuration.model.support.logging.HistoryLoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
 import org.apereo.cas.logging.Constants;
-import org.apereo.cas.logging.autoconfigure.BaseHandlerConfiguration;
-import org.apereo.cas.util.spring.beans.BeanCondition;
-import org.apereo.cas.util.spring.beans.BeanSupplier;
+import org.apereo.cas.logging.autoconfigure.AbstractLogHandlerConfiguration;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -46,66 +48,79 @@ import org.springframework.context.annotation.ScopedProxyMode;
  * 控制台日志处理器自动配置类
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
 @AutoConfiguration
 @EnableConfigurationProperties(LoggingProperties.class)
-@ConditionalOnClass(ConsoleLogHandlerFactoryBean.class)
-public class ConsoleLoggingConfiguration {
+public class ConsoleLoggingConfiguration extends AbstractLogHandlerConfiguration {
 
-	protected static ConsoleLogHandlerFactoryBean createConsoleLogHandlerFactoryBean(
-			final ConfigurableApplicationContext applicationContext,
-			final ConsoleLoggingProperties consoleLoggingProperties, final String condition) {
-		final BeanCondition beanCondition = BeanCondition.on(condition).evenIfMissing();
-		return BeanSupplier.of(ConsoleLogHandlerFactoryBean.class)
-				.when(beanCondition.given(applicationContext.getEnvironment()))
-				.supply(()->{
-					final ConsoleLogHandlerFactoryBean logHandlerFactoryBean = new ConsoleLogHandlerFactoryBean();
+	public ConsoleLoggingConfiguration(ConfigurableApplicationContext applicationContext) {
+		super(applicationContext);
+	}
 
-					ConsoleLogDataFormatter<String> consoleLogDataFormatter =
-							BeanUtils.instantiateClass(consoleLoggingProperties.getFormatter());
-					logHandlerFactoryBean.setFormatter(consoleLogDataFormatter);
+	protected static ConsoleLogHandlerFactoryBeanConfigurer consoleLogHandlerFactoryBeanConfigurer(
+			final ConsoleLoggingProperties consoleLoggingProperties) {
+		final ConsoleLogHandlerFactoryBeanConfigurer configurer = new ConsoleLogHandlerFactoryBeanConfigurer();
 
-					logHandlerFactoryBean.setTemplate(consoleLoggingProperties.getTemplate());
+		configurer.setTemplate(consoleLoggingProperties.getTemplate());
+		propertyMapper.from(consoleLoggingProperties::getFormatter).as(BeanUtils::instantiateClass)
+				.to(configurer::setFormatter);
 
-					return logHandlerFactoryBean;
-				})
-				.otherwiseProxy()
-				.get();
+		return configurer;
 	}
 
 	@AutoConfiguration
 	@EnableConfigurationProperties(LoggingProperties.class)
+	@ConditionalOnProperty(prefix = BasicLoggingProperties.PREFIX, name = "console.enabled", havingValue = "true")
 	@ConditionalOnMissingBean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-	static class Basic extends BaseHandlerConfiguration.BaseAdapterHandlerConfiguration<ConsoleLoggingProperties> {
+	static class Basic extends AbstractConsoleLogHandlerConfiguration {
 
-		public Basic(final ConfigurableApplicationContext applicationContext, final LoggingProperties properties) {
-			super(applicationContext, properties.getBasic().getConsole());
+		private final ConsoleLoggingProperties consoleLoggingProperties;
+
+		public Basic(final LoggingProperties properties) {
+			this.consoleLoggingProperties = properties.getBasic().getConsole();
+		}
+
+		@Bean(name = "casBasicConsoleLoggingLogHandlerFactoryBeanConfigurer")
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public ConsoleLogHandlerFactoryBeanConfigurer consoleLogHandlerFactoryBeanConfigurer() {
+			return ConsoleLoggingConfiguration.consoleLogHandlerFactoryBeanConfigurer(consoleLoggingProperties);
 		}
 
 		@Bean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
 		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public ConsoleLogHandlerFactoryBean basicConsoleLogHandlerFactoryBean() {
-			final String condition = LoggingProperties.PREFIX + ".basic.console.template";
-			return createConsoleLogHandlerFactoryBean(applicationContext, properties, condition);
+		@Override
+		public ConsoleLogHandlerFactoryBean logHandlerFactoryBean(
+				@Qualifier("casBasicConsoleLoggingLogHandlerFactoryBeanConfigurer") ConsoleLogHandlerFactoryBeanConfigurer configurer) {
+			return super.logHandlerFactoryBean(configurer);
 		}
 
 	}
 
 	@AutoConfiguration
 	@EnableConfigurationProperties(LoggingProperties.class)
+	@ConditionalOnProperty(prefix = HistoryLoggingProperties.PREFIX, name = "console.enabled", havingValue = "true")
 	@ConditionalOnMissingBean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-	static class History extends BaseHandlerConfiguration.BaseAdapterHandlerConfiguration<ConsoleLoggingProperties> {
+	static class History extends AbstractConsoleLogHandlerConfiguration {
 
-		public History(final ConfigurableApplicationContext applicationContext, final LoggingProperties properties) {
-			super(applicationContext, properties.getHistory().getConsole());
+		private final ConsoleLoggingProperties consoleLoggingProperties;
+
+		public History(final LoggingProperties properties) {
+			this.consoleLoggingProperties = properties.getHistory().getConsole();
+		}
+
+		@Bean(name = "casHistoryConsoleLoggingLogHandlerFactoryBeanConfigurer")
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public ConsoleLogHandlerFactoryBeanConfigurer consoleLogHandlerFactoryBeanConfigurer() {
+			return ConsoleLoggingConfiguration.consoleLogHandlerFactoryBeanConfigurer(consoleLoggingProperties);
 		}
 
 		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
 		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public ConsoleLogHandlerFactoryBean historyConsoleLogHandlerFactoryBean() {
-			final String condition = LoggingProperties.PREFIX + ".history.console.template";
-			return createConsoleLogHandlerFactoryBean(applicationContext, properties, condition);
+		@Override
+		public ConsoleLogHandlerFactoryBean logHandlerFactoryBean(
+				@Qualifier("casHistoryConsoleLoggingLogHandlerFactoryBeanConfigurer") ConsoleLogHandlerFactoryBeanConfigurer configurer) {
+			return super.logHandlerFactoryBean(configurer);
 		}
 
 	}

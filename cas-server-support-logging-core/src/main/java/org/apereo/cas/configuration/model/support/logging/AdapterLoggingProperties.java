@@ -25,9 +25,11 @@
 package org.apereo.cas.configuration.model.support.logging;
 
 /**
+ * 适配器配置属性
+ *
  * @author Yong.Teng
  * @since 1.0.0
  */
-public interface ModeLoggingProperties {
+public interface AdapterLoggingProperties {
 
 }

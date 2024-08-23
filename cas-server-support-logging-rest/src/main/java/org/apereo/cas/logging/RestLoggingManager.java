@@ -24,14 +24,18 @@
  */
 package org.apereo.cas.logging;
 
-import org.apereo.cas.logging.config.AbstractLoggingManager;
+import com.buession.logging.core.mgt.LogManager;
+import org.apereo.cas.logging.manager.AbstractLoggingManager;
 
 /**
- * RabbitMQ 日志管理器
+ * REST 日志管理器
  *
  * @author Yong.Teng
  * @since 3.0.0
  */
-public class RabbitLoggingManager extends AbstractLoggingManager {
+public class RestLoggingManager extends AbstractLoggingManager {
 
+	public RestLoggingManager(LogManager logManager) {
+		super(logManager);
+	}
 }

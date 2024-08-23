@@ -31,14 +31,15 @@ import org.apereo.cas.configuration.support.RequiresModule;
 import java.io.Serializable;
 
 /**
- * MongoDB 历史登录日志配置
+ * MongoDB 日志适配器配置
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
 @RequiresModule(name = "cas-server-support-mongo-core")
-@JsonFilter("HistoryMongoLogProperties")
-public class HistoryMongoLogProperties extends SingleCollectionMongoDbProperties implements Serializable {
+@JsonFilter("MongoLoggingProperties")
+public class MongoLoggingProperties extends SingleCollectionMongoDbProperties implements AdapterLoggingProperties,
+		Serializable {
 
 	private final static long serialVersionUID = 3554795086203439061L;
 

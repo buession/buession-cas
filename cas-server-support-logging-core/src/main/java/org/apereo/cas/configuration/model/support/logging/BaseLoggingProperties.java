@@ -22,68 +22,95 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.config;
+package org.apereo.cas.configuration.model.support.logging;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-import org.apereo.cas.logging.config.history.HistoryElasticsearchLogProperties;
-import org.apereo.cas.logging.config.history.HistoryJdbcLogProperties;
-import org.apereo.cas.logging.config.history.HistoryKafkaLogProperties;
-import org.apereo.cas.logging.config.history.HistoryMongoLogProperties;
-import org.apereo.cas.logging.config.history.HistoryRabbitLogProperties;
-import org.apereo.cas.logging.config.history.HistoryRestLogProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
+import java.io.Serializable;
+
 /**
- * 基本日志配置
+ * 日志配置基类
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
-@JsonFilter("BasicLoggingProperties")
-public class BasicLoggingProperties {
+public abstract class BaseLoggingProperties implements Serializable {
+
+	private final static long serialVersionUID = 6984845990182654725L;
+
+	/**
+	 * 控制台日志配置
+	 */
+	@NestedConfigurationProperty
+	private ConsoleLoggingProperties console = new ConsoleLoggingProperties();
 
 	/**
 	 * Elasticsearch 日志配置
 	 */
 	@NestedConfigurationProperty
-	private HistoryElasticsearchLogProperties elasticsearch = new HistoryElasticsearchLogProperties();
+	private ElasticsearchLoggingProperties elasticsearch = new ElasticsearchLoggingProperties();
+
+	/**
+	 * 文件日志配置
+	 */
+	@NestedConfigurationProperty
+	private FileLoggingProperties file = new FileLoggingProperties();
 
 	/**
 	 * JDBC 日志配置
 	 */
 	@NestedConfigurationProperty
-	private HistoryJdbcLogProperties jdbc = new HistoryJdbcLogProperties();
+	private JdbcLoggingProperties jdbc = new JdbcLoggingProperties();
 
 	/**
 	 * Kafka 日志配置
 	 */
 	@NestedConfigurationProperty
-	private HistoryKafkaLogProperties kafka = new HistoryKafkaLogProperties();
+	private KafkaLoggingProperties kafka = new KafkaLoggingProperties();
 
 	/**
 	 * MongoDB 日志配置
 	 */
 	@NestedConfigurationProperty
-	private HistoryMongoLogProperties mongo = new HistoryMongoLogProperties();
+	private MongoLoggingProperties mongo = new MongoLoggingProperties();
 
 	/**
 	 * RabbitMQ 日志配置
 	 */
 	@NestedConfigurationProperty
-	private HistoryRabbitLogProperties rabbit = new HistoryRabbitLogProperties();
+	private RabbitLoggingProperties rabbit = new RabbitLoggingProperties();
 
 	/**
 	 * Rest 日志配置
 	 */
 	@NestedConfigurationProperty
-	private HistoryRestLogProperties rest = new HistoryRestLogProperties();
+	private RestLoggingProperties rest = new RestLoggingProperties();
+
+	/**
+	 * 返回控制台日志配置
+	 *
+	 * @return 控制台日志配置
+	 */
+	public ConsoleLoggingProperties getConsole() {
+		return console;
+	}
+
+	/**
+	 * 设置控制台日志配置
+	 *
+	 * @param console
+	 * 		控制台日志配置
+	 */
+	public void setConsole(ConsoleLoggingProperties console) {
+		this.console = console;
+	}
 
 	/**
 	 * 返回 Elasticsearch 日志配置
 	 *
 	 * @return Elasticsearch 日志配置
 	 */
-	public HistoryElasticsearchLogProperties getElasticsearch() {
+	public ElasticsearchLoggingProperties getElasticsearch() {
 		return elasticsearch;
 	}
 
@@ -93,8 +120,27 @@ public class BasicLoggingProperties {
 	 * @param elasticsearch
 	 * 		Elasticsearch 日志配置
 	 */
-	public void setElasticsearch(HistoryElasticsearchLogProperties elasticsearch) {
+	public void setElasticsearch(ElasticsearchLoggingProperties elasticsearch) {
 		this.elasticsearch = elasticsearch;
+	}
+
+	/**
+	 * 返回文件日志配置
+	 *
+	 * @return 文件日志配置
+	 */
+	public FileLoggingProperties getFile() {
+		return file;
+	}
+
+	/**
+	 * 设置文件日志配置
+	 *
+	 * @param file
+	 * 		文件日志配置
+	 */
+	public void setFile(FileLoggingProperties file) {
+		this.file = file;
 	}
 
 	/**
@@ -102,7 +148,7 @@ public class BasicLoggingProperties {
 	 *
 	 * @return JDBC 日志配置
 	 */
-	public HistoryJdbcLogProperties getJdbc() {
+	public JdbcLoggingProperties getJdbc() {
 		return jdbc;
 	}
 
@@ -112,7 +158,7 @@ public class BasicLoggingProperties {
 	 * @param jdbc
 	 * 		JDBC 日志配置
 	 */
-	public void setJdbc(HistoryJdbcLogProperties jdbc) {
+	public void setJdbc(JdbcLoggingProperties jdbc) {
 		this.jdbc = jdbc;
 	}
 
@@ -121,7 +167,7 @@ public class BasicLoggingProperties {
 	 *
 	 * @return Kafka 日志配置
 	 */
-	public HistoryKafkaLogProperties getKafka() {
+	public KafkaLoggingProperties getKafka() {
 		return kafka;
 	}
 
@@ -131,7 +177,7 @@ public class BasicLoggingProperties {
 	 * @param kafka
 	 * 		Kafka 日志配置
 	 */
-	public void setKafka(HistoryKafkaLogProperties kafka) {
+	public void setKafka(KafkaLoggingProperties kafka) {
 		this.kafka = kafka;
 	}
 
@@ -140,7 +186,7 @@ public class BasicLoggingProperties {
 	 *
 	 * @return MongoDB 日志配置
 	 */
-	public HistoryMongoLogProperties getMongo() {
+	public MongoLoggingProperties getMongo() {
 		return mongo;
 	}
 
@@ -150,7 +196,7 @@ public class BasicLoggingProperties {
 	 * @param mongo
 	 * 		MongoDB 日志配置
 	 */
-	public void setMongo(HistoryMongoLogProperties mongo) {
+	public void setMongo(MongoLoggingProperties mongo) {
 		this.mongo = mongo;
 	}
 
@@ -159,7 +205,7 @@ public class BasicLoggingProperties {
 	 *
 	 * @return RabbitMQ 日志配置
 	 */
-	public HistoryRabbitLogProperties getRabbit() {
+	public RabbitLoggingProperties getRabbit() {
 		return rabbit;
 	}
 
@@ -169,7 +215,7 @@ public class BasicLoggingProperties {
 	 * @param rabbit
 	 * 		RabbitMQ 日志配置
 	 */
-	public void setRabbit(HistoryRabbitLogProperties rabbit) {
+	public void setRabbit(RabbitLoggingProperties rabbit) {
 		this.rabbit = rabbit;
 	}
 
@@ -178,7 +224,7 @@ public class BasicLoggingProperties {
 	 *
 	 * @return Rest 日志配置
 	 */
-	public HistoryRestLogProperties getRest() {
+	public RestLoggingProperties getRest() {
 		return rest;
 	}
 
@@ -188,7 +234,7 @@ public class BasicLoggingProperties {
 	 * @param rest
 	 * 		Rest 日志配置
 	 */
-	public void setRest(HistoryRestLogProperties rest) {
+	public void setRest(RestLoggingProperties rest) {
 		this.rest = rest;
 	}
 

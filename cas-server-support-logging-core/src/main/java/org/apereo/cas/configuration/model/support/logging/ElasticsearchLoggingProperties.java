@@ -24,39 +24,37 @@
  */
 package org.apereo.cas.configuration.model.support.logging;
 
-import com.buession.logging.elasticsearch.spring.RestHighLevelClientFactory;
+import co.elastic.clients.json.JsonpMapper;
+import co.elastic.clients.json.jackson.JacksonJsonpMapper;
+import com.buession.core.builder.ListBuilder;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
+import org.elasticsearch.client.RestClientBuilder;
+import org.springframework.data.elasticsearch.core.RefreshPolicy;
+import org.springframework.data.mapping.callback.EntityCallbacks;
 
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Elasticsearch 日志适配器配置
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
-@JsonFilter("HistoryElasticsearchLogProperties")
-public class ElasticsearchLogProperties implements Serializable {
+@JsonFilter("ElasticsearchLoggingProperties")
+public class ElasticsearchLoggingProperties implements AdapterLoggingProperties, Serializable {
 
 	private final static long serialVersionUID = 4759244909748729352L;
 
 	/**
 	 * Elasticsearch URL 地址
 	 */
-	private List<String> urls = RestHighLevelClientFactory.DEFAULT_URLS;
-
-	/**
-	 * Elasticsearch 地址
-	 */
-	private String host;
-
-	/**
-	 * Elasticsearch 端口
-	 */
-	private int port = RestHighLevelClientFactory.DEFAULT_PORT;
+	@RequiredProperty
+	private List<String> urls = ListBuilder.of("http://localhost:9200");
 
 	/**
 	 * 用户名
@@ -71,18 +69,67 @@ public class ElasticsearchLogProperties implements Serializable {
 	/**
 	 * 连接超时
 	 */
-	private Duration connectionTimeout = RestHighLevelClientFactory.DEFAULT_CONNECTION_TIMEOUT;
+	private Duration connectionTimeout = Duration.ofMillis(RestClientBuilder.DEFAULT_CONNECT_TIMEOUT_MILLIS);
 
 	/**
 	 * 读取超时
 	 */
-	private Duration readTimeout = RestHighLevelClientFactory.DEFAULT_READ_TIMEOUT;
+	private Duration readTimeout = Duration.ofMillis(RestClientBuilder.DEFAULT_SOCKET_TIMEOUT_MILLIS);
+
+	/**
+	 * 路径前缀
+	 *
+	 * @since 1.0.0
+	 */
+	private String pathPrefix;
+
+	/**
+	 * 请求头
+	 *
+	 * @since 1.0.0
+	 */
+	private Map<String, String> headers = new LinkedHashMap<>();
+
+	/**
+	 * 请求参数
+	 *
+	 * @since 1.0.0
+	 */
+	private Map<String, String> parameters = new LinkedHashMap<>();
 
 	/**
 	 * 索引名称
 	 */
 	@RequiredProperty
 	private String indexName;
+
+	/**
+	 * 是否自动创建索引
+	 *
+	 * @since 1.0.0
+	 */
+	private Boolean autoCreateIndex;
+
+	/**
+	 * JSONP Mapper {@link JsonpMapper}
+	 *
+	 * @since 1.0.0
+	 */
+	private Class<? extends JsonpMapper> jsonpMapper = JacksonJsonpMapper.class;
+
+	/**
+	 * 刷新策略
+	 *
+	 * @since 1.0.0
+	 */
+	private RefreshPolicy refreshPolicy;
+
+	/**
+	 * {@link EntityCallbacks}
+	 *
+	 * @since 1.0.0
+	 */
+	private Class<? extends EntityCallbacks> entityCallbacks;
 
 	/**
 	 * 返回 Elasticsearch URL 地址
@@ -101,44 +148,6 @@ public class ElasticsearchLogProperties implements Serializable {
 	 */
 	public void setUrls(List<String> urls) {
 		this.urls = urls;
-	}
-
-	/**
-	 * 返回 Elasticsearch 地址
-	 *
-	 * @return Elasticsearch 地址
-	 */
-	public String getHost() {
-		return host;
-	}
-
-	/**
-	 * 设置 Elasticsearch 地址
-	 *
-	 * @param host
-	 * 		Elasticsearch 地址
-	 */
-	public void setHost(String host) {
-		this.host = host;
-	}
-
-	/**
-	 * 返回 Elasticsearch 端口
-	 *
-	 * @return Elasticsearch 端口
-	 */
-	public int getPort() {
-		return port;
-	}
-
-	/**
-	 * 设置 Elasticsearch 端口
-	 *
-	 * @param port
-	 * 		Elasticsearch 端口
-	 */
-	public void setPort(int port) {
-		this.port = port;
 	}
 
 	/**
@@ -218,6 +227,75 @@ public class ElasticsearchLogProperties implements Serializable {
 	}
 
 	/**
+	 * 返回路径前缀
+	 *
+	 * @return 路径前缀
+	 *
+	 * @since 1.0.0
+	 */
+	public String getPathPrefix() {
+		return pathPrefix;
+	}
+
+	/**
+	 * 设置路径前缀
+	 *
+	 * @param pathPrefix
+	 * 		路径前缀
+	 *
+	 * @since 1.0.0
+	 */
+	public void setPathPrefix(String pathPrefix) {
+		this.pathPrefix = pathPrefix;
+	}
+
+	/**
+	 * 返回请求头
+	 *
+	 * @return 请求头
+	 *
+	 * @since 1.0.0
+	 */
+	public Map<String, String> getHeaders() {
+		return headers;
+	}
+
+	/**
+	 * 设置请求头
+	 *
+	 * @param headers
+	 * 		请求头
+	 *
+	 * @since 1.0.0
+	 */
+	public void setHeaders(Map<String, String> headers) {
+		this.headers = headers;
+	}
+
+	/**
+	 * 返回请求参数
+	 *
+	 * @return 请求参数
+	 *
+	 * @since 1.0.0
+	 */
+	public Map<String, String> getParameters() {
+		return parameters;
+	}
+
+	/**
+	 * 设置请求参数
+	 *
+	 * @param parameters
+	 * 		请求参数
+	 *
+	 * @since 1.0.0
+	 */
+	public void setParameters(Map<String, String> parameters) {
+		this.parameters = parameters;
+	}
+
+	/**
 	 * 返回索引名称
 	 *
 	 * @return 索引名称
@@ -234,6 +312,103 @@ public class ElasticsearchLogProperties implements Serializable {
 	 */
 	public void setIndexName(String indexName) {
 		this.indexName = indexName;
+	}
+
+	/**
+	 * 返回是否自动创建索引
+	 *
+	 * @return 是否自动创建索引
+	 */
+	public Boolean isAutoCreateIndex() {
+		return getAutoCreateIndex();
+	}
+
+	/**
+	 * 返回是否自动创建索引
+	 *
+	 * @return 是否自动创建索引
+	 */
+	public Boolean getAutoCreateIndex() {
+		return autoCreateIndex;
+	}
+
+	/**
+	 * 设置是否自动创建索引
+	 *
+	 * @param autoCreateIndex
+	 * 		是否自动创建索引
+	 */
+	public void setAutoCreateIndex(Boolean autoCreateIndex) {
+		this.autoCreateIndex = autoCreateIndex;
+	}
+
+	/**
+	 * 返回 JSONP Mapper {@link JsonpMapper}
+	 *
+	 * @return JSONP Mapper {@link JsonpMapper}
+	 *
+	 * @since 1.0.0
+	 */
+	public Class<? extends JsonpMapper> getJsonpMapper() {
+		return jsonpMapper;
+	}
+
+	/**
+	 * 设置 JSONP Mapper {@link JsonpMapper}
+	 *
+	 * @param jsonpMapper
+	 * 		JSONP Mapper {@link JsonpMapper}
+	 *
+	 * @since 1.0.0
+	 */
+	public void setJsonpMapper(Class<? extends JsonpMapper> jsonpMapper) {
+		this.jsonpMapper = jsonpMapper;
+	}
+
+	/**
+	 * 返回刷新策略
+	 *
+	 * @return 刷新策略
+	 *
+	 * @since 1.0.0
+	 */
+	public RefreshPolicy getRefreshPolicy() {
+		return refreshPolicy;
+	}
+
+	/**
+	 * 设置刷新策略
+	 *
+	 * @param refreshPolicy
+	 * 		刷新策略
+	 *
+	 * @since 1.0.0
+	 */
+	public void setRefreshPolicy(RefreshPolicy refreshPolicy) {
+		this.refreshPolicy = refreshPolicy;
+	}
+
+	/**
+	 * 返回 {@link EntityCallbacks}
+	 *
+	 * @return {@link EntityCallbacks}
+	 *
+	 * @since 1.0.0
+	 */
+	public Class<? extends EntityCallbacks> getEntityCallbacks() {
+		return entityCallbacks;
+	}
+
+	/**
+	 * 设置  {@link EntityCallbacks}
+	 *
+	 * @param entityCallbacks
+	 *        {@link EntityCallbacks}
+	 *
+	 * @since 1.0.0
+	 */
+	public void setEntityCallbacks(Class<? extends EntityCallbacks> entityCallbacks) {
+		this.entityCallbacks = entityCallbacks;
 	}
 
 }
