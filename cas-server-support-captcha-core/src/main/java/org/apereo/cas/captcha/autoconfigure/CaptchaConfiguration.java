@@ -22,31 +22,26 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.web.flow.config;
+package org.apereo.cas.captcha.autoconfigure;
 
 import com.buession.httpclient.HttpClient;
 import com.buession.security.captcha.CaptchaClient;
 import com.buession.security.captcha.aliyun.AliYunCaptchaClient;
 import com.buession.security.captcha.geetest.GeetestCaptchaClient;
+import com.buession.security.captcha.geetest.GeetestParameter;
 import com.buession.security.captcha.tencent.TencentCaptchaClient;
-import org.apereo.cas.configuration.CasConfigurationProperties;
+import com.buession.security.captcha.validator.servlet.ServletAliYunCaptchaValidator;
+import com.buession.security.captcha.validator.servlet.ServletGeetestCaptchaValidator;
+import com.buession.security.captcha.validator.servlet.ServletTencentCaptchaValidator;
 import org.apereo.cas.configuration.model.support.captcha.CaptchaProperties;
-import org.apereo.cas.web.flow.CasCaptchaWebflowConfigurer;
-import org.apereo.cas.web.flow.CasWebflowConfigurer;
-import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
-import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
 
 /**
  * 验证码 Auto-Configuration
@@ -59,88 +54,117 @@ import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
 @ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "enabled", havingValue = "true")
 public class CaptchaConfiguration {
 
-	private final CasConfigurationProperties casProperties;
+	abstract static class BaseManufacturerCaptchaConfiguration {
 
-	private final CaptchaProperties properties;
+		protected final CaptchaProperties properties;
 
-	private final ConfigurableApplicationContext applicationContext;
+		protected final HttpClient httpClient;
 
-	private final FlowDefinitionRegistry loginFlowDefinitionRegistry;
+		public BaseManufacturerCaptchaConfiguration(CaptchaProperties properties,
+													ObjectProvider<HttpClient> httpClient) {
+			this.properties = properties;
+			this.httpClient = httpClient.getIfAvailable();
+		}
 
-	private final FlowBuilderServices flowBuilderServices;
+		protected void afterPropertiesSet(final CaptchaClient captchaClient) {
+			captchaClient.setJavaScript(properties.getJavascript());
+		}
 
-	private final HttpClient httpClient;
-
-	public CaptchaConfiguration(CasConfigurationProperties casProperties, CaptchaProperties properties,
-								ConfigurableApplicationContext applicationContext,
-								@Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
-								ObjectProvider<FlowBuilderServices> flowBuilderServices,
-								ObjectProvider<HttpClient> httpClient) {
-		this.casProperties = casProperties;
-		this.properties = properties;
-		this.applicationContext = applicationContext;
-		this.loginFlowDefinitionRegistry = loginFlowDefinitionRegistry.getIfAvailable();
-		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
-		this.httpClient = httpClient.getIfAvailable();
 	}
 
-	protected void afterPropertiesSet(final CaptchaClient captchaClient) {
-		captchaClient.setJavaScript(properties.getJavascript());
-	}
-
-	@Bean
-	@ConditionalOnMissingBean(name = "captchaWebflowConfigurer")
-	@DependsOn("defaultWebflowConfigurer")
-	public CasWebflowConfigurer captchaWebflowConfigurer() {
-		return new CasCaptchaWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry,
-				applicationContext, casProperties);
-	}
-
-	@Bean
-	@ConditionalOnMissingBean(name = "captchaCasWebflowExecutionPlanConfigurer")
-	public CasWebflowExecutionPlanConfigurer captchaCasWebflowExecutionPlanConfigurer() {
-		return (plan)->plan.registerWebflowConfigurer(captchaWebflowConfigurer());
-	}
-
-
-	@Bean
-	@ConditionalOnMissingBean({CaptchaClient.class})
+	@AutoConfiguration
+	@EnableConfigurationProperties(CaptchaProperties.class)
 	@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "aliyun.enabled", havingValue = "true")
-	@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-	public AliYunCaptchaClient aliYunCaptchaClient() {
-		final AliYunCaptchaClient client = new AliYunCaptchaClient(properties.getAliyun().getAccessKeyId(),
-				properties.getAliyun().getAccessKeySecret(), properties.getAliyun().getAppKey(),
-				properties.getAliyun().getRegionId(), httpClient);
+	@ConditionalOnMissingBean({CaptchaClient.class})
+	static class Aliyun extends BaseManufacturerCaptchaConfiguration {
 
-		afterPropertiesSet(client);
+		public Aliyun(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient) {
+			super(properties, httpClient);
+		}
 
-		return client;
+		@Bean
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public AliYunCaptchaClient aliYunCaptchaClient() {
+			final AliYunCaptchaClient client = new AliYunCaptchaClient(properties.getAliyun().getAccessKeyId(),
+					properties.getAliyun().getAccessKeySecret(), properties.getAliyun().getAppKey(),
+					properties.getAliyun().getRegionId(), httpClient);
+
+			afterPropertiesSet(client);
+
+			return client;
+		}
+
+		@Bean
+		@ConditionalOnMissingBean({ServletAliYunCaptchaValidator.class})
+		public ServletAliYunCaptchaValidator aliYunCaptchaValidator(ObjectProvider<AliYunCaptchaClient> captchaClient) {
+			return new ServletAliYunCaptchaValidator(captchaClient.getIfAvailable(),
+					properties.getAliyun().getParameter());
+		}
+
 	}
 
-	@Bean
-	@ConditionalOnMissingBean({CaptchaClient.class})
+	@AutoConfiguration
+	@EnableConfigurationProperties(CaptchaProperties.class)
 	@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "geetest.enabled", havingValue = "true")
-	@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-	public GeetestCaptchaClient geetestCaptchaClient() {
-		final GeetestCaptchaClient client = new GeetestCaptchaClient(properties.getGeetest().getAppId(),
-				properties.getGeetest().getSecretKey(), properties.getGeetest().getVersion(), httpClient);
+	@ConditionalOnMissingBean({CaptchaClient.class})
+	static class Geetest extends BaseManufacturerCaptchaConfiguration {
 
-		afterPropertiesSet(client);
+		public Geetest(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient) {
+			super(properties, httpClient);
+		}
 
-		return client;
+		@Bean
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public GeetestCaptchaClient geetestCaptchaClient() {
+			final GeetestCaptchaClient client = new GeetestCaptchaClient(properties.getGeetest().getAppId(),
+					properties.getGeetest().getSecretKey(), properties.getGeetest().getVersion(), httpClient);
+
+			afterPropertiesSet(client);
+
+			return client;
+		}
+
+		@Bean
+		@ConditionalOnMissingBean({ServletGeetestCaptchaValidator.class})
+		public ServletGeetestCaptchaValidator geetestCaptchaValidator(
+				ObjectProvider<GeetestCaptchaClient> captchaClient) {
+			GeetestParameter parameter = "v3".equalsIgnoreCase(
+					captchaClient.getIfAvailable().getVersion()) ? properties.getGeetest()
+					.getV3() : properties.getGeetest().getV4();
+			return new ServletGeetestCaptchaValidator(captchaClient.getIfAvailable(), parameter);
+		}
+
 	}
 
-	@Bean
-	@ConditionalOnMissingBean({CaptchaClient.class})
+	@AutoConfiguration
+	@EnableConfigurationProperties(CaptchaProperties.class)
 	@ConditionalOnProperty(prefix = CaptchaProperties.PREFIX, name = "tencent.enabled", havingValue = "true")
-	@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-	public TencentCaptchaClient tencentCaptchaClient() {
-		final TencentCaptchaClient client = new TencentCaptchaClient(properties.getTencent().getAppId(),
-				properties.getTencent().getSecretKey(), httpClient);
+	@ConditionalOnMissingBean({CaptchaClient.class})
+	static class Tencent extends BaseManufacturerCaptchaConfiguration {
 
-		afterPropertiesSet(client);
+		public Tencent(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient) {
+			super(properties, httpClient);
+		}
 
-		return client;
+		@Bean
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public TencentCaptchaClient tencentCaptchaClient() {
+			final TencentCaptchaClient client = new TencentCaptchaClient(properties.getTencent().getAppId(),
+					properties.getTencent().getSecretKey(), httpClient);
+
+			afterPropertiesSet(client);
+
+			return client;
+		}
+
+		@Bean
+		@ConditionalOnMissingBean({ServletTencentCaptchaValidator.class})
+		public ServletTencentCaptchaValidator tencentCaptchaValidator(
+				ObjectProvider<TencentCaptchaClient> captchaClient) {
+			return new ServletTencentCaptchaValidator(captchaClient.getIfAvailable(),
+					properties.getTencent().getParameter());
+		}
+
 	}
 
 }

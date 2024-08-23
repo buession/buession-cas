@@ -19,11 +19,33 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2024 Buession.com Inc.														       |
+ * | Copyright @ 2013-2023 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
+package org.apereo.cas.captcha;
+
 /**
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.2.0
  */
-package org.apereo.cas.web.flow.action;
+public class CaptchaConstants {
+
+	public final static String ENABLE_CAPTCHA = "enableCaptcha";
+
+	public final static String CAPTCHA_MANUFACTURER = "captchaManufacturer";
+
+	public final static String CAPTCHA_APP_ID = "captchaAppId";
+
+	public final static String CAPTCHA_VERSION = "captchaVersion";
+
+	public final static String CAPTCHA_JAVASCRIPTS = "captchaJavaScriptUrls";
+
+	public final static String CAPTCHA_REQUIRED_EVENT = "captchaRequired";
+
+	public final static String CAPTCHA_REQUIRED_MESSAGE_CODE = "captcha.required";
+
+	private CaptchaConstants(){
+
+	}
+
+}

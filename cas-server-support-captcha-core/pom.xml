@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<name>Buession CAS Support Captcha</name>
+	<name>Buession CAS Support Captcha Core</name>
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.buession.cas</groupId>
@@ -9,9 +9,9 @@
 		<relativePath>../buession-cas-parent</relativePath>
 		<version>3.0.0</version>
 	</parent>
-	<artifactId>cas-server-support-captcha</artifactId>
+	<artifactId>cas-server-support-captcha-core</artifactId>
 	<url>https://cas.buession.com/</url>
-	<description>cas-server-support-captcha</description>
+	<description>cas-server-support-captcha-core</description>
 	<packaging>jar</packaging>
 
 	<organization>
@@ -53,18 +53,48 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.buession.cas</groupId>
-			<artifactId>cas-server-support-captcha-core</artifactId>
-			<version>${project.version}</version>
+			<groupId>com.buession.security</groupId>
+			<artifactId>buession-security-captcha</artifactId>
+			<version>${buession.security.version}</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.buession.springcloud</groupId>
+			<artifactId>buession-springcloud-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-binding</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-webflow</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
-			<artifactId>cas-server-core-configuration</artifactId>
+			<artifactId>cas-server-core-api-webflow</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-webflow-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apereo.cas</groupId>
+			<artifactId>cas-server-core-web-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 		</dependency>
 
 		<dependency>
@@ -74,7 +104,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>cas-server-support-captcha</finalName>
+		<finalName>cas-server-support-captcha-core</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
