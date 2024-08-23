@@ -54,64 +54,21 @@
 	</issueManagement>
 
 	<modules>
-		<module>../buession-cas-core</module>
-		<module>../buession-cas-authentication</module>
-		<module>../buession-cas-audit-core</module>
-		<module>../buession-cas-audit-couchbase</module>
-		<module>../buession-cas-audit-couchdb</module>
-		<module>../buession-cas-audit-jdbc</module>
-		<module>../buession-cas-audit-mongodb</module>
-		<module>../buession-cas-audit-redis</module>
-		<module>../buession-cas-audit-rest</module>
-		<module>../buession-cas-captcha</module>
-		<module>../buession-cas-client</module>
-		<module>../buession-cas-session-core</module>
-		<module>../buession-cas-session-hazelcast</module>
-		<module>../buession-cas-session-jdbc</module>
-		<module>../buession-cas-session-mongodb</module>
-		<module>../buession-cas-session-redis</module>
-		<module>../buession-cas-logging</module>
-		<module>../buession-cas-metrics</module>
-		<module>../buession-cas-oauth</module>
-		<module>../buession-cas-rest</module>
-		<module>../buession-cas-service-core</module>
-		<module>../buession-cas-service-cassandra</module>
-		<module>../buession-cas-service-cosmosdb</module>
-		<module>../buession-cas-service-couchbase</module>
-		<module>../buession-cas-service-couchdb</module>
-		<module>../buession-cas-service-git</module>
-		<module>../buession-cas-service-jdbc</module>
-		<module>../buession-cas-service-json</module>
-		<module>../buession-cas-service-ldap</module>
-		<module>../buession-cas-service-mongodb</module>
-		<module>../buession-cas-service-redis</module>
-		<module>../buession-cas-service-rest</module>
-		<module>../buession-cas-service-yaml</module>
-		<module>../buession-cas-support-core</module>
-		<module>../buession-cas-throttle-core</module>
-		<module>../buession-cas-throttle-bucket4j</module>
-		<module>../buession-cas-throttle-couchdb</module>
-		<module>../buession-cas-throttle-hazelcast</module>
-		<module>../buession-cas-throttle-jdbc</module>
-		<module>../buession-cas-throttle-mongodb</module>
-		<module>../buession-cas-throttle-redis</module>
-		<module>../buession-cas-ticket-core</module>
-		<module>../buession-cas-ticket-cassandra</module>
-		<module>../buession-cas-ticket-couchbase</module>
-		<module>../buession-cas-ticket-couchdb</module>
-		<module>../buession-cas-ticket-ehcache</module>
-		<module>../buession-cas-ticket-hazelcast</module>
-		<module>../buession-cas-ticket-ignite</module>
-		<module>../buession-cas-ticket-infinispan</module>
-		<module>../buession-cas-ticket-jdbc</module>
-		<module>../buession-cas-ticket-jms</module>
-		<module>../buession-cas-ticket-memcached</module>
-		<module>../buession-cas-ticket-mongodb</module>
-		<module>../buession-cas-ticket-redis</module>
-		<module>../buession-cas-token</module>
-		<module>../buession-cas-view</module>
-		<module>../buession-cas-web</module>
-		<module>../buession-cas-webflow</module>
+		<module>../cas-server-support-api-logging</module>
+		<module>../cas-server-support-logging-api</module>
+		<module>../cas-server-support-logging-core</module>
+		<module>../cas-server-support-logging-console</module>
+		<module>../cas-server-support-logging-elasticsearch</module>
+		<module>../cas-server-support-logging-file</module>
+		<module>../cas-server-support-logging-jdbc</module>
+		<module>../cas-server-support-logging-kafka</module>
+		<module>../cas-server-support-logging-mongo</module>
+		<module>../cas-server-support-logging-rabbit</module>
+		<module>../cas-server-support-logging-rest</module>
+		<module>../cas-server-support-logging</module>
+		<module>../cas-server-support-captcha-core</module>
+		<module>../cas-server-support-captcha</module>
+		<module>../cas-services-registry-client</module>
 	</modules>
 
 	<properties>
@@ -136,23 +93,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.buession.springboot</groupId>
-				<artifactId>buession-springboot-boot</artifactId>
-				<version>${buession.springboot.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.buession.springboot</groupId>
-				<artifactId>buession-springboot-web</artifactId>
-				<version>${buession.springboot.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.owasp.antisamy</groupId>
-						<artifactId>antisamy</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
 				<groupId>com.buession.springcloud</groupId>
 				<artifactId>buession-springcloud-common</artifactId>
 				<version>${buession.springcloud.version}</version>
@@ -166,111 +106,24 @@
 
 			<dependency>
 				<groupId>org.apereo.cas</groupId>
-				<artifactId>cas-server-core-util-api</artifactId>
+				<artifactId>cas-server-core-configuration</artifactId>
 				<version>${cas.version}</version>
+				<scope>provided</scope>
 				<exclusions>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.inspektr</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.service.persondir</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.security</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apereo.cas</groupId>
+				<artifactId>cas-server-core-util-api</artifactId>
+				<version>${cas.version}</version>
+				<scope>provided</scope>
+				<exclusions>
 					<exclusion>
-						<groupId>org.springframework.data</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.webflow</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.cloud</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springmodules</groupId>
-						<artifactId>spring-modules-cache</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.el</groupId>
-						<artifactId>javax.el-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.annotation</groupId>
-						<artifactId>javax.annotation-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.persistence</groupId>
-						<artifactId>javax.persistence-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>javax.servlet-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.validation</groupId>
-						<artifactId>validation-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.xml.bind</groupId>
-						<artifactId>jaxb-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.xml.soap</groupId>
-						<artifactId>javax.xml.soap-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.xml.ws</groupId>
-						<artifactId>jaxws-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.main.javaee-api</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.web</groupId>
-						<artifactId>el-impl</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.quartz-scheduler</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.bouncycastle</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.nimbusds</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.velocity</groupId>
-						<artifactId>velocity-engine-core</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>io.swagger.core.v3</groupId>
+						<groupId>org.springframework.security</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 				</exclusions>
@@ -279,137 +132,62 @@
 				<groupId>org.apereo.cas</groupId>
 				<artifactId>cas-server-core-authentication-api</artifactId>
 				<version>${cas.version}</version>
+				<scope>provided</scope>
 				<exclusions>
 					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-events</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-services</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-monitor</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-ticket</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-webflow</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.inspektr</groupId>
+						<groupId>org.springframework.security</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apereo.cas</groupId>
+				<artifactId>cas-server-support-jpa-util</artifactId>
+				<version>${cas.version}</version>
+				<scope>provided</scope>
+				<exclusions>
 					<exclusion>
-						<groupId>org.apereo.service.persondir</groupId>
+						<groupId>org.springframework.security</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apereo.cas</groupId>
+				<artifactId>cas-server-support-mongo-core</artifactId>
+				<version>${cas.version}</version>
+				<scope>provided</scope>
+				<exclusions>
 					<exclusion>
-						<groupId>org.springframework</groupId>
+						<groupId>org.springframework.security</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apereo.cas</groupId>
+				<artifactId>cas-server-core-api-webflow</artifactId>
+				<version>${cas.version}</version>
+				<scope>provided</scope>
+				<exclusions>
 					<exclusion>
-						<groupId>org.springframework.data</groupId>
+						<groupId>org.springframework.security</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apereo.cas</groupId>
+				<artifactId>cas-server-core-webflow-api</artifactId>
+				<version>${cas.version}</version>
+				<scope>provided</scope>
+				<exclusions>
 					<exclusion>
 						<groupId>org.springframework.security</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 					<exclusion>
-						<groupId>org.springframework.webflow</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.cloud</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springmodules</groupId>
-						<artifactId>spring-modules-cache</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-lang</groupId>
-						<artifactId>commons-lang</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-cli</groupId>
-						<artifactId>commons-cli</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.el</groupId>
-						<artifactId>javax.el-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.annotation</groupId>
-						<artifactId>javax.annotation-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.persistence</groupId>
-						<artifactId>javax.persistence-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>javax.servlet-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.validation</groupId>
-						<artifactId>validation-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.xml.bind</groupId>
-						<artifactId>jaxb-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.xml.soap</groupId>
-						<artifactId>javax.xml.soap-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.xml.ws</groupId>
-						<artifactId>jaxws-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.main.javaee-api</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.web</groupId>
-						<artifactId>el-impl</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.httpcomponents</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.quartz-scheduler</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.bouncycastle</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
 						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.nimbusds</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>io.swagger.core.v3</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
 				</exclusions>
@@ -418,186 +196,29 @@
 				<groupId>org.apereo.cas</groupId>
 				<artifactId>cas-server-core-web-api</artifactId>
 				<version>${cas.version}</version>
+				<scope>provided</scope>
 				<exclusions>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-audit</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-authentication</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-cookie</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-logout</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-mfa</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-services</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-ticket</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-api-webflow</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-authentication-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.inspektr</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.service.persondir</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
 					<exclusion>
 						<groupId>org.springframework.security</groupId>
 						<artifactId>*</artifactId>
 					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.data</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.webflow</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.cloud</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springmodules</groupId>
-						<artifactId>spring-modules-cache</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>aopalliance</groupId>
-						<artifactId>aopalliance</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-lang</groupId>
-						<artifactId>commons-lang</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-cli</groupId>
-						<artifactId>commons-cli</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.el</groupId>
-						<artifactId>javax.el-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.annotation</groupId>
-						<artifactId>javax.annotation-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.persistence</groupId>
-						<artifactId>javax.persistence-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.servlet</groupId>
-						<artifactId>javax.servlet-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.validation</groupId>
-						<artifactId>validation-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.xml.bind</groupId>
-						<artifactId>jaxb-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.xml.soap</groupId>
-						<artifactId>javax.xml.soap-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.xml.ws</groupId>
-						<artifactId>jaxws-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.main.javaee-api</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.web</groupId>
-						<artifactId>el-impl</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.httpcomponents</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.quartz-scheduler</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.bouncycastle</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.pac4j</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.nimbusds</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>io.swagger.core.v3</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
 				</exclusions>
 			</dependency>
-
 			<dependency>
-				<groupId>org.jasig.cas.client</groupId>
-				<artifactId>cas-client-core</artifactId>
-				<version>3.6.4</version>
+				<groupId>org.apereo.cas</groupId>
+				<artifactId>cas-server-core-api-web</artifactId>
+				<version>${cas.version}</version>
+				<scope>provided</scope>
 				<exclusions>
-					<exclusion>
-						<groupId>javax.xml.bind</groupId>
-						<artifactId>jaxb-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.glassfish.jaxb</groupId>
-						<artifactId>jaxb-core</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.bouncycastle</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
+
 				</exclusions>
 			</dependency>
 
 			<dependency>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-annotations</artifactId>
-				<version>4.2.0</version>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.18.34</version>
+				<scope>provided</scope>
 			</dependency>
 
 			<dependency>
@@ -607,37 +228,9 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.quartz-scheduler</groupId>
-				<artifactId>quartz</artifactId>
-				<version>2.3.2</version>
-				<exclusions>
-					<exclusion>
-						<groupId>com.mchange</groupId>
-						<artifactId>c3p0</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.zaxxer</groupId>
-						<artifactId>*</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
 				<groupId>com.sun.istack</groupId>
 				<artifactId>istack-commons-runtime</artifactId>
 				<version>4.1.1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.fasterxml.jackson.module</groupId>
-				<artifactId>jackson-module-jaxb-annotations</artifactId>
-				<version>${fasterxml.jackson.module.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>jakarta.activation</groupId>
-						<artifactId>jakarta.activation-api</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
