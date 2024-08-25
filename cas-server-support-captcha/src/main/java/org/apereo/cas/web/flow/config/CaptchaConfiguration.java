@@ -60,7 +60,7 @@ public class CaptchaConfiguration {
 
 	private final CasConfigurationProperties casProperties;
 
-	private final CaptchaProperties properties;
+	private final CaptchaProperties captchaProperties;
 
 	private final ConfigurableApplicationContext applicationContext;
 
@@ -68,12 +68,12 @@ public class CaptchaConfiguration {
 
 	private final FlowBuilderServices flowBuilderServices;
 
-	public CaptchaConfiguration(CasConfigurationProperties casProperties, CaptchaProperties properties,
+	public CaptchaConfiguration(CasConfigurationProperties casProperties, CaptchaProperties captchaProperties,
 								ConfigurableApplicationContext applicationContext,
 								@Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
 								ObjectProvider<FlowBuilderServices> flowBuilderServices) {
 		this.casProperties = casProperties;
-		this.properties = properties;
+		this.captchaProperties = captchaProperties;
 		this.applicationContext = applicationContext;
 		this.loginFlowDefinitionRegistry = loginFlowDefinitionRegistry.getIfAvailable();
 		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
@@ -91,14 +91,14 @@ public class CaptchaConfiguration {
 	@ConditionalOnMissingBean(name = "initializeCaptchaAction")
 	@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 	public Action initializeCaptchaAction() {
-		return new InitializeCaptchaAction(properties);
+		return new InitializeCaptchaAction(captchaProperties);
 	}
 
 	@Bean
 	@ConditionalOnMissingBean(name = "validateCaptchaAction")
 	@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 	public Action validateCaptchaAction(ObjectProvider<ServletCaptchaValidator> captchaValidator) {
-		return new ValidateCaptchaAction(properties, captchaValidator.getIfAvailable());
+		return new ValidateCaptchaAction(captchaProperties, captchaValidator.getIfAvailable());
 	}
 
 	@Bean

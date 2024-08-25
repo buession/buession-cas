@@ -57,11 +57,7 @@
 			<artifactId>cas-server-support-captcha-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.apereo.cas</groupId>
-			<artifactId>cas-server-core-configuration</artifactId>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-webflow-api</artifactId>

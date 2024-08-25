@@ -66,10 +66,6 @@
 
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
-			<artifactId>cas-server-core-util-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-support-jpa-util</artifactId>
 		</dependency>
 

@@ -24,10 +24,13 @@
  */
 package org.apereo.cas.web.flow.config;
 
+import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
-import org.apereo.cas.logging.BasicLoginLoggingManager;
-import org.apereo.cas.logging.HistoryLoginLoggingManager;
+import org.apereo.cas.logging.manager.BasicLoggingManager;
+import org.apereo.cas.logging.manager.HistoryLoggingManager;
 import org.apereo.cas.web.flow.CasLoggingWebflowConfigurer;
+import org.apereo.cas.web.flow.CasWebflowConfigurer;
+import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
 import org.apereo.cas.web.flow.action.LoggingAction;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,6 +41,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
+import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
+import org.springframework.webflow.execution.Action;
 
 /**
  * @author Yong.Teng
@@ -48,10 +54,9 @@ import org.springframework.context.annotation.DependsOn;
 @ConditionalOnProperty(prefix = LoggingProperties.PREFIX, name = "enabled", havingValue = "true")
 public class LoggingConfiguration {
 
-	/*
 	private final CasConfigurationProperties casProperties;
 
-	private final LoggingProperties properties;
+	private final LoggingProperties loggingProperties;
 
 	private final ConfigurableApplicationContext applicationContext;
 
@@ -59,19 +64,19 @@ public class LoggingConfiguration {
 
 	private final FlowBuilderServices flowBuilderServices;
 
-	public LoggingConfiguration(CasConfigurationProperties casProperties, LoggingProperties properties,
+	public LoggingConfiguration(CasConfigurationProperties casProperties, LoggingProperties loggingProperties,
 								ConfigurableApplicationContext applicationContext,
 								@Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
 								ObjectProvider<FlowBuilderServices> flowBuilderServices) {
 		this.casProperties = casProperties;
-		this.properties = properties;
+		this.loggingProperties = loggingProperties;
 		this.applicationContext = applicationContext;
 		this.loginFlowDefinitionRegistry = loginFlowDefinitionRegistry.getIfAvailable();
 		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(name = "captchaWebflowConfigurer")
+	@ConditionalOnMissingBean(name = "loggingWebflowConfigurer")
 	@DependsOn("defaultWebflowConfigurer")
 	public CasWebflowConfigurer loggingWebflowConfigurer() {
 		return new CasLoggingWebflowConfigurer(flowBuilderServices, loginFlowDefinitionRegistry,
@@ -80,10 +85,10 @@ public class LoggingConfiguration {
 
 	@Bean(name = LoggingAction.NAME)
 	@ConditionalOnMissingBean(name = LoggingAction.NAME)
-	public Action loggingAction(ObjectProvider<BasicLoginLoggingManager> basicLoginLoggingManager,
-								ObjectProvider<HistoryLoginLoggingManager> historyLoginLoggingManager) {
-		return new LoggingAction(properties, basicLoginLoggingManager.getIfAvailable(),
-				historyLoginLoggingManager.getIfAvailable());
+	public Action loggingAction(ObjectProvider<BasicLoggingManager> basicLoggingManager,
+								ObjectProvider<HistoryLoggingManager> historyLoggingManager) {
+		return new LoggingAction(loggingProperties, basicLoggingManager.getIfAvailable(),
+				historyLoggingManager.getIfAvailable());
 	}
 
 	@Bean
@@ -91,7 +96,5 @@ public class LoggingConfiguration {
 	public CasWebflowExecutionPlanConfigurer loggingCasWebflowExecutionPlanConfigurer() {
 		return (plan)->plan.registerWebflowConfigurer(loggingWebflowConfigurer());
 	}
-	
-	 */
 
 }
