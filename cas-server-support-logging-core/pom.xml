@@ -59,6 +59,10 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.buession.springboot</groupId>
+			<artifactId>buession-springboot-boot</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.buession.springcloud</groupId>
 			<artifactId>buession-springcloud-common</artifactId>
 		</dependency>

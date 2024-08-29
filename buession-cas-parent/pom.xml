@@ -93,6 +93,11 @@
 			</dependency>
 
 			<dependency>
+				<groupId>com.buession.springboot</groupId>
+				<artifactId>buession-springboot-boot</artifactId>
+				<version>${buession.springboot.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>com.buession.springcloud</groupId>
 				<artifactId>buession-springcloud-common</artifactId>
 				<version>${buession.springcloud.version}</version>
