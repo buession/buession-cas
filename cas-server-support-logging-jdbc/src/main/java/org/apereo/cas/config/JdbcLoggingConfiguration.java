@@ -24,6 +24,11 @@
  */
 package org.apereo.cas.config;
 
+import com.buession.core.id.IdGenerator;
+import com.buession.core.validator.Validate;
+import com.buession.logging.core.formatter.GeoFormatter;
+import com.buession.logging.core.formatter.MapFormatter;
+import com.buession.logging.jdbc.converter.LogDataConverter;
 import com.buession.logging.jdbc.spring.JdbcLogHandlerFactoryBean;
 import com.buession.logging.jdbc.spring.config.AbstractJdbcLogHandlerConfiguration;
 import com.buession.logging.jdbc.spring.config.JdbcLogHandlerFactoryBeanConfigurer;
@@ -65,15 +70,52 @@ public class JdbcLoggingConfiguration extends AbstractLogHandlerConfiguration {
 		final JdbcLogHandlerFactoryBeanConfigurer configurer = new JdbcLogHandlerFactoryBeanConfigurer();
 
 		configurer.setSql(jdbcLoggingProperties.getSql());
-		propertyMapper.from(jdbcLoggingProperties::getIdGenerator).as(BeanUtils::instantiateClass)
-				.to(configurer::setIdGenerator);
 		configurer.setDateTimeFormat(jdbcLoggingProperties.getDateTimeFormat());
-		propertyMapper.from(jdbcLoggingProperties::getRequestParametersFormatter).as(BeanUtils::instantiateClass)
-				.to(configurer::setRequestParametersFormatter);
-		propertyMapper.from(jdbcLoggingProperties::getExtraFormatter).as(BeanUtils::instantiateClass)
-				.to(configurer::setExtraFormatter);
-		propertyMapper.from(jdbcLoggingProperties.getDataConverter()).as(BeanUtils::instantiateClass)
-				.to(configurer::setDataConverter);
+
+		if(Validate.hasText(jdbcLoggingProperties.getIdGeneratorClass())){
+			try{
+				configurer.setIdGenerator((IdGenerator<?>) BeanUtils.instantiateClass(
+						Class.forName(jdbcLoggingProperties.getIdGeneratorClass())));
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+		}
+
+		if(Validate.hasText(jdbcLoggingProperties.getRequestParametersFormatterClass())){
+			try{
+				configurer.setRequestParametersFormatter((MapFormatter<Object>) BeanUtils.instantiateClass(
+						Class.forName(jdbcLoggingProperties.getRequestParametersFormatterClass())));
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+		}
+
+		if(Validate.hasText(jdbcLoggingProperties.getGeoFormatterClass())){
+			try{
+				configurer.setGeoFormatter((GeoFormatter) BeanUtils.instantiateClass(
+						Class.forName(jdbcLoggingProperties.getGeoFormatterClass())));
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+		}
+
+		if(Validate.hasText(jdbcLoggingProperties.getExtraFormatterClass())){
+			try{
+				configurer.setExtraFormatter((MapFormatter<Object>) BeanUtils.instantiateClass(
+						Class.forName(jdbcLoggingProperties.getExtraFormatterClass())));
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+		}
+
+		if(Validate.hasText(jdbcLoggingProperties.getDataConverterClass())){
+			try{
+				configurer.setDataConverter((LogDataConverter) BeanUtils.instantiateClass(
+						Class.forName(jdbcLoggingProperties.getDataConverterClass())));
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+		}
 
 		return configurer;
 	}

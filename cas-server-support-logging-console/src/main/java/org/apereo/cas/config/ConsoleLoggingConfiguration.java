@@ -24,6 +24,8 @@
  */
 package org.apereo.cas.config;
 
+import com.buession.core.validator.Validate;
+import com.buession.logging.console.formatter.ConsoleLogDataFormatter;
 import com.buession.logging.console.spring.ConsoleLogHandlerFactoryBean;
 import com.buession.logging.console.spring.config.AbstractConsoleLogHandlerConfiguration;
 import com.buession.logging.console.spring.config.ConsoleLogHandlerFactoryBeanConfigurer;
@@ -63,8 +65,15 @@ public class ConsoleLoggingConfiguration extends AbstractLogHandlerConfiguration
 		final ConsoleLogHandlerFactoryBeanConfigurer configurer = new ConsoleLogHandlerFactoryBeanConfigurer();
 
 		configurer.setTemplate(consoleLoggingProperties.getTemplate());
-		propertyMapper.from(consoleLoggingProperties::getFormatter).as(BeanUtils::instantiateClass)
-				.to(configurer::setFormatter);
+		if(Validate.hasText(consoleLoggingProperties.getFormatterClass())){
+			try{
+				configurer.setFormatter(
+						(ConsoleLogDataFormatter) BeanUtils.instantiateClass(
+								Class.forName(consoleLoggingProperties.getFormatterClass())));
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+		}
 
 		return configurer;
 	}

@@ -25,15 +25,15 @@
 package org.apereo.cas.configuration.model.support.logging;
 
 import com.buession.logging.core.SslConfiguration;
-import com.buession.logging.rabbitmq.core.Cache;
-import com.buession.logging.rabbitmq.core.Retry;
+import com.buession.logging.rabbitmq.support.RabbitRetryTemplateConfigurer;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.retry.support.RetryTemplate;
 
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.List;
 
 /**
  * RabbitMQ 日志适配器配置
@@ -154,7 +154,7 @@ public class RabbitLoggingProperties implements AdapterLoggingProperties, Serial
 	 *
 	 * @since 1.0.0
 	 */
-	private Class<? extends MessageConverter> messageConverter;
+	private String messageConverterClass = "org.springframework.amqp.support.converter.Jackson2JsonMessageConverter";
 
 	/**
 	 * 缓存配置
@@ -535,18 +535,18 @@ public class RabbitLoggingProperties implements AdapterLoggingProperties, Serial
 	 *
 	 * @return 消息转换器
 	 */
-	public Class<? extends MessageConverter> getMessageConverter() {
-		return messageConverter;
+	public String getMessageConverterClass() {
+		return messageConverterClass;
 	}
 
 	/**
 	 * 设置消息转换器
 	 *
-	 * @param messageConverter
+	 * @param messageConverterClass
 	 * 		消息转换器
 	 */
-	public void setMessageConverter(Class<? extends MessageConverter> messageConverter) {
-		this.messageConverter = messageConverter;
+	public void setMessageConverterClass(String messageConverterClass) {
+		this.messageConverterClass = messageConverterClass;
 	}
 
 	/**
@@ -589,6 +589,247 @@ public class RabbitLoggingProperties implements AdapterLoggingProperties, Serial
 	 */
 	public void setRetry(Retry retry) {
 		this.retry = retry;
+	}
+
+	/**
+	 * 缓存配置
+	 *
+	 * @author Yong.Teng
+	 * @since 0.0.1
+	 */
+	public final static class Cache implements Serializable {
+
+		private final static long serialVersionUID = -8073730230057329751L;
+
+		/**
+		 * Channel 缓存
+		 */
+		private Channel channel;
+
+		/**
+		 * 连接缓存
+		 */
+		private Connection connection;
+
+		/**
+		 * 返回 Channel 缓存
+		 *
+		 * @return Channel 缓存
+		 */
+		public Channel getChannel() {
+			return channel;
+		}
+
+		/**
+		 * 设置 Channel 缓存
+		 *
+		 * @param channel
+		 * 		Channel 缓存
+		 */
+		public void setChannel(Channel channel) {
+			this.channel = channel;
+		}
+
+		/**
+		 * 返回连接缓存
+		 *
+		 * @return 连接缓存
+		 */
+		public Connection getConnection() {
+			return connection;
+		}
+
+		/**
+		 * 设置连接缓存
+		 *
+		 * @param connection
+		 * 		连接缓存
+		 */
+		public void setConnection(Connection connection) {
+			this.connection = connection;
+		}
+
+		/**
+		 * Channel 缓存
+		 */
+		public final class Channel implements Serializable {
+
+			private final static long serialVersionUID = 4445351391691920081L;
+
+			/**
+			 * 每个连接的缓存大小，仅 {@link #checkoutTimeout} &lt; 0 时
+			 */
+			private Integer size;
+
+			/**
+			 * Duration to wait to obtain a channel if the cache size has been reached.
+			 * If 0, always create a new channel.
+			 */
+			private Duration checkoutTimeout;
+
+			/**
+			 * 返回每个连接的缓存大小
+			 *
+			 * @return 每个连接的缓存大小
+			 */
+			public Integer getSize() {
+				return this.size;
+			}
+
+			/**
+			 * 设置每个连接的缓存大小
+			 *
+			 * @param size
+			 * 		每个连接的缓存大小
+			 */
+			public void setSize(Integer size) {
+				this.size = size;
+			}
+
+			/**
+			 * Return duration to wait to obtain a channel if the cache size has been reached.
+			 *
+			 * @return Duration to wait to obtain a channel if the cache size has been reached.
+			 */
+			public Duration getCheckoutTimeout() {
+				return this.checkoutTimeout;
+			}
+
+			/**
+			 * Sets duration to wait to obtain a channel if the cache size has been reached.
+			 *
+			 * @param checkoutTimeout
+			 * 		Duration to wait to obtain a channel if the cache size has been reached.
+			 */
+			public void setCheckoutTimeout(Duration checkoutTimeout) {
+				this.checkoutTimeout = checkoutTimeout;
+			}
+
+		}
+
+		/**
+		 * 连接缓存
+		 */
+		public final static class Connection implements Serializable {
+
+			private final static long serialVersionUID = -748010261766848625L;
+
+			/**
+			 * 连接工厂缓存模式
+			 */
+			private CachingConnectionFactory.CacheMode mode = CachingConnectionFactory.CacheMode.CHANNEL;
+
+			/**
+			 * 缓存大小，仅适用于 {@link CachingConnectionFactory.CacheMode#CONNECTION}
+			 */
+			private Integer size;
+
+			/**
+			 * 返回连接工厂缓存模式
+			 *
+			 * @return 连接工厂缓存模式
+			 */
+			public CachingConnectionFactory.CacheMode getMode() {
+				return this.mode;
+			}
+
+			/**
+			 * 设置连接工厂缓存模式
+			 *
+			 * @param mode
+			 * 		连接工厂缓存模式
+			 */
+			public void setMode(CachingConnectionFactory.CacheMode mode) {
+				this.mode = mode;
+			}
+
+			/**
+			 * 返回缓存大小
+			 *
+			 * @return 缓存大小
+			 */
+			public Integer getSize() {
+				return this.size;
+			}
+
+			/**
+			 * 设置缓存大小
+			 *
+			 * @param size
+			 * 		缓存大小
+			 */
+			public void setSize(Integer size) {
+				this.size = size;
+			}
+
+		}
+
+	}
+
+	/**
+	 * 重试配置
+	 *
+	 * @author Yong.Teng
+	 * @since 0.0.1
+	 */
+	public final static class Retry extends com.buession.lang.Retry {
+
+		private final static long serialVersionUID = -8889282111487270647L;
+
+		/**
+		 * 是否启用重试
+		 */
+		private boolean enabled;
+
+		/**
+		 * {@link RetryTemplate} 配置器
+		 *
+		 * @since 1.0.0
+		 */
+		private List<RabbitRetryTemplateConfigurer> retryConfigurers;
+
+		/**
+		 * 返回是否启用重试
+		 *
+		 * @return 是否启用重试
+		 */
+		public boolean isEnabled() {
+			return this.enabled;
+		}
+
+		/**
+		 * 设置是否启用重试
+		 *
+		 * @param enabled
+		 * 		是否启用重试
+		 */
+		public void setEnabled(boolean enabled) {
+			this.enabled = enabled;
+		}
+
+		/**
+		 * 返回 {@link RetryTemplate} 配置器
+		 *
+		 * @return {@link RetryTemplate} 配置器
+		 *
+		 * @since 1.0.0
+		 */
+		public List<RabbitRetryTemplateConfigurer> getRetryCustomizers() {
+			return retryConfigurers;
+		}
+
+		/**
+		 * 设置 {@link RetryTemplate} 配置器
+		 *
+		 * @param retryConfigurers
+		 *        {@link RetryTemplate} 配置器
+		 *
+		 * @since 1.0.0
+		 */
+		public void setRetryCustomizers(List<RabbitRetryTemplateConfigurer> retryConfigurers) {
+			this.retryConfigurers = retryConfigurers;
+		}
+
 	}
 
 }

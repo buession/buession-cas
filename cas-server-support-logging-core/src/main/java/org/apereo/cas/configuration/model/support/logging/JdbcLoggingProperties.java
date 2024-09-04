@@ -24,13 +24,6 @@
  */
 package org.apereo.cas.configuration.model.support.logging;
 
-import com.buession.core.id.IdGenerator;
-import com.buession.logging.core.formatter.GeoFormatter;
-import com.buession.logging.core.formatter.MapFormatter;
-import com.buession.logging.jdbc.converter.DefaultLogDataConverter;
-import com.buession.logging.jdbc.converter.LogDataConverter;
-import com.buession.logging.jdbc.formatter.DefaultGeoFormatter;
-import com.buession.logging.jdbc.formatter.JsonMapFormatter;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.model.support.jpa.AbstractJpaProperties;
 import org.apereo.cas.configuration.support.RequiredProperty;
@@ -58,7 +51,7 @@ public class JdbcLoggingProperties extends AbstractJpaProperties implements Adap
 	 * ID 生成器
 	 */
 	@RequiredProperty
-	private Class<? extends IdGenerator<?>> idGenerator;
+	private String idGeneratorClass;
 
 	/**
 	 * 日期时间格式
@@ -68,22 +61,22 @@ public class JdbcLoggingProperties extends AbstractJpaProperties implements Adap
 	/**
 	 * 请求参数格式化为字符串
 	 */
-	private Class<? extends MapFormatter<Object>> requestParametersFormatter = JsonMapFormatter.class;
+	private String requestParametersFormatterClass = "com.buession.logging.jdbc.formatter.JsonMapFormatter";
 
 	/**
 	 * Geo 格式化
 	 */
-	private Class<? extends GeoFormatter> geoFormatter = DefaultGeoFormatter.class;
+	private String geoFormatterClass = "com.buession.logging.jdbc.formatter.DefaultGeoFormatter";
 
 	/**
 	 * 附加参数格式化为字符串
 	 */
-	private Class<? extends MapFormatter<Object>> extraFormatter = JsonMapFormatter.class;
+	private String extraFormatterClass = "com.buession.logging.jdbc.formatter.JsonMapFormatter";
 
 	/**
 	 * 日志数据转换器
 	 */
-	private Class<? extends LogDataConverter> dataConverter = DefaultLogDataConverter.class;
+	private String dataConverterClass = "com.buession.logging.jdbc.converter.DefaultLogDataConverter";
 
 	/**
 	 * 返回 SQL
@@ -109,18 +102,18 @@ public class JdbcLoggingProperties extends AbstractJpaProperties implements Adap
 	 *
 	 * @return ID 生成器
 	 */
-	public Class<? extends IdGenerator<?>> getIdGenerator() {
-		return idGenerator;
+	public String getIdGeneratorClass() {
+		return idGeneratorClass;
 	}
 
 	/**
 	 * 设置 ID 生成器
 	 *
-	 * @param idGenerator
+	 * @param idGeneratorClass
 	 * 		ID 生成器
 	 */
-	public void setIdGenerator(Class<? extends IdGenerator<?>> idGenerator) {
-		this.idGenerator = idGenerator;
+	public void setIdGenerator(String idGeneratorClass) {
+		this.idGeneratorClass = idGeneratorClass;
 	}
 
 	/**
@@ -147,18 +140,18 @@ public class JdbcLoggingProperties extends AbstractJpaProperties implements Adap
 	 *
 	 * @return 请求参数格式化为字符串
 	 */
-	public Class<? extends MapFormatter<Object>> getRequestParametersFormatter() {
-		return requestParametersFormatter;
+	public String getRequestParametersFormatterClass() {
+		return requestParametersFormatterClass;
 	}
 
 	/**
 	 * 设置请求参数格式化为字符串
 	 *
-	 * @param requestParametersFormatter
+	 * @param requestParametersFormatterClass
 	 * 		请求参数格式化为字符串
 	 */
-	public void setRequestParametersFormatter(Class<? extends MapFormatter<Object>> requestParametersFormatter) {
-		this.requestParametersFormatter = requestParametersFormatter;
+	public void setRequestParametersFormatterClass(String requestParametersFormatterClass) {
+		this.requestParametersFormatterClass = requestParametersFormatterClass;
 	}
 
 	/**
@@ -166,18 +159,18 @@ public class JdbcLoggingProperties extends AbstractJpaProperties implements Adap
 	 *
 	 * @return Geo 格式化
 	 */
-	public Class<? extends GeoFormatter> getGeoFormatter() {
-		return geoFormatter;
+	public String getGeoFormatterClass() {
+		return geoFormatterClass;
 	}
 
 	/**
 	 * 设置 Geo 格式化
 	 *
-	 * @param geoFormatter
+	 * @param geoFormatterClass
 	 * 		Geo 格式化
 	 */
-	public void setGeoFormatter(Class<? extends GeoFormatter> geoFormatter) {
-		this.geoFormatter = geoFormatter;
+	public void setGeoFormatterClass(String geoFormatterClass) {
+		this.geoFormatterClass = geoFormatterClass;
 	}
 
 	/**
@@ -185,18 +178,18 @@ public class JdbcLoggingProperties extends AbstractJpaProperties implements Adap
 	 *
 	 * @return 附加参数格式化为字符串
 	 */
-	public Class<? extends MapFormatter<Object>> getExtraFormatter() {
-		return extraFormatter;
+	public String getExtraFormatterClass() {
+		return extraFormatterClass;
 	}
 
 	/**
 	 * 设置附加参数格式化为字符串
 	 *
-	 * @param extraFormatter
+	 * @param extraFormatterClass
 	 * 		附加参数格式化为字符串
 	 */
-	public void setExtraFormatter(Class<? extends MapFormatter<Object>> extraFormatter) {
-		this.extraFormatter = extraFormatter;
+	public void setExtraFormatterClass(String extraFormatterClass) {
+		this.extraFormatterClass = extraFormatterClass;
 	}
 
 	/**
@@ -204,18 +197,18 @@ public class JdbcLoggingProperties extends AbstractJpaProperties implements Adap
 	 *
 	 * @return 日志数据转换器
 	 */
-	public Class<? extends LogDataConverter> getDataConverter() {
-		return dataConverter;
+	public String getDataConverterClass() {
+		return dataConverterClass;
 	}
 
 	/**
 	 * 设置日志数据转换器
 	 *
-	 * @param dataConverter
+	 * @param dataConverterClass
 	 * 		日志数据转换器
 	 */
-	public void setLogDataConverter(Class<? extends LogDataConverter> dataConverter) {
-		this.dataConverter = dataConverter;
+	public void setLogDataConverter(String dataConverterClass) {
+		this.dataConverterClass = dataConverterClass;
 	}
 
 }

@@ -24,8 +24,6 @@
  */
 package org.apereo.cas.configuration.model.support.logging;
 
-import com.buession.logging.core.formatter.DefaultLogDataFormatter;
-import com.buession.logging.core.formatter.LogDataFormatter;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
 
@@ -51,7 +49,7 @@ public class FileLoggingProperties implements AdapterLoggingProperties, Serializ
 	/**
 	 * 日志格式化
 	 */
-	private Class<? extends LogDataFormatter<String>> formatter = DefaultLogDataFormatter.class;
+	private String formatterClass = "com.buession.logging.core.formatter.DefaultLogDataFormatter";
 
 	/**
 	 * 返回日志文件路径
@@ -77,18 +75,18 @@ public class FileLoggingProperties implements AdapterLoggingProperties, Serializ
 	 *
 	 * @return 日志格式化
 	 */
-	public Class<? extends LogDataFormatter<String>> getFormatter() {
-		return formatter;
+	public String getFormatterClass() {
+		return formatterClass;
 	}
 
 	/**
 	 * 设置日志格式化
 	 *
-	 * @param formatter
+	 * @param formatterClass
 	 * 		日志格式化
 	 */
-	public void setFormatter(Class<? extends LogDataFormatter<String>> formatter) {
-		this.formatter = formatter;
+	public void setFormatterClass(String formatterClass) {
+		this.formatterClass = formatterClass;
 	}
 
 

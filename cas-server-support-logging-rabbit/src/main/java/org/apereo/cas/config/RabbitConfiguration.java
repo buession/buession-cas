@@ -24,7 +24,7 @@
  */
 package org.apereo.cas.config;
 
-import com.buession.core.converter.mapper.PropertyMapper;
+import com.buession.core.validator.Validate;
 import com.buession.logging.rabbitmq.spring.config.AbstractRabbitConfiguration;
 import com.buession.logging.rabbitmq.spring.config.RabbitConfigurer;
 import org.apereo.cas.configuration.model.support.logging.BasicLoggingProperties;
@@ -34,6 +34,7 @@ import org.apereo.cas.configuration.model.support.logging.RabbitLoggingPropertie
 import org.apereo.cas.logging.Constants;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -53,8 +54,6 @@ import org.springframework.context.annotation.ScopedProxyMode;
 @AutoConfiguration
 public class RabbitConfiguration {
 
-	private final static PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
-
 	protected static RabbitConfigurer rabbitConfigurer(final RabbitLoggingProperties rabbitLoggingProperties) {
 		final RabbitConfigurer configurer = new RabbitConfigurer();
 
@@ -73,10 +72,54 @@ public class RabbitConfiguration {
 		configurer.setSslConfiguration(rabbitLoggingProperties.getSslConfiguration());
 		configurer.setPublisherReturns(rabbitLoggingProperties.isPublisherReturns());
 		configurer.setPublisherConfirmType(rabbitLoggingProperties.getPublisherConfirmType());
-		propertyMapper.from(rabbitLoggingProperties::getMessageConverter).as(BeanUtils::instantiateClass)
-				.to(configurer::setMessageConverter);
-		configurer.setCache(rabbitLoggingProperties.getCache());
-		configurer.setRetry(rabbitLoggingProperties.getRetry());
+
+		if(rabbitLoggingProperties.getCache() != null){
+			com.buession.logging.rabbitmq.core.Cache cache = new com.buession.logging.rabbitmq.core.Cache();
+
+			if(rabbitLoggingProperties.getCache().getConnection() != null){
+				com.buession.logging.rabbitmq.core.Cache.Connection connection =
+						new com.buession.logging.rabbitmq.core.Cache.Connection();
+
+				connection.setMode(rabbitLoggingProperties.getCache().getConnection().getMode());
+				connection.setSize(rabbitLoggingProperties.getCache().getConnection().getSize());
+
+				cache.setConnection(connection);
+			}
+
+			if(rabbitLoggingProperties.getCache().getChannel() != null){
+				com.buession.logging.rabbitmq.core.Cache.Channel channel = new com.buession.logging.rabbitmq.core.Cache.Channel();
+
+				channel.setSize(rabbitLoggingProperties.getCache().getChannel().getSize());
+				channel.setCheckoutTimeout(rabbitLoggingProperties.getCache().getChannel().getCheckoutTimeout());
+
+				cache.setChannel(channel);
+			}
+
+			configurer.setCache(cache);
+		}
+
+		if(rabbitLoggingProperties.getRetry() != null){
+			com.buession.logging.rabbitmq.core.Retry retry = new com.buession.logging.rabbitmq.core.Retry();
+
+			retry.setEnabled(rabbitLoggingProperties.getRetry().isEnabled());
+			retry.setMaxAttempts(rabbitLoggingProperties.getRetry().getMaxAttempts());
+			retry.setInitialInterval(rabbitLoggingProperties.getRetry().getInitialInterval());
+			retry.setMultiplier(rabbitLoggingProperties.getRetry().getMultiplier());
+			retry.setMaxInterval(rabbitLoggingProperties.getRetry().getMaxInterval());
+			retry.setRetryCustomizers(rabbitLoggingProperties.getRetry().getRetryCustomizers());
+
+			configurer.setRetry(retry);
+		}
+
+		if(Validate.hasText(rabbitLoggingProperties.getMessageConverterClass())){
+			try{
+				configurer.setMessageConverter(
+						(MessageConverter) BeanUtils.instantiateClass(
+								Class.forName(rabbitLoggingProperties.getMessageConverterClass())));
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+		}
 
 		return configurer;
 	}

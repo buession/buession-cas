@@ -27,8 +27,6 @@ package org.apereo.cas.configuration.model.support.logging;
 import com.buession.httpclient.conn.nio.IOReactorConfig;
 import com.buession.httpclient.core.Configuration;
 import com.buession.logging.core.RequestMethod;
-import com.buession.logging.rest.core.JsonRequestBodyBuilder;
-import com.buession.logging.rest.core.RequestBodyBuilder;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -61,7 +59,7 @@ public class RestLoggingProperties implements AdapterLoggingProperties, Serializ
 	/**
 	 * 请求体构建器
 	 */
-	private Class<? extends RequestBodyBuilder> requestBodyBuilder = JsonRequestBodyBuilder.class;
+	private String requestBodyBuilderClass = "com.buession.logging.rest.core.JsonRequestBodyBuilder";
 
 	/**
 	 * {@link com.buession.httpclient.HttpClient} 配置
@@ -114,18 +112,18 @@ public class RestLoggingProperties implements AdapterLoggingProperties, Serializ
 	 *
 	 * @return 请求体构建器
 	 */
-	public Class<? extends RequestBodyBuilder> getRequestBodyBuilder() {
-		return requestBodyBuilder;
+	public String getRequestBodyBuilderClass() {
+		return requestBodyBuilderClass;
 	}
 
 	/**
 	 * 设置请求体构建器
 	 *
-	 * @param requestBodyBuilder
+	 * @param requestBodyBuilderClass
 	 * 		请求体构建器
 	 */
-	public void setRequestBodyBuilder(Class<? extends RequestBodyBuilder> requestBodyBuilder) {
-		this.requestBodyBuilder = requestBodyBuilder;
+	public void setRequestBodyBuilderClass(String requestBodyBuilderClass) {
+		this.requestBodyBuilderClass = requestBodyBuilderClass;
 	}
 
 	/**

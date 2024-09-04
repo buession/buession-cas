@@ -60,6 +60,7 @@ import org.springframework.data.elasticsearch.core.RefreshPolicy;
 import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
 import org.springframework.data.elasticsearch.core.convert.ElasticsearchCustomConversions;
 import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
+import org.springframework.data.mapping.callback.EntityCallbacks;
 
 import java.net.URI;
 import java.time.Duration;
@@ -73,7 +74,7 @@ import java.time.Duration;
 @AutoConfiguration
 public class ElasticsearchConfiguration {
 
-	protected final static PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+	protected final static PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenHasText();
 
 	protected static ElasticsearchConfigurer elasticsearchConfigurer(
 			final ElasticsearchLoggingProperties elasticsearchLoggingProperties) {
@@ -83,8 +84,15 @@ public class ElasticsearchConfiguration {
 		configurer.setPathPrefix(elasticsearchLoggingProperties.getPathPrefix());
 		configurer.setHeaders(elasticsearchLoggingProperties.getHeaders());
 		configurer.setParameters(elasticsearchLoggingProperties.getParameters());
-		propertyMapper.from(elasticsearchLoggingProperties::getEntityCallbacks).as(BeanUtils::instantiateClass)
-				.to(configurer::setEntityCallbacks);
+
+		if(Validate.hasText(elasticsearchLoggingProperties.getEntityCallbacksClass())){
+			try{
+				configurer.setEntityCallbacks((EntityCallbacks) BeanUtils.instantiateClass(
+						Class.forName(elasticsearchLoggingProperties.getEntityCallbacksClass())));
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+		}
 
 		return configurer;
 	}

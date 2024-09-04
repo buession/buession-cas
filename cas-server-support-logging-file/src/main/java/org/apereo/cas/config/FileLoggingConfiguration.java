@@ -24,6 +24,8 @@
  */
 package org.apereo.cas.config;
 
+import com.buession.core.validator.Validate;
+import com.buession.logging.core.formatter.LogDataFormatter;
 import com.buession.logging.file.spring.FileLogHandlerFactoryBean;
 import com.buession.logging.file.spring.config.AbstractFileLogHandlerConfiguration;
 import com.buession.logging.file.spring.config.FileLogHandlerFactoryBeanConfigurer;
@@ -65,8 +67,15 @@ public class FileLoggingConfiguration extends AbstractLogHandlerConfiguration {
 		final FileLogHandlerFactoryBeanConfigurer configurer = new FileLogHandlerFactoryBeanConfigurer();
 
 		configurer.setPath(fileLoggingProperties.getPath());
-		propertyMapper.from(fileLoggingProperties::getFormatter).as(BeanUtils::instantiateClass)
-				.to(configurer::setFormatter);
+
+		if(Validate.hasText(fileLoggingProperties.getFormatterClass())){
+			try{
+				configurer.setFormatter((LogDataFormatter<String>)
+						BeanUtils.instantiateClass(Class.forName(fileLoggingProperties.getFormatterClass())));
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+		}
 
 		return configurer;
 	}

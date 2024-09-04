@@ -25,7 +25,6 @@
 package org.apereo.cas.configuration.model.support.logging;
 
 import com.buession.logging.console.formatter.ConsoleLogDataFormatter;
-import com.buession.logging.console.formatter.DefaultConsoleLogDataFormatter;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
 
@@ -52,7 +51,7 @@ public class ConsoleLoggingProperties implements AdapterLoggingProperties, Seria
 	/**
 	 * 格式化 {@link ConsoleLogDataFormatter}
 	 */
-	private Class<? extends ConsoleLogDataFormatter> formatter;
+	private String formatterClass = "com.buession.logging.console.formatter.DefaultConsoleLogDataFormatter";
 
 	/**
 	 * 返回日志模板
@@ -78,18 +77,18 @@ public class ConsoleLoggingProperties implements AdapterLoggingProperties, Seria
 	 *
 	 * @return 格式化 {@link ConsoleLogDataFormatter}
 	 */
-	public Class<? extends ConsoleLogDataFormatter> getFormatter() {
-		return formatter;
+	public String getFormatterClass() {
+		return formatterClass;
 	}
 
 	/**
 	 * 设置格式化 {@link ConsoleLogDataFormatter} 类名
 	 *
-	 * @param formatter
+	 * @param formatterClass
 	 * 		格式化 {@link ConsoleLogDataFormatter} 类名
 	 */
-	public void setFormatter(Class<? extends ConsoleLogDataFormatter> formatter) {
-		this.formatter = formatter;
+	public void setFormatterClass(String formatterClass) {
+		this.formatterClass = formatterClass;
 	}
 
 }

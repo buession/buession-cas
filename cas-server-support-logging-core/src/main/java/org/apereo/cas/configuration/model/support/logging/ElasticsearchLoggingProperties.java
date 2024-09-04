@@ -24,8 +24,6 @@
  */
 package org.apereo.cas.configuration.model.support.logging;
 
-import co.elastic.clients.json.JsonpMapper;
-import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import com.buession.core.builder.ListBuilder;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
@@ -111,13 +109,6 @@ public class ElasticsearchLoggingProperties implements AdapterLoggingProperties,
 	private Boolean autoCreateIndex;
 
 	/**
-	 * JSONP Mapper {@link JsonpMapper}
-	 *
-	 * @since 1.0.0
-	 */
-	private Class<? extends JsonpMapper> jsonpMapper = JacksonJsonpMapper.class;
-
-	/**
 	 * 刷新策略
 	 *
 	 * @since 1.0.0
@@ -129,7 +120,7 @@ public class ElasticsearchLoggingProperties implements AdapterLoggingProperties,
 	 *
 	 * @since 1.0.0
 	 */
-	private Class<? extends EntityCallbacks> entityCallbacks;
+	private String entityCallbacksClass;
 
 	/**
 	 * 返回 Elasticsearch URL 地址
@@ -343,29 +334,6 @@ public class ElasticsearchLoggingProperties implements AdapterLoggingProperties,
 	}
 
 	/**
-	 * 返回 JSONP Mapper {@link JsonpMapper}
-	 *
-	 * @return JSONP Mapper {@link JsonpMapper}
-	 *
-	 * @since 1.0.0
-	 */
-	public Class<? extends JsonpMapper> getJsonpMapper() {
-		return jsonpMapper;
-	}
-
-	/**
-	 * 设置 JSONP Mapper {@link JsonpMapper}
-	 *
-	 * @param jsonpMapper
-	 * 		JSONP Mapper {@link JsonpMapper}
-	 *
-	 * @since 1.0.0
-	 */
-	public void setJsonpMapper(Class<? extends JsonpMapper> jsonpMapper) {
-		this.jsonpMapper = jsonpMapper;
-	}
-
-	/**
 	 * 返回刷新策略
 	 *
 	 * @return 刷新策略
@@ -395,20 +363,20 @@ public class ElasticsearchLoggingProperties implements AdapterLoggingProperties,
 	 *
 	 * @since 1.0.0
 	 */
-	public Class<? extends EntityCallbacks> getEntityCallbacks() {
-		return entityCallbacks;
+	public String getEntityCallbacksClass() {
+		return entityCallbacksClass;
 	}
 
 	/**
 	 * 设置  {@link EntityCallbacks}
 	 *
-	 * @param entityCallbacks
+	 * @param entityCallbacksClass
 	 *        {@link EntityCallbacks}
 	 *
 	 * @since 1.0.0
 	 */
-	public void setEntityCallbacks(Class<? extends EntityCallbacks> entityCallbacks) {
-		this.entityCallbacks = entityCallbacks;
+	public void setEntityCallbacksClass(String entityCallbacksClass) {
+		this.entityCallbacksClass = entityCallbacksClass;
 	}
 
 }

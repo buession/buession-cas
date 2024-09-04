@@ -25,8 +25,10 @@
 package org.apereo.cas.config;
 
 import com.buession.core.converter.mapper.PropertyMapper;
+import com.buession.core.validator.Validate;
 import com.buession.httpclient.HttpAsyncClient;
 import com.buession.httpclient.HttpClient;
+import com.buession.logging.rest.core.RequestBodyBuilder;
 import com.buession.logging.rest.spring.RestLogHandlerFactoryBean;
 import com.buession.logging.rest.spring.config.AbstractRestLogHandlerConfiguration;
 import com.buession.logging.rest.spring.config.RestLogHandlerFactoryBeanConfigurer;
@@ -65,8 +67,16 @@ public class RestLoggingConfiguration {
 
 		configurer.setUrl(restLoggingProperties.getUrl());
 		configurer.setRequestMethod(restLoggingProperties.getRequestMethod());
-		propertyMapper.from(restLoggingProperties::getRequestBodyBuilder).as(BeanUtils::instantiateClass)
-				.to(configurer::setRequestBodyBuilder);
+
+		if(Validate.hasText(restLoggingProperties.getRequestBodyBuilderClass())){
+			try{
+				configurer.setRequestBodyBuilder(
+						(RequestBodyBuilder) BeanUtils.instantiateClass(
+								Class.forName(restLoggingProperties.getRequestBodyBuilderClass())));
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+		}
 
 		return configurer;
 	}

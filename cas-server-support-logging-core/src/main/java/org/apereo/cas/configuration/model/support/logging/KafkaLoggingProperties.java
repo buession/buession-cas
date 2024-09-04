@@ -28,10 +28,12 @@ import com.buession.core.builder.ListBuilder;
 import com.buession.core.converter.mapper.PropertyMapper;
 import com.buession.core.utils.StringUtils;
 import com.buession.core.validator.Validate;
-import com.buession.logging.kafka.config.SecurityConfiguration;
-import com.buession.logging.kafka.config.SslConfiguration;
+import com.buession.logging.core.SslConfiguration;
+import com.buession.logging.kafka.core.Properties;
 import com.fasterxml.jackson.annotation.JsonFilter;
+import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apereo.cas.configuration.support.RequiredProperty;
 import org.springframework.kafka.support.serializer.JsonSerializer;
@@ -107,14 +109,14 @@ public class KafkaLoggingProperties implements AdapterLoggingProperties, Seriali
 	private Integer retries = 3;
 
 	/**
-	 * SSL 配置 {@link SslConfiguration}
+	 * SSL 配置 {@link Ssl}
 	 */
-	private SslConfiguration sslConfiguration = new SslConfiguration();
+	private Ssl ssl = new Ssl();
 
 	/**
-	 * 安全配置 {@link SecurityConfiguration}
+	 * 安全配置 {@link Security}
 	 */
-	private SecurityConfiguration securityConfiguration = new SecurityConfiguration();
+	private Security security = new Security();
 
 	/**
 	 * Additional properties, common to producers and consumers, used to configure the client.
@@ -305,41 +307,41 @@ public class KafkaLoggingProperties implements AdapterLoggingProperties, Seriali
 	}
 
 	/**
-	 * 返回 SSL 配置 {@link SslConfiguration}
+	 * 返回 SSL 配置 {@link Ssl}
 	 *
-	 * @return SSL 配置 {@link SslConfiguration}
+	 * @return SSL 配置 {@link Ssl}
 	 */
-	public SslConfiguration getSslConfiguration() {
-		return sslConfiguration;
+	public Ssl getSsl() {
+		return ssl;
 	}
 
 	/**
-	 * 设置 SSL 配置 {@link SslConfiguration}
+	 * 设置 SSL 配置 {@link Ssl}
 	 *
-	 * @param sslConfiguration
-	 * 		SSL 配置 {@link SslConfiguration}
+	 * @param ssl
+	 * 		SSL 配置 {@link Ssl}
 	 */
-	public void setSslConfiguration(SslConfiguration sslConfiguration) {
-		this.sslConfiguration = sslConfiguration;
+	public void setSsl(Ssl ssl) {
+		this.ssl = ssl;
 	}
 
 	/**
-	 * 返回安全配置 {@link SecurityConfiguration}
+	 * 返回安全配置 {@link Security}
 	 *
-	 * @return 安全配置 {@link SecurityConfiguration}
+	 * @return 安全配置 {@link Security}
 	 */
-	public SecurityConfiguration getSecurityConfiguration() {
-		return securityConfiguration;
+	public Security getSecurity() {
+		return security;
 	}
 
 	/**
-	 * 设置安全配置 {@link SecurityConfiguration}
+	 * 设置安全配置 {@link Security}
 	 *
-	 * @param securityConfiguration
-	 * 		安全配置 {@link SecurityConfiguration}
+	 * @param security
+	 * 		安全配置 {@link Security}
 	 */
-	public void setSecurityConfiguration(SecurityConfiguration securityConfiguration) {
-		this.securityConfiguration = securityConfiguration;
+	public void setSecurity(Security security) {
+		this.security = security;
 	}
 
 	/**
@@ -377,19 +379,17 @@ public class KafkaLoggingProperties implements AdapterLoggingProperties, Seriali
 		propertyMapper.from(this::getCompressionType)
 				.to((value)->properties.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, value));
 		propertyMapper.from(this::getRetries).to((value)->properties.put(ProducerConfig.RETRIES_CONFIG, value));
-		propertyMapper.from(this::getSslConfiguration)
-				.to((value)->properties.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, value));
 		propertyMapper.from(StringSerializer.class.getName())
 				.to((value)->properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, value));
 		propertyMapper.from(JsonSerializer.class.getName())
 				.to((value)->properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, value));
 
-		if(getSslConfiguration() != null){
-			properties.putAll(getSslConfiguration().buildProperties());
+		if(getSsl() != null){
+			properties.putAll(getSsl().buildProperties());
 		}
 
-		if(getSecurityConfiguration() != null){
-			properties.putAll(getSecurityConfiguration().buildProperties());
+		if(getSecurity() != null){
+			properties.putAll(getSecurity().buildProperties());
 		}
 
 		if(Validate.isNotEmpty(getProperties())){
@@ -397,6 +397,70 @@ public class KafkaLoggingProperties implements AdapterLoggingProperties, Seriali
 		}
 
 		return properties;
+	}
+
+	public final static class Ssl extends SslConfiguration implements Serializable {
+
+		private final static long serialVersionUID = 6726177961253411129L;
+
+		public Map<String, Object> buildProperties() {
+			final Properties properties = new Properties();
+			final PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+
+			propertyMapper.from(this::getProtocol).to(properties.in(SslConfigs.SSL_PROTOCOL_CONFIG));
+			propertyMapper.from(this::getKeyStorePath).to(properties.in(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG));
+			propertyMapper.from(this::getKeyStoreType).to(properties.in(SslConfigs.SSL_KEYSTORE_TYPE_CONFIG));
+			propertyMapper.from(this::getKeyPassword).to(properties.in(SslConfigs.SSL_KEY_PASSWORD_CONFIG));
+			propertyMapper.from(this::getKeyStorePassword).to(properties.in(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG));
+			propertyMapper.from(this::getTrustStorePath).to(properties.in(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG));
+			propertyMapper.from(this::getTrustStoreType).to(properties.in(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG));
+			propertyMapper.from(this::getTrustStorePassword)
+					.to(properties.in(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG));
+			propertyMapper.from(this::getAlgorithms).as((algorithms)->StringUtils.join(algorithms, ','))
+					.to(properties.in(SslConfigs.SSL_KEYMANAGER_ALGORITHM_CONFIG));
+
+			return properties;
+		}
+
+	}
+
+	public class Security implements Serializable {
+
+		private final static long serialVersionUID = -3308975729408498102L;
+
+		/**
+		 * Security protocol used to communicate with brokers.
+		 */
+		private String protocol;
+
+		/**
+		 * Return security protocol used to communicate with brokers.
+		 *
+		 * @return Security protocol used to communicate with brokers.
+		 */
+		public String getProtocol() {
+			return this.protocol;
+		}
+
+		/**
+		 * Sets security protocol used to communicate with brokers.
+		 *
+		 * @param protocol
+		 * 		Security protocol used to communicate with brokers.
+		 */
+		public void setProtocol(String protocol) {
+			this.protocol = protocol;
+		}
+
+		public Map<String, Object> buildProperties() {
+			Properties properties = new Properties();
+			PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+
+			propertyMapper.from(this::getProtocol).to(properties.in(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG));
+
+			return properties;
+		}
+
 	}
 
 }
