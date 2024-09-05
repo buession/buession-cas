@@ -27,7 +27,8 @@ package org.apereo.cas.configuration.model.support.captcha;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
+
+import java.io.Serializable;
 
 /**
  * @author Yong.Teng
@@ -35,7 +36,9 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  */
 @ConfigurationProperties(prefix = CaptchaProperties.PREFIX)
 @JsonFilter("CaptchaProperties")
-public class CaptchaProperties {
+public class CaptchaProperties implements Serializable {
+
+	private final static long serialVersionUID = 5621009061644119586L;
 
 	public final static String PREFIX = CasConfigurationProperties.PREFIX + ".captcha";
 
@@ -47,8 +50,7 @@ public class CaptchaProperties {
 	/**
 	 * 阿里云行为验证码配置
 	 */
-	@NestedConfigurationProperty
-	private AliyunCaptchaProperties aliyun = new AliyunCaptchaProperties();
+	private AliyunCaptchaProperties aliyun;
 
 	/**
 	 * 极验行为验证码配置

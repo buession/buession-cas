@@ -28,6 +28,8 @@ import com.buession.security.captcha.aliyun.AliyunParameter;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
 
+import java.io.Serializable;
+
 /**
  * 阿里云行为验证码配置
  *
@@ -35,7 +37,9 @@ import org.apereo.cas.configuration.support.RequiredProperty;
  * @since 3.0.0
  */
 @JsonFilter("AliyunCaptchaProperties")
-public class AliyunCaptchaProperties {
+public class AliyunCaptchaProperties implements Serializable {
+
+	private final static long serialVersionUID = 1511030118546387813L;
 
 	/**
 	 * AccessKey ID

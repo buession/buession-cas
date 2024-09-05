@@ -29,6 +29,8 @@ import com.buession.security.captcha.geetest.api.v4.GeetestV4Parameter;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
 
+import java.io.Serializable;
+
 /**
  * 极验行为验证码配置
  *
@@ -36,7 +38,9 @@ import org.apereo.cas.configuration.support.RequiredProperty;
  * @since 3.0.0
  */
 @JsonFilter("GeetestCaptchaProperties")
-public class GeetestCaptchaProperties {
+public class GeetestCaptchaProperties implements Serializable {
+
+	private final static long serialVersionUID = -367740360001445826L;
 
 	/**
 	 * 应用 ID

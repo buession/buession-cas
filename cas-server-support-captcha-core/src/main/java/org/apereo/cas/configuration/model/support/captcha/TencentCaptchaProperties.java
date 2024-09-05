@@ -28,6 +28,8 @@ import com.buession.security.captcha.tencent.TencentParameter;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
 
+import java.io.Serializable;
+
 /**
  * 腾讯行为验证码配置
  *
@@ -35,7 +37,9 @@ import org.apereo.cas.configuration.support.RequiredProperty;
  * @since 3.0.0
  */
 @JsonFilter("TencentCaptchaProperties")
-public class TencentCaptchaProperties {
+public class TencentCaptchaProperties implements Serializable {
+
+	private final static long serialVersionUID = -6084292222210279999L;
 
 	/**
 	 * 应用 ID
