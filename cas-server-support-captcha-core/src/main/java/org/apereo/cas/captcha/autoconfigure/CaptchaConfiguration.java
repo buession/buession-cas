@@ -34,7 +34,6 @@ import com.buession.security.captcha.validator.servlet.ServletAliYunCaptchaValid
 import com.buession.security.captcha.validator.servlet.ServletGeetestCaptchaValidator;
 import com.buession.security.captcha.validator.servlet.ServletTencentCaptchaValidator;
 import org.apereo.cas.configuration.model.support.captcha.CaptchaProperties;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -60,10 +59,9 @@ public class CaptchaConfiguration {
 
 		protected final HttpClient httpClient;
 
-		public BaseManufacturerCaptchaConfiguration(CaptchaProperties properties,
-													ObjectProvider<HttpClient> httpClient) {
+		public BaseManufacturerCaptchaConfiguration(CaptchaProperties properties, HttpClient httpClient) {
 			this.properties = properties;
-			this.httpClient = httpClient.getIfAvailable();
+			this.httpClient = httpClient;
 		}
 
 		protected void afterPropertiesSet(final CaptchaClient captchaClient) {
@@ -78,7 +76,7 @@ public class CaptchaConfiguration {
 	@ConditionalOnMissingBean({CaptchaClient.class})
 	static class Aliyun extends BaseManufacturerCaptchaConfiguration {
 
-		public Aliyun(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient) {
+		public Aliyun(CaptchaProperties properties, HttpClient httpClient) {
 			super(properties, httpClient);
 		}
 
@@ -96,9 +94,9 @@ public class CaptchaConfiguration {
 
 		@Bean
 		@ConditionalOnMissingBean({ServletAliYunCaptchaValidator.class})
-		public ServletAliYunCaptchaValidator aliYunCaptchaValidator(ObjectProvider<AliYunCaptchaClient> captchaClient) {
-			return new ServletAliYunCaptchaValidator(captchaClient.getIfAvailable(),
-					properties.getAliyun().getParameter());
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public ServletAliYunCaptchaValidator aliYunCaptchaValidator(AliYunCaptchaClient captchaClient) {
+			return new ServletAliYunCaptchaValidator(captchaClient, properties.getAliyun().getParameter());
 		}
 
 	}
@@ -109,7 +107,7 @@ public class CaptchaConfiguration {
 	@ConditionalOnMissingBean({CaptchaClient.class})
 	static class Geetest extends BaseManufacturerCaptchaConfiguration {
 
-		public Geetest(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient) {
+		public Geetest(CaptchaProperties properties, HttpClient httpClient) {
 			super(properties, httpClient);
 		}
 
@@ -126,12 +124,11 @@ public class CaptchaConfiguration {
 
 		@Bean
 		@ConditionalOnMissingBean({ServletGeetestCaptchaValidator.class})
-		public ServletGeetestCaptchaValidator geetestCaptchaValidator(
-				ObjectProvider<GeetestCaptchaClient> captchaClient) {
-			GeetestParameter parameter = "v3".equalsIgnoreCase(
-					captchaClient.getIfAvailable().getVersion()) ? properties.getGeetest()
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public ServletGeetestCaptchaValidator geetestCaptchaValidator(GeetestCaptchaClient captchaClient) {
+			GeetestParameter parameter = "v3".equalsIgnoreCase(captchaClient.getVersion()) ? properties.getGeetest()
 					.getV3() : properties.getGeetest().getV4();
-			return new ServletGeetestCaptchaValidator(captchaClient.getIfAvailable(), parameter);
+			return new ServletGeetestCaptchaValidator(captchaClient, parameter);
 		}
 
 	}
@@ -142,7 +139,7 @@ public class CaptchaConfiguration {
 	@ConditionalOnMissingBean({CaptchaClient.class})
 	static class Tencent extends BaseManufacturerCaptchaConfiguration {
 
-		public Tencent(CaptchaProperties properties, ObjectProvider<HttpClient> httpClient) {
+		public Tencent(CaptchaProperties properties, HttpClient httpClient) {
 			super(properties, httpClient);
 		}
 
@@ -159,10 +156,9 @@ public class CaptchaConfiguration {
 
 		@Bean
 		@ConditionalOnMissingBean({ServletTencentCaptchaValidator.class})
-		public ServletTencentCaptchaValidator tencentCaptchaValidator(
-				ObjectProvider<TencentCaptchaClient> captchaClient) {
-			return new ServletTencentCaptchaValidator(captchaClient.getIfAvailable(),
-					properties.getTencent().getParameter());
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public ServletTencentCaptchaValidator tencentCaptchaValidator(TencentCaptchaClient captchaClient) {
+			return new ServletTencentCaptchaValidator(captchaClient, properties.getTencent().getParameter());
 		}
 
 	}

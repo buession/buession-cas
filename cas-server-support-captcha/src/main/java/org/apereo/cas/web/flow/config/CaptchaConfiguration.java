@@ -97,8 +97,8 @@ public class CaptchaConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(name = "validateCaptchaAction")
 	@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-	public Action validateCaptchaAction(ObjectProvider<ServletCaptchaValidator> captchaValidator) {
-		return new ValidateCaptchaAction(captchaProperties, captchaValidator.getIfAvailable());
+	public Action validateCaptchaAction(ServletCaptchaValidator captchaValidator) {
+		return new ValidateCaptchaAction(captchaProperties, captchaValidator);
 	}
 
 	@Bean
