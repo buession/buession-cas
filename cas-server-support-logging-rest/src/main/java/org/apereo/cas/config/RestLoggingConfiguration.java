@@ -24,30 +24,29 @@
  */
 package org.apereo.cas.config;
 
-import com.buession.core.converter.mapper.PropertyMapper;
 import com.buession.core.validator.Validate;
 import com.buession.httpclient.HttpAsyncClient;
 import com.buession.httpclient.HttpClient;
 import com.buession.logging.rest.core.RequestBodyBuilder;
 import com.buession.logging.rest.spring.RestLogHandlerFactoryBean;
+import com.buession.logging.rest.spring.config.AbstractHttpClientConfiguration;
 import com.buession.logging.rest.spring.config.AbstractRestLogHandlerConfiguration;
+import com.buession.logging.rest.spring.config.HttpClientConfigurer;
 import com.buession.logging.rest.spring.config.RestLogHandlerFactoryBeanConfigurer;
-import org.apereo.cas.configuration.model.support.logging.BasicLoggingProperties;
-import org.apereo.cas.configuration.model.support.logging.HistoryLoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.RestLoggingProperties;
-import org.apereo.cas.logging.Constants;
+import org.apereo.cas.util.spring.DirectObjectProvider;
+import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ScopedProxyMode;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * REST 日志处理器自动配置类
@@ -60,83 +59,137 @@ import org.springframework.context.annotation.ScopedProxyMode;
 @ConditionalOnClass(RestLogHandlerFactoryBean.class)
 public class RestLoggingConfiguration {
 
-	protected static RestLogHandlerFactoryBeanConfigurer restLogHandlerFactoryBeanConfigurer(
-			final RestLoggingProperties restLoggingProperties) {
-		final RestLogHandlerFactoryBeanConfigurer configurer = new RestLogHandlerFactoryBeanConfigurer();
-		final PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 
-		configurer.setUrl(restLoggingProperties.getUrl());
-		configurer.setRequestMethod(restLoggingProperties.getRequestMethod());
+	@AutoConfiguration
+	@EnableConfigurationProperties(LoggingProperties.class)
+	static class RestLogHandlerConfiguration extends AbstractRestLogHandlerConfiguration {
 
-		if(Validate.hasText(restLoggingProperties.getRequestBodyBuilderClass())){
-			try{
-				configurer.setRequestBodyBuilder(
-						(RequestBodyBuilder) BeanUtils.instantiateClass(
-								Class.forName(restLoggingProperties.getRequestBodyBuilderClass())));
-			}catch(ClassNotFoundException e){
-				throw new RuntimeException(e);
+		private final List<RestLoggingProperties> restLoggingProperties;
+
+		public RestLogHandlerConfiguration(final LoggingProperties properties) {
+			this.restLoggingProperties = properties.getRest();
+		}
+
+		@Bean
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public List<RestLogHandlerFactoryBean> logHandlerFactoryBean() {
+			return restLoggingProperties.stream().map((properties)->{
+				final RestLogHandlerFactoryBeanConfigurer restLogHandlerFactoryBeanConfigurer = restLogHandlerFactoryBeanConfigurer(
+						properties);
+				final HttpClientConfiguration httpClientConfiguration = new HttpClientConfiguration(properties);
+				final HttpClient httpClient = httpClientConfiguration.httpClient();
+				final HttpAsyncClient httpAsyncClient = httpClientConfiguration.httpAsyncClient();
+
+				return super.logHandlerFactoryBean(restLogHandlerFactoryBeanConfigurer,
+						new DirectObjectProvider<>(httpClient), new DirectObjectProvider<>(httpAsyncClient));
+			}).collect(Collectors.toList());
+		}
+
+		private static RestLogHandlerFactoryBeanConfigurer restLogHandlerFactoryBeanConfigurer(
+				final RestLoggingProperties restLoggingProperties) {
+			final RestLogHandlerFactoryBeanConfigurer configurer = new RestLogHandlerFactoryBeanConfigurer();
+
+			configurer.setUrl(restLoggingProperties.getUrl());
+			configurer.setRequestMethod(restLoggingProperties.getRequestMethod());
+
+			if(Validate.hasText(restLoggingProperties.getRequestBodyBuilderClass())){
+				try{
+					RequestBodyBuilder requestBodyBuilder = (RequestBodyBuilder) BeanUtils.instantiateClass(
+							Class.forName(restLoggingProperties.getRequestBodyBuilderClass()));
+					configurer.setRequestBodyBuilder(requestBodyBuilder);
+				}catch(ClassNotFoundException e){
+					throw new BeanInstantiationException(RequestBodyBuilder.class, e.getMessage(), e);
+				}
 			}
-		}
 
-		return configurer;
-	}
-
-	@AutoConfiguration
-	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = BasicLoggingProperties.PREFIX, name = "rest.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-	static class Basic extends AbstractRestLogHandlerConfiguration {
-
-		private final RestLoggingProperties restLoggingProperties;
-
-		public Basic(final LoggingProperties properties) {
-			this.restLoggingProperties = properties.getHistory().getRest();
-		}
-
-		@Bean(name = "casBasicLoggingRestLogHandlerFactoryBeanConfigurer")
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public RestLogHandlerFactoryBeanConfigurer restLogHandlerFactoryBeanConfigurer() {
-			return RestLoggingConfiguration.restLogHandlerFactoryBeanConfigurer(restLoggingProperties);
-		}
-
-		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		@Override
-		public RestLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casBasicLoggingRestLogHandlerFactoryBeanConfigurer") RestLogHandlerFactoryBeanConfigurer configurer,
-				@Qualifier("casBasicLoggingHttpClient") ObjectProvider<HttpClient> httpClient,
-				@Qualifier("casBasicLoggingHttpAsyncClient") ObjectProvider<HttpAsyncClient> httpAsyncClient) {
-			return super.logHandlerFactoryBean(configurer, httpClient, httpAsyncClient);
+			return configurer;
 		}
 
 	}
 
-	@AutoConfiguration
-	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = HistoryLoggingProperties.PREFIX, name = "rest.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-	static class History extends AbstractRestLogHandlerConfiguration {
+	static class HttpClientConfiguration extends AbstractHttpClientConfiguration {
 
 		private final RestLoggingProperties restLoggingProperties;
 
-		public History(final LoggingProperties properties) {
-			this.restLoggingProperties = properties.getHistory().getRest();
+		public HttpClientConfiguration(final RestLoggingProperties restLoggingProperties) {
+			this.restLoggingProperties = restLoggingProperties;
 		}
 
-		@Bean(name = "casHistoryLoggingRestLogHandlerFactoryBeanConfigurer")
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public RestLogHandlerFactoryBeanConfigurer restLogHandlerFactoryBeanConfigurer() {
-			return RestLoggingConfiguration.restLogHandlerFactoryBeanConfigurer(restLoggingProperties);
+		public HttpClient httpClient() {
+			final HttpClientConfigurer httpClientConfigurer = httpClientConfigurer();
+			final org.apereo.cas.logging.rest.httpclient.HttpClient httpClient =
+					new org.apereo.cas.logging.rest.httpclient.HttpClient(httpClientConfigurer);
+
+			return httpClient.build();
 		}
 
-		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		@Override
-		public RestLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casHistoryLoggingRestLogHandlerFactoryBeanConfigurer") RestLogHandlerFactoryBeanConfigurer configurer,
-				@Qualifier("casHistoryLoggingHttpClient") ObjectProvider<HttpClient> httpClient,
-				@Qualifier("casHistoryLoggingHttpAsyncClient") ObjectProvider<HttpAsyncClient> httpAsyncClient) {
-			return super.logHandlerFactoryBean(configurer, httpClient, httpAsyncClient);
+		public HttpAsyncClient httpAsyncClient() {
+			final HttpClientConfigurer httpClientConfigurer = httpClientConfigurer();
+			final org.apereo.cas.logging.rest.httpclient.HttpAsyncClient httpAsyncClient =
+					new org.apereo.cas.logging.rest.httpclient.HttpAsyncClient(httpClientConfigurer);
+
+			return httpAsyncClient.build();
+		}
+
+
+		public HttpClientConfigurer httpClientConfigurer() {
+			final HttpClientConfigurer configurer = new HttpClientConfigurer();
+			final RestLoggingProperties.HttpClientProperties httpClientProperties = restLoggingProperties.getHttpClient();
+
+			propertyMapper.from(httpClientProperties::getConnectionManagerShared)
+					.to(configurer::setConnectionManagerShared);
+			propertyMapper.from(httpClientProperties::getRetryOnConnectionFailure)
+					.to(configurer::setRetryOnConnectionFailure);
+			propertyMapper.from(httpClientProperties::getMaxConnections).to(configurer::setMaxConnections);
+			propertyMapper.from(httpClientProperties::getMaxPerRoute).to(configurer::setMaxPerRoute);
+			propertyMapper.from(httpClientProperties::getMaxRequests).to(configurer::setMaxRequests);
+			propertyMapper.from(httpClientProperties::getIdleConnectionTime).to(configurer::setIdleConnectionTime);
+			propertyMapper.from(httpClientProperties::getConnectTimeout).to(configurer::setConnectTimeout);
+			propertyMapper.from(httpClientProperties::getConnectionRequestTimeout)
+					.to(configurer::setConnectionRequestTimeout);
+			propertyMapper.from(httpClientProperties::getConnectionTimeToLive).to(configurer::setConnectionTimeToLive);
+			propertyMapper.from(httpClientProperties::getReadTimeout).to(configurer::setReadTimeout);
+			propertyMapper.from(httpClientProperties::getWriteTimeout).to(configurer::setWriteTimeout);
+			propertyMapper.from(httpClientProperties::getExpectContinueEnabled)
+					.to(configurer::setExpectContinueEnabled);
+			propertyMapper.from(httpClientProperties::getAllowRedirects).to(configurer::setAllowRedirects);
+			propertyMapper.from(httpClientProperties::getRelativeRedirectsAllowed)
+					.to(configurer::setRelativeRedirectsAllowed);
+			propertyMapper.from(httpClientProperties::getCircularRedirectsAllowed)
+					.to(configurer::setCircularRedirectsAllowed);
+			propertyMapper.from(httpClientProperties::getMaxRedirects).to(configurer::setMaxRedirects);
+			propertyMapper.from(httpClientProperties::getHardCancellationEnabled)
+					.to(configurer::setHardCancellationEnabled);
+			propertyMapper.from(httpClientProperties::getAuthenticationEnabled)
+					.to(configurer::setAuthenticationEnabled);
+			propertyMapper.from(httpClientProperties::getTargetPreferredAuthSchemes)
+					.to(configurer::setTargetPreferredAuthSchemes);
+			propertyMapper.from(httpClientProperties::getProxyPreferredAuthSchemes)
+					.to(configurer::setProxyPreferredAuthSchemes);
+			propertyMapper.from(httpClientProperties::getContentCompressionEnabled)
+					.to(configurer::setContentCompressionEnabled);
+			propertyMapper.from(httpClientProperties::getNormalizeUri).to(configurer::setNormalizeUri);
+			propertyMapper.from(httpClientProperties::getCookieSpec).to(configurer::setCookieSpec);
+			propertyMapper.from(httpClientProperties::getSslConfiguration).to(configurer::setSslConfiguration);
+			propertyMapper.from(httpClientProperties::getProxy).to(configurer::setProxy);
+
+			if(httpClientProperties.getApacheClient() != null){
+				final HttpClientConfigurer.ApacheClient apacheClient = new HttpClientConfigurer.ApacheClient();
+
+				propertyMapper.from(httpClientProperties.getApacheClient()::getIoReactor)
+						.to(apacheClient::setIoReactor);
+				propertyMapper.from(httpClientProperties.getApacheClient()::getThreadFactory)
+						.as(BeanUtils::instantiateClass).to(apacheClient::setThreadFactory);
+
+				configurer.setApacheClient(apacheClient);
+			}
+
+			if(httpClientProperties.getOkHttp() != null){
+				final HttpClientConfigurer.OkHttp okHttp = new HttpClientConfigurer.OkHttp();
+				configurer.setOkHttp(okHttp);
+			}
+
+			return configurer;
 		}
 
 	}

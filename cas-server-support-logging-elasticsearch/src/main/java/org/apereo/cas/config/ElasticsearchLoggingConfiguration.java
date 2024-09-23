@@ -24,26 +24,38 @@
  */
 package org.apereo.cas.config;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import com.buession.core.validator.Validate;
+import com.buession.logging.elasticsearch.RestClientBuilderCustomizer;
 import com.buession.logging.elasticsearch.spring.ElasticsearchLogHandlerFactoryBean;
+import com.buession.logging.elasticsearch.spring.config.AbstractElasticsearchConfiguration;
 import com.buession.logging.elasticsearch.spring.config.AbstractElasticsearchLogHandlerConfiguration;
+import com.buession.logging.elasticsearch.spring.config.ElasticsearchConfigurer;
 import com.buession.logging.elasticsearch.spring.config.ElasticsearchLogHandlerFactoryBeanConfigurer;
-import org.apereo.cas.configuration.model.support.logging.BasicLoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.ElasticsearchLoggingProperties;
-import org.apereo.cas.configuration.model.support.logging.HistoryLoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
-import org.apereo.cas.logging.Constants;
 import org.apereo.cas.logging.autoconfigure.AbstractLogHandlerConfiguration;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.apereo.cas.logging.elasticsearch.DefaultRestClientBuilderCustomizer;
+import org.apereo.cas.util.spring.DirectObjectProvider;
+import org.elasticsearch.client.RestClient;
+import org.springframework.beans.BeanInstantiationException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.RefreshPolicy;
+import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
+import org.springframework.data.elasticsearch.core.convert.ElasticsearchCustomConversions;
+import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
+import org.springframework.data.mapping.callback.EntityCallbacks;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Elasticsearch 日志处理器自动配置类
@@ -56,76 +68,111 @@ import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
 @ConditionalOnClass(ElasticsearchLogHandlerFactoryBean.class)
 public class ElasticsearchLoggingConfiguration extends AbstractLogHandlerConfiguration {
 
-	public ElasticsearchLoggingConfiguration(ConfigurableApplicationContext applicationContext) {
+	public ElasticsearchLoggingConfiguration(final ConfigurableApplicationContext applicationContext) {
 		super(applicationContext);
 	}
 
-	protected static ElasticsearchLogHandlerFactoryBeanConfigurer elasticsearchLogHandlerFactoryBeanConfigurer(
-			final ElasticsearchLoggingProperties elasticsearchLoggingProperties) {
-		final ElasticsearchLogHandlerFactoryBeanConfigurer configurer = new ElasticsearchLogHandlerFactoryBeanConfigurer();
-
-		configurer.setIndexName(elasticsearchLoggingProperties.getIndexName());
-		configurer.setAutoCreateIndex(elasticsearchLoggingProperties.getAutoCreateIndex());
-
-		return configurer;
-	}
-
 	@AutoConfiguration
 	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = BasicLoggingProperties.PREFIX, name = "elasticsearch.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-	static class Basic extends AbstractElasticsearchLogHandlerConfiguration {
+	static class ElasticsearchLogHandlerConfiguration extends AbstractElasticsearchLogHandlerConfiguration {
+
+		private final List<ElasticsearchLoggingProperties> elasticsearchLoggingProperties;
+
+		public ElasticsearchLogHandlerConfiguration(final LoggingProperties properties) {
+			this.elasticsearchLoggingProperties = properties.getElasticsearch();
+		}
+
+		@Bean
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public List<ElasticsearchLogHandlerFactoryBean> logHandlerFactoryBean() {
+			return elasticsearchLoggingProperties.stream().map((properties)->{
+				final ElasticsearchLogHandlerFactoryBeanConfigurer configurer = logHandlerFactoryBeanConfigurer(
+						properties);
+				final ElasticsearchTemplate elasticsearchTemplate = elasticsearchTemplate(properties);
+
+				return super.logHandlerFactoryBean(elasticsearchTemplate, configurer);
+			}).collect(Collectors.toList());
+		}
+
+		private ElasticsearchLogHandlerFactoryBeanConfigurer logHandlerFactoryBeanConfigurer(
+				final ElasticsearchLoggingProperties elasticsearchLoggingProperties) {
+			final ElasticsearchLogHandlerFactoryBeanConfigurer configurer = new ElasticsearchLogHandlerFactoryBeanConfigurer();
+
+			configurer.setIndexName(elasticsearchLoggingProperties.getIndexName());
+			configurer.setAutoCreateIndex(elasticsearchLoggingProperties.getAutoCreateIndex());
+
+			return configurer;
+		}
+
+		private ElasticsearchTemplate elasticsearchTemplate(
+				final ElasticsearchLoggingProperties elasticsearchLoggingProperties) {
+			final ElasticsearchConfiguration configuration = new ElasticsearchConfiguration(
+					elasticsearchLoggingProperties);
+
+			return configuration.elasticsearchTemplate();
+		}
+
+	}
+
+	private final static class ElasticsearchConfiguration extends AbstractElasticsearchConfiguration {
 
 		private final ElasticsearchLoggingProperties elasticsearchLoggingProperties;
 
-		public Basic(final LoggingProperties properties) {
-			this.elasticsearchLoggingProperties = properties.getBasic().getElasticsearch();
+		public ElasticsearchConfiguration(final ElasticsearchLoggingProperties elasticsearchLoggingProperties) {
+			this.elasticsearchLoggingProperties = elasticsearchLoggingProperties;
 		}
 
-		@Bean(name = "casBasicLoggingElasticsearchLogHandlerFactoryBeanConfigurer")
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public ElasticsearchLogHandlerFactoryBeanConfigurer elasticsearchLogHandlerFactoryBeanConfigurer() {
-			return ElasticsearchLoggingConfiguration.elasticsearchLogHandlerFactoryBeanConfigurer(
-					elasticsearchLoggingProperties);
-		}
-
-		@Bean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 		@Override
-		public ElasticsearchLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casBasicLoggingElasticsearchTemplate") ElasticsearchTemplate elasticsearchTemplate,
-				@Qualifier("casBasicLoggingElasticsearchLogHandlerFactoryBeanConfigurer") ElasticsearchLogHandlerFactoryBeanConfigurer configurer) {
-			return super.logHandlerFactoryBean(elasticsearchTemplate, configurer);
+		public RestClientBuilderCustomizer restClientBuilderCustomizer() {
+			return new DefaultRestClientBuilderCustomizer(elasticsearchLoggingProperties);
 		}
 
-	}
+		public ElasticsearchTemplate elasticsearchTemplate() {
+			final ElasticsearchConfigurer configurer = elasticsearchConfigurer(elasticsearchLoggingProperties);
 
-	@AutoConfiguration
-	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = HistoryLoggingProperties.PREFIX, name = "elasticsearch.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-	static class History extends AbstractElasticsearchLogHandlerConfiguration {
+			final RestClientBuilderCustomizer restClientBuilderCustomizer = restClientBuilderCustomizer();
+			final ElasticsearchCustomConversions elasticsearchCustomConversions = elasticsearchCustomConversions();
+			final SimpleElasticsearchMappingContext elasticsearchMappingContext = elasticsearchMappingContext(
+					elasticsearchCustomConversions);
+			final ElasticsearchConverter elasticsearchConverter = elasticsearchEntityMapper(elasticsearchMappingContext,
+					elasticsearchCustomConversions);
 
-		private final ElasticsearchLoggingProperties elasticsearchLoggingProperties;
+			final RestClient restClient = restClient(configurer,
+					new DirectObjectProvider<>(restClientBuilderCustomizer));
+			final ElasticsearchClient elasticsearchClient = elasticsearchClient(configurer, restClient,
+					new DirectObjectProvider<>((options)->{
 
-		public History(final LoggingProperties properties) {
-			this.elasticsearchLoggingProperties = properties.getHistory().getElasticsearch();
+					}));
+
+			return elasticsearchTemplate(configurer, elasticsearchClient,
+					new DirectObjectProvider<>(elasticsearchConverter));
 		}
 
-		@Bean(name = "casHistoryLoggingElasticsearchLogHandlerFactoryBeanConfigurer")
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public ElasticsearchLogHandlerFactoryBeanConfigurer elasticsearchLogHandlerFactoryBeanConfigurer() {
-			return ElasticsearchLoggingConfiguration.elasticsearchLogHandlerFactoryBeanConfigurer(
-					elasticsearchLoggingProperties);
-		}
-
-		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 		@Override
-		public ElasticsearchLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casHistoryLoggingElasticsearchTemplate") ElasticsearchTemplate elasticsearchTemplate,
-				@Qualifier("casHistoryLoggingElasticsearchLogHandlerFactoryBeanConfigurer") ElasticsearchLogHandlerFactoryBeanConfigurer configurer) {
-			return super.logHandlerFactoryBean(elasticsearchTemplate, configurer);
+		protected RefreshPolicy refreshPolicy() {
+			return elasticsearchLoggingProperties.getRefreshPolicy();
+		}
+
+		private ElasticsearchConfigurer elasticsearchConfigurer(
+				final ElasticsearchLoggingProperties elasticsearchLoggingProperties) {
+			final ElasticsearchConfigurer configurer = new ElasticsearchConfigurer();
+
+			configurer.setUrls(elasticsearchLoggingProperties.getUrls());
+			configurer.setPathPrefix(elasticsearchLoggingProperties.getPathPrefix());
+			configurer.setHeaders(elasticsearchLoggingProperties.getHeaders());
+			configurer.setParameters(elasticsearchLoggingProperties.getParameters());
+
+			if(Validate.hasText(elasticsearchLoggingProperties.getEntityCallbacksClass())){
+				try{
+					EntityCallbacks entityCallbacks = (EntityCallbacks) BeanUtils.instantiateClass(
+							Class.forName(elasticsearchLoggingProperties.getEntityCallbacksClass()));
+					configurer.setEntityCallbacks(entityCallbacks);
+				}catch(ClassNotFoundException e){
+					throw new BeanInstantiationException(EntityCallbacks.class, e.getMessage(), e);
+				}
+			}
+
+			return configurer;
 		}
 
 	}

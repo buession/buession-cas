@@ -59,6 +59,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apereo.cas</groupId>
+			<artifactId>cas-server-core-util-api</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.buession.logging</groupId>
 			<artifactId>buession-logging-support-rest</artifactId>
 			<version>${buession.logging.version}</version>

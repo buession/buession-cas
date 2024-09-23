@@ -24,7 +24,6 @@
  */
 package org.apereo.cas.logging.autoconfigure;
 
-import com.buession.core.converter.mapper.PropertyMapper;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
@@ -34,8 +33,6 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @since 1.0.0
  */
 public abstract class AbstractLogHandlerConfiguration {
-
-	protected final static PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenHasText();
 
 	/**
 	 * {@link ConfigurableApplicationContext}

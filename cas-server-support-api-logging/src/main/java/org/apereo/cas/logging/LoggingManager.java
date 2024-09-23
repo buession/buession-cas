@@ -24,6 +24,8 @@
  */
 package org.apereo.cas.logging;
 
+import com.buession.logging.core.LogData;
+
 /**
  * 日志管理器
  *
@@ -31,5 +33,7 @@ package org.apereo.cas.logging;
  * @since 1.0.0
  */
 public interface LoggingManager {
+
+	void execute(final LogData logData);
 
 }

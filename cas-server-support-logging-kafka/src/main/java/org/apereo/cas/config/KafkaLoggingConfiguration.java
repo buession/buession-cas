@@ -25,22 +25,26 @@
 package org.apereo.cas.config;
 
 import com.buession.logging.kafka.spring.KafkaLogHandlerFactoryBean;
+import com.buession.logging.kafka.spring.config.AbstractKafkaConfiguration;
 import com.buession.logging.kafka.spring.config.AbstractKafkaLogHandlerConfiguration;
-import org.apereo.cas.configuration.model.support.logging.BasicLoggingProperties;
-import org.apereo.cas.configuration.model.support.logging.HistoryLoggingProperties;
+import com.buession.logging.kafka.spring.config.KafkaConfigurer;
 import org.apereo.cas.configuration.model.support.logging.KafkaLoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
-import org.apereo.cas.logging.Constants;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.apereo.cas.logging.autoconfigure.AbstractLogHandlerConfiguration;
+import org.apereo.cas.util.spring.DirectObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.ProducerListener;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Kafka 日志处理器自动配置类
@@ -51,58 +55,72 @@ import org.springframework.kafka.core.KafkaTemplate;
 @AutoConfiguration
 @EnableConfigurationProperties(LoggingProperties.class)
 @ConditionalOnClass(KafkaLogHandlerFactoryBean.class)
-public class KafkaLoggingConfiguration {
+public class KafkaLoggingConfiguration extends AbstractLogHandlerConfiguration {
 
-	@AutoConfiguration
-	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = BasicLoggingProperties.PREFIX, name = "kafka.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-	static class Basic extends AbstractKafkaLogHandlerConfiguration {
-
-		private final KafkaLoggingProperties kafkaLoggingProperties;
-
-		public Basic(final LoggingProperties properties) {
-			this.kafkaLoggingProperties = properties.getBasic().getKafka();
-		}
-
-		@Bean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		@Override
-		public KafkaLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casBasicLoggingKafkaTemplate") KafkaTemplate<String, Object> kafkaTemplate) {
-			return super.logHandlerFactoryBean(kafkaTemplate);
-		}
-
-		@Override
-		protected String getTopic() {
-			return kafkaLoggingProperties.getTopic();
-		}
-
+	public KafkaLoggingConfiguration(final ConfigurableApplicationContext applicationContext) {
+		super(applicationContext);
 	}
 
 	@AutoConfiguration
 	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = HistoryLoggingProperties.PREFIX, name = "kafka.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-	static class History extends AbstractKafkaLogHandlerConfiguration {
+	static class KafkaLogHandlerConfiguration extends AbstractKafkaLogHandlerConfiguration {
 
-		private final KafkaLoggingProperties kafkaLoggingProperties;
+		private final List<KafkaLoggingProperties> kafkaLoggingProperties;
 
-		public History(final LoggingProperties properties) {
-			this.kafkaLoggingProperties = properties.getHistory().getKafka();
+		public KafkaLogHandlerConfiguration(final LoggingProperties properties) {
+			this.kafkaLoggingProperties = properties.getKafka();
 		}
 
-		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
+		@Bean
 		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		@Override
-		public KafkaLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casHistoryLoggingKafkaTemplate") KafkaTemplate<String, Object> kafkaTemplate) {
-			return super.logHandlerFactoryBean(kafkaTemplate);
+		public List<KafkaLogHandlerFactoryBean> logHandlerFactoryBean() {
+			return kafkaLoggingProperties.stream().map((properties)->{
+				final KafkaConfiguration kafkaConfiguration = new KafkaConfiguration(properties);
+				final KafkaTemplate<String, Object> kafkaTemplate = kafkaConfiguration.kafkaTemplate();
+
+				final KafkaLogHandlerFactoryBean kafkaLogHandlerFactoryBean = super.logHandlerFactoryBean(
+						kafkaTemplate);
+
+				kafkaLogHandlerFactoryBean.setTopic(properties.getTopic());
+
+				return kafkaLogHandlerFactoryBean;
+			}).collect(Collectors.toList());
 		}
 
 		@Override
 		protected String getTopic() {
-			return kafkaLoggingProperties.getTopic();
+			return "";
+		}
+
+	}
+
+	static class KafkaConfiguration extends AbstractKafkaConfiguration {
+
+		private final KafkaLoggingProperties kafkaLoggingProperties;
+
+		public KafkaConfiguration(final KafkaLoggingProperties kafkaLoggingProperties) {
+			this.kafkaLoggingProperties = kafkaLoggingProperties;
+		}
+
+		public KafkaTemplate<String, Object> kafkaTemplate() {
+			final KafkaConfigurer kafkaConfigurer = kafkaConfigurer();
+			final ProducerFactory<String, Object> producerFactory = super.producerFactory(kafkaConfigurer,
+					new DirectObjectProvider<>(pf->{
+
+					}));
+			final ProducerListener<String, Object> kafkaProducerListener = super.kafkaProducerListener();
+
+			return kafkaTemplate(kafkaConfigurer, producerFactory, kafkaProducerListener);
+		}
+
+		private KafkaConfigurer kafkaConfigurer() {
+			final KafkaConfigurer configurer = new KafkaConfigurer();
+
+			configurer.setBootstrapServers(kafkaLoggingProperties.getBootstrapServers());
+			configurer.setConfigs(kafkaLoggingProperties.buildProperties());
+			configurer.setTransactionIdPrefix(kafkaLoggingProperties.getTransactionIdPrefix());
+
+			return configurer;
 		}
 
 	}

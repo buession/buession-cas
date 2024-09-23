@@ -25,6 +25,7 @@
 package org.apereo.cas.web.flow.config;
 
 import com.buession.security.captcha.validator.servlet.ServletCaptchaValidator;
+import org.apereo.cas.captcha.CaptchaConstants;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.configuration.model.support.captcha.CaptchaProperties;
 import org.apereo.cas.web.flow.CasCaptchaWebflowConfigurer;
@@ -79,7 +80,7 @@ public class CaptchaConfiguration {
 		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
 	}
 
-	@Bean
+	@Bean(name = "captchaWebflowConfigurer")
 	@ConditionalOnMissingBean(name = "captchaWebflowConfigurer")
 	@DependsOn("defaultWebflowConfigurer")
 	public CasWebflowConfigurer captchaWebflowConfigurer() {
@@ -87,15 +88,15 @@ public class CaptchaConfiguration {
 				applicationContext, casProperties);
 	}
 
-	@Bean
-	@ConditionalOnMissingBean(name = "initializeCaptchaAction")
+	@Bean(name = CaptchaConstants.INITIALIZE_CAPTCHA_ACTION_BEAN_NAME)
+	@ConditionalOnMissingBean(name = CaptchaConstants.INITIALIZE_CAPTCHA_ACTION_BEAN_NAME)
 	@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 	public Action initializeCaptchaAction() {
 		return new InitializeCaptchaAction(captchaProperties);
 	}
 
-	@Bean
-	@ConditionalOnMissingBean(name = "validateCaptchaAction")
+	@Bean(name = CaptchaConstants.VALIDATE_CAPTCHA_ACTION_BEAN_NAME)
+	@ConditionalOnMissingBean(name = CaptchaConstants.VALIDATE_CAPTCHA_ACTION_BEAN_NAME)
 	@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 	public Action validateCaptchaAction(ServletCaptchaValidator captchaValidator) {
 		return new ValidateCaptchaAction(captchaProperties, captchaValidator);

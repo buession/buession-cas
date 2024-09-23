@@ -30,9 +30,7 @@ import com.buession.logging.core.Principal;
 import org.apereo.cas.authentication.Authentication;
 import org.apereo.cas.authentication.AuthenticationResult;
 import org.apereo.cas.authentication.Credential;
-import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
-import org.apereo.cas.logging.manager.BasicLoggingManager;
-import org.apereo.cas.logging.manager.HistoryLoggingManager;
+import org.apereo.cas.logging.LoggingManager;
 import org.apereo.cas.web.support.WebUtils;
 import org.springframework.webflow.action.AbstractAction;
 import org.springframework.webflow.execution.Action;
@@ -58,38 +56,43 @@ public class LoggingAction extends AbstractAction {
 	public final static String NAME = "loginLoggingAction";
 
 	/**
-	 * {@link LoggingProperties}
+	 * {@link com.buession.logging.core.BusinessType} 值
 	 */
-	private final LoggingProperties loggingProperties;
+	private final String businessType;
 
+	/**
+	 * {@link com.buession.logging.core.Event} 值
+	 */
+	private final String event;
+
+	/**
+	 * 描述
+	 */
 	private final String description;
 
 	/**
-	 * 基本日志管理器
+	 * 日志管理器
 	 */
-	private final BasicLoggingManager basicLoggingManager;
-
-	/**
-	 * 历史日志管理器接口
-	 */
-	private final HistoryLoggingManager historyLoggingManager;
+	private final List<LoggingManager> loggingManagers;
 
 	/**
 	 * 构造函数
 	 *
-	 * @param loggingProperties
-	 *        {@link LoggingProperties}
-	 * @param basicLoggingManager
+	 * @param businessType
+	 *        {@link com.buession.logging.core.BusinessType}
+	 * @param event
+	 *        {@link com.buession.logging.core.Event}
+	 * @param description
+	 * 		描述
+	 * @param loggingManagers
 	 * 		基本日志管理器
-	 * @param historyLoggingManager
-	 * 		历史日志管理器接口
 	 */
-	public LoggingAction(final LoggingProperties loggingProperties, final BasicLoggingManager basicLoggingManager,
-						 final HistoryLoggingManager historyLoggingManager) {
-		this.loggingProperties = loggingProperties;
-		this.description = Optional.ofNullable(loggingProperties.getDescription()).orElse(Constants.EMPTY_STRING);
-		this.basicLoggingManager = basicLoggingManager;
-		this.historyLoggingManager = historyLoggingManager;
+	public LoggingAction(final String businessType, final String event,
+						 final String description, final List<LoggingManager> loggingManagers) {
+		this.businessType = businessType;
+		this.event = event;
+		this.description = Optional.ofNullable(description).orElse(Constants.EMPTY_STRING);
+		this.loggingManagers = loggingManagers;
 	}
 
 	@Override
@@ -110,14 +113,15 @@ public class LoggingAction extends AbstractAction {
 
 		final Map<String, Object> extra = new HashMap<>(uAttributes);
 
-		loginData.setBusinessType(loggingProperties.getBusinessType());
-		loginData.setEvent(loggingProperties.getEvent());
+		loginData.setBusinessType(businessType);
+		loginData.setEvent(event);
 		loginData.setPrincipal(logPrincipal);
 		loginData.setDescription(description);
 		loginData.setExtra(extra);
 
-		basicLoggingManager.execute(loginData);
-		historyLoggingManager.execute(loginData);
+		loggingManagers.forEach((loggingManager)->{
+			loggingManager.execute(loginData);
+		});
 
 		return success();
 	}

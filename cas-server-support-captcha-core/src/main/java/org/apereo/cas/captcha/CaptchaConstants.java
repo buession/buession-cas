@@ -44,7 +44,11 @@ public class CaptchaConstants {
 
 	public final static String CAPTCHA_REQUIRED_MESSAGE_CODE = "captcha.required";
 
-	private CaptchaConstants(){
+	public final static String INITIALIZE_CAPTCHA_ACTION_BEAN_NAME = "initializeCaptchaAction";
+
+	public final static String VALIDATE_CAPTCHA_ACTION_BEAN_NAME = "validateCaptchaAction";
+
+	private CaptchaConstants() {
 
 	}
 

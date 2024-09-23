@@ -24,24 +24,41 @@
  */
 package org.apereo.cas.logging.autoconfigure;
 
+import com.buession.geoip.CacheDatabaseResolver;
+import com.buession.geoip.Resolver;
 import com.buession.logging.core.handler.DefaultPrincipalHandler;
+import com.buession.logging.core.handler.LogHandler;
 import com.buession.logging.core.handler.PrincipalHandler;
+import com.buession.logging.core.mgt.DefaultLogManager;
 import com.buession.logging.core.request.RequestContext;
 import com.buession.logging.core.request.ServletRequestContext;
+import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
+import org.apereo.cas.logging.LoggingManager;
+import org.apereo.cas.logging.manager.DefaultLoggingManager;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ScopedProxyMode;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Yong.Teng
  * @since 1.0.0
  */
 @AutoConfiguration
-@EnableConfigurationProperties(LoggingProperties.class)
-@ConditionalOnProperty(prefix = LoggingProperties.PREFIX, name = "enabled", havingValue = "true")
+@EnableConfigurationProperties({CasConfigurationProperties.class, LoggingProperties.class})
 public class LoggingConfiguration {
+
+	private final CasConfigurationProperties casConfigurationProperties;
+
+	public LoggingConfiguration(final CasConfigurationProperties casConfigurationProperties) {
+		this.casConfigurationProperties = casConfigurationProperties;
+	}
 
 	@Bean
 	public RequestContext requestContext() {
@@ -51,6 +68,29 @@ public class LoggingConfiguration {
 	@Bean
 	public PrincipalHandler<?> principalHandler() {
 		return new DefaultPrincipalHandler();
+	}
+
+	@Bean
+	@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+	public Resolver geoResolver() throws IOException {
+		return new CacheDatabaseResolver(
+				casConfigurationProperties.getGeoLocation().getMaxmind().getCityDatabase().getInputStream());
+	}
+
+	@Bean
+	@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+	public List<LoggingManager> loggingManager(RequestContext requestContext, PrincipalHandler<?> principalHandler,
+											   Resolver geoResolver, List<LogHandler> logHandlers) {
+		return logHandlers.stream().map((logHandler)->{
+			DefaultLogManager manager = new DefaultLogManager();
+
+			manager.setRequestContext(requestContext);
+			manager.setPrincipalHandler(principalHandler);
+			manager.setGeoResolver(geoResolver);
+			manager.setLogHandler(logHandler);
+
+			return new DefaultLoggingManager(manager);
+		}).collect(Collectors.toList());
 	}
 
 }

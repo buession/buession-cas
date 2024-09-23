@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  org.apereo.cas.config.ElasticsearchConfiguration, \
   org.apereo.cas.config.ElasticsearchLoggingConfiguration

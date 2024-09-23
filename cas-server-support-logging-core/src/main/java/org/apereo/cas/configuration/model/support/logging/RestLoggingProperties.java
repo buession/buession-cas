@@ -154,10 +154,8 @@ public class RestLoggingProperties implements AdapterLoggingProperties, Serializ
 	 */
 	public final static class HttpClientProperties extends Configuration {
 
-		@NestedConfigurationProperty
 		private ApacheClient apacheClient;
 
-		@NestedConfigurationProperty
 		private OkHttp okHttp;
 
 		public ApacheClient getApacheClient() {

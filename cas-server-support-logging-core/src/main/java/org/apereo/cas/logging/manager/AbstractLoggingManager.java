@@ -27,6 +27,7 @@ package org.apereo.cas.logging.manager;
 import com.buession.core.utils.Assert;
 import com.buession.logging.core.LogData;
 import com.buession.logging.core.mgt.LogManager;
+import org.apereo.cas.logging.LoggingManager;
 
 /**
  * 日志管理器抽象类

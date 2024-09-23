@@ -24,24 +24,28 @@
  */
 package org.apereo.cas.config;
 
+import com.buession.core.validator.Validate;
 import com.buession.logging.rabbitmq.spring.RabbitLogHandlerFactoryBean;
+import com.buession.logging.rabbitmq.spring.config.AbstractRabbitConfiguration;
 import com.buession.logging.rabbitmq.spring.config.AbstractRabbitLogHandlerConfiguration;
+import com.buession.logging.rabbitmq.spring.config.RabbitConfigurer;
 import com.buession.logging.rabbitmq.spring.config.RabbitLogHandlerFactoryBeanConfigurer;
-import org.apereo.cas.configuration.model.support.logging.BasicLoggingProperties;
-import org.apereo.cas.configuration.model.support.logging.HistoryLoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.RabbitLoggingProperties;
-import org.apereo.cas.logging.Constants;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.BeanInstantiationException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ScopedProxyMode;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * RabbitMQ 日志处理器自动配置类
@@ -51,73 +55,154 @@ import org.springframework.context.annotation.ScopedProxyMode;
  */
 @AutoConfiguration
 @EnableConfigurationProperties(LoggingProperties.class)
-@ConditionalOnClass(RabbitLoggingConfiguration.class)
+@ConditionalOnClass(RabbitLogHandlerFactoryBean.class)
 public class RabbitLoggingConfiguration {
 
-	protected static RabbitLogHandlerFactoryBeanConfigurer rabbitLogHandlerFactoryBeanConfigurer(
-			final RabbitLoggingProperties rabbitLoggingProperties) {
-		final RabbitLogHandlerFactoryBeanConfigurer configurer = new RabbitLogHandlerFactoryBeanConfigurer();
-
-		configurer.setExchange(rabbitLoggingProperties.getExchange());
-		configurer.setRoutingKey(rabbitLoggingProperties.getRoutingKey());
-
-		return configurer;
-	}
-
 	@AutoConfiguration
 	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = BasicLoggingProperties.PREFIX, name = "rabbit.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-	static class Basic extends AbstractRabbitLogHandlerConfiguration {
+	static class RabbitLogHandlerConfiguration extends AbstractRabbitLogHandlerConfiguration {
+
+		private final List<RabbitLoggingProperties> rabbitLoggingProperties;
+
+		public RabbitLogHandlerConfiguration(final LoggingProperties properties) {
+			this.rabbitLoggingProperties = properties.getRabbit();
+		}
+
+		@Bean
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public List<RabbitLogHandlerFactoryBean> logHandlerFactoryBean() {
+			return rabbitLoggingProperties.stream().map((properties)->{
+				final RabbitLogHandlerFactoryBeanConfigurer configurer = rabbitLogHandlerFactoryBeanConfigurer(
+						properties);
+				final RabbitConfiguration rabbitConfiguration = new RabbitConfiguration(properties);
+				final RabbitTemplate rabbitTemplate;
+
+				try{
+					rabbitTemplate = rabbitConfiguration.rabbitTemplate();
+				}catch(Exception e){
+					throw new BeanInstantiationException(RabbitTemplate.class, e.getMessage(), e);
+				}
+
+				return super.logHandlerFactoryBean(configurer, rabbitTemplate);
+			}).collect(Collectors.toList());
+		}
+
+		private RabbitLogHandlerFactoryBeanConfigurer rabbitLogHandlerFactoryBeanConfigurer(
+				final RabbitLoggingProperties rabbitLoggingProperties) {
+			final RabbitLogHandlerFactoryBeanConfigurer configurer = new RabbitLogHandlerFactoryBeanConfigurer();
+
+			configurer.setExchange(rabbitLoggingProperties.getExchange());
+			configurer.setRoutingKey(rabbitLoggingProperties.getRoutingKey());
+
+			return configurer;
+		}
+
+	}
+
+	static class RabbitConfiguration extends AbstractRabbitConfiguration {
 
 		private final RabbitLoggingProperties rabbitLoggingProperties;
 
-		public Basic(final LoggingProperties properties) {
-			this.rabbitLoggingProperties = properties.getHistory().getRabbit();
+		public RabbitConfiguration(final RabbitLoggingProperties rabbitLoggingProperties) {
+			this.rabbitLoggingProperties = rabbitLoggingProperties;
 		}
 
-		@Bean(name = "casBasicLoggingRabbitLogHandlerFactoryBeanConfigurer")
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		protected RabbitLogHandlerFactoryBeanConfigurer rabbitLogHandlerFactoryBeanConfigurer() {
-			return RabbitLoggingConfiguration.rabbitLogHandlerFactoryBeanConfigurer(rabbitLoggingProperties);
+		public RabbitTemplate rabbitTemplate() throws Exception {
+			final RabbitConfigurer configurer = rabbitConfigurer();
+			final ConnectionFactory connectionFactory = rabbitConnectionFactory(configurer);
+
+			return super.rabbitTemplate(configurer, connectionFactory);
 		}
 
-		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		private RabbitConfigurer rabbitConfigurer() {
+			final RabbitConfigurer configurer = new RabbitConfigurer();
+
+			configurer.setHost(rabbitLoggingProperties.getHost());
+			configurer.setPort(determinePort(rabbitLoggingProperties));
+			configurer.setUsername(rabbitLoggingProperties.getUsername());
+			configurer.setPassword(rabbitLoggingProperties.getPassword());
+			configurer.setVirtualHost(rabbitLoggingProperties.getVirtualHost());
+			configurer.setConnectionTimeout(rabbitLoggingProperties.getConnectionTimeout());
+			configurer.setChannelRpcTimeout(rabbitLoggingProperties.getChannelRpcTimeout());
+			configurer.setRequestedHeartbeat(rabbitLoggingProperties.getRequestedHeartbeat());
+			configurer.setRequestedChannelMax(rabbitLoggingProperties.getRequestedChannelMax());
+			configurer.setReceiveTimeout(rabbitLoggingProperties.getReceiveTimeout());
+			configurer.setReplyTimeout(rabbitLoggingProperties.getReplyTimeout());
+			configurer.setDefaultReceiveQueue(rabbitLoggingProperties.getDefaultReceiveQueue());
+			configurer.setSslConfiguration(rabbitLoggingProperties.getSslConfiguration());
+			configurer.setPublisherReturns(rabbitLoggingProperties.isPublisherReturns());
+			configurer.setPublisherConfirmType(rabbitLoggingProperties.getPublisherConfirmType());
+
+			if(rabbitLoggingProperties.getCache() != null){
+				com.buession.logging.rabbitmq.core.Cache cache = new com.buession.logging.rabbitmq.core.Cache();
+
+				if(rabbitLoggingProperties.getCache().getConnection() != null){
+					com.buession.logging.rabbitmq.core.Cache.Connection connection =
+							new com.buession.logging.rabbitmq.core.Cache.Connection();
+
+					connection.setMode(rabbitLoggingProperties.getCache().getConnection().getMode());
+					connection.setSize(rabbitLoggingProperties.getCache().getConnection().getSize());
+
+					cache.setConnection(connection);
+				}
+
+				if(rabbitLoggingProperties.getCache().getChannel() != null){
+					com.buession.logging.rabbitmq.core.Cache.Channel channel = new com.buession.logging.rabbitmq.core.Cache.Channel();
+
+					channel.setSize(rabbitLoggingProperties.getCache().getChannel().getSize());
+					channel.setCheckoutTimeout(rabbitLoggingProperties.getCache().getChannel().getCheckoutTimeout());
+
+					cache.setChannel(channel);
+				}
+
+				configurer.setCache(cache);
+			}
+
+			if(rabbitLoggingProperties.getRetry() != null){
+				com.buession.logging.rabbitmq.core.Retry retry = new com.buession.logging.rabbitmq.core.Retry();
+
+				retry.setEnabled(rabbitLoggingProperties.getRetry().isEnabled());
+				retry.setMaxAttempts(rabbitLoggingProperties.getRetry().getMaxAttempts());
+				retry.setInitialInterval(rabbitLoggingProperties.getRetry().getInitialInterval());
+				retry.setMultiplier(rabbitLoggingProperties.getRetry().getMultiplier());
+				retry.setMaxInterval(rabbitLoggingProperties.getRetry().getMaxInterval());
+				retry.setRetryCustomizers(rabbitLoggingProperties.getRetry().getRetryCustomizers());
+
+				configurer.setRetry(retry);
+			}
+
+			if(Validate.hasText(rabbitLoggingProperties.getMessageConverterClass())){
+				try{
+					MessageConverter messageConverter = (MessageConverter) BeanUtils.instantiateClass(
+							Class.forName(rabbitLoggingProperties.getMessageConverterClass()));
+					configurer.setMessageConverter(messageConverter);
+				}catch(ClassNotFoundException e){
+					throw new BeanInstantiationException(MessageConverter.class, e.getMessage(), e);
+				}
+			}
+
+			return configurer;
+		}
+
 		@Override
-		public RabbitLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casBasicLoggingRabbitLogHandlerFactoryBeanConfigurer") RabbitLogHandlerFactoryBeanConfigurer configurer,
-				@Qualifier("casBasicLoggingRabbitTemplate") RabbitTemplate rabbitTemplate) {
-			return super.logHandlerFactoryBean(configurer, rabbitTemplate);
+		protected boolean determineMandatoryFlag() {
+			Boolean mandatory = rabbitLoggingProperties.getMandatory();
+			if(mandatory != null){
+				return mandatory;
+			}
+
+			return rabbitLoggingProperties.isPublisherReturns();
 		}
 
-	}
+		private static int determinePort(final RabbitLoggingProperties rabbitLoggingProperties) {
+			if(rabbitLoggingProperties.getPort() > 0){
+				return rabbitLoggingProperties.getPort();
+			}
 
-	@AutoConfiguration
-	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = HistoryLoggingProperties.PREFIX, name = "rabbit.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-	static class History extends AbstractRabbitLogHandlerConfiguration {
-
-		private final RabbitLoggingProperties rabbitLoggingProperties;
-
-		public History(final LoggingProperties properties) {
-			this.rabbitLoggingProperties = properties.getHistory().getRabbit();
-		}
-
-		@Bean(name = "casHistoryLoggingRabbitLogHandlerFactoryBeanConfigurer")
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		protected RabbitLogHandlerFactoryBeanConfigurer rabbitLogHandlerFactoryBeanConfigurer() {
-			return RabbitLoggingConfiguration.rabbitLogHandlerFactoryBeanConfigurer(rabbitLoggingProperties);
-		}
-
-		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		@Override
-		public RabbitLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casHistoryLoggingRabbitLogHandlerFactoryBeanConfigurer") RabbitLogHandlerFactoryBeanConfigurer configurer,
-				@Qualifier("casHistoryLoggingRabbitTemplate") RabbitTemplate rabbitTemplate) {
-			return super.logHandlerFactoryBean(configurer, rabbitTemplate);
+			return rabbitLoggingProperties.getSslConfiguration() != null &&
+					rabbitLoggingProperties.getSslConfiguration()
+							.isEnabled() ? com.buession.logging.rabbitmq.core.Constants.DEFAULT_SECURE_PORT :
+					com.buession.logging.rabbitmq.core.Constants.DEFAULT_PORT;
 		}
 
 	}

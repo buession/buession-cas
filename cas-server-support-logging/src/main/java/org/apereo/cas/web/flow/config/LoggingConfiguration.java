@@ -26,8 +26,7 @@ package org.apereo.cas.web.flow.config;
 
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
-import org.apereo.cas.logging.manager.BasicLoggingManager;
-import org.apereo.cas.logging.manager.HistoryLoggingManager;
+import org.apereo.cas.logging.LoggingManager;
 import org.apereo.cas.web.flow.CasLoggingWebflowConfigurer;
 import org.apereo.cas.web.flow.CasWebflowConfigurer;
 import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
@@ -45,13 +44,14 @@ import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
 import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
 import org.springframework.webflow.execution.Action;
 
+import java.util.List;
+
 /**
  * @author Yong.Teng
  * @since 3.0.0
  */
 @AutoConfiguration
 @EnableConfigurationProperties(LoggingProperties.class)
-@ConditionalOnProperty(prefix = LoggingProperties.PREFIX, name = "enabled", havingValue = "true")
 public class LoggingConfiguration {
 
 	private final CasConfigurationProperties casProperties;
@@ -75,7 +75,7 @@ public class LoggingConfiguration {
 		this.flowBuilderServices = flowBuilderServices.getIfAvailable();
 	}
 
-	@Bean
+	@Bean(name = "loggingWebflowConfigurer")
 	@ConditionalOnMissingBean(name = "loggingWebflowConfigurer")
 	@DependsOn("defaultWebflowConfigurer")
 	public CasWebflowConfigurer loggingWebflowConfigurer() {
@@ -85,10 +85,9 @@ public class LoggingConfiguration {
 
 	@Bean(name = LoggingAction.NAME)
 	@ConditionalOnMissingBean(name = LoggingAction.NAME)
-	public Action loggingAction(ObjectProvider<BasicLoggingManager> basicLoggingManager,
-								ObjectProvider<HistoryLoggingManager> historyLoggingManager) {
-		return new LoggingAction(loggingProperties, basicLoggingManager.getIfAvailable(),
-				historyLoggingManager.getIfAvailable());
+	public Action loggingAction(List<LoggingManager> loggingManagers) {
+		return new LoggingAction(loggingProperties.getBusinessType(), loggingProperties.getEvent(),
+				loggingProperties.getDescription(), loggingManagers);
 	}
 
 	@Bean

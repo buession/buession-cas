@@ -29,23 +29,21 @@ import com.buession.logging.core.formatter.LogDataFormatter;
 import com.buession.logging.file.spring.FileLogHandlerFactoryBean;
 import com.buession.logging.file.spring.config.AbstractFileLogHandlerConfiguration;
 import com.buession.logging.file.spring.config.FileLogHandlerFactoryBeanConfigurer;
-import org.apereo.cas.configuration.model.support.logging.BasicLoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.FileLoggingProperties;
-import org.apereo.cas.configuration.model.support.logging.HistoryLoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
-import org.apereo.cas.logging.Constants;
 import org.apereo.cas.logging.autoconfigure.AbstractLogHandlerConfiguration;
+import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ScopedProxyMode;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 文件日志处理器自动配置类
@@ -58,80 +56,46 @@ import org.springframework.context.annotation.ScopedProxyMode;
 @ConditionalOnClass(FileLogHandlerFactoryBean.class)
 public class FileLoggingConfiguration extends AbstractLogHandlerConfiguration {
 
-	public FileLoggingConfiguration(ConfigurableApplicationContext applicationContext) {
+	public FileLoggingConfiguration(final ConfigurableApplicationContext applicationContext) {
 		super(applicationContext);
 	}
 
-	protected static FileLogHandlerFactoryBeanConfigurer fileLogHandlerFactoryBeanConfigurer(
-			final FileLoggingProperties fileLoggingProperties) {
-		final FileLogHandlerFactoryBeanConfigurer configurer = new FileLogHandlerFactoryBeanConfigurer();
+	@AutoConfiguration
+	@EnableConfigurationProperties(LoggingProperties.class)
+	static class FileLogHandlerConfiguration extends AbstractFileLogHandlerConfiguration {
 
-		configurer.setPath(fileLoggingProperties.getPath());
+		private final List<FileLoggingProperties> fileLoggingProperties;
 
-		if(Validate.hasText(fileLoggingProperties.getFormatterClass())){
-			try{
-				configurer.setFormatter((LogDataFormatter<String>)
-						BeanUtils.instantiateClass(Class.forName(fileLoggingProperties.getFormatterClass())));
-			}catch(ClassNotFoundException e){
-				throw new RuntimeException(e);
+		public FileLogHandlerConfiguration(final LoggingProperties properties) {
+			this.fileLoggingProperties = properties.getFile();
+		}
+
+		@Bean
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public List<FileLogHandlerFactoryBean> logHandlerFactoryBean() {
+			return fileLoggingProperties.stream().map((properties)->{
+				final FileLogHandlerFactoryBeanConfigurer configurer = logHandlerFactoryBeanConfigurer(properties);
+
+				return super.logHandlerFactoryBean(configurer);
+			}).collect(Collectors.toList());
+		}
+
+		private FileLogHandlerFactoryBeanConfigurer logHandlerFactoryBeanConfigurer(
+				final FileLoggingProperties fileLoggingProperties) {
+			final FileLogHandlerFactoryBeanConfigurer configurer = new FileLogHandlerFactoryBeanConfigurer();
+
+			configurer.setPath(fileLoggingProperties.getPath());
+			if(Validate.hasText(fileLoggingProperties.getFormatterClass())){
+				try{
+					LogDataFormatter<String> logDataFormatter = (LogDataFormatter<String>)
+							BeanUtils.instantiateClass(Class.forName(fileLoggingProperties.getFormatterClass()));
+					configurer.setFormatter(logDataFormatter);
+				}catch(ClassNotFoundException e){
+					throw new BeanInstantiationException(LogDataFormatter.class, e.getMessage(), e);
+				}
 			}
-		}
 
-		return configurer;
-	}
-
-	@AutoConfiguration
-	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = BasicLoggingProperties.PREFIX, name = "file.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-	static class Basic extends AbstractFileLogHandlerConfiguration {
-
-		private final FileLoggingProperties fileLoggingProperties;
-
-		public Basic(final LoggingProperties properties) {
-			this.fileLoggingProperties = properties.getBasic().getFile();
-		}
-
-		@Bean(name = "casBasicLoggingFileLogHandlerFactoryBeanConfigurer")
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public FileLogHandlerFactoryBeanConfigurer fileLogHandlerFactoryBeanConfigurer() {
-			return FileLoggingConfiguration.fileLogHandlerFactoryBeanConfigurer(fileLoggingProperties);
-		}
-
-		@Bean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		@Override
-		public FileLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casBasicLoggingFileLogHandlerFactoryBeanConfigurer") FileLogHandlerFactoryBeanConfigurer configurer) {
-			return super.logHandlerFactoryBean(configurer);
-		}
-
-	}
-
-	@AutoConfiguration
-	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = HistoryLoggingProperties.PREFIX, name = "file.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-	static class History extends AbstractFileLogHandlerConfiguration {
-
-		private final FileLoggingProperties fileLoggingProperties;
-
-		public History(final LoggingProperties properties) {
-			this.fileLoggingProperties = properties.getHistory().getFile();
-		}
-
-		@Bean(name = "casHistoryLoggingFileLogHandlerFactoryBeanConfigurer")
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public FileLogHandlerFactoryBeanConfigurer fileLogHandlerFactoryBeanConfigurer() {
-			return FileLoggingConfiguration.fileLogHandlerFactoryBeanConfigurer(fileLoggingProperties);
-		}
-
-		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		@Override
-		public FileLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casHistoryLoggingFileLogHandlerFactoryBeanConfigurer") FileLogHandlerFactoryBeanConfigurer configurer) {
-			return super.logHandlerFactoryBean(configurer);
+			return configurer;
 		}
 
 	}

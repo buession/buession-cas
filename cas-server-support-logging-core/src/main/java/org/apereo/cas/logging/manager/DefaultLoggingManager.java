@@ -22,20 +22,26 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging;
+package org.apereo.cas.logging.manager;
 
 import com.buession.logging.core.mgt.LogManager;
-import org.apereo.cas.logging.manager.AbstractLoggingManager;
 
 /**
- * RabbitMQ 日志管理器
+ * 默认日志管理器
  *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 1.0.0
  */
-public class RabbitLoggingManager extends AbstractLoggingManager {
+public class DefaultLoggingManager extends AbstractLoggingManager {
 
-	public RabbitLoggingManager(LogManager logManager) {
+	/**
+	 * 构造函数
+	 *
+	 * @param logManager
+	 * 		原生日志管理器
+	 */
+	public DefaultLoggingManager(final LogManager logManager) {
 		super(logManager);
 	}
+
 }

@@ -22,18 +22,8 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.manager;
-
-import com.buession.logging.core.LogData;
-
 /**
- * 日志管理器
- *
  * @author Yong.Teng
- * @since 1.0.0
+ * @since 3.0.0
  */
-public interface LoggingManager {
-
-	void execute(final LogData logData);
-
-}
+package org.apereo.cas.logging.rest.httpclient;

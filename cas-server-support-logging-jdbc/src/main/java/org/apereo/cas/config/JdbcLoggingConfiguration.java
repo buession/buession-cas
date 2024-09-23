@@ -30,25 +30,28 @@ import com.buession.logging.core.formatter.GeoFormatter;
 import com.buession.logging.core.formatter.MapFormatter;
 import com.buession.logging.jdbc.converter.LogDataConverter;
 import com.buession.logging.jdbc.spring.JdbcLogHandlerFactoryBean;
+import com.buession.logging.jdbc.spring.config.AbstractJdbcConfiguration;
 import com.buession.logging.jdbc.spring.config.AbstractJdbcLogHandlerConfiguration;
+import com.buession.logging.jdbc.spring.config.JdbcConfigurer;
 import com.buession.logging.jdbc.spring.config.JdbcLogHandlerFactoryBeanConfigurer;
-import org.apereo.cas.configuration.model.support.logging.HistoryLoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.JdbcLoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
-import org.apereo.cas.logging.Constants;
+import org.apereo.cas.configuration.support.JpaBeans;
 import org.apereo.cas.logging.autoconfigure.AbstractLogHandlerConfiguration;
+import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import javax.sql.DataSource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * JDBC 日志处理器自动配置类
@@ -61,119 +64,121 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @ConditionalOnClass(JdbcLogHandlerFactoryBean.class)
 public class JdbcLoggingConfiguration extends AbstractLogHandlerConfiguration {
 
-	public JdbcLoggingConfiguration(ConfigurableApplicationContext applicationContext) {
+	public JdbcLoggingConfiguration(final ConfigurableApplicationContext applicationContext) {
 		super(applicationContext);
 	}
 
-	protected static JdbcLogHandlerFactoryBeanConfigurer jdbcLogHandlerFactoryBeanConfigurer(
-			final JdbcLoggingProperties jdbcLoggingProperties) {
-		final JdbcLogHandlerFactoryBeanConfigurer configurer = new JdbcLogHandlerFactoryBeanConfigurer();
-
-		configurer.setSql(jdbcLoggingProperties.getSql());
-		configurer.setDateTimeFormat(jdbcLoggingProperties.getDateTimeFormat());
-
-		if(Validate.hasText(jdbcLoggingProperties.getIdGeneratorClass())){
-			try{
-				configurer.setIdGenerator((IdGenerator<?>) BeanUtils.instantiateClass(
-						Class.forName(jdbcLoggingProperties.getIdGeneratorClass())));
-			}catch(ClassNotFoundException e){
-				throw new RuntimeException(e);
-			}
-		}
-
-		if(Validate.hasText(jdbcLoggingProperties.getRequestParametersFormatterClass())){
-			try{
-				configurer.setRequestParametersFormatter((MapFormatter<Object>) BeanUtils.instantiateClass(
-						Class.forName(jdbcLoggingProperties.getRequestParametersFormatterClass())));
-			}catch(ClassNotFoundException e){
-				throw new RuntimeException(e);
-			}
-		}
-
-		if(Validate.hasText(jdbcLoggingProperties.getGeoFormatterClass())){
-			try{
-				configurer.setGeoFormatter((GeoFormatter) BeanUtils.instantiateClass(
-						Class.forName(jdbcLoggingProperties.getGeoFormatterClass())));
-			}catch(ClassNotFoundException e){
-				throw new RuntimeException(e);
-			}
-		}
-
-		if(Validate.hasText(jdbcLoggingProperties.getExtraFormatterClass())){
-			try{
-				configurer.setExtraFormatter((MapFormatter<Object>) BeanUtils.instantiateClass(
-						Class.forName(jdbcLoggingProperties.getExtraFormatterClass())));
-			}catch(ClassNotFoundException e){
-				throw new RuntimeException(e);
-			}
-		}
-
-		if(Validate.hasText(jdbcLoggingProperties.getDataConverterClass())){
-			try{
-				configurer.setDataConverter((LogDataConverter) BeanUtils.instantiateClass(
-						Class.forName(jdbcLoggingProperties.getDataConverterClass())));
-			}catch(ClassNotFoundException e){
-				throw new RuntimeException(e);
-			}
-		}
-
-		return configurer;
-	}
-
 	@AutoConfiguration
 	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = HistoryLoggingProperties.PREFIX, name = "jdbc.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-	static class Basic extends AbstractJdbcLogHandlerConfiguration {
+	static class JdbcLogHandlerConfiguration extends AbstractJdbcLogHandlerConfiguration {
+
+		private final List<JdbcLoggingProperties> jdbcLoggingProperties;
+
+		public JdbcLogHandlerConfiguration(final LoggingProperties properties) {
+			this.jdbcLoggingProperties = properties.getJdbc();
+		}
+
+		@Bean
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public List<JdbcLogHandlerFactoryBean> logHandlerFactoryBean() {
+			return jdbcLoggingProperties.stream().map((properties)->{
+				final JdbcLogHandlerFactoryBeanConfigurer configurer = logHandlerFactoryBeanConfigurer(properties);
+				final JdbcConfiguration jdbcConfiguration = new JdbcConfiguration(properties);
+				final JdbcTemplate jdbcTemplate = jdbcConfiguration.jdbcTemplate();
+
+				return super.logHandlerFactoryBean(configurer, jdbcTemplate);
+			}).collect(Collectors.toList());
+		}
+
+		private JdbcLogHandlerFactoryBeanConfigurer logHandlerFactoryBeanConfigurer(
+				final JdbcLoggingProperties jdbcLoggingProperties) {
+			final JdbcLogHandlerFactoryBeanConfigurer configurer = new JdbcLogHandlerFactoryBeanConfigurer();
+
+			configurer.setSql(jdbcLoggingProperties.getSql());
+			configurer.setDateTimeFormat(jdbcLoggingProperties.getDateTimeFormat());
+
+			if(Validate.hasText(jdbcLoggingProperties.getIdGeneratorClass())){
+				try{
+					IdGenerator<?> idGenerator = (IdGenerator<?>) BeanUtils.instantiateClass(
+							Class.forName(jdbcLoggingProperties.getIdGeneratorClass()));
+					configurer.setIdGenerator(idGenerator);
+				}catch(ClassNotFoundException e){
+					throw new BeanInstantiationException(IdGenerator.class, e.getMessage(), e);
+				}
+			}
+
+			if(Validate.hasText(jdbcLoggingProperties.getRequestParametersFormatterClass())){
+				try{
+					MapFormatter<Object> mapFormatter = (MapFormatter<Object>) BeanUtils.instantiateClass(
+							Class.forName(jdbcLoggingProperties.getRequestParametersFormatterClass()));
+					configurer.setRequestParametersFormatter(mapFormatter);
+				}catch(ClassNotFoundException e){
+					throw new BeanInstantiationException(MapFormatter.class, e.getMessage(), e);
+				}
+			}
+
+			if(Validate.hasText(jdbcLoggingProperties.getGeoFormatterClass())){
+				try{
+					GeoFormatter geoFormatter = (GeoFormatter) BeanUtils.instantiateClass(
+							Class.forName(jdbcLoggingProperties.getGeoFormatterClass()));
+					configurer.setGeoFormatter(geoFormatter);
+				}catch(ClassNotFoundException e){
+					throw new BeanInstantiationException(GeoFormatter.class, e.getMessage(), e);
+				}
+			}
+
+			if(Validate.hasText(jdbcLoggingProperties.getExtraFormatterClass())){
+				try{
+					MapFormatter<Object> mapFormatter = (MapFormatter<Object>) BeanUtils.instantiateClass(
+							Class.forName(jdbcLoggingProperties.getExtraFormatterClass()));
+					configurer.setExtraFormatter(mapFormatter);
+				}catch(ClassNotFoundException e){
+					throw new BeanInstantiationException(MapFormatter.class, e.getMessage(), e);
+				}
+			}
+
+			if(Validate.hasText(jdbcLoggingProperties.getDataConverterClass())){
+				try{
+					LogDataConverter logDataConverter = (LogDataConverter) BeanUtils.instantiateClass(
+							Class.forName(jdbcLoggingProperties.getDataConverterClass()));
+					configurer.setDataConverter(logDataConverter);
+				}catch(ClassNotFoundException e){
+					throw new BeanInstantiationException(LogDataConverter.class, e.getMessage(), e);
+				}
+			}
+
+			return configurer;
+		}
+
+	}
+
+	private final static class JdbcConfiguration extends AbstractJdbcConfiguration {
 
 		private final JdbcLoggingProperties jdbcLoggingProperties;
 
-		public Basic(final LoggingProperties properties) {
-			this.jdbcLoggingProperties = properties.getBasic().getJdbc();
+		public JdbcConfiguration(final JdbcLoggingProperties jdbcLoggingProperties) {
+			this.jdbcLoggingProperties = jdbcLoggingProperties;
 		}
 
-		@Bean(name = "casBasicLoggingJdbcLogHandlerFactoryBeanConfigurer")
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public JdbcLogHandlerFactoryBeanConfigurer jdbcLogHandlerFactoryBeanConfigurer() {
-			return JdbcLoggingConfiguration.jdbcLogHandlerFactoryBeanConfigurer(jdbcLoggingProperties);
-		}
-
-		@Bean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 		@Override
-		public JdbcLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casBasicLoggingJdbcLogHandlerFactoryBeanConfigurer") JdbcLogHandlerFactoryBeanConfigurer configurer,
-				@Qualifier("casBasicLoggingJdbcTemplate") JdbcTemplate jdbcTemplate) {
-			return super.logHandlerFactoryBean(configurer, jdbcTemplate);
+		public DataSource dataSource(JdbcConfigurer configurer) {
+			return JpaBeans.newDataSource(jdbcLoggingProperties);
 		}
 
-	}
-
-	@AutoConfiguration
-	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = HistoryLoggingProperties.PREFIX, name = "jdbc.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-	static class History extends AbstractJdbcLogHandlerConfiguration {
-
-		private final JdbcLoggingProperties jdbcLoggingProperties;
-
-		public History(final LoggingProperties properties) {
-			this.jdbcLoggingProperties = properties.getBasic().getJdbc();
+		public JdbcTemplate jdbcTemplate() {
+			final DataSource dataSource = dataSource(jdbcConfigurer());
+			return jdbcTemplate(dataSource);
 		}
 
-		@Bean(name = "casHistoryLoggingJdbcLogHandlerFactoryBeanConfigurer")
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public JdbcLogHandlerFactoryBeanConfigurer jdbcLogHandlerFactoryBeanConfigurer() {
-			return JdbcLoggingConfiguration.jdbcLogHandlerFactoryBeanConfigurer(jdbcLoggingProperties);
-		}
+		private JdbcConfigurer jdbcConfigurer() {
+			final JdbcConfigurer configurer = new JdbcConfigurer();
 
-		@Bean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		@Override
-		public JdbcLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casHistoryLoggingJdbcLogHandlerFactoryBeanConfigurer") JdbcLogHandlerFactoryBeanConfigurer configurer,
-				@Qualifier("casHistoryLoggingJdbcTemplate") JdbcTemplate jdbcTemplate) {
-			return super.logHandlerFactoryBean(configurer, jdbcTemplate);
+			propertyMapper.from(jdbcLoggingProperties::getDriverClass).to(configurer::setDriverClassName);
+			propertyMapper.from(jdbcLoggingProperties::getUrl).to(configurer::setUrl);
+			propertyMapper.from(jdbcLoggingProperties::getUser).to(configurer::setUsername);
+			propertyMapper.from(jdbcLoggingProperties::getPassword).to(configurer::setPassword);
+
+			return configurer;
 		}
 
 	}

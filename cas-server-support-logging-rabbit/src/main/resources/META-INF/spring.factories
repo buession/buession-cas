@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  org.apereo.cas.config.RabbitConfiguration, \
   org.apereo.cas.config.RabbitLoggingConfiguration

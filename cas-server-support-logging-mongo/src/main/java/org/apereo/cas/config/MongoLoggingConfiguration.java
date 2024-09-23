@@ -25,22 +25,24 @@
 package org.apereo.cas.config;
 
 import com.buession.logging.mongodb.spring.MongoLogHandlerFactoryBean;
+import com.buession.logging.mongodb.spring.config.AbstractMongoConfiguration;
 import com.buession.logging.mongodb.spring.config.AbstractMongoLogHandlerConfiguration;
-import org.apereo.cas.configuration.model.support.logging.BasicLoggingProperties;
-import org.apereo.cas.configuration.model.support.logging.HistoryLoggingProperties;
+import com.buession.logging.mongodb.spring.config.MongoConfigurer;
+import org.apereo.cas.authentication.CasSSLContext;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
 import org.apereo.cas.configuration.model.support.logging.MongoLoggingProperties;
-import org.apereo.cas.logging.Constants;
+import org.apereo.cas.mongo.MongoDbConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.mongodb.core.MongoTemplate;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * MongoDB 日志处理器自动配置类
@@ -55,54 +57,60 @@ public class MongoLoggingConfiguration {
 
 	@AutoConfiguration
 	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = BasicLoggingProperties.PREFIX, name = "mongo.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
-	static class Basic extends AbstractMongoLogHandlerConfiguration {
+	static class MongoLogHandlerConfiguration extends AbstractMongoLogHandlerConfiguration {
 
-		private final MongoLoggingProperties mongoLoggingProperties;
+		private final List<MongoLoggingProperties> mongoLoggingProperties;
 
-		public Basic(final LoggingProperties properties) {
-			this.mongoLoggingProperties = properties.getBasic().getMongo();
+		private final CasSSLContext casSslContext;
+
+		public MongoLogHandlerConfiguration(final LoggingProperties properties,
+											@Qualifier("casSslContext") final CasSSLContext casSslContext) {
+			this.mongoLoggingProperties = properties.getMongo();
+			this.casSslContext = casSslContext;
 		}
 
-		@Bean(name = Constants.BASIC_LOG_HANDLER_BEAN_NAME)
+		@Bean
 		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		@Override
-		public MongoLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casBasicLoggingMongoTemplate") MongoTemplate mongoTemplate) {
-			return super.logHandlerFactoryBean(mongoTemplate);
+		public List<MongoLogHandlerFactoryBean> logHandlerFactoryBean() {
+			return mongoLoggingProperties.stream().map((properties)->{
+				final MongoConfiguration mongoConfiguration = new MongoConfiguration(properties, casSslContext);
+				final MongoTemplate mongoTemplate = mongoConfiguration.mongoTemplate();
+
+				final MongoLogHandlerFactoryBean mongoLogHandlerFactoryBean =
+						super.logHandlerFactoryBean(mongoTemplate);
+
+				mongoLogHandlerFactoryBean.setCollectionName(properties.getCollection());
+
+				return mongoLogHandlerFactoryBean;
+			}).collect(Collectors.toList());
 		}
 
 		@Override
 		protected String getCollectionName() {
-			return mongoLoggingProperties.getCollection();
+			return "";
 		}
 
 	}
 
-	@AutoConfiguration
-	@EnableConfigurationProperties(LoggingProperties.class)
-	@ConditionalOnProperty(prefix = HistoryLoggingProperties.PREFIX, name = "mongo.enabled", havingValue = "true")
-	@ConditionalOnMissingBean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-	static class History extends AbstractMongoLogHandlerConfiguration {
+	static class MongoConfiguration extends AbstractMongoConfiguration {
 
 		private final MongoLoggingProperties mongoLoggingProperties;
 
-		public History(final LoggingProperties properties) {
-			this.mongoLoggingProperties = properties.getHistory().getMongo();
+		private final CasSSLContext casSslContext;
+
+		public MongoConfiguration(final MongoLoggingProperties mongoLoggingProperties,
+								  final CasSSLContext casSslContext) {
+			super(new MongoConfigurer());
+			this.mongoLoggingProperties = mongoLoggingProperties;
+			this.casSslContext = casSslContext;
 		}
 
-		@Bean(name = Constants.HISTORY_LOG_HANDLER_BEAN_NAME)
-		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		@Override
-		public MongoLogHandlerFactoryBean logHandlerFactoryBean(
-				@Qualifier("casHistoryLoggingMongoTemplate") MongoTemplate mongoTemplate) {
-			return super.logHandlerFactoryBean(mongoTemplate);
+		public MongoDbConnectionFactory mongoDbConnectionFactory() {
+			return new MongoDbConnectionFactory(casSslContext.getSslContext());
 		}
 
-		@Override
-		protected String getCollectionName() {
-			return mongoLoggingProperties.getCollection();
+		public MongoTemplate mongoTemplate() {
+			return (MongoTemplate) mongoDbConnectionFactory().buildMongoTemplate(mongoLoggingProperties);
 		}
 
 	}

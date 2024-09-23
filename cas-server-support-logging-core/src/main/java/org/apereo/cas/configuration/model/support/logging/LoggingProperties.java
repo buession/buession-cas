@@ -29,7 +29,10 @@ import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.configuration.support.RequiredProperty;
 import org.apereo.cas.configuration.support.RequiresModule;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 日志配置
@@ -40,7 +43,9 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @RequiresModule(name = "cas-server-core-authentication", automated = true)
 @JsonFilter("CasLoggingProperties")
 @ConfigurationProperties(prefix = LoggingProperties.PREFIX)
-public class LoggingProperties {
+public class LoggingProperties implements Serializable {
+
+	private final static long serialVersionUID = 5726256302113616711L;
 
 	public final static String PREFIX = CasConfigurationProperties.PREFIX + ".logging";
 
@@ -61,17 +66,46 @@ public class LoggingProperties {
 	 */
 	private String description = "Login";
 
-	/**
-	 * 基本日志配置
-	 */
-	@NestedConfigurationProperty
-	private BasicLoggingProperties basic = new BasicLoggingProperties();
 
 	/**
-	 * 历史日志配置
+	 * 控制台日志配置
 	 */
-	@NestedConfigurationProperty
-	private HistoryLoggingProperties history = new HistoryLoggingProperties();
+	private List<ConsoleLoggingProperties> console = new ArrayList<>(0);
+
+	/**
+	 * Elasticsearch 日志配置
+	 */
+	private List<ElasticsearchLoggingProperties> elasticsearch = new ArrayList<>(0);
+
+	/**
+	 * 文件日志配置
+	 */
+	private List<FileLoggingProperties> file = new ArrayList<>(0);
+
+	/**
+	 * JDBC 日志配置
+	 */
+	private List<JdbcLoggingProperties> jdbc = new ArrayList<>(0);
+
+	/**
+	 * Kafka 日志配置
+	 */
+	private List<KafkaLoggingProperties> kafka = new ArrayList<>(0);
+
+	/**
+	 * MongoDB 日志配置
+	 */
+	private List<MongoLoggingProperties> mongo = new ArrayList<>(0);
+
+	/**
+	 * RabbitMQ 日志配置
+	 */
+	private List<RabbitLoggingProperties> rabbit = new ArrayList<>(0);
+
+	/**
+	 * Rest 日志配置
+	 */
+	private List<RestLoggingProperties> rest = new ArrayList<>(0);
 
 	/**
 	 * 返回 {@link com.buession.logging.core.BusinessType} 值
@@ -131,41 +165,155 @@ public class LoggingProperties {
 	}
 
 	/**
-	 * 返回基本日志配置
+	 * 返回控制台日志配置
 	 *
-	 * @return 基本日志配置
+	 * @return 控制台日志配置
 	 */
-	public BasicLoggingProperties getBasic() {
-		return basic;
+	public List<ConsoleLoggingProperties> getConsole() {
+		return console;
 	}
 
 	/**
-	 * 设置基本日志配置
+	 * 设置控制台日志配置
 	 *
-	 * @param basic
-	 * 		基本日志配置
+	 * @param console
+	 * 		控制台日志配置
 	 */
-	public void setBasic(BasicLoggingProperties basic) {
-		this.basic = basic;
+	public void setConsole(List<ConsoleLoggingProperties> console) {
+		this.console = console;
 	}
 
 	/**
-	 * 返回历史日志配置
+	 * 返回 Elasticsearch 日志配置
 	 *
-	 * @return 历史日志配置
+	 * @return Elasticsearch 日志配置
 	 */
-	public HistoryLoggingProperties getHistory() {
-		return history;
+	public List<ElasticsearchLoggingProperties> getElasticsearch() {
+		return elasticsearch;
 	}
 
 	/**
-	 * 设置历史日志配置
+	 * 设置 Elasticsearch 日志配置
 	 *
-	 * @param history
-	 * 		历史日志配置
+	 * @param elasticsearch
+	 * 		Elasticsearch 日志配置
 	 */
-	public void setHistory(HistoryLoggingProperties history) {
-		this.history = history;
+	public void setElasticsearch(List<ElasticsearchLoggingProperties> elasticsearch) {
+		this.elasticsearch = elasticsearch;
+	}
+
+	/**
+	 * 返回文件日志配置
+	 *
+	 * @return 文件日志配置
+	 */
+	public List<FileLoggingProperties> getFile() {
+		return file;
+	}
+
+	/**
+	 * 设置文件日志配置
+	 *
+	 * @param file
+	 * 		文件日志配置
+	 */
+	public void setFile(List<FileLoggingProperties> file) {
+		this.file = file;
+	}
+
+	/**
+	 * 返回 JDBC 日志配置
+	 *
+	 * @return JDBC 日志配置
+	 */
+	public List<JdbcLoggingProperties> getJdbc() {
+		return jdbc;
+	}
+
+	/**
+	 * 设置 JDBC 日志配置
+	 *
+	 * @param jdbc
+	 * 		JDBC 日志配置
+	 */
+	public void setJdbc(List<JdbcLoggingProperties> jdbc) {
+		this.jdbc = jdbc;
+	}
+
+	/**
+	 * 返回 Kafka 日志配置
+	 *
+	 * @return Kafka 日志配置
+	 */
+	public List<KafkaLoggingProperties> getKafka() {
+		return kafka;
+	}
+
+	/**
+	 * 设置 Kafka 日志配置
+	 *
+	 * @param kafka
+	 * 		Kafka 日志配置
+	 */
+	public void setKafka(List<KafkaLoggingProperties> kafka) {
+		this.kafka = kafka;
+	}
+
+	/**
+	 * 返回 MongoDB 日志配置
+	 *
+	 * @return MongoDB 日志配置
+	 */
+	public List<MongoLoggingProperties> getMongo() {
+		return mongo;
+	}
+
+	/**
+	 * 设置 MongoDB 日志配置
+	 *
+	 * @param mongo
+	 * 		MongoDB 日志配置
+	 */
+	public void setMongo(List<MongoLoggingProperties> mongo) {
+		this.mongo = mongo;
+	}
+
+	/**
+	 * 返回 RabbitMQ 日志配置
+	 *
+	 * @return RabbitMQ 日志配置
+	 */
+	public List<RabbitLoggingProperties> getRabbit() {
+		return rabbit;
+	}
+
+	/**
+	 * 设置 RabbitMQ 日志配置
+	 *
+	 * @param rabbit
+	 * 		RabbitMQ 日志配置
+	 */
+	public void setRabbit(List<RabbitLoggingProperties> rabbit) {
+		this.rabbit = rabbit;
+	}
+
+	/**
+	 * 返回 Rest 日志配置
+	 *
+	 * @return Rest 日志配置
+	 */
+	public List<RestLoggingProperties> getRest() {
+		return rest;
+	}
+
+	/**
+	 * 设置 Rest 日志配置
+	 *
+	 * @param rest
+	 * 		Rest 日志配置
+	 */
+	public void setRest(List<RestLoggingProperties> rest) {
+		this.rest = rest;
 	}
 
 }
