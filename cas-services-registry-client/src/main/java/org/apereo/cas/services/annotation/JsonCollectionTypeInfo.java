@@ -22,84 +22,25 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services;
+package org.apereo.cas.services.annotation;
 
-import com.buession.core.utils.StringUtils;
+import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.apereo.cas.services.annotation.serializer.JsonCollectionTypeInfoSerializer;
 
-import java.util.Objects;
-import java.util.Set;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Service 属性
- *
  * @author Yong.Teng
- * @since 2.2.0
+ * @since 3.0.0
  */
-public final class Property {
-
-	/**
-	 * Service 属性值
-	 */
-	private Set<String> values;
-
-	/**
-	 * 构造函数
-	 */
-	public Property() {
-	}
-
-	/**
-	 * 构造函数
-	 *
-	 * @param values
-	 * 		Service 属性值
-	 */
-	public Property(Set<String> values) {
-		this.values = values;
-	}
-
-	/**
-	 * 返回 Service 属性值
-	 *
-	 * @return Service 属性值
-	 */
-	public Set<String> getValues() {
-		return values;
-	}
-
-	/**
-	 * 设置 Service 属性值
-	 *
-	 * @param values
-	 * 		Service 属性值
-	 */
-	public void setValues(Set<String> values) {
-		this.values = values;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if(this == o){
-			return true;
-		}
-
-		if(o instanceof Property){
-			Property property = (Property) o;
-
-			return Objects.equals(values, property.values);
-		}
-
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(values);
-	}
-
-	@Override
-	public String toString() {
-		return "[" + StringUtils.join(values, ", ") + "]";
-	}
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.METHOD})
+@JacksonAnnotationsInside
+@JsonSerialize(using = JsonCollectionTypeInfoSerializer.class)
+public @interface JsonCollectionTypeInfo {
 
 }

@@ -33,46 +33,40 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JacksonStdImpl;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import com.fasterxml.jackson.databind.ser.std.StdScalarSerializer;
-import org.apereo.cas.services.RegisteredServiceContact;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author Yong.Teng
  * @since 3.0.0
  */
 @JacksonStdImpl
-public class JsonCollectionSerializer extends StdScalarSerializer<Collection<?>> implements ContextualSerializer {
+public class JsonMapTypeInfoSerializer extends StdScalarSerializer<Map<?, ?>> implements ContextualSerializer {
 
-	private final static long serialVersionUID = 2235740940895178474L;
+	private final static long serialVersionUID = 4663427982574364968L;
 
-	public JsonCollectionSerializer() {
-		super(RegisteredServiceContact.class, false);
+	public JsonMapTypeInfoSerializer() {
+		super(Map.class, false);
 	}
 
-	public JsonCollectionSerializer(Class<? extends Collection<?>> v) {
+	public JsonMapTypeInfoSerializer(Class<? extends Map<?, ?>> v) {
 		super(v, false);
 	}
 
 	@Override
-	public void serialize(Collection<?> value, JsonGenerator generator, SerializerProvider provider)
+	public void serialize(Map<?, ?> value, JsonGenerator generator, SerializerProvider provider)
 			throws IOException {
-		generator.writeStartArray();
+		generator.writeStartObject();
+		generator.writeFieldName("@class");
 		generator.writeString(value.getClass().getName());
-		generator.writeStartArray();
 
-		value.forEach((v)->{
-			try{
-				generator.writeObject(v);
-			}catch(IOException e){
-				throw new RuntimeException(e);
-			}
-		});
+		for(Map.Entry<?, ?> entry : value.entrySet()){
+			generator.writeFieldName(entry.getKey().toString());
+			generator.writeObject(entry.getValue());
+		}
 
-		generator.writeEndArray();
-		generator.writeEndArray();
+		generator.writeEndObject();
 	}
 
 	@Override
@@ -81,7 +75,7 @@ public class JsonCollectionSerializer extends StdScalarSerializer<Collection<?>>
 		JsonFormat.Value format = findFormatOverrides(provider, property, provider.getClass());
 
 		if(format != null){
-			return new JsonCollectionSerializer((Class<Collection<?>>) property.getType().getRawClass());
+			return new JsonMapTypeInfoSerializer((Class<Map<?, ?>>) property.getType().getRawClass());
 		}
 
 		return this;

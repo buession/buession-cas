@@ -24,7 +24,8 @@
  */
 package org.apereo.cas.services;
 
-import org.apereo.cas.services.annotation.JsonCollection;
+import org.apereo.cas.services.annotation.JsonCollectionTypeInfo;
+import org.apereo.cas.services.annotation.JsonMapTypeInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -103,7 +104,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	/**
 	 * The list of Contacts.
 	 */
-	@JsonCollection
+	@JsonCollectionTypeInfo
 	private List<RegisteredServiceContact> contacts;
 
 	/**
@@ -119,7 +120,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	/**
 	 * Non -null set of environment names.
 	 */
-	@JsonCollection
+	@JsonCollectionTypeInfo
 	private Set<String> environments;
 
 	/**
@@ -200,12 +201,14 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	/**
 	 * Specify supported and allowed protocols for this service.
 	 */
+	@JsonCollectionTypeInfo
 	private Set<Protocol> supportedProtocols;
 
 	/**
 	 * The map of custom metadata.
 	 */
-	private Map<String, Property> properties;
+	@JsonMapTypeInfo
+	private Map<String, RegisteredServiceProperty> properties;
 
 	/**
 	 * The service evaluation order.
@@ -834,7 +837,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The map of custom metadata.
 	 */
-	public Map<String, Property> getProperties() {
+	public Map<String, RegisteredServiceProperty> getProperties() {
 		return properties;
 	}
 
@@ -845,7 +848,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param properties
 	 * 		The map of custom metadata.
 	 */
-	public void setProperties(Map<String, Property> properties) {
+	public void setProperties(Map<String, RegisteredServiceProperty> properties) {
 		this.properties = properties;
 	}
 

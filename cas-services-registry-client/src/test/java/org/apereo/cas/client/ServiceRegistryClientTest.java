@@ -24,12 +24,15 @@
  */
 package org.apereo.cas.client;
 
+import com.buession.core.builder.MapBuilder;
 import com.buession.core.builder.SetBuilder;
 import com.buession.core.utils.RandomUtils;
 import com.buession.httpclient.ApacheHttpClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apereo.cas.services.CasRegisteredService;
+import org.apereo.cas.services.DefaultRegisteredServiceProperty;
+import org.apereo.cas.services.Protocol;
 import org.apereo.cas.services.client.DefaultServiceRegistryClient;
 import org.apereo.cas.services.client.ServiceRegistryClient;
 import org.apereo.cas.services.client.exception.ServiceRegistryClientException;
@@ -95,15 +98,19 @@ public class ServiceRegistryClientTest {
 		denyAllAttributeReleasePolicy.setAuthorizedToReleaseProxyGrantingTicket(false);
 
 		service.setAttributeReleasePolicy(denyAllAttributeReleasePolicy);
+		service.setSupportedProtocols(SetBuilder.of(Protocol.CAS30));
+
+		service.setProperties(MapBuilder.of("email",
+				new DefaultRegisteredServiceProperty(SetBuilder.of("webmaster@buession.com"))));
 
 		ObjectMapper mapper = new ObjectMapper();
 		try{
-			System.out.println(mapper.writeValueAsString(service));
+			System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(service));
 		}catch(JsonProcessingException e){
 			throw new RuntimeException(e);
 		}
-		RegisteredService result = client.save(service);
-		System.out.println(result);
+		//RegisteredService result = client.save(service);
+		//System.out.println(result);
 	}
 
 	@Test

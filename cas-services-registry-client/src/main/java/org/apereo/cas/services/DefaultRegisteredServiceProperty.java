@@ -22,25 +22,91 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services.annotation;
+package org.apereo.cas.services;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.apereo.cas.services.annotation.serializer.JsonCollectionSerializer;
+import com.buession.core.utils.StringUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.apereo.cas.services.annotation.JsonCollectionTypeInfo;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.Objects;
+import java.util.Set;
 
 /**
+ * Service 属性
+ *
  * @author Yong.Teng
- * @since 3.0.0
+ * @since 2.2.0
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
-@JacksonAnnotationsInside
-@JsonSerialize(using = JsonCollectionSerializer.class)
-public @interface JsonCollection {
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+public final class DefaultRegisteredServiceProperty implements RegisteredServiceProperty {
+
+	/**
+	 * Service 属性值
+	 */
+	@JsonCollectionTypeInfo
+	private Set<String> values;
+
+	/**
+	 * 构造函数
+	 */
+	public DefaultRegisteredServiceProperty() {
+	}
+
+	/**
+	 * 构造函数
+	 *
+	 * @param values
+	 * 		Service 属性值
+	 */
+	public DefaultRegisteredServiceProperty(Set<String> values) {
+		this.values = values;
+	}
+
+	/**
+	 * 返回 Service 属性值
+	 *
+	 * @return Service 属性值
+	 */
+	@Override
+	public Set<String> getValues() {
+		return values;
+	}
+
+	/**
+	 * 设置 Service 属性值
+	 *
+	 * @param values
+	 * 		Service 属性值
+	 */
+	@Override
+	public void setValues(Set<String> values) {
+		this.values = values;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(this == o){
+			return true;
+		}
+
+		if(o instanceof DefaultRegisteredServiceProperty){
+			DefaultRegisteredServiceProperty property = (DefaultRegisteredServiceProperty) o;
+
+			return Objects.equals(values, property.values);
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(values);
+	}
+
+	@Override
+	public String toString() {
+		return "[" + StringUtils.join(values, ", ") + "]";
+	}
 
 }
