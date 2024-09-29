@@ -19,31 +19,11 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.services;
-
 /**
- * This is {@link LogoutType}.
- *
  * @author Yong.Teng
- * @since 2.2.0
+ * @since 3.0.0
  */
-public enum LogoutType {
-	/**
-	 * For no SLO.
-	 */
-	NONE,
-
-	/**
-	 * For back channel SLO.
-	 */
-	BACK_CHANNEL,
-
-	/**
-	 * For front channel SLO.
-	 */
-	FRONT_CHANNEL
-
-}
+package org.apereo.cas.services.annotation;

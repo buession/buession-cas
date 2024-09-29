@@ -28,8 +28,8 @@ import com.buession.core.builder.ListBuilder;
 import com.buession.core.utils.Assert;
 import com.buession.httpclient.HttpClient;
 import com.buession.httpclient.core.Header;
+import com.buession.httpclient.core.JsonRawRequestBody;
 import com.buession.httpclient.core.Response;
-import com.buession.httpclient.exception.RequestException;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -41,7 +41,6 @@ import org.apereo.cas.services.RegisteredService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +53,7 @@ import java.util.List;
 public abstract class AbstractServiceRegistryClient implements ServiceRegistryClient {
 
 	/**
-	 * 基路径
+	 * Service Registered 基路径
 	 */
 	private final String baseUrl;
 
@@ -69,7 +68,7 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 	 * 构造函数
 	 *
 	 * @param baseUrl
-	 * 		基路径
+	 * 		Service Registered 基路径
 	 */
 	public AbstractServiceRegistryClient(final String baseUrl) {
 		Assert.isBlank(baseUrl, "CAS Server base url cloud not be empty or null.");
@@ -80,7 +79,7 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 	 * 构造函数
 	 *
 	 * @param baseUrl
-	 * 		基路径
+	 * 		Service Registered 基路径
 	 * @param httpClient
 	 *        {@link HttpClient} 实例
 	 */
@@ -111,33 +110,22 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 
 	@Override
 	public RegisteredService save(final RegisteredService service) throws ServiceRegistryClientException {
-		final ObjectMapper objectMapper = getObjectMapper();
+		JsonRawRequestBody<RegisteredService> requestBody = new JsonRawRequestBody<>(service);
 
 		try{
-			objectMapper.activateDefaultTyping(objectMapper.getPolymorphicTypeValidator(),
-					ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-			String str = objectMapper.writeValueAsString(service);
-
-			str = "{\"@class\":\"" + service.getClass().getName() + "\"," + str.substring(1);
-			Response response = httpClient.post(baseUrl + "/importRegisteredServices",
-					new JsonRawRequestBody(str, str.length()));
+			Response response = httpClient.post(baseUrl + "/import", requestBody);
 
 			if(response.isSuccessful()){
 				return service;
 			}else{
 				if(logger.isErrorEnabled()){
-					logger.error("Request import registered services list error: HTTP Code is: {}",
+					logger.error("Request registered services import error: HTTP Code is: {}",
 							response.getStatusCode());
 				}
 				throw new ServiceRegistryClientHttpException(response.getStatusCode(), response.getStatusText());
 			}
-		}catch(IOException e){
-			if(logger.isErrorEnabled()){
-				logger.error("Request import registered services list error: {}", e.getMessage());
-			}
-			throw new ServiceRegistryClientException(e.getMessage(), e);
-		}catch(RequestException e){
-			logger.error("Request import registered services list error: {}", e.getMessage());
+		}catch(Exception e){
+			logger.error("Request registered services import error: {}", e.getMessage());
 			throw new ServiceRegistryClientHttpException(0, e.getMessage(), e);
 		}
 	}
@@ -163,12 +151,7 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 				}
 				throw new ServiceRegistryClientHttpException(response.getStatusCode(), response.getStatusText());
 			}
-		}catch(IOException e){
-			if(logger.isErrorEnabled()){
-				logger.error("Request registered services list error: {}", e.getMessage());
-			}
-			throw new ServiceRegistryClientException(e.getMessage(), e);
-		}catch(RequestException e){
+		}catch(Exception e){
 			logger.error("Request registered services list error: {}", e.getMessage());
 			throw new ServiceRegistryClientHttpException(0, e.getMessage(), e);
 		}
@@ -187,17 +170,11 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 				return objectMapper.readValue(response.getBody(), RegexRegisteredService.class);
 			}else{
 				if(logger.isErrorEnabled()){
-					logger.error("Request registered service detail error: HTTP Code is: {}",
-							response.getStatusCode());
+					logger.error("Request registered service detail error: HTTP Code is: {}", response.getStatusCode());
 				}
 				throw new ServiceRegistryClientHttpException(response.getStatusCode(), response.getStatusText());
 			}
-		}catch(IOException e){
-			if(logger.isErrorEnabled()){
-				logger.error("Request registered service detail error: {}", e.getMessage());
-			}
-			throw new ServiceRegistryClientException(e.getMessage(), e);
-		}catch(RequestException e){
+		}catch(Exception e){
 			logger.error("Request registered service detail error: {}", e.getMessage());
 			throw new ServiceRegistryClientHttpException(0, e.getMessage(), e);
 		}
@@ -213,17 +190,11 @@ public abstract class AbstractServiceRegistryClient implements ServiceRegistryCl
 				//
 			}else{
 				if(logger.isErrorEnabled()){
-					logger.error("Delete registered service error: HTTP Code is: {}",
-							response.getStatusCode());
+					logger.error("Delete registered service error: HTTP Code is: {}", response.getStatusCode());
 				}
 				throw new ServiceRegistryClientHttpException(response.getStatusCode(), response.getStatusText());
 			}
-		}catch(IOException e){
-			if(logger.isErrorEnabled()){
-				logger.error("Delete registered service error: {}", e.getMessage());
-			}
-			throw new ServiceRegistryClientException(e.getMessage(), e);
-		}catch(RequestException e){
+		}catch(Exception e){
 			logger.error("Delete registered service error: {}", e.getMessage());
 			throw new ServiceRegistryClientHttpException(0, e.getMessage(), e);
 		}

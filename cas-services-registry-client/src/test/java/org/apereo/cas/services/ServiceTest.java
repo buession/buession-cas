@@ -30,6 +30,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -60,7 +61,7 @@ public class ServiceTest {
 		contact.setPhone("13800138000");
 		contact.setDepartment("研发");
 
-		service.setContacts(Collections.singletonList(contact));
+		service.setContacts(new ArrayList<>(Collections.singletonList(contact)));
 		service.setResponseType(ResponseType.REDIRECT);
 		service.setLogoutType(LogoutType.BACK_CHANNEL);
 		service.setEnvironments(SetBuilder.of("test"));

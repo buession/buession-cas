@@ -19,19 +19,29 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.services;
 
-import org.apereo.cas.services.entity.Entity;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
- * The interface Registered service contact.
+ * This is CasRegisteredService.
  *
  * @author Yong.Teng
- * @since 2.2.0
+ * @since 3.0.0
  */
-public interface Contact extends Entity {
+@JsonTypeInfo(
+		use = JsonTypeInfo.Id.CLASS
+)
+public class CasRegisteredService extends AbstractRegisteredService {
+
+	private final static long serialVersionUID = 4659211066572624681L;
+
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 
 }

@@ -24,26 +24,16 @@
  */
 package org.apereo.cas.services;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.apereo.cas.services.entity.Entity;
+
 /**
- * This is {@link LogoutType}.
+ * The interface Registered service contact.
  *
  * @author Yong.Teng
  * @since 2.2.0
  */
-public enum LogoutType {
-	/**
-	 * For no SLO.
-	 */
-	NONE,
-
-	/**
-	 * For back channel SLO.
-	 */
-	BACK_CHANNEL,
-
-	/**
-	 * For front channel SLO.
-	 */
-	FRONT_CHANNEL
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
+public interface RegisteredServiceContact extends Entity {
 
 }

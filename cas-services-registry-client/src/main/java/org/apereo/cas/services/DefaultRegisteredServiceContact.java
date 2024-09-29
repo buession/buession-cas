@@ -24,6 +24,8 @@
  */
 package org.apereo.cas.services;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apereo.cas.services.entity.Entity;
 
 /**
@@ -32,7 +34,9 @@ import org.apereo.cas.services.entity.Entity;
  * @author Yong.Teng
  * @since 2.2.0
  */
-public class DefaultRegisteredServiceContact implements Contact {
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+public class DefaultRegisteredServiceContact implements RegisteredServiceContact {
 
 	private final static long serialVersionUID = 1274012701291346354L;
 

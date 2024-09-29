@@ -27,6 +27,9 @@ package org.apereo.cas.client;
 import com.buession.core.builder.SetBuilder;
 import com.buession.core.utils.RandomUtils;
 import com.buession.httpclient.ApacheHttpClient;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apereo.cas.services.CasRegisteredService;
 import org.apereo.cas.services.client.DefaultServiceRegistryClient;
 import org.apereo.cas.services.client.ServiceRegistryClient;
 import org.apereo.cas.services.client.exception.ServiceRegistryClientException;
@@ -35,11 +38,11 @@ import org.apereo.cas.services.DenyAllAttributeReleasePolicy;
 import org.apereo.cas.services.LogoutType;
 import org.apereo.cas.services.RefuseRegisteredServiceProxyPolicy;
 import org.apereo.cas.services.RegexMatchingRegisteredServiceProxyPolicy;
-import org.apereo.cas.services.RegexRegisteredService;
 import org.apereo.cas.services.RegisteredService;
 import org.apereo.cas.services.ResponseType;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,11 +53,11 @@ import java.util.List;
 public class ServiceRegistryClientTest {
 
 	private final static ServiceRegistryClient client = new DefaultServiceRegistryClient(
-			"http://localhost:29100/actuator", new ApacheHttpClient());
+			"http://127.0.0.1:30101/actuator/registeredServices", new ApacheHttpClient());
 
 	@Test
 	public void save() throws ServiceRegistryClientException {
-		RegexRegisteredService service = new RegexRegisteredService();
+		CasRegisteredService service = new CasRegisteredService();
 
 		service.setId(RandomUtils.nextInt());
 		service.setName("test_" + System.currentTimeMillis());
@@ -74,7 +77,7 @@ public class ServiceRegistryClientTest {
 		contact.setPhone("13800138000");
 		contact.setDepartment("研发");
 
-		service.setContacts(Collections.singletonList(contact));
+		service.setContacts(new ArrayList<>(Collections.singletonList(contact)));
 		service.setResponseType(ResponseType.REDIRECT);
 		service.setLogoutType(LogoutType.BACK_CHANNEL);
 		service.setEnvironments(SetBuilder.of("test"));
@@ -93,6 +96,12 @@ public class ServiceRegistryClientTest {
 
 		service.setAttributeReleasePolicy(denyAllAttributeReleasePolicy);
 
+		ObjectMapper mapper = new ObjectMapper();
+		try{
+			System.out.println(mapper.writeValueAsString(service));
+		}catch(JsonProcessingException e){
+			throw new RuntimeException(e);
+		}
 		RegisteredService result = client.save(service);
 		System.out.println(result);
 	}

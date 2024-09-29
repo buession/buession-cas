@@ -24,6 +24,8 @@
  */
 package org.apereo.cas.services;
 
+import org.apereo.cas.services.annotation.JsonCollection;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -64,9 +66,19 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	private String description;
 
 	/**
+	 * Optional locale name that may be used to customize the CAS UI when the service requests a ticket.
+	 */
+	private String locale;
+
+	/**
 	 * The theme name associated with this service
 	 */
 	private String theme;
+
+	/**
+	 * Name of the template service definition to use as a blueprint, when constructing this service definition.
+	 */
+	private String templateName;
 
 	/**
 	 * The info url.
@@ -91,7 +103,8 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	/**
 	 * The list of Contacts.
 	 */
-	private List<Contact> contacts;
+	@JsonCollection
+	private List<RegisteredServiceContact> contacts;
 
 	/**
 	 * The response type.
@@ -106,6 +119,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	/**
 	 * Non -null set of environment names.
 	 */
+	@JsonCollection
 	private Set<String> environments;
 
 	/**
@@ -184,6 +198,11 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	private PublicKey publicKey;
 
 	/**
+	 * Specify supported and allowed protocols for this service.
+	 */
+	private Set<Protocol> supportedProtocols;
+
+	/**
 	 * The map of custom metadata.
 	 */
 	private Map<String, Property> properties;
@@ -200,17 +219,6 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 */
 	public int getId() {
 		return id;
-	}
-
-	/**
-	 * Sets the identifier for this service.
-	 *
-	 * @param id
-	 * 		The numeric identifier for the service.
-	 */
-	@Deprecated
-	public void setId(long id) {
-		this.id = (int) id;
 	}
 
 	/**
@@ -300,6 +308,25 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	}
 
 	/**
+	 * Return optional locale name that may be used to customize the CAS UI when the service requests a ticket.
+	 *
+	 * @return Optional locale name that may be used to customize the CAS UI when the service requests a ticket.
+	 */
+	public String getLocale() {
+		return locale;
+	}
+
+	/**
+	 * Sets optional locale name that may be used to customize the CAS UI when the service requests a ticket.
+	 *
+	 * @param locale
+	 * 		Optional locale name that may be used to customize the CAS UI when the service requests a ticket.
+	 */
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+
+	/**
 	 * Return a short theme name. Services do not need to have unique theme names.
 	 *
 	 * @return The theme name associated with this service.
@@ -316,6 +343,25 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 */
 	public void setTheme(String theme) {
 		this.theme = theme;
+	}
+
+	/**
+	 * Return name of the template service definition to use as a blueprint, when constructing this service definition.
+	 *
+	 * @return Name of the template service definition to use as a blueprint, when constructing this service definition.
+	 */
+	public String getTemplateName() {
+		return templateName;
+	}
+
+	/**
+	 * Sets name of the template service definition to use as a blueprint, when constructing this service definition.
+	 *
+	 * @param templateName
+	 * 		Name of the template service definition to use as a blueprint, when constructing this service definition.
+	 */
+	public void setTemplateName(String templateName) {
+		this.templateName = templateName;
 	}
 
 	/**
@@ -399,7 +445,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 *
 	 * @return The list of Contacts.
 	 */
-	public List<Contact> getContacts() {
+	public List<RegisteredServiceContact> getContacts() {
 		return contacts;
 	}
 
@@ -409,7 +455,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param contacts
 	 * 		The list of Contacts.
 	 */
-	public void setContacts(List<Contact> contacts) {
+	public void setContacts(List<RegisteredServiceContact> contacts) {
 		this.contacts = contacts;
 	}
 
@@ -660,8 +706,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param serviceTicketExpirationPolicy
 	 * 		The service ticket expiration policy.
 	 */
-	public void setServiceTicketExpirationPolicy(
-			ServiceTicketExpirationPolicy serviceTicketExpirationPolicy) {
+	public void setServiceTicketExpirationPolicy(ServiceTicketExpirationPolicy serviceTicketExpirationPolicy) {
 		this.serviceTicketExpirationPolicy = serviceTicketExpirationPolicy;
 	}
 
@@ -680,8 +725,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param singleSignOnParticipationPolicy
 	 * 		The service ticket expiration policy.
 	 */
-	public void setSingleSignOnParticipationPolicy(
-			SingleSignOnParticipationPolicy singleSignOnParticipationPolicy) {
+	public void setSingleSignOnParticipationPolicy(SingleSignOnParticipationPolicy singleSignOnParticipationPolicy) {
 		this.singleSignOnParticipationPolicy = singleSignOnParticipationPolicy;
 	}
 
@@ -740,8 +784,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 * @param usernameAttributeProvider
 	 * 		用户名属性提供者
 	 */
-	public void setUsernameAttributeProvider(
-			UsernameAttributeProvider usernameAttributeProvider) {
+	public void setUsernameAttributeProvider(UsernameAttributeProvider usernameAttributeProvider) {
 		this.usernameAttributeProvider = usernameAttributeProvider;
 	}
 
@@ -764,6 +807,25 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 	 */
 	public void setPublicKey(PublicKey publicKey) {
 		this.publicKey = publicKey;
+	}
+
+	/**
+	 * Return specify supported and allowed protocols for this service.
+	 *
+	 * @return The specify supported and allowed protocols for this service.
+	 */
+	public Set<Protocol> getSupportedProtocols() {
+		return supportedProtocols;
+	}
+
+	/**
+	 * Sets specify supported and allowed protocols for this service.
+	 *
+	 * @param supportedProtocols
+	 * 		Specify supported and allowed protocols for this service.
+	 */
+	public void setSupportedProtocols(Set<Protocol> supportedProtocols) {
+		this.supportedProtocols = supportedProtocols;
 	}
 
 	/**
@@ -814,7 +876,9 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 				.add("serviceId", serviceId)
 				.add("logo", logo)
 				.add("description", description)
+				.add("locale", locale)
 				.add("theme", theme)
+				.add("templateName", templateName)
 				.add("informationUrl", informationUrl)
 				.add("privacyUrl", privacyUrl)
 				.add("redirectUrl", redirectUrl)
@@ -838,6 +902,7 @@ public abstract class AbstractRegisteredService implements RegisteredService {
 				.add("accessStrategy", accessStrategy)
 				.add("usernameAttributeProvider", usernameAttributeProvider)
 				.add("publicKey", publicKey)
+				.add("supportedProtocols", supportedProtocols)
 				.add("properties", properties)
 				.add("evaluationOrder", evaluationOrder)
 				.asString();

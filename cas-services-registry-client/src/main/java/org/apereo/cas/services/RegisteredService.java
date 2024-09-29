@@ -33,7 +33,7 @@ import org.apereo.cas.services.entity.Entity;
  * @author Yong.Teng
  * @since 2.2.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public interface RegisteredService extends Entity {
 
 }

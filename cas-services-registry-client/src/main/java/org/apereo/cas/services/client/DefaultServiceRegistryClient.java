@@ -38,7 +38,7 @@ public class DefaultServiceRegistryClient extends AbstractServiceRegistryClient 
 	 * 构造函数
 	 *
 	 * @param baseUrl
-	 * 		基路径
+	 * 		Service Registered 基路径
 	 */
 	public DefaultServiceRegistryClient(final String baseUrl) {
 		super(baseUrl);
@@ -48,7 +48,7 @@ public class DefaultServiceRegistryClient extends AbstractServiceRegistryClient 
 	 * 构造函数
 	 *
 	 * @param baseUrl
-	 * 		基路径
+	 * 		Service Registered 基路径
 	 * @param httpClient
 	 *        {@link HttpClient} 实例
 	 */

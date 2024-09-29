@@ -24,6 +24,8 @@
  */
 package org.apereo.cas.services;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * Mutable registered service that uses Java regular expressions for service matching.
  * Matching is case insensitive, and is successful, if, and only if, the entire region
@@ -32,12 +34,15 @@ package org.apereo.cas.services;
  * @author Yong.Teng
  * @since 2.2.0
  */
+@JsonTypeInfo(
+		use = JsonTypeInfo.Id.CLASS
+)
 public class RegexRegisteredService extends AbstractRegisteredService {
 
 	private final static long serialVersionUID = -3772873397258497043L;
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return super.toString();
 	}
 

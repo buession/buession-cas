@@ -24,7 +24,7 @@
  */
 package org.apereo.cas.services.client.exception;
 
-import java.util.StringJoiner;
+import com.buession.core.utils.StringJoiner;
 
 /**
  * @author Yong.Teng
@@ -57,9 +57,7 @@ public class ServiceRegistryClientHttpException extends ServiceRegistryClientExc
 	}
 
 	public ServiceRegistryClientHttpException(int statusCode, String statusText, Throwable cause) {
-		super(statusText, cause);
-		this.statusCode = statusCode;
-		this.statusText = statusText;
+		this(statusCode, statusText, statusText, cause);
 	}
 
 	public ServiceRegistryClientHttpException(int statusCode, String statusText, String message, Throwable cause,
@@ -79,10 +77,10 @@ public class ServiceRegistryClientHttpException extends ServiceRegistryClientExc
 
 	@Override
 	public String toString() {
-		return new StringJoiner(", ", "{", "}")
+		return new StringJoiner(", ")
 				.add("statusCode=" + statusCode)
 				.add("statusText=" + statusText)
-				.add(super.toString())
+				.add("message=" + super.toString())
 				.toString();
 	}
 

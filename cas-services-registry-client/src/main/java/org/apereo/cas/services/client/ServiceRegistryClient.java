@@ -48,8 +48,7 @@ public interface ServiceRegistryClient {
 	 * @throws ServiceRegistryClientException
 	 *        {@link ServiceRegistryClient} 异常
 	 */
-	RegisteredService save(final RegisteredService service)
-			throws ServiceRegistryClientException;
+	RegisteredService save(final RegisteredService service) throws ServiceRegistryClientException;
 
 	/**
 	 * 获取 Service 列表
