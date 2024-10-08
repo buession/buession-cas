@@ -22,8 +22,47 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
+package org.apereo.cas.config;
+
+import com.buession.logging.jdbc.spring.config.AbstractJdbcConfiguration;
+import com.buession.logging.jdbc.spring.config.JdbcConfigurer;
+import org.apereo.cas.configuration.model.support.logging.JdbcLoggingProperties;
+import org.apereo.cas.configuration.support.JpaBeans;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import javax.sql.DataSource;
+
 /**
  * @author Yong.Teng
  * @since 3.0.0
  */
-package org.apereo.cas.config;
+public class JdbcConfiguration extends AbstractJdbcConfiguration {
+
+	private final JdbcLoggingProperties jdbcLoggingProperties;
+
+	public JdbcConfiguration(final JdbcLoggingProperties jdbcLoggingProperties) {
+		this.jdbcLoggingProperties = jdbcLoggingProperties;
+	}
+
+	@Override
+	public DataSource dataSource(JdbcConfigurer configurer) {
+		return JpaBeans.newDataSource(jdbcLoggingProperties);
+	}
+
+	public JdbcTemplate jdbcTemplate() {
+		final DataSource dataSource = dataSource(jdbcConfigurer());
+		return jdbcTemplate(dataSource);
+	}
+
+	private JdbcConfigurer jdbcConfigurer() {
+		final JdbcConfigurer configurer = new JdbcConfigurer();
+
+		propertyMapper.from(jdbcLoggingProperties::getDriverClass).to(configurer::setDriverClassName);
+		propertyMapper.from(jdbcLoggingProperties::getUrl).to(configurer::setUrl);
+		propertyMapper.from(jdbcLoggingProperties::getUser).to(configurer::setUsername);
+		propertyMapper.from(jdbcLoggingProperties::getPassword).to(configurer::setPassword);
+
+		return configurer;
+	}
+
+}

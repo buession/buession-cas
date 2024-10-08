@@ -24,9 +24,18 @@
  */
 package org.apereo.cas.web.flow.config;
 
+import com.buession.core.builder.ListBuilder;
+import com.buession.geoip.Resolver;
+import com.buession.logging.core.handler.LogHandler;
+import com.buession.logging.core.handler.PrincipalHandler;
+import com.buession.logging.core.mgt.DefaultLogManager;
+import com.buession.logging.core.request.RequestContext;
+import com.buession.logging.support.spring.BaseLogHandlerFactoryBean;
+import com.buession.logging.support.spring.LogHandlerFactory;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
 import org.apereo.cas.logging.LoggingManager;
+import org.apereo.cas.logging.manager.DefaultLoggingManager;
 import org.apereo.cas.web.flow.CasLoggingWebflowConfigurer;
 import org.apereo.cas.web.flow.CasWebflowConfigurer;
 import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
@@ -34,17 +43,22 @@ import org.apereo.cas.web.flow.action.LoggingAction;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
 import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
 import org.springframework.webflow.execution.Action;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Yong.Teng
@@ -85,15 +99,70 @@ public class LoggingConfiguration {
 
 	@Bean(name = LoggingAction.NAME)
 	@ConditionalOnMissingBean(name = LoggingAction.NAME)
+	@ConditionalOnBean(name = "loggingManagers")
 	public Action loggingAction(List<LoggingManager> loggingManagers) {
 		return new LoggingAction(loggingProperties.getBusinessType(), loggingProperties.getEvent(),
-				loggingProperties.getDescription(), loggingManagers);
+				loggingProperties.getDescription(), loggingProperties.getIdFieldName(),
+				loggingProperties.getUsernameFieldName(), loggingProperties.getRealNameFieldName(), loggingManagers);
 	}
 
 	@Bean
 	@ConditionalOnMissingBean(name = "loggingCasWebflowExecutionPlanConfigurer")
 	public CasWebflowExecutionPlanConfigurer loggingCasWebflowExecutionPlanConfigurer() {
 		return (plan)->plan.registerWebflowConfigurer(loggingWebflowConfigurer());
+	}
+
+	@AutoConfiguration
+	@ConditionalOnBean({LogHandlerConfiguration.class})
+	@AutoConfigureAfter({LogHandlerConfiguration.Console.class, LogHandlerConfiguration.Elasticsearch.class,
+			LogHandlerConfiguration.File.class, LogHandlerConfiguration.Jdbc.class,
+			LogHandlerConfiguration.Kafka.class, LogHandlerConfiguration.Mongo.class,
+			LogHandlerConfiguration.Rabbit.class, LogHandlerConfiguration.Rest.class})
+	static class LoggingManagerConfiguration {
+
+		@Bean(name = "logHandlers")
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public List<LogHandler> logHandlers(
+				@Qualifier("consoleLogHandlers") List<LogHandler> consoleLogHandlers,
+				@Qualifier("elasticsearchLogHandlers") List<LogHandler> elasticsearchLogHandlers,
+				@Qualifier("fileLogHandlers") List<LogHandler> fileLogHandlers,
+				@Qualifier("jdbcLogHandlers") List<LogHandler> jdbcLogHandlers,
+				@Qualifier("kafkaLogHandlers") List<LogHandler> kafkaLogHandlers,
+				@Qualifier("mongoLogHandlers") List<LogHandler> mongoLogHandlers,
+				@Qualifier("rabbitLogHandlers") List<LogHandler> rabbitLogHandlers,
+				@Qualifier("restLogHandlers") List<LogHandler> restLogHandlers) {
+			final List<LogHandler> logHandlers = new ArrayList<>();
+
+			logHandlers.addAll(consoleLogHandlers);
+			logHandlers.addAll(elasticsearchLogHandlers);
+			logHandlers.addAll(fileLogHandlers);
+			logHandlers.addAll(jdbcLogHandlers);
+			logHandlers.addAll(kafkaLogHandlers);
+			logHandlers.addAll(mongoLogHandlers);
+			logHandlers.addAll(rabbitLogHandlers);
+			logHandlers.addAll(restLogHandlers);
+
+			return logHandlers;
+		}
+
+		@Bean
+		@ConditionalOnBean(name = {"logHandlers"})
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public List<LoggingManager> loggingManagers(RequestContext requestContext, PrincipalHandler<?> principalHandler,
+													Resolver geoResolver,
+													@Qualifier("logHandlers") List<LogHandler> logHandlers) {
+			return logHandlers.stream().map((logHandler)->{
+				final DefaultLogManager logManager = new DefaultLogManager();
+
+				logManager.setRequestContext(requestContext);
+				logManager.setPrincipalHandler(principalHandler);
+				logManager.setGeoResolver(geoResolver);
+				logManager.setLogHandler(logHandler);
+
+				return new DefaultLoggingManager(logManager);
+			}).collect(Collectors.toList());
+		}
+
 	}
 
 }

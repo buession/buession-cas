@@ -22,8 +22,47 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
+package org.apereo.cas.config;
+
+import com.buession.logging.kafka.spring.config.AbstractKafkaConfiguration;
+import com.buession.logging.kafka.spring.config.KafkaConfigurer;
+import org.apereo.cas.configuration.model.support.logging.KafkaLoggingProperties;
+import org.apereo.cas.util.spring.DirectObjectProvider;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.ProducerListener;
+
 /**
  * @author Yong.Teng
  * @since 3.0.0
  */
-package org.apereo.cas.config;
+public class KafkaConfiguration extends AbstractKafkaConfiguration {
+
+	private final KafkaLoggingProperties kafkaLoggingProperties;
+
+	public KafkaConfiguration(final KafkaLoggingProperties kafkaLoggingProperties) {
+		this.kafkaLoggingProperties = kafkaLoggingProperties;
+	}
+
+	public KafkaTemplate<String, Object> kafkaTemplate() {
+		final KafkaConfigurer kafkaConfigurer = kafkaConfigurer();
+		final ProducerFactory<String, Object> producerFactory = super.producerFactory(kafkaConfigurer,
+				new DirectObjectProvider<>(pf->{
+
+				}));
+		final ProducerListener<String, Object> kafkaProducerListener = super.kafkaProducerListener();
+
+		return kafkaTemplate(kafkaConfigurer, producerFactory, kafkaProducerListener);
+	}
+
+	private KafkaConfigurer kafkaConfigurer() {
+		final KafkaConfigurer configurer = new KafkaConfigurer();
+
+		configurer.setBootstrapServers(kafkaLoggingProperties.getBootstrapServers());
+		configurer.setConfigs(kafkaLoggingProperties.buildProperties());
+		configurer.setTransactionIdPrefix(kafkaLoggingProperties.getTransactionIdPrefix());
+
+		return configurer;
+	}
+
+}

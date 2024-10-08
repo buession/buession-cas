@@ -42,6 +42,8 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ScopedProxyMode;
 
+import java.util.function.Supplier;
+
 /**
  * 验证码 Auto-Configuration
  *
@@ -64,8 +66,10 @@ public class CaptchaConfiguration {
 			this.httpClient = httpClient;
 		}
 
-		protected void afterPropertiesSet(final CaptchaClient captchaClient) {
+		protected <T extends CaptchaClient> T createCaptchaClient(Supplier<T> supplier) {
+			final T captchaClient = supplier.get();
 			captchaClient.setJavaScript(properties.getJavascript());
+			return captchaClient;
 		}
 
 	}
@@ -83,13 +87,9 @@ public class CaptchaConfiguration {
 		@Bean
 		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 		public AliYunCaptchaClient aliYunCaptchaClient() {
-			final AliYunCaptchaClient client = new AliYunCaptchaClient(properties.getAliyun().getAccessKeyId(),
+			return createCaptchaClient(()->new AliYunCaptchaClient(properties.getAliyun().getAccessKeyId(),
 					properties.getAliyun().getAccessKeySecret(), properties.getAliyun().getAppKey(),
-					properties.getAliyun().getRegionId(), httpClient);
-
-			afterPropertiesSet(client);
-
-			return client;
+					properties.getAliyun().getRegionId(), httpClient));
 		}
 
 		@Bean
@@ -114,12 +114,8 @@ public class CaptchaConfiguration {
 		@Bean
 		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 		public GeetestCaptchaClient geetestCaptchaClient() {
-			final GeetestCaptchaClient client = new GeetestCaptchaClient(properties.getGeetest().getAppId(),
-					properties.getGeetest().getSecretKey(), properties.getGeetest().getVersion(), httpClient);
-
-			afterPropertiesSet(client);
-
-			return client;
+			return createCaptchaClient(()->new GeetestCaptchaClient(properties.getGeetest().getAppId(),
+					properties.getGeetest().getSecretKey(), properties.getGeetest().getVersion(), httpClient));
 		}
 
 		@Bean
@@ -146,12 +142,8 @@ public class CaptchaConfiguration {
 		@Bean
 		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 		public TencentCaptchaClient tencentCaptchaClient() {
-			final TencentCaptchaClient client = new TencentCaptchaClient(properties.getTencent().getAppId(),
-					properties.getTencent().getSecretKey(), httpClient);
-
-			afterPropertiesSet(client);
-
-			return client;
+			return createCaptchaClient(()->new TencentCaptchaClient(properties.getTencent().getAppId(),
+					properties.getTencent().getSecretKey(), httpClient));
 		}
 
 		@Bean

@@ -22,31 +22,37 @@
  * | Copyright @ 2013-2024 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
-package org.apereo.cas.logging.autoconfigure;
+package org.apereo.cas.config;
 
-import org.springframework.context.ConfigurableApplicationContext;
+import com.buession.logging.mongodb.spring.config.AbstractMongoConfiguration;
+import com.buession.logging.mongodb.spring.config.MongoConfigurer;
+import org.apereo.cas.authentication.CasSSLContext;
+import org.apereo.cas.configuration.model.support.logging.MongoLoggingProperties;
+import org.apereo.cas.mongo.MongoDbConnectionFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
- * 日志适配器 {@link org.springframework.boot.autoconfigure.AutoConfiguration} 基类
- *
  * @author Yong.Teng
- * @since 1.0.0
+ * @since 3.0.0
  */
-public abstract class AbstractLogHandlerConfiguration {
+public class MongoConfiguration extends AbstractMongoConfiguration {
 
-	/**
-	 * {@link ConfigurableApplicationContext}
-	 */
-	protected final ConfigurableApplicationContext applicationContext;
+	private final MongoLoggingProperties mongoLoggingProperties;
 
-	/**
-	 * 构造函数
-	 *
-	 * @param applicationContext
-	 *        {@link ConfigurableApplicationContext}
-	 */
-	public AbstractLogHandlerConfiguration(final ConfigurableApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
+	private final CasSSLContext casSslContext;
+
+	public MongoConfiguration(final MongoLoggingProperties mongoLoggingProperties, final CasSSLContext casSslContext) {
+		super(new MongoConfigurer());
+		this.mongoLoggingProperties = mongoLoggingProperties;
+		this.casSslContext = casSslContext;
+	}
+
+	public MongoDbConnectionFactory mongoDbConnectionFactory() {
+		return new MongoDbConnectionFactory(casSslContext.getSslContext());
+	}
+
+	public MongoTemplate mongoTemplate() {
+		return (MongoTemplate) mongoDbConnectionFactory().buildMongoTemplate(mongoLoggingProperties);
 	}
 
 }

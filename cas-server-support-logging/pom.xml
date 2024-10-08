@@ -57,7 +57,55 @@
 			<artifactId>cas-server-support-logging-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>cas-server-support-logging-console</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>cas-server-support-logging-elasticsearch</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>cas-server-support-logging-file</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>cas-server-support-logging-jdbc</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>cas-server-support-logging-kafka</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>cas-server-support-logging-mongo</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>cas-server-support-logging-rabbit</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.buession.cas</groupId>
+			<artifactId>cas-server-support-logging-rest</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-webflow-api</artifactId>

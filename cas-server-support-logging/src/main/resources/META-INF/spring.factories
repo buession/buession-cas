@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  org.apereo.cas.web.flow.config.LogHandlerConfiguration, \
   org.apereo.cas.web.flow.config.LoggingConfiguration

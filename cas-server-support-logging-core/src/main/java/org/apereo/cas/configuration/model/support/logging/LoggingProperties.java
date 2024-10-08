@@ -66,6 +66,20 @@ public class LoggingProperties implements Serializable {
 	 */
 	private String description = "Login";
 
+	/**
+	 * ID 字段名称
+	 */
+	private String idFieldName;
+
+	/**
+	 * 用户名字段名称
+	 */
+	private String usernameFieldName;
+
+	/**
+	 * 真实姓名字段名称
+	 */
+	private String realNameFieldName;
 
 	/**
 	 * 控制台日志配置
@@ -162,6 +176,63 @@ public class LoggingProperties implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * 返回 ID 字段名称
+	 *
+	 * @return ID 字段名称
+	 */
+	public String getIdFieldName() {
+		return idFieldName;
+	}
+
+	/**
+	 * 设置 ID 字段名称
+	 *
+	 * @param idFieldName
+	 * 		ID 字段名称
+	 */
+	public void setIdFieldName(String idFieldName) {
+		this.idFieldName = idFieldName;
+	}
+
+	/**
+	 * 返回用户名字段名称
+	 *
+	 * @return 用户名字段名称
+	 */
+	public String getUsernameFieldName() {
+		return usernameFieldName;
+	}
+
+	/**
+	 * 设置用户名字段名称
+	 *
+	 * @param usernameFieldName
+	 * 		用户名字段名称
+	 */
+	public void setUsernameFieldName(String usernameFieldName) {
+		this.usernameFieldName = usernameFieldName;
+	}
+
+	/**
+	 * 返回真实姓名字段名称
+	 *
+	 * @return 真实姓名字段名称
+	 */
+	public String getRealNameFieldName() {
+		return realNameFieldName;
+	}
+
+	/**
+	 * 设置真实姓名字段名称
+	 *
+	 * @param realNameFieldName
+	 * 		真实姓名字段名称
+	 */
+	public void setRealNameFieldName(String realNameFieldName) {
+		this.realNameFieldName = realNameFieldName;
 	}
 
 	/**

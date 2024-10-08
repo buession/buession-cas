@@ -24,12 +24,12 @@
  */
 package org.apereo.cas.web.flow.action;
 
+import com.buession.core.validator.Validate;
 import com.buession.lang.Constants;
 import com.buession.logging.core.LogData;
 import com.buession.logging.core.Principal;
 import org.apereo.cas.authentication.Authentication;
 import org.apereo.cas.authentication.AuthenticationResult;
-import org.apereo.cas.authentication.Credential;
 import org.apereo.cas.logging.LoggingManager;
 import org.apereo.cas.web.support.WebUtils;
 import org.springframework.webflow.action.AbstractAction;
@@ -71,6 +71,21 @@ public class LoggingAction extends AbstractAction {
 	private final String description;
 
 	/**
+	 * ID 字段名称
+	 */
+	private final String idFieldName;
+
+	/**
+	 * 用户名字段名称
+	 */
+	private final String usernameFieldName;
+
+	/**
+	 * 真实姓名字段名称
+	 */
+	private final String realNameFieldName;
+
+	/**
 	 * 日志管理器
 	 */
 	private final List<LoggingManager> loggingManagers;
@@ -84,14 +99,24 @@ public class LoggingAction extends AbstractAction {
 	 *        {@link com.buession.logging.core.Event}
 	 * @param description
 	 * 		描述
+	 * @param idFieldName
+	 * 		ID 字段名称
+	 * @param usernameFieldName
+	 * 		用户名字段名称
+	 * @param realNameFieldName
+	 * 		真实姓名字段名称
 	 * @param loggingManagers
 	 * 		基本日志管理器
 	 */
-	public LoggingAction(final String businessType, final String event,
-						 final String description, final List<LoggingManager> loggingManagers) {
+	public LoggingAction(final String businessType, final String event, final String description,
+						 final String idFieldName, final String usernameFieldName, final String realNameFieldName,
+						 final List<LoggingManager> loggingManagers) {
 		this.businessType = businessType;
 		this.event = event;
 		this.description = Optional.ofNullable(description).orElse(Constants.EMPTY_STRING);
+		this.idFieldName = idFieldName;
+		this.usernameFieldName = usernameFieldName;
+		this.realNameFieldName = realNameFieldName;
 		this.loggingManagers = loggingManagers;
 	}
 
@@ -100,16 +125,54 @@ public class LoggingAction extends AbstractAction {
 		final AuthenticationResult authenticationResult = WebUtils.getAuthenticationResult(requestContext);
 		final Authentication authentication = authenticationResult.getAuthentication();
 		final org.apereo.cas.authentication.principal.Principal principal = authentication.getPrincipal();
-		final String uid = principal.getId();
 		final Map<String, List<Object>> uAttributes = principal.getAttributes();
-		final Credential credential = WebUtils.getCredential(requestContext);
+		String uid;
+		String username;
+		String realName;
 
 		final LogData loginData = new LogData();
 
 		final Principal logPrincipal = new Principal();
 
+		if(Validate.hasText(idFieldName) && uAttributes.containsKey(idFieldName)){
+			List<Object> uids = uAttributes.get(idFieldName);
+			if(uids.isEmpty()){
+				uid = principal.getId();
+			}else{
+				uid = uids.get(0).toString();
+				uAttributes.remove(idFieldName);
+			}
+		}else{
+			uid = principal.getId();
+		}
+
+		if(Validate.hasText(usernameFieldName) && uAttributes.containsKey(usernameFieldName)){
+			List<Object> usernames = uAttributes.get(usernameFieldName);
+			if(usernames.isEmpty()){
+				username = principal.toString();
+			}else{
+				username = usernames.get(0).toString();
+				uAttributes.remove(usernameFieldName);
+			}
+		}else{
+			username = principal.toString();
+		}
+
+		if(Validate.hasText(realNameFieldName) && uAttributes.containsKey(realNameFieldName)){
+			List<Object> realNames = uAttributes.get(realNameFieldName);
+			if(realNames.isEmpty()){
+				realName = null;
+			}else{
+				realName = realNames.get(0).toString();
+				uAttributes.remove(realNameFieldName);
+			}
+		}else{
+			realName = null;
+		}
+
 		logPrincipal.setId(uid);
-		logPrincipal.setUserName(credential.getId());
+		logPrincipal.setUserName(username);
+		logPrincipal.setRealName(realName);
 
 		final Map<String, Object> extra = new HashMap<>(uAttributes);
 

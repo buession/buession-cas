@@ -1205,10 +1205,6 @@
 					</exclusion>
 					<exclusion>
 						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-authentication-api</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
 						<artifactId>cas-server-core-services-api</artifactId>
 					</exclusion>
 					<exclusion>
@@ -1478,10 +1474,6 @@
 					<exclusion>
 						<groupId>org.apereo.cas</groupId>
 						<artifactId>cas-server-core-api-util</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apereo.cas</groupId>
-						<artifactId>cas-server-core-authentication-api</artifactId>
 					</exclusion>
 					<exclusion>
 						<groupId>org.apereo.inspektr</groupId>
