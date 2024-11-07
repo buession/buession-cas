@@ -2,6 +2,23 @@
 ===========================
 
 
+## [3.0.0](https://github.com/buession/buession-cas/releases/tag/v3.0.0) (2024-11-07)
+
+### 🔨依赖升级
+
+- [依赖库版本升级和安全漏洞修复](https://github.com/buession/buession-parent/releases/tag/v3.0.0)
+- [cas](https://www.apereo.org/cas) 版本升级至 6.6.15.2
+
+
+### 🔔 变化
+
+- RegisteredService id 类型由 long 变更为 int
+- 删除 buession-cas-support-couchbase、buession-cas-support-couchdb、buession-cas-support-jdbc、buession-cas-support-mongodb、buession-cas-support-redis、buession-cas-support-cassandra、buession-cas-support-hazelcast
+
+
+---
+
+
 ## [2.3.3](https://github.com/buession/buession-cas/releases/tag/v2.3.3) (2024-05-06)
 
 ### 🔨依赖升级
