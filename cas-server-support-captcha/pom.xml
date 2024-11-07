@@ -57,7 +57,7 @@
 			<artifactId>cas-server-support-captcha-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-webflow-api</artifactId>
@@ -109,8 +109,8 @@
 				<artifactId>maven-gpg-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
