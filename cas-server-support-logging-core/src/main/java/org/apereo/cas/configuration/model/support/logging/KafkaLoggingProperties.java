@@ -74,11 +74,6 @@ public class KafkaLoggingProperties implements AdapterLoggingProperties, Seriali
 	private String topic = "__cas_log__";
 
 	/**
-	 * 事务 ID 前缀
-	 */
-	private String transactionIdPrefix;
-
-	/**
 	 * Number of acknowledgments the producer requires the leader to have received
 	 * before considering a request complete.
 	 */
@@ -182,25 +177,6 @@ public class KafkaLoggingProperties implements AdapterLoggingProperties, Seriali
 	 */
 	public void setTopic(String topic) {
 		this.topic = topic;
-	}
-
-	/**
-	 * 返回事务 ID 前缀
-	 *
-	 * @return 事务 ID 前缀
-	 */
-	public String getTransactionIdPrefix() {
-		return transactionIdPrefix;
-	}
-
-	/**
-	 * 设置事务 ID 前缀
-	 *
-	 * @param transactionIdPrefix
-	 * 		事务 ID 前缀
-	 */
-	public void setTransactionIdPrefix(String transactionIdPrefix) {
-		this.transactionIdPrefix = transactionIdPrefix;
 	}
 
 	/**

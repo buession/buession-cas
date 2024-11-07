@@ -59,8 +59,7 @@ public class KafkaConfiguration extends AbstractKafkaConfiguration {
 		final KafkaConfigurer configurer = new KafkaConfigurer();
 
 		configurer.setBootstrapServers(kafkaLoggingProperties.getBootstrapServers());
-		configurer.setConfigs(kafkaLoggingProperties.buildProperties());
-		configurer.setTransactionIdPrefix(kafkaLoggingProperties.getTransactionIdPrefix());
+		configurer.setProperties(kafkaLoggingProperties.buildProperties());
 
 		return configurer;
 	}
