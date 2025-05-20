@@ -1,0 +1,13 @@
+{
+  "title": "Buession CAS",
+  "keywords": "buession java Apereo CAS framework",
+  "description": "Apereo CAS 扩展 ",
+  "author": "buession",
+  "theme": "demo",
+  "root": "src",
+  "pluginsConfig": {
+    "import-asset": {
+      "js": ["/js/stat.js"]
+    }
+  }
+}
