@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>3.0.1</version>
+		<version>4.0.0</version>
 	</parent>
 	<artifactId>cas-services-registry-client</artifactId>
 	<url>https://cas.buession.com/</url>
@@ -45,12 +45,6 @@
 		<developerConnection>scm:git:https://github.com/buession/buession-cas.git</developerConnection>
 		<url>https://github.com/buession/buession-cas</url>
 	</scm>
-
-	<properties>
-		<project.java.version>1.8</project.java.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -112,12 +106,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<encoding>${project.build.encoding}</encoding>
-					<source>${project.java.version}</source>
-					<target>${project.java.version}</target>
-					<compilerArgument>-Xlint:unchecked</compilerArgument>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
