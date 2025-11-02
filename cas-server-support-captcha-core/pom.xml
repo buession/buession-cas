@@ -86,6 +86,10 @@
 
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
+			<artifactId>cas-server-core-util-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-api-webflow</artifactId>
 		</dependency>
 		<dependency>

@@ -7,6 +7,7 @@
 ### 🔨依赖升级
 
 - [依赖库版本升级和安全漏洞修复](https://github.com/buession/buession-parent/releases/tag/v4.0.0)
+- [cas](https://www.apereo.org/projects/cas) 版本升级至 7.3.0
 
 
 ---

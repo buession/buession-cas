@@ -72,12 +72,15 @@
 	</modules>
 
 	<properties>
+		<project.java.version>21</project.java.version>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 		<buession.version>4.0.0</buession.version>
 		<buession.security.version>4.0.0</buession.security.version>
 		<buession.logging.version>2.0.0</buession.logging.version>
 		<buession.springboot.version>4.0.0</buession.springboot.version>
 		<buession.springcloud.version>4.0.0</buession.springcloud.version>
-		<cas.version>6.6.15.2</cas.version>
+		<cas.version>7.3.0</cas.version>
 	</properties>
 
 	<dependencyManagement>
@@ -1714,6 +1717,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>${project.build.encoding}</encoding>
+					<source>${project.java.version}</source>
+					<target>${project.java.version}</target>
+					<compilerArgs>
+						<arg>--add-exports=java.base/java.io=ALL-UNNAMED</arg>
+					</compilerArgs>
+					<compilerArgument>-Xlint:unchecked</compilerArgument>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
