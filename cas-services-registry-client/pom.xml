@@ -46,6 +46,12 @@
 		<url>https://github.com/buession/buession-cas</url>
 	</scm>
 
+	<properties>
+		<project.java.version>17</project.java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.buession</groupId>
@@ -106,6 +112,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>${project.build.encoding}</encoding>
+					<source>${project.java.version}</source>
+					<target>${project.java.version}</target>
+					<compilerArgument>-Xlint:unchecked</compilerArgument>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

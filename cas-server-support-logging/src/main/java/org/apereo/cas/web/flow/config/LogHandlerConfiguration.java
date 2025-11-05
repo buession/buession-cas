@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2024 Buession.com Inc.														       |
+ * | Copyright @ 2013-2025 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.web.flow.config;
@@ -43,12 +43,10 @@ import com.buession.logging.file.handler.FileLogHandler;
 import com.buession.logging.file.spring.FileLogHandlerFactoryBean;
 import com.buession.logging.file.spring.config.FileLogHandlerFactoryBeanConfigurer;
 import com.buession.logging.jdbc.converter.LogDataConverter;
-import com.buession.logging.jdbc.handler.JdbcLogHandler;
 import com.buession.logging.jdbc.spring.JdbcLogHandlerFactoryBean;
 import com.buession.logging.jdbc.spring.config.JdbcLogHandlerFactoryBeanConfigurer;
 import com.buession.logging.kafka.handler.KafkaLogHandler;
 import com.buession.logging.kafka.spring.KafkaLogHandlerFactoryBean;
-import com.buession.logging.mongodb.handler.MongoLogHandler;
 import com.buession.logging.mongodb.spring.MongoLogHandlerFactoryBean;
 import com.buession.logging.rabbitmq.handler.RabbitLogHandler;
 import com.buession.logging.rabbitmq.spring.RabbitLogHandlerFactoryBean;

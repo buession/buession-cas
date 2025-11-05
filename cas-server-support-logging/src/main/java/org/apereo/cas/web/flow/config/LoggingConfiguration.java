@@ -19,19 +19,16 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2024 Buession.com Inc.														       |
+ * | Copyright @ 2013-2025 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.web.flow.config;
 
-import com.buession.core.builder.ListBuilder;
 import com.buession.geoip.Resolver;
 import com.buession.logging.core.handler.LogHandler;
 import com.buession.logging.core.handler.PrincipalHandler;
 import com.buession.logging.core.mgt.DefaultLogManager;
 import com.buession.logging.core.request.RequestContext;
-import com.buession.logging.support.spring.BaseLogHandlerFactoryBean;
-import com.buession.logging.support.spring.LogHandlerFactory;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
 import org.apereo.cas.logging.LoggingManager;
