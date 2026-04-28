@@ -122,6 +122,11 @@ public class LoggingProperties implements Serializable {
 	private List<RestLoggingProperties> rest = new ArrayList<>(0);
 
 	/**
+	 * RocketMQ 日志配置
+	 */
+	private List<RocketMQLoggingProperties> rocket = new ArrayList<>(0);
+
+	/**
 	 * 返回 {@link com.buession.logging.core.BusinessType} 值
 	 *
 	 * @return {@link com.buession.logging.core.BusinessType} 值
@@ -385,6 +390,25 @@ public class LoggingProperties implements Serializable {
 	 */
 	public void setRest(List<RestLoggingProperties> rest) {
 		this.rest = rest;
+	}
+
+	/**
+	 * 返回 RocketMQ 日志配置
+	 *
+	 * @return RocketMQ 日志配置
+	 */
+	public List<RocketMQLoggingProperties> getRocket() {
+		return rocket;
+	}
+
+	/**
+	 * 设置 RocketMQ 日志配置
+	 *
+	 * @param rocket
+	 * 		RocketMQ 日志配置
+	 */
+	public void setRocket(List<RocketMQLoggingProperties> rocket) {
+		this.rocket = rocket;
 	}
 
 }

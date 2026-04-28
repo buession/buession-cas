@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2026 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.configuration.model.support.logging;
@@ -39,7 +39,6 @@ import org.apereo.cas.configuration.support.RequiredProperty;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.util.unit.DataSize;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,9 +50,7 @@ import java.util.Map;
  * @since 1.0.0
  */
 @JsonFilter("KafkaLoggingProperties")
-public class KafkaLoggingProperties implements AdapterLoggingProperties, Serializable {
-
-	private final static long serialVersionUID = -1795139796444219186L;
+public class KafkaLoggingProperties implements AdapterLoggingProperties {
 
 	/**
 	 * Comma-delimited list of host:port pairs to use for establishing the initial
@@ -375,9 +372,7 @@ public class KafkaLoggingProperties implements AdapterLoggingProperties, Seriali
 		return properties;
 	}
 
-	public final static class Ssl extends SslConfiguration implements Serializable {
-
-		private final static long serialVersionUID = 6726177961253411129L;
+	public final static class Ssl extends SslConfiguration {
 
 		public Map<String, Object> buildProperties() {
 			final Properties properties = new Properties();
@@ -400,9 +395,7 @@ public class KafkaLoggingProperties implements AdapterLoggingProperties, Seriali
 
 	}
 
-	public class Security implements Serializable {
-
-		private final static long serialVersionUID = -3308975729408498102L;
+	public class Security {
 
 		/**
 		 * Security protocol used to communicate with brokers.

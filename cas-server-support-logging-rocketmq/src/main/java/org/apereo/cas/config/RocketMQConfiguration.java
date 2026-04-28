@@ -19,129 +19,68 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2024 Buession.com Inc.														       |
+ * | Copyright @ 2013-2026 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.config;
 
-import com.buession.core.validator.Validate;
-import com.buession.logging.rabbitmq.spring.config.AbstractRabbitConfiguration;
-import com.buession.logging.rabbitmq.spring.config.RabbitConfigurer;
-import org.apereo.cas.configuration.model.support.logging.RabbitLoggingProperties;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.beans.BeanInstantiationException;
-import org.springframework.beans.BeanUtils;
+import com.buession.logging.rocketmq.spring.config.AbstractRocketMQConfiguration;
+import com.buession.logging.rocketmq.spring.config.RocketMQConfigurer;
+import org.apache.rocketmq.client.AccessChannel;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.spring.core.RocketTemplate;
+import org.apereo.cas.configuration.model.support.logging.RocketMQLoggingProperties;
 
 /**
  * @author Yong.Teng
  * @since 3.0.0
  */
-public class RabbitConfiguration extends AbstractRabbitConfiguration {
+public class RocketMQConfiguration extends AbstractRocketMQConfiguration {
 
-	private final RabbitLoggingProperties rabbitLoggingProperties;
+	private final RocketMQLoggingProperties rocketMQLoggingProperties;
 
-	public RabbitConfiguration(final RabbitLoggingProperties rabbitLoggingProperties) {
-		this.rabbitLoggingProperties = rabbitLoggingProperties;
+	public RocketMQConfiguration(final RocketMQLoggingProperties rocketMQLoggingProperties) {
+		this.rocketMQLoggingProperties = rocketMQLoggingProperties;
 	}
 
-	public RabbitTemplate rabbitTemplate() throws Exception {
-		final RabbitConfigurer configurer = rabbitConfigurer();
-		final ConnectionFactory connectionFactory = rabbitConnectionFactory(configurer);
+	public RocketTemplate rocketTemplate() throws Exception {
+		final RocketMQConfigurer configurer = rocketMQConfigurer();
+		final DefaultMQProducer producer = defaultMQProducer(configurer);
+		final RocketTemplate rocketTemplate = super.rocketTemplate(configurer);
 
-		return super.rabbitTemplate(configurer, connectionFactory);
+		rocketTemplate.setProducer(producer);
+
+		return rocketTemplate;
 	}
 
-	private RabbitConfigurer rabbitConfigurer() {
-		final RabbitConfigurer configurer = new RabbitConfigurer();
+	private RocketMQConfigurer rocketMQConfigurer() {
+		final RocketMQConfigurer configurer = new RocketMQConfigurer();
 
-		configurer.setHost(rabbitLoggingProperties.getHost());
-		configurer.setPort(determinePort(rabbitLoggingProperties));
-		configurer.setUsername(rabbitLoggingProperties.getUsername());
-		configurer.setPassword(rabbitLoggingProperties.getPassword());
-		configurer.setVirtualHost(rabbitLoggingProperties.getVirtualHost());
-		configurer.setConnectionTimeout(rabbitLoggingProperties.getConnectionTimeout());
-		configurer.setChannelRpcTimeout(rabbitLoggingProperties.getChannelRpcTimeout());
-		configurer.setRequestedHeartbeat(rabbitLoggingProperties.getRequestedHeartbeat());
-		configurer.setRequestedChannelMax(rabbitLoggingProperties.getRequestedChannelMax());
-		configurer.setReceiveTimeout(rabbitLoggingProperties.getReceiveTimeout());
-		configurer.setReplyTimeout(rabbitLoggingProperties.getReplyTimeout());
-		configurer.setDefaultReceiveQueue(rabbitLoggingProperties.getDefaultReceiveQueue());
-		configurer.setSslConfiguration(rabbitLoggingProperties.getSslConfiguration());
-		configurer.setPublisherReturns(rabbitLoggingProperties.isPublisherReturns());
-		configurer.setPublisherConfirmType(rabbitLoggingProperties.getPublisherConfirmType());
-
-		if(rabbitLoggingProperties.getCache() != null){
-			com.buession.logging.rabbitmq.core.Cache cache = new com.buession.logging.rabbitmq.core.Cache();
-
-			if(rabbitLoggingProperties.getCache().getConnection() != null){
-				com.buession.logging.rabbitmq.core.Cache.Connection connection =
-						new com.buession.logging.rabbitmq.core.Cache.Connection();
-
-				connection.setMode(rabbitLoggingProperties.getCache().getConnection().getMode());
-				connection.setSize(rabbitLoggingProperties.getCache().getConnection().getSize());
-
-				cache.setConnection(connection);
-			}
-
-			if(rabbitLoggingProperties.getCache().getChannel() != null){
-				com.buession.logging.rabbitmq.core.Cache.Channel channel = new com.buession.logging.rabbitmq.core.Cache.Channel();
-
-				channel.setSize(rabbitLoggingProperties.getCache().getChannel().getSize());
-				channel.setCheckoutTimeout(rabbitLoggingProperties.getCache().getChannel().getCheckoutTimeout());
-
-				cache.setChannel(channel);
-			}
-
-			configurer.setCache(cache);
+		configurer.setNameServer(rocketMQLoggingProperties.getNameServer());
+		configurer.setGroup(rocketMQLoggingProperties.getGroupName());
+		configurer.setNamespace(rocketMQLoggingProperties.getNamespace());
+		configurer.setNamespaceV2(rocketMQLoggingProperties.getNamespaceV2());
+		configurer.setInstanceName(rocketMQLoggingProperties.getInstanceName());
+		configurer.setAccessKey(rocketMQLoggingProperties.getAccessKey());
+		configurer.setSecretKey(rocketMQLoggingProperties.getSecretKey());
+		if(rocketMQLoggingProperties.getAccessChannel() == RocketMQLoggingProperties.AccessChannel.CLOUD){
+			configurer.setAccessChannel(AccessChannel.CLOUD);
+		}else if(rocketMQLoggingProperties.getAccessChannel() == RocketMQLoggingProperties.AccessChannel.LOCAL){
+			configurer.setAccessChannel(AccessChannel.LOCAL);
 		}
-
-		if(rabbitLoggingProperties.getRetry() != null){
-			com.buession.logging.rabbitmq.core.Retry retry = new com.buession.logging.rabbitmq.core.Retry();
-
-			retry.setEnabled(rabbitLoggingProperties.getRetry().isEnabled());
-			retry.setMaxAttempts(rabbitLoggingProperties.getRetry().getMaxAttempts());
-			retry.setInitialInterval(rabbitLoggingProperties.getRetry().getInitialInterval());
-			retry.setMultiplier(rabbitLoggingProperties.getRetry().getMultiplier());
-			retry.setMaxInterval(rabbitLoggingProperties.getRetry().getMaxInterval());
-			retry.setRetryCustomizers(rabbitLoggingProperties.getRetry().getRetryCustomizers());
-
-			configurer.setRetry(retry);
-		}
-
-		if(Validate.hasText(rabbitLoggingProperties.getMessageConverterClass())){
-			try{
-				MessageConverter messageConverter = (MessageConverter) BeanUtils.instantiateClass(
-						Class.forName(rabbitLoggingProperties.getMessageConverterClass()));
-				configurer.setMessageConverter(messageConverter);
-			}catch(ClassNotFoundException e){
-				throw new BeanInstantiationException(MessageConverter.class, e.getMessage(), e);
-			}
-		}
+		configurer.setCharset(rocketMQLoggingProperties.getCharset());
+		configurer.setSendMessageTimeout((int) rocketMQLoggingProperties.getSendMessageTimeout().toMillis());
+		configurer.setMaxMessageSize((int) rocketMQLoggingProperties.getMaxMessageSize().toBytes());
+		configurer.setCompressMessageBodyThreshold(
+				(int) rocketMQLoggingProperties.getCompressMessageBodyThreshold().toBytes());
+		configurer.setRetryNextServer(rocketMQLoggingProperties.isRetryNextServer());
+		configurer.setRetryTimesWhenSendFailed(rocketMQLoggingProperties.getRetryTimesWhenSendFailed());
+		configurer.setRetryTimesWhenSendAsyncFailed(rocketMQLoggingProperties.getRetryTimesWhenSendAsyncFailed());
+		configurer.setEnableMsgTrace(rocketMQLoggingProperties.isEnableMsgTrace());
+		configurer.setCustomizedTraceTopic(rocketMQLoggingProperties.getCustomizedTraceTopic());
+		configurer.setTlsEnable(rocketMQLoggingProperties.isTlsEnable());
 
 		return configurer;
-	}
-
-	@Override
-	protected boolean determineMandatoryFlag() {
-		Boolean mandatory = rabbitLoggingProperties.getMandatory();
-		if(mandatory != null){
-			return mandatory;
-		}
-
-		return rabbitLoggingProperties.isPublisherReturns();
-	}
-
-	private static int determinePort(final RabbitLoggingProperties rabbitLoggingProperties) {
-		if(rabbitLoggingProperties.getPort() > 0){
-			return rabbitLoggingProperties.getPort();
-		}
-
-		return rabbitLoggingProperties.getSslConfiguration() != null &&
-				rabbitLoggingProperties.getSslConfiguration()
-						.isEnabled() ? com.buession.logging.rabbitmq.core.Constants.DEFAULT_SECURE_PORT :
-				com.buession.logging.rabbitmq.core.Constants.DEFAULT_PORT;
 	}
 
 }

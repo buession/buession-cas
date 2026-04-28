@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<name>Buession CAS Parent</name>
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -65,6 +65,7 @@
 		<module>../cas-server-support-logging-mongo</module>
 		<module>../cas-server-support-logging-rabbit</module>
 		<module>../cas-server-support-logging-rest</module>
+		<module>../cas-server-support-logging-rocketmq</module>
 		<module>../cas-server-support-logging</module>
 		<module>../cas-server-support-captcha-core</module>
 		<module>../cas-server-support-captcha</module>

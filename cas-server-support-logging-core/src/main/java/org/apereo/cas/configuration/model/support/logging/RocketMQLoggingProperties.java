@@ -36,7 +36,7 @@ import java.time.Duration;
  * @author Yong.Teng
  * @since 2.0.0
  */
-public class RocketMQProperties implements AdapterLoggingProperties {
+public class RocketMQLoggingProperties implements AdapterLoggingProperties {
 
 	/**
 	 * The name server for rocketMQ, formats: `host:port;host:port`.

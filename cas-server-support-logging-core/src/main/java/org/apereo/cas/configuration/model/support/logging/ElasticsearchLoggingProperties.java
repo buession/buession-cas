@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2024 Buession.com Inc.														       |
+ * | Copyright @ 2013-2026 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.configuration.model.support.logging;
@@ -31,7 +31,6 @@ import org.elasticsearch.client.RestClientBuilder;
 import org.springframework.data.elasticsearch.core.RefreshPolicy;
 import org.springframework.data.mapping.callback.EntityCallbacks;
 
-import java.io.Serializable;
 import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -44,9 +43,7 @@ import java.util.Map;
  * @since 1.0.0
  */
 @JsonFilter("ElasticsearchLoggingProperties")
-public class ElasticsearchLoggingProperties implements AdapterLoggingProperties, Serializable {
-
-	private final static long serialVersionUID = 4759244909748729352L;
+public class ElasticsearchLoggingProperties implements AdapterLoggingProperties {
 
 	/**
 	 * Elasticsearch URL 地址
