@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2024 Buession.com Inc.														       |
+ * | Copyright @ 2013-2026 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.configuration.model.support.logging;
@@ -28,8 +28,6 @@ import com.buession.logging.console.formatter.ConsoleLogDataFormatter;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
 
-import java.io.Serializable;
-
 /**
  * 控制台日志适配器配置
  *
@@ -37,9 +35,7 @@ import java.io.Serializable;
  * @since 1.0.0
  */
 @JsonFilter("ConsoleLoggingProperties")
-public class ConsoleLoggingProperties implements AdapterLoggingProperties, Serializable {
-
-	private final static long serialVersionUID = -6264010693592997006L;
+public class ConsoleLoggingProperties implements AdapterLoggingProperties {
 
 	/**
 	 * 日志模板

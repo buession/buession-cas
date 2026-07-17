@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>3.0.1</version>
+		<version>4.0.0</version>
 	</parent>
 	<artifactId>cas-services-registry-client</artifactId>
 	<url>https://cas.buession.com/</url>
@@ -47,9 +47,9 @@
 	</scm>
 
 	<properties>
-		<project.java.version>1.8</project.java.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.java.version>17</project.java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 
 	<dependencies>

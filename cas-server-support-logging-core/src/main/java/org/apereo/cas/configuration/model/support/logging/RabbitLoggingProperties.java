@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2024 Buession.com Inc.														       |
+ * | Copyright @ 2013-2026 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.configuration.model.support.logging;
@@ -31,7 +31,6 @@ import org.apereo.cas.configuration.support.RequiredProperty;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.retry.support.RetryTemplate;
 
-import java.io.Serializable;
 import java.time.Duration;
 import java.util.List;
 
@@ -42,9 +41,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @JsonFilter("RabbitLoggingProperties")
-public class RabbitLoggingProperties implements AdapterLoggingProperties, Serializable {
-
-	private final static long serialVersionUID = 7838178327531884281L;
+public class RabbitLoggingProperties implements AdapterLoggingProperties {
 
 	/**
 	 * RabbitMQ 地址
@@ -597,9 +594,7 @@ public class RabbitLoggingProperties implements AdapterLoggingProperties, Serial
 	 * @author Yong.Teng
 	 * @since 0.0.1
 	 */
-	public final static class Cache implements Serializable {
-
-		private final static long serialVersionUID = -8073730230057329751L;
+	public final static class Cache {
 
 		/**
 		 * Channel 缓存
@@ -652,9 +647,7 @@ public class RabbitLoggingProperties implements AdapterLoggingProperties, Serial
 		/**
 		 * Channel 缓存
 		 */
-		public final class Channel implements Serializable {
-
-			private final static long serialVersionUID = 4445351391691920081L;
+		public final class Channel {
 
 			/**
 			 * 每个连接的缓存大小，仅 {@link #checkoutTimeout} &lt; 0 时
@@ -710,9 +703,7 @@ public class RabbitLoggingProperties implements AdapterLoggingProperties, Serial
 		/**
 		 * 连接缓存
 		 */
-		public final static class Connection implements Serializable {
-
-			private final static long serialVersionUID = -748010261766848625L;
+		public final static class Connection {
 
 			/**
 			 * 连接工厂缓存模式
@@ -773,8 +764,6 @@ public class RabbitLoggingProperties implements AdapterLoggingProperties, Serial
 	 * @since 0.0.1
 	 */
 	public final static class Retry extends com.buession.lang.Retry {
-
-		private final static long serialVersionUID = -8889282111487270647L;
 
 		/**
 		 * 是否启用重试

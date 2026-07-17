@@ -7,7 +7,7 @@
 		<groupId>com.buession.cas</groupId>
 		<artifactId>buession-cas-parent</artifactId>
 		<relativePath>../buession-cas-parent</relativePath>
-		<version>3.0.1</version>
+		<version>4.0.0</version>
 	</parent>
 	<artifactId>cas-server-support-captcha-core</artifactId>
 	<url>https://cas.buession.com/</url>
@@ -86,20 +86,53 @@
 
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
+			<artifactId>cas-server-core-util-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-multitenancy</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jakarta.el</groupId>
+					<artifactId>jakarta.el-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-api-webflow</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-webflow-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-logout</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-authentication-mfa-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-services-authentication</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-services-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-web-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apereo.cas</groupId>
+					<artifactId>cas-server-core-api-mfa</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

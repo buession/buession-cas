@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2024 Buession.com Inc.														       |
+ * | Copyright @ 2013-2026 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.web.flow.config;
@@ -35,7 +35,6 @@ import com.buession.logging.console.spring.config.ConsoleLogHandlerFactoryBeanCo
 import com.buession.logging.core.formatter.GeoFormatter;
 import com.buession.logging.core.formatter.LogDataFormatter;
 import com.buession.logging.core.formatter.MapFormatter;
-import com.buession.logging.core.handler.LogHandler;
 import com.buession.logging.elasticsearch.handler.ElasticsearchLogHandler;
 import com.buession.logging.elasticsearch.spring.ElasticsearchLogHandlerFactoryBean;
 import com.buession.logging.elasticsearch.spring.config.ElasticsearchLogHandlerFactoryBeanConfigurer;
@@ -57,12 +56,17 @@ import com.buession.logging.rest.core.RequestBodyBuilder;
 import com.buession.logging.rest.handler.RestLogHandler;
 import com.buession.logging.rest.spring.RestLogHandlerFactoryBean;
 import com.buession.logging.rest.spring.config.RestLogHandlerFactoryBeanConfigurer;
+import com.buession.logging.rocketmq.handler.RocketMQLogHandler;
+import com.buession.logging.rocketmq.spring.RocketMQLogHandlerFactoryBean;
+import com.buession.logging.rocketmq.spring.config.RocketMQLogHandlerFactoryBeanConfigurer;
+import org.apache.rocketmq.spring.core.RocketTemplate;
 import org.apereo.cas.authentication.CasSSLContext;
 import org.apereo.cas.config.HttpClientConfiguration;
 import org.apereo.cas.config.JdbcConfiguration;
 import org.apereo.cas.config.KafkaConfiguration;
 import org.apereo.cas.config.MongoConfiguration;
 import org.apereo.cas.config.RabbitConfiguration;
+import org.apereo.cas.config.RocketMQConfiguration;
 import org.apereo.cas.configuration.model.support.logging.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanInstantiationException;
@@ -244,7 +248,7 @@ public class LogHandlerConfiguration {
 		@Bean
 		@ConditionalOnMissingBean(name = {"jdbcLogHandlers"})
 		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public List<LogHandler> jdbcLogHandlers() {
+		public List<JdbcLogHandler> jdbcLogHandlers() {
 			return properties.stream().map((properties)->{
 				final JdbcLogHandlerFactoryBeanConfigurer configurer = configurer(properties);
 				final JdbcConfiguration jdbcConfiguration = new JdbcConfiguration(properties);
@@ -360,7 +364,7 @@ public class LogHandlerConfiguration {
 		private final CasSSLContext casSslContext;
 
 		public Mongo(final LoggingProperties properties,
-					 @Qualifier(CasSSLContext.BEAN_NAME) final CasSSLContext casSslContext) {
+		             @Qualifier(CasSSLContext.BEAN_NAME) final CasSSLContext casSslContext) {
 			super(properties.getMongo());
 			this.casSslContext = casSslContext;
 		}
@@ -368,7 +372,7 @@ public class LogHandlerConfiguration {
 		@Bean
 		@ConditionalOnMissingBean(name = {"mongoLogHandlers"})
 		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
-		public List<LogHandler> mongoLogHandlers() {
+		public List<MongoLogHandler> mongoLogHandlers() {
 			return properties.stream().map((properties)->{
 				final MongoConfiguration mongoConfiguration = new MongoConfiguration(properties, casSslContext);
 				final MongoTemplate mongoTemplate = mongoConfiguration.mongoTemplate();
@@ -482,6 +486,55 @@ public class LogHandlerConfiguration {
 					throw new BeanInstantiationException(RequestBodyBuilder.class, e.getMessage(), e);
 				}
 			}
+
+			return configurer;
+		}
+
+	}
+
+	@AutoConfiguration
+	@ConditionalOnClass(name = {"com.buession.logging.rest.spring.RocketMQLogHandlerFactoryBean"})
+	static class RocketMQ extends AbstractLogHandlerConfiguration<RocketMQLoggingProperties> {
+
+		public RocketMQ(final LoggingProperties properties) {
+			super(properties.getRocket());
+		}
+
+		@Bean
+		@ConditionalOnMissingBean(name = {"rocketMQLogHandlers"})
+		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
+		public List<RocketMQLogHandler> rocketMQLogHandlers() {
+			return properties.stream().map((properties)->{
+				final RocketMQLogHandlerFactoryBeanConfigurer configurer = configurer(properties);
+				final RocketMQConfiguration rocketMQConfiguration = new RocketMQConfiguration(properties);
+				final RocketTemplate rocketTemplate;
+
+				try{
+					rocketTemplate = rocketMQConfiguration.rocketTemplate();
+				}catch(Exception e){
+					throw new BeanInstantiationException(RocketTemplate.class, e.getMessage(), e);
+				}
+
+				final RocketMQLogHandlerFactoryBean factoryBean = new RocketMQLogHandlerFactoryBean(configurer);
+
+				factoryBean.setRocketTemplate(rocketTemplate);
+
+				try{
+					factoryBean.afterPropertiesSet();
+					return factoryBean.getObject();
+				}catch(Exception e){
+					throw new BeanInstantiationException(RocketMQLogHandlerFactoryBean.class, e.getMessage(), e);
+				}
+			}).collect(Collectors.toList());
+		}
+
+		private RocketMQLogHandlerFactoryBeanConfigurer configurer(
+				final RocketMQLoggingProperties rocketMQLoggingProperties) {
+			final RocketMQLogHandlerFactoryBeanConfigurer configurer = new RocketMQLogHandlerFactoryBeanConfigurer();
+
+			configurer.setTopic(rocketMQLoggingProperties.getTopic());
+			configurer.setCharset(rocketMQLoggingProperties.getCharset());
+			configurer.setSync(rocketMQLoggingProperties.isSync());
 
 			return configurer;
 		}

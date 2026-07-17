@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2024 Buession.com Inc.														       |
+ * | Copyright @ 2013-2026 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.configuration.model.support.logging;
@@ -27,8 +27,6 @@ package org.apereo.cas.configuration.model.support.logging;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.model.support.mongo.SingleCollectionMongoDbProperties;
 import org.apereo.cas.configuration.support.RequiresModule;
-
-import java.io.Serializable;
 
 /**
  * MongoDB 日志适配器配置
@@ -38,9 +36,6 @@ import java.io.Serializable;
  */
 @RequiresModule(name = "cas-server-support-mongo-core")
 @JsonFilter("MongoLoggingProperties")
-public class MongoLoggingProperties extends SingleCollectionMongoDbProperties implements AdapterLoggingProperties,
-		Serializable {
-
-	private final static long serialVersionUID = 3554795086203439061L;
+public class MongoLoggingProperties extends SingleCollectionMongoDbProperties implements AdapterLoggingProperties {
 
 }

@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2023 Buession.com Inc.														       |
+ * | Copyright @ 2013-2026 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.configuration.model.support.logging;
@@ -31,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import org.apereo.cas.configuration.support.RequiredProperty;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
-import java.io.Serializable;
 import java.util.concurrent.ThreadFactory;
 
 /**
@@ -41,9 +40,7 @@ import java.util.concurrent.ThreadFactory;
  * @since 1.0.0
  */
 @JsonFilter("HistoryRestLogProperties")
-public class RestLoggingProperties implements AdapterLoggingProperties, Serializable {
-
-	private final static long serialVersionUID = -7178083723307742589L;
+public class RestLoggingProperties implements AdapterLoggingProperties {
 
 	/**
 	 * Rest Url

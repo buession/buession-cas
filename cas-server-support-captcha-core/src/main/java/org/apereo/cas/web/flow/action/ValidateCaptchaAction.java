@@ -19,7 +19,7 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2024 Buession.com Inc.														       |
+ * | Copyright @ 2013-2025 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.web.flow.action;
@@ -31,6 +31,7 @@ import com.buession.security.captcha.core.CaptchaException;
 import com.buession.security.captcha.core.CaptchaValidateFailureException;
 import com.buession.security.captcha.core.RequiredParameterCaptchaException;
 import com.buession.security.captcha.validator.servlet.ServletCaptchaValidator;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apereo.cas.captcha.CaptchaConstants;
 import org.apereo.cas.configuration.model.support.captcha.AliyunCaptchaProperties;
 import org.apereo.cas.configuration.model.support.captcha.CaptchaProperties;
@@ -45,8 +46,6 @@ import org.springframework.binding.message.MessageResolver;
 import org.springframework.webflow.action.AbstractAction;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 验证码验证 Action

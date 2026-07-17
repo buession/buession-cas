@@ -19,19 +19,25 @@
  * +-------------------------------------------------------------------------------------------------------+
  * | License: http://www.apache.org/licenses/LICENSE-2.0.txt 										       |
  * | Author: Yong.Teng <webmaster@buession.com> 													       |
- * | Copyright @ 2013-2024 Buession.com Inc.														       |
+ * | Copyright @ 2013-2026 Buession.com Inc.														       |
  * +-------------------------------------------------------------------------------------------------------+
  */
 package org.apereo.cas.web.flow.config;
 
-import com.buession.core.builder.ListBuilder;
 import com.buession.geoip.Resolver;
+import com.buession.logging.console.handler.ConsoleLogHandler;
 import com.buession.logging.core.handler.LogHandler;
 import com.buession.logging.core.handler.PrincipalHandler;
 import com.buession.logging.core.mgt.DefaultLogManager;
 import com.buession.logging.core.request.RequestContext;
-import com.buession.logging.support.spring.BaseLogHandlerFactoryBean;
-import com.buession.logging.support.spring.LogHandlerFactory;
+import com.buession.logging.elasticsearch.handler.ElasticsearchLogHandler;
+import com.buession.logging.file.handler.FileLogHandler;
+import com.buession.logging.jdbc.handler.JdbcLogHandler;
+import com.buession.logging.kafka.handler.KafkaLogHandler;
+import com.buession.logging.mongodb.handler.MongoLogHandler;
+import com.buession.logging.rabbitmq.handler.RabbitLogHandler;
+import com.buession.logging.rest.handler.RestLogHandler;
+import com.buession.logging.rocketmq.handler.RocketMQLogHandler;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.configuration.model.support.logging.LoggingProperties;
 import org.apereo.cas.logging.LoggingManager;
@@ -79,9 +85,9 @@ public class LoggingConfiguration {
 	private final FlowBuilderServices flowBuilderServices;
 
 	public LoggingConfiguration(CasConfigurationProperties casProperties, LoggingProperties loggingProperties,
-								ConfigurableApplicationContext applicationContext,
-								@Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
-								ObjectProvider<FlowBuilderServices> flowBuilderServices) {
+	                            ConfigurableApplicationContext applicationContext,
+	                            @Qualifier("loginFlowRegistry") ObjectProvider<FlowDefinitionRegistry> loginFlowDefinitionRegistry,
+	                            ObjectProvider<FlowBuilderServices> flowBuilderServices) {
 		this.casProperties = casProperties;
 		this.loggingProperties = loggingProperties;
 		this.applicationContext = applicationContext;
@@ -117,20 +123,22 @@ public class LoggingConfiguration {
 	@AutoConfigureAfter({LogHandlerConfiguration.Console.class, LogHandlerConfiguration.Elasticsearch.class,
 			LogHandlerConfiguration.File.class, LogHandlerConfiguration.Jdbc.class,
 			LogHandlerConfiguration.Kafka.class, LogHandlerConfiguration.Mongo.class,
-			LogHandlerConfiguration.Rabbit.class, LogHandlerConfiguration.Rest.class})
+			LogHandlerConfiguration.Rabbit.class, LogHandlerConfiguration.Rest.class,
+			LogHandlerConfiguration.RocketMQ.class})
 	static class LoggingManagerConfiguration {
 
 		@Bean(name = "logHandlers")
 		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 		public List<LogHandler> logHandlers(
-				@Qualifier("consoleLogHandlers") List<LogHandler> consoleLogHandlers,
-				@Qualifier("elasticsearchLogHandlers") List<LogHandler> elasticsearchLogHandlers,
-				@Qualifier("fileLogHandlers") List<LogHandler> fileLogHandlers,
-				@Qualifier("jdbcLogHandlers") List<LogHandler> jdbcLogHandlers,
-				@Qualifier("kafkaLogHandlers") List<LogHandler> kafkaLogHandlers,
-				@Qualifier("mongoLogHandlers") List<LogHandler> mongoLogHandlers,
-				@Qualifier("rabbitLogHandlers") List<LogHandler> rabbitLogHandlers,
-				@Qualifier("restLogHandlers") List<LogHandler> restLogHandlers) {
+				@Qualifier("consoleLogHandlers") List<ConsoleLogHandler> consoleLogHandlers,
+				@Qualifier("elasticsearchLogHandlers") List<ElasticsearchLogHandler> elasticsearchLogHandlers,
+				@Qualifier("fileLogHandlers") List<FileLogHandler> fileLogHandlers,
+				@Qualifier("jdbcLogHandlers") List<JdbcLogHandler> jdbcLogHandlers,
+				@Qualifier("kafkaLogHandlers") List<KafkaLogHandler> kafkaLogHandlers,
+				@Qualifier("mongoLogHandlers") List<MongoLogHandler> mongoLogHandlers,
+				@Qualifier("rabbitLogHandlers") List<RabbitLogHandler> rabbitLogHandlers,
+				@Qualifier("restLogHandlers") List<RestLogHandler> restLogHandlers,
+				@Qualifier("rocketMQLogHandlers") List<RocketMQLogHandler> rocketLogHandlers) {
 			final List<LogHandler> logHandlers = new ArrayList<>();
 
 			logHandlers.addAll(consoleLogHandlers);
@@ -141,6 +149,7 @@ public class LoggingConfiguration {
 			logHandlers.addAll(mongoLogHandlers);
 			logHandlers.addAll(rabbitLogHandlers);
 			logHandlers.addAll(restLogHandlers);
+			logHandlers.addAll(rocketLogHandlers);
 
 			return logHandlers;
 		}
@@ -149,8 +158,8 @@ public class LoggingConfiguration {
 		@ConditionalOnBean(name = {"logHandlers"})
 		@RefreshScope(proxyMode = ScopedProxyMode.DEFAULT)
 		public List<LoggingManager> loggingManagers(RequestContext requestContext, PrincipalHandler<?> principalHandler,
-													Resolver geoResolver,
-													@Qualifier("logHandlers") List<LogHandler> logHandlers) {
+		                                            Resolver geoResolver,
+		                                            @Qualifier("logHandlers") List<LogHandler> logHandlers) {
 			return logHandlers.stream().map((logHandler)->{
 				final DefaultLogManager logManager = new DefaultLogManager();
 
