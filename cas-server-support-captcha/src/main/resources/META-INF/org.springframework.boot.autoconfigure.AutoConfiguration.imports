@@ -1,0 +1,2 @@
+org.apereo.cas.captcha.autoconfigure.CaptchaConfiguration
+org.apereo.cas.web.flow.config.CaptchaConfiguration

@@ -18,7 +18,7 @@
 
 	<organization>
 		<name>buession.com Inc.</name>
-		<url>http://www.buession.com/</url>
+		<url>https://www.buession.com/</url>
 	</organization>
 
 	<developers>
@@ -36,7 +36,7 @@
 	<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
 			<distribution>repo</distribution>
 			<comments>A business-friendly OSS license</comments>
 		</license>
@@ -81,6 +81,7 @@
 		<buession.logging.version>3.0.0</buession.logging.version>
 		<buession.springboot.version>5.0.0</buession.springboot.version>
 		<buession.springcloud.version>5.0.0</buession.springcloud.version>
+		<springframework.cloud.version>4.3.3</springframework.cloud.version>
 		<cas.version>7.3.7.3</cas.version>
 	</properties>
 
@@ -105,6 +106,26 @@
 					<exclusion>
 						<groupId>org.springframework.security</groupId>
 						<artifactId>spring-security-crypto</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-context</artifactId>
+				<version>${springframework.cloud.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-actuator</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.security</groupId>
+						<artifactId>spring-security-crypto</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>*</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>

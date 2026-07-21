@@ -10,6 +10,11 @@
 - [cas](https://www.apereo.org/projects/cas) 版本升级至 7.3.7.3
 
 
+### ⏪ 优化
+
+- 整合 cas-server-support-captcha-core 至 cas-server-support-captcha
+
+
 ---
 
 
