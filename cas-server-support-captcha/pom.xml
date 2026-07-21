@@ -76,13 +76,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-context</artifactId>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-webflow</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.webflow</groupId>
-			<artifactId>spring-webflow</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-context</artifactId>
 		</dependency>
 
 		<dependency>
@@ -103,51 +103,11 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
-					<artifactId>cas-server-core-api-logout</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apereo.cas</groupId>
-					<artifactId>cas-server-core-api-mfa</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-api-validation</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apereo.cas</groupId>
 					<artifactId>cas-server-core-authentication-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apereo.cas</groupId>
-					<artifactId>cas-server-core-authentication-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apereo.cas</groupId>
-					<artifactId>cas-server-core-authentication-mfa-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apereo.cas</groupId>
-					<artifactId>cas-server-core-util-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apereo.cas</groupId>
-					<artifactId>cas-server-core-services-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apereo.cas</groupId>
-					<artifactId>cas-server-core-services-authentication</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jakarta.validation</groupId>
-					<artifactId>jakarta.validation-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jakarta.annotation</groupId>
-					<artifactId>jakarta.annotation-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jakarta.el</groupId>
-					<artifactId>jakarta.el-api</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
