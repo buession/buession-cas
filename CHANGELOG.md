@@ -2,7 +2,7 @@
 ===========================
 
 
-## [5.0.0](https://github.com/buession/buession-cas/releases/tag/v4.0.1) (2026-07-17)
+## [5.0.0](https://github.com/buession/buession-cas/releases/tag/v5.0.0) (2026-09-08)
 
 ### 🔨依赖升级
 
