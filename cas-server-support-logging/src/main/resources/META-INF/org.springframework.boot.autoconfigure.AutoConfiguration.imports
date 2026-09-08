@@ -1,0 +1,3 @@
+org.apereo.cas.logging.autoconfigure.LoggingConfiguration
+org.apereo.cas.web.flow.config.LogHandlerConfiguration
+org.apereo.cas.web.flow.config.LoggingConfiguration
